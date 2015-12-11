@@ -1,0 +1,28 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{xstring}
+\usepackage{msc}
+
+% ========== Don't touch ==========
+\newcommand{\dosmnone}[3]{#1}
+\newcommand{\dosmsign}[3]{#1, $\left\{\mbox{#1}\right\}_{\mbox{#3}}$}
+\newcommand{\dosmsignandencrypt}[3]{$\left\{\mbox{#1}\right\}_{\mbox{#2}}$, $\left\{\mbox{#1}\right\}_{\mbox{#3}}$}
+
+\newcommand{\smn}{None}
+\newcommand{\sms}{Sign}
+\newcommand{\smse}{SignAndEncrypt}
+
+\newcommand{\sm}{\IfStrEq{\smname}{\smn}{\dosmnone}{\IfStrEq{\smname}{\sms}{\dosmsign}{\dosmsignandencrypt}}}
+
+\newcommand{\ifsmnotnone}[1]{\IfStrEq{\smname}{\smn}{}{#1}}
+\newcommand{\smname}{\smn}
+% ========== Don't touch ==========
+
+
+\begin{document}
+
+\input{opcua_secure_channel}
+\input{opcua_session}
+
+\end{document}

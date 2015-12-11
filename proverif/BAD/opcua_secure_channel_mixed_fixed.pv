@@ -1,0 +1,137 @@
+(*  OpcUaClient --[GetEndpointRequest]--> DiscoveryEndpoint
+    DiscorevyEndpoint --[SP, None, UP, pk(SessionEndpoint)]--> OpcUaClient
+    OpcUaClient --[pk(OpcUaClient), SP, exp(g, Nc)]--> SessionEndpoint
+    SessionEndpoint --[exp(g, Ns)]--> OpcUaClient
+*)
+
+free c: channel.
+
+
+(* Hosts *)
+type host.
+free A, B, C, I: host.
+
+
+(* Symetric key crypto *)
+fun senc(bitstring, bitstring): bitstring.
+reduc forall x: bitstring, k: bitstring ; sdec(senc(x, k), k) = x.
+
+
+(* Public key crypto *)
+fun pub(bitstring): bitstring.
+fun enc(bitstring, bitstring): bitstring.
+reduc forall x: bitstring, k: bitstring ; dec(enc(x, pub(k)), k) = x.
+
+
+(* Signatures *)
+fun sign(bitstring, bitstring): bitstring.
+reduc forall x:bitstring, s:bitstring, k:bitstring ; verify(x, sign(x, k), pub(k)) = true.
+
+
+(* Diffie-Hellman *)
+const g: bitstring.
+fun exp(bitstring, bitstring): bitstring.
+equation forall x: bitstring, y: bitstring; exp(exp(g, x), y) = exp(exp(g, y), x).
+
+
+(* Constants *)
+const GetEndpointRequest: bitstring.
+const None: bitstring.
+const Sign: bitstring.
+const SignAndEncrypt: bitstring.
+
+
+(* Private keys *)
+free skA: bitstring [private].
+free skB: bitstring [private].
+free skC: bitstring [private].
+
+
+(* Goals *)
+fun mCli(bitstring, bitstring): bitstring [private].
+fun mSrv(bitstring, bitstring): bitstring [private].
+query attacker(mCli(pub(skA), pub(skC))).
+query attacker(mSrv(pub(skA), pub(skC))).
+
+
+let client(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) = 
+    in(c, (Cli: host, Disco: host, Sess: host));
+    let skCli = if Cli = A then skA else if Cli = B then skB else if Cli = C then skC else skI in
+    let pkCli = pub(skCli) in
+    let pkDisco = if Disco = A then pub(skA) else if Disco = B then pub(skB) else if Disco = C then pub(skC) else pub(skI) in
+    let pkSess = if Sess = A then pub(skA) else if Sess = B then pub(skB) else if Sess = C then pub(skC) else pub(skI) in
+
+    (* Role starting *)
+    out(c, GetEndpointRequest);
+
+    in(c, (SPs: bitstring, SM: bitstring, UP: bitstring, =pkSess));
+
+    new SPc: bitstring;
+    new Nc: bitstring;
+    let m1 = (SPc, exp(g, Nc)) in
+    if SM = None then out(c, (m1))
+    else if SM = Sign then out(c, (pkCli, m1, sign(m1, skCli)))
+    else if SM = SignAndEncrpyt then out(c, (pkCli, enc(m1, pkSess), sign(m1, skCli)))
+    else 0;
+
+    in(c, (ePartS: bitstring, sigPartS: bitstring));
+    let PartS = if SM = SignAndEncrypt then dec(ePartS, skCli) else ePartS in
+    if Sm <> None then if verify(PartS, sigPartS, pkSess) <> true then 0 else
+
+    let Kcli = exp(PartS, Nc) in
+    out(c, senc(mCli(pkCli, pkSess), Kcli)).
+
+
+let disco(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) = 
+    in(c, (Cli: host, Disco: host, Sess: host));
+    let skDisco = if Disco = A then skA else if Disco = B then skB else if Disco = C then skC else skI in
+    let pkDisco = pub(skDisco) in
+    let pkCli = if Cli = A then pub(skA) else if Cli = B then pub(skB) else if Cli = C then pub(skC) else pub(skI) in
+    let pkSess = if Sess = A then pub(skA) else if Sess = B then pub(skB) else if Sess = C then pub(skC) else pub(skI) in
+
+    (* Role starting *)
+    in(c, =GetEndpointRequest);
+
+    new SPs: bitstring;
+    new UP: bitstring;
+    out(c, (SPs, SignAndEncrypt, UP, pkSess)).
+
+
+let sess(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) = 
+    in(c, (Cli: host, Disco: host, Sess: host));
+    let skSess = if Sess = A then skA else if Sess = B then skB else if Sess = C then skC else skI in
+    let pkSess = pub(skSess) in
+    let pkCli = if Cli = A then pub(skA) else if Cli = B then pub(skB) else if Cli = C then pub(skC) else pub(skI) in
+    let pkDisco = if Disco = A then pub(skA) else if Disco = B then pub(skB) else if Disco = C then pub(skC) else pub(skI) in
+
+    (* Role starting *)
+    in(c, (=pkCli, em1: bitstring, sigM1: bitstring));
+    let martS = if SM = SignAndEncrypt then dec(ePartS, skCli) else ePartS in
+    if Sm <> None then if verify(PartS, sigPartS, pkSess) <> true then 0 else
+    let m1 = dec(em1, skSess) in
+    if verify(m1, sigM1, pkCli) <> true then 0 else
+    let (SPc: bitstring, PartC: bitstring) = m1 in
+
+    new Ns: bitstring;
+    let m2 = exp(g, Ns) in
+    if SM = None then out(c, m2)
+    else if SM = Sign then out(c, (m2, sign(m2, skSess)))
+    else if SM = SignAndEncrpyt then out(c, (enc(m2, pkCli), sign(m2, skSess)))
+    else 0;
+
+    let Ksrv = exp(PartC, Ns) in
+    out(c, senc(mSrv(pkCli, pkSess), Ksrv)).
+
+
+process
+    let pkA = pub(skA) in out(c, pkA);
+    let pkB = pub(skB) in out(c, pkB);
+    let pkC = pub(skC) in out(c, pkC);
+
+    new skI: bitstring;
+    out(c, skI);
+
+    (!client(skA, skB, skC, skI) |
+     !disco(skA, skB, skC, skI) |
+     !sess(skA, skB, skC, skI)
+    )
