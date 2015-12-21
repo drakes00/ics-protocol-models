@@ -50,8 +50,8 @@ free skC: bitstring [private].
 (* Goals *)
 fun mCli(bitstring, bitstring, bitstring): bitstring [private].
 fun mSrv(bitstring, bitstring, bitstring): bitstring [private].
-query sm: bitstring ;  attacker(mCli(sm, pub(skA), pub(skC))).
-query sm: bitstring ;  attacker(mSrv(sm, pub(skA), pub(skC))).
+query attacker(mCli(sm, pub(skA), pub(skC))).
+query attacker(mSrv(sm, pub(skA), pub(skC))).
 
 
 let client(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) = 
