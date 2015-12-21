@@ -1,10 +1,26 @@
 \documentclass{article}
 
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
 \usepackage{graphicx}
 \usepackage{xstring}
-\usepackage{msc}
+
+\usepackage{auto-pst-pdf}
+\ifpdf
+    \usepackage{todonotes}
+    \usepackage{tikz}
+    \usetikzlibrary{arrows,automata}
+\else
+    \usepackage{msc}
+\fi
 
 % ========== Don't touch ==========
+\makeatletter
+    \def\msc@frame{no}
+    \def\msc@settitle{}
+\makeatother
+
 \newcommand{\dosmnone}[3]{#1}
 \newcommand{\dosmsign}[3]{#1, $\left\{\mbox{#1}\right\}_{\mbox{#3}}$}
 \newcommand{\dosmsignandencrypt}[3]{$\left\{\mbox{#1}\right\}_{\mbox{#2}}$, $\left\{\mbox{#1}\right\}_{\mbox{#3}}$}
@@ -19,10 +35,32 @@
 \newcommand{\smname}{\smn}
 % ========== Don't touch ==========
 
+\def\UNSAFE{{\color{red!50!black} UNSAFE}}
+\def\SAFE{{\color{green!50!black} SAFE}}
 
 \begin{document}
 
+\section{MODBUS}
+%TODO \input{modbus}
+
+\section{OPC-UA Secure Channel}
 \input{opcua_secure_channel}
+
+\section{OPC-UA Session}
 \input{opcua_session}
+
+\section{Flow integrity}
+%TODO \input{flow}
+Idée: Modéliser l'envoie et la réception de messages jusqu'à fermeture du cannal.
+A la fin envoyer les messages envoyés et reçus à un oracle qui les compare.
+
+\section{TODO list}
+
+\begin{itemize}
+    \item Comment s'articulent la signature et le chiffrement (signature d'un haché, d'un chiffré, ...) ?
+    \item Logjam
+    \item Quel type de chiffrement (CBC, ...) ?
+    \item Est-ce que tout est réellement signé (constantes publiques) ?
+\end{itemize}
 
 \end{document}

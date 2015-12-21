@@ -1,107 +1,121 @@
-\renewcommand{\smname}{\smn}
+\begin{figure}[htb]
+    \renewcommand{\smname}{\smn}
+    \resizebox{\textwidth}{!}{
+        \begin{postscript}
+            \begin{msc}{Session creation}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{5.7\instdist}
 
-\resizebox{\textwidth}{!}{
-    \begin{msc}{Session creation}
-        \setlength{\envinstdist}{1.5\envinstdist}
-        \setlength{\instdist}{5.7\instdist}
+                \declinst{cli}{OpcUaClient}{}
+                \declinst{sess}{SessionEndpoint}{}
 
-        \declinst{cli}{OpcUaClient}{}
-        \declinst{sess}{SessionEndpoint}{}
+                \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
+                \nextlevel[1.5]
 
-        \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
-        \nextlevel[1.5]
+                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
+                \nextlevel[1.5]
+                
+                \action*{Validates SSC}{cli}
+                \nextlevel[2]
+                
+                \action*{Verifies the signature of $N_{s2}$}{cli}
+                \nextlevel[2]
+                
+                \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
+                \nextlevel[2]
+                
+                \action*{Validates CSC}{sess}
+                \nextlevel[2]
 
-        \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
-        \nextlevel[1.5]
-        
-        \action*{Validates SSC}{cli}
-        \nextlevel[2]
-        
-        \action*{Verifies the signature of $N_{s2}$}{cli}
-        \nextlevel[2]
-        
-        \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
-        \nextlevel[2]
-        
-        \action*{Validates CSC}{sess}
-        \nextlevel[2]
+                \action*{Validates (Login, Passwd) }{sess}
+                \nextlevel[2]
 
-        \action*{Validates (Login, Passwd) }{sess}
-        \nextlevel[2]
+                \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
+                \nextlevel[2]
+            \end{msc}
+        \end{postscript}
+    }
+    \caption{OPC-UA Session None}
+\end{figure}
 
-        \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
-        \nextlevel[2]
-    \end{msc}
-}
 
-\renewcommand{\smname}{\sms}
+\begin{figure}[htb]
+    \renewcommand{\smname}{\sms}
+    \resizebox{\textwidth}{!}{
+        \begin{postscript}
+            \begin{msc}{Session creation}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{5.7\instdist}
 
-\resizebox{\textwidth}{!}{
-    \begin{msc}{Session creation}
-        \setlength{\envinstdist}{1.5\envinstdist}
-        \setlength{\instdist}{5.7\instdist}
+                \declinst{cli}{OpcUaClient}{}
+                \declinst{sess}{SessionEndpoint}{}
 
-        \declinst{cli}{OpcUaClient}{}
-        \declinst{sess}{SessionEndpoint}{}
+                \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
+                \nextlevel[1.5]
 
-        \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
-        \nextlevel[1.5]
+                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
+                \nextlevel[1.5]
+                
+                \action*{Validates SSC}{cli}
+                \nextlevel[2]
+                
+                \action*{Verifies the signature of $N_{s2}$}{cli}
+                \nextlevel[2]
+                
+                \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
+                \nextlevel[2]
+                
+                \action*{Validates CSC}{sess}
+                \nextlevel[2]
 
-        \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
-        \nextlevel[1.5]
-        
-        \action*{Validates SSC}{cli}
-        \nextlevel[2]
-        
-        \action*{Verifies the signature of $N_{s2}$}{cli}
-        \nextlevel[2]
-        
-        \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
-        \nextlevel[2]
-        
-        \action*{Validates CSC}{sess}
-        \nextlevel[2]
+                \action*{Validates (Login, Passwd) }{sess}
+                \nextlevel[2]
 
-        \action*{Validates (Login, Passwd) }{sess}
-        \nextlevel[2]
+                \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
+                \nextlevel[2]
+                \end{msc}
+        \end{postscript}
+    }
+    \caption{OPC-UA Session Sign}
+\end{figure}
 
-        \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
-        \nextlevel[2]
-    \end{msc}
-}
 
-\renewcommand{\smname}{\smse}
+\begin{figure}[htb]
+    \renewcommand{\smname}{\smse}
+    \resizebox{\textwidth}{!}{
+        \begin{postscript}
+            \begin{msc}{Session creation}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{5.7\instdist}
 
-\resizebox{\textwidth}{!}{
-    \begin{msc}{Session creation}
-        \setlength{\envinstdist}{1.5\envinstdist}
-        \setlength{\instdist}{5.7\instdist}
+                \declinst{cli}{OpcUaClient}{}
+                \declinst{sess}{SessionEndpoint}{}
 
-        \declinst{cli}{OpcUaClient}{}
-        \declinst{sess}{SessionEndpoint}{}
+                \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
+                \nextlevel[1.5]
 
-        \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
-        \nextlevel[1.5]
+                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
+                \nextlevel[1.5]
+                
+                \action*{Validates SSC}{cli}
+                \nextlevel[2]
+                
+                \action*{Verifies the signature of $N_{s2}$}{cli}
+                \nextlevel[2]
+                
+                \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
+                \nextlevel[2]
+                
+                \action*{Validates CSC}{sess}
+                \nextlevel[2]
 
-        \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
-        \nextlevel[1.5]
-        
-        \action*{Validates SSC}{cli}
-        \nextlevel[2]
-        
-        \action*{Verifies the signature of $N_{s2}$}{cli}
-        \nextlevel[2]
-        
-        \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
-        \nextlevel[2]
-        
-        \action*{Validates CSC}{sess}
-        \nextlevel[2]
+                \action*{Validates (Login, Passwd) }{sess}
+                \nextlevel[2]
 
-        \action*{Validates (Login, Passwd) }{sess}
-        \nextlevel[2]
-
-        \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
-        \nextlevel[2]
-    \end{msc}
-}
+                \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
+                \nextlevel[2]
+            \end{msc}
+        \end{postscript}
+    }
+    \caption{OPC-UA Session SignAndEncrypt}
+\end{figure}

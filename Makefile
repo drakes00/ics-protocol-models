@@ -1,2 +1,2 @@
 all:
-	latexmk -xelatex verif
+	pdflatex -shell-escape verif
