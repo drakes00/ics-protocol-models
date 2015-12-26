@@ -1,0 +1,121 @@
+\documentclass{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage[french]{babel}
+
+\usepackage{authblk}
+
+\usepackage{graphicx}
+\usepackage{xstring}
+
+\usepackage{auto-pst-pdf}
+\ifpdf
+    \usepackage{todonotes}
+    \usepackage{tikz}
+    \usetikzlibrary{arrows,automata}
+\else
+    \usepackage{msc}
+\fi
+
+% ========== Don't touch ==========
+\makeatletter
+    \def\msc@frame{no}
+    \def\msc@settitle{}
+\makeatother
+
+\newcommand{\dosmnone}[3]{#1}
+\newcommand{\dosmsign}[3]{#1, $\left\{\mbox{#1}\right\}_{\mbox{#3}}$}
+\newcommand{\dosmsignandencrypt}[3]{$\left\{\mbox{#1}\right\}_{\mbox{#2}}$, $\left\{\mbox{#1}\right\}_{\mbox{#3}}$}
+
+\newcommand{\smn}{None}
+\newcommand{\sms}{Sign}
+\newcommand{\smse}{SignAndEncrypt}
+
+\newcommand{\sm}{\IfStrEq{\smname}{\smn}{\dosmnone}{\IfStrEq{\smname}{\sms}{\dosmsign}{\dosmsignandencrypt}}}
+
+\newcommand{\ifsmnotnone}[1]{\IfStrEq{\smname}{\smn}{}{#1}}
+\newcommand{\smname}{\smn}
+% ========== Don't touch ==========
+
+\newcommand{\UNSAFE}{{\color{red!50!black} UNSAFE}}
+\newcommand{\SAFE}{{\color{green!50!black} SAFE}}
+\newcommand{\proverif}{ProVerif}
+
+\title{Verification formelle de protocoles industriels}
+
+\author[1]{Maxime Puys}
+\author[1]{Marie-Laure Potet}
+\author[2]{Jean-Louis ?}
+\author[3]{Pascal ?}
+
+\affil[1]{
+    Univ. Grenoble Alpes, VERIMAG, F-38000 Grenoble, France\\
+    CNRS, VERIMAG, F-38000 Grenoble, France
+}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+%\begin{abstract}
+%    aa
+%\end{abstract}
+
+\section{Introduction}
+
+Les protocoles sont un ingrédient essentiel des communications réseaux de notre époque.
+Ces communications pouvant être attaquées soit en espionnant le trafic, soit en le modifiant,
+il apparait depuis plusieurs décennies que la preuve formelle de la sécurité de ces protocoles
+est un enjeu majeur.
+Un exemple connu étant {\em mi.TLS} \cite{BFKPS13}, une implémentation prouvée du protocole TLS \cite{DR08}
+servant par exemple au paiement en ligne.
+Cependant, les protocoles de communication des systèmes industriels servant à envoyer des commandes
+et recevoir des informations n'ont jamais été vérifiés de cette façon.
+Ces protocoles régissant parfois jusqu'à des centrales nucléaires, des barrages ou la distribution d'énergie,
+il est vital de s'assurer de leur sécurité.
+
+Les traveaux d'analyse de protocoles hors du cadre industriel ont commencé avec la contribution de
+G. Lowe \cite{Low96}, brisant le protocole {\em Needham-Schoeder} en 1995.
+Depuis, les outils d'analyse et les travaux de modélisation se sont multipliés.
+Ces outils reposent sur des approches théoriques variées telles que la réécriture,
+la résolution de contrainte ou les clauses de Horn ou les {\em SAT-solvers}.
+Ces outils considèrent un intrus dit de Dolev-Yao \cite{DY81} qui contrôle le réseau,
+espionne, stoppe, forge, modifie, entrelace ou rejoue des messages en utilisant la connaissance
+des messages qu'ils appris précédemment.
+En jouant en parallèle plusieurs sessions avec les différents rôles du protocole,
+l'intrus tente de violer des propriétés telles que l'{\em autentification} et le {\em secret}.
+La première propriété signifie qu'un participant est conviancu qu'il parle avec un autre.
+Le secret assure qu'un agent non autorisé (y compris l'intrus) n'accède pas au message désigné.
+Enfin, les outils se basent sur l'hypothèse du chiffrement parfait, selon laquelle
+il n'est pas possible de déchiffrer un message sans la chef de chiffrement ou d'usurper une signature.
+
+En particulier, \proverif{} \cite{Bla01,PROVERIF14_manual}, développé par B. Blanchet et al. analyse un protocole écrit
+soit en clauses de Horn soit dans un sous ensemble du Pi-Calcul pour un nombre non borné
+de sessions.
+Via des techniques de sur-approximation, il est capable de prouver la sécurité d'un protocole
+mais les attaques qu'il trouvent peuvent être des faux-positifs.
+Lorsqu'une attaque est trouvée, l'outil reconstruit une trace montrant sa réalisation.
+
+\section{Le protocol OPC-UA}
+
+OPC-UA \cite{opc-ua} est un protocole de communication qui devient un standard dans le milieu industriel.
+Ce nouveau protocole très complexe de part la diversité des données qu'il peut transférer
+se divise en plusieurs couches. 
+Parmi elles, la couche {\em Secure Conversation} est en charge de la sécurité en termes d'authentification,
+de contrôle d'accès, d'intégrité et de chiffrement.
+
+OPC-UA
+
+Proverif
+
+Objectifs
+
+\section{Authors}
+
+Biographie ... ?
+
+\end{document}
