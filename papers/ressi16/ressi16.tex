@@ -1,11 +1,17 @@
 \documentclass{article}
 
+%\usepackage{fullpage}
+
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
 \usepackage[french]{babel}
 
 \usepackage{authblk}
+
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \usepackage{graphicx}
 \usepackage{xstring}
@@ -82,7 +88,7 @@ Les traveaux d'analyse de protocoles hors du cadre industriel ont commencé avec
 G. Lowe \cite{Low96}, brisant le protocole {\em Needham-Schoeder} en 1995.
 Depuis, les outils d'analyse et les travaux de modélisation se sont multipliés.
 Ces outils reposent sur des approches théoriques variées telles que la réécriture,
-la résolution de contrainte ou les clauses de Horn ou les {\em SAT-solvers}.
+la résolution de contrainte, les clauses de Horn ou les {\em SAT-solvers}.
 Ces outils considèrent un intrus dit de Dolev-Yao \cite{DY81} qui contrôle le réseau,
 espionne, stoppe, forge, modifie, entrelace ou rejoue des messages en utilisant la connaissance
 des messages qu'ils appris précédemment.
@@ -97,7 +103,7 @@ En particulier, \proverif{} \cite{Bla01,PROVERIF14_manual}, développé par B. B
 soit en clauses de Horn soit dans un sous ensemble du Pi-Calcul pour un nombre non borné
 de sessions.
 Via des techniques de sur-approximation, il est capable de prouver la sécurité d'un protocole
-mais les attaques qu'il trouvent peuvent être des faux-positifs.
+mais les attaques qu'il trouve peuvent être des faux-positifs.
 Lorsqu'une attaque est trouvée, l'outil reconstruit une trace montrant sa réalisation.
 
 \section{Le protocol OPC-UA}
@@ -107,15 +113,66 @@ Ce nouveau protocole très complexe de part la diversité des données qu'il peu
 se divise en plusieurs couches. 
 Parmi elles, la couche {\em Secure Conversation} est en charge de la sécurité en termes d'authentification,
 de contrôle d'accès, d'intégrité et de chiffrement.
+Trois niveaux de sécurité peuvent être utilisés suivant la configuration des clients et des serveurs.
 
-OPC-UA
+Plusieurs sous-protocoles atomiques interviennent dans cette couche :
+\begin{enumerate}
+    \item Le sous-protocole {\em Secure Channel Establishment} se sert des
+        clefs assymétriques des participants pour établir une clef symétrique partagée.
+    \item Ensuite, le sous-protocole {\em Session Establishment} utilise la clef symétrique partagée
+        par les participants pour que le client envoie ses identifiants au serveur.
+    \item Le client peut alors envoyer des requêtes et le serveur les réponses associées
+        en utilisant la clef symétrique partagée.
+    \item Enfin, le sous-protocole {\em Secure Conversation Closing} clot la session et le {\em Secure Channel}.
+\end{enumerate}
 
-Proverif
+\section{Travaux de recherche}
 
-Objectifs
+Nous souhaitons tester formellement la sécurité d'OPC-UA à l'aide d'outils de vérification de protocoles.
+Une attaque pouvant être découverte pourrait être la compromission de la clef symétrique partagée
+(qui révèlerait le contenu des communication).
+D'autre part, un intrus pourrait se faire passer pour le serveur aux yeux du client ou beaucoup plus grave, se faire passer
+pour le client aux yeux du serveur.
+Ce scénario gravissime autoriserait l'intrus à lancer des commandes ayant un réel impact sur le monde extérieur
+pouvant par exemple égaler les conséquenses du virus Stuxnet en Iran \cite{Lan11}.
 
-\section{Authors}
+Afin de découvrir des attaques ou de prouver formellement la sécurité du protocole, nous cherchons tout d'abord à l'exprimer
+sous forme de diagrammess de séquence.
+La figure \ref{fig:opcua_diagram} montre par exemple une représentation du sous-protocole {\em Secure Channel Establishment}.
+
+\begin{figure}[htb]
+    \input{opcua_secure_channel}
+    \caption{Diagramme de séquence pour OPC-UA}
+    \label{fig:opcua_diagram}
+\end{figure}
+    
+%\begin{figure}[htb]
+%    \lstinputlisting[language=caml]{opcua_proverif.pv}
+%    \caption{Exemple de modélisation \proverif{}}
+%    \label{fig:opcua_proverif}
+%\end{figure}
+
+A partir de représentations, nous pouvons modéliser le rôle de chaque agent dans le langage de l'outil de vérification.
+L'outil nous répondra alors soit que le protocole est sûre pour les propriétés que nous avons exprimé,
+soit par une attaque contre l'une des propriétés.
+
+\section{Conclusion}
+
+Les défis de ce type d'approche sont principalement la difficulté de modéliser le protocole en captant les propriétés
+de sécurité qu'il revendique.
+L'outil pouvant produire des faux positifs, il faut également comprendre le attaques trouvée et si elles sont fausses,
+changer la modélisation pour qu'elles n'apparaissent plus.
+Certains outils permettent également à l'utilisateur d'ajouter des théories equationelles afin d'augmenter
+le pouvoir de l'intrus.
+Il également possible de modéliser des propriétés de sécurité plus complexes telles que la non-répudiation
+(impossibilité de nier l'envoie ou la réception d'un message) ou l'intégrité du flux (vérifier que les messages
+reçu par un participant sont exactement ceux envoyés par un autre en tenant compte de l'ordre).
+
+\section{Auteurs}
 
 Biographie ... ?
+
+\bibliographystyle{plain}
+\bibliography{phdBiblio}
 
 \end{document}

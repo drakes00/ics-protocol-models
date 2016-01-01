@@ -1,0 +1,10 @@
+let sess(pkCli, pkSess) = 
+    in(c, (=pkCli, m1));
+    let (SPc, PartC) = m1 in
+
+    new Ns;
+    let m2 = exp(g, Ns) in
+    out(c, m2);
+
+    let Ksrv = exp(PartC, Ns) in
+    out(c, senc(mSrv(pkCli, pkSess), Ksrv)).
