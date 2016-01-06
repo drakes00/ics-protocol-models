@@ -55,7 +55,7 @@
 \newcommand{\UNSAFE}{{\color{red!50!black} UNSAFE}}
 \newcommand{\SAFE}{{\color{green!50!black} SAFE}}
 \newcommand{\proverif}{ProVerif}
-\newcommand{\aramis}{Aramis}
+\newcommand{\aramis}{ARAMIS}
 
 \title{La sécurité informatique dans les systèmes d'informations industriels}
 
@@ -80,37 +80,43 @@
 
 De plus en plus d'attaques informatiques contre les systèmes industriels sont
 présentées par les médias.
-Ces systèmes tendent à devenir géographiquement distribués et communiquant via
+Ces systèmes tendent à devenir géographiquement distribués et communiquer via
 des reseaux vulnérables tels qu'Internet.
 Depuis son apparition, l'informatique industrielle a toujours été physiquement
 isolée du reste du monde.
-Les attaques nécessitaient donc d'être présent sur le site et étaient donc peu
-probable.
+Les attaques nécessitaient donc d'être présent sur le site et étaient peu
+probables.
 L'industrie a donc préféré se focaliser sur la protection contre les risques
 naturels et les erreurs de manipulation, appelée {\em sûreté}.
-Ainsi, ces systèmes ont grossis au point de devenir omniprésents dans nos
-vies tandis que leur sécurité informatique a toujours été presque inéxistante.
+Ainsi, les systèmes infdustriels ont grossi au point de devenir omniprésents
+dans nos vies tandis que leur sécurité informatique a toujours été presque
+inexistante.
 La particularité de la sécurité informatique face à la sûreté est la volonté
-de nuire de l'attauqant, doublée de sa capacité à réfléchir et à apprendre de
+de nuire de l'attaquant, doublée de sa capacité à réfléchir et à apprendre de
 ses erreurs, suivant l'état de l'art de la sécurité informatique.
 Aujourd'hui, ces systèmes régissent aussi bien la production et la distribution
 d'énergie, les barrages ou le nucléaire et il apparait que leur protection
 contre les attaques informatiques doit se mettre à l'état de l'art afin d'éviter
-des attaques massives telles que Stuxnet en Iran \cite{Lan11}.
+des attaques massives telles que Stuxnet \cite{Lan11}.
 
-Dans le cadre de cette thèse, nous abordons plusieurs façons d'améliorer la
-sécurité informatique des systèmes industriels et d'y incorporer les méthodes
-formelles de vérification qui sont utilisées dans l'informatique de la vie de 
-tous les jours.
+Une des difficulté en terme de sécurité est de combiner les propriétés des
+protocoles de communication et les attendus métiers en terme de flux.
+Pour ce faire, la Section \ref{sec:aramis} expliquera comment filtrer les
+messages en tenant compte des aspects métiers.
+La Section \ref{sec:protocols} traitera de la vérification formelle des
+propriétés des protocoles de communication industriels.
+Enfin la Section \ref{sec:models} proposera un modèle pour décrire les attaques
+informatiques en fonction de paramètres tels que les objectifs, les capacités
+des attaquants et leur positions dans une architecture réseau.
 
-\section{Filtrage des communications}
+\section{Filtrage des communications}\label{sec:aramis}
 
 Un premier axe repose sur le projet \aramis{} \cite{aramis} qui consiste à
 cloisonner physiquement les réseaux et à filtrer les échanges pour rejeter tout
 flux identifié comme non autorisé, donc potentiellement malveillant.
-La spécificité de ce projet est de fournir simultanément ces fonctionnalités
-dans un même dispositif robuste, dont l'ajout n'impacte pas les applications
-d'un système d'information industriel existant.
+La spécificité de ce projet est de fournir simultanément ces deux
+fonctionnalités dans un même dispositif robuste, dont l'ajout n'impacte pas le
+système existant.
 Ceci, tout en le protégeant d'agressions qu'elles soient issues du monde
 extérieur ou internes.
 %La figure \ref{fig:aramis} montre le placement du dispositif \aramis{} dans un
@@ -134,25 +140,28 @@ centième de seconde, le filtrage doit être pensé pour une efficacité maximal
 %    \label{fig:aramis}
 %\end{figure}
 
-\section{Vérification formelle de protocoles industriels}
+\section{Vérification formelle de protocoles industriels}\label{sec:protocols}
 
-Les protocoles sont un ingrédient essentiel des communications réseaux de notre
-époque.
-Ces communications pouvant être attaquées soit en espionnant le trafic, soit en
-le modifiant, il apparait depuis plusieurs décennies que la preuve formelle de
+%Les protocoles sont un ingrédient essentiel des communications réseaux de notre
+%époque.
+%Ces communications pouvant être attaquées soit en espionnant le trafic, soit en
+%le modifiant,
+Il apparait depuis plusieurs décennies que la preuve formelle de
 la sécurité de ces protocoles est un enjeu majeur.
-Un exemple connu étant {\em mi.TLS} \cite{BFKPS13}, une implémentation prouvée
+Un exemple connu est {\em mi.TLS} \cite{BFKPS13}, une implémentation prouvée
 du protocole TLS \cite{DR08} servant par exemple au paiement en ligne.
-Les traveaux d'analyse de protocoles ont commencé avec la contribution de
-G. Lowe \cite{Low96}, brisant le protocole {\em Needham-Schoeder} en 1995.
-Depuis, les outils d'analyse et les travaux de modélisation se sont multipliés.
+%Les traveaux d'analyse de protocoles ont commencé avec la contribution de
+%G. Lowe \cite{Low96}, brisant le protocole {\em Needham-Schoeder} en 1995.
+%Depuis, les outils d'analyse et les travaux de modélisation se sont multipliés.
 %Ces outils reposent sur des approches théoriques variées telles que la
 %réécriture, la résolution de contrainte, les clauses de Horn ou les
 %{\em SAT-solvers}.
-Ces outils considèrent un intrus dit de Dolev-Yao \cite{DY81} qui contrôle le
-réseau, espionne, stoppe, forge, modifie, entrelace ou rejoue des messages en
-utilisant la connaissance des messages qu'ils appris précédemment.
-L'intrus tente de violer des propriétés telles que l'{\em autentification}
+%Ces outils considèrent un intrus dit de Dolev-Yao \cite{DY81} qui contrôle le
+%réseau, espionne, stoppe, forge, modifie, entrelace ou rejoue des messages en
+%utilisant la connaissance des messages qu'ils appris précédemment.
+Il existe plusieurs outils permettant de modéliser des protocoles afin d'en
+tester la sécurité.
+Ces outils considèrent des propriétés telles que l'{\em autentification}
 et le {\em secret}.
 %La première propriété signifie qu'un participant est conviancu qu'il parle avec
 %un autre.
@@ -166,40 +175,39 @@ Cependant, les protocoles de communication des systèmes industriels n'ont jamai
 été vérifiés de cette façon.
 Nous souhaitons donc tester formellement la sécurité de ces protocoles à l'aide
 d'outils de vérification de protocoles.
-En violant le secret, un intrus pourrait compromettre une clef de chiffrement,
-ce qui révèlerait le contenu des communication.
-D'autre part, en attaquant l'autentification, un intrus pourrait se faire passer
-pour un serveur aux yeux d'un client ou beaucoup plus grave, se faire passer
-pour un client aux yeux d'un serveur.
-Ce scénario gravissime autoriserait l'intrus à lancer des commandes ayant un
-réel impact sur le monde extérieur.
-Les défis de ce type d'approche appliquées aux protocoles industriels viennent
-de la particularité des propriétés de sécurité à consdérer qui demandent une
-modélisation finne des protocoles.
+%En violant le secret, un intrus pourrait compromettre une clef de chiffrement,
+%ce qui révèlerait le contenu des communication.
+%D'autre part, en attaquant l'autentification, un intrus pourrait se faire passer
+%pour un serveur aux yeux d'un client ou beaucoup plus grave, se faire passer
+%pour un client aux yeux d'un serveur.
+%Ce scénario gravissime autoriserait l'intrus à lancer des commandes ayant un
+%réel impact sur le monde extérieur.
+Les défis de ce type d'approche appliquée aux protocoles industriels viennent
+de la particularité des propriétés de sécurité à considérer qui demandent une
+modélisation adaptée des protocoles.
 Par exemple, vérifier l'intégrité du flux stipulant que les messages reçu par
 un participant sont exactement ceux envoyés par un autre en tenant compte de
 l'ordre.
 
-\section{Modèles d'attaques}
+\section{Modèles d'attaques}\label{sec:models}
 
-Enfin, nous souhaiterions tirer parti des travaux sur les méthodes d'analyse
+Enfin, nous souhaitons tirer parti des travaux sur les méthodes d'analyse
 de risques telles que EBIOS \cite{EBIOS} et MEHARI \cite{MEHARI}.
 Ces méthodes servent à générer automatiquement des scénarios d'attaques en
 fonction des objectifs des attaquants et des biens que l'on souhaite protéger.
-De la même façon, nous nous intéressons à la génération de scénarii d'attaques
-et travaillons sur une approche déductive tenant compte de l’architecture et de
-l’analyse métier d’un système industriel
-Cette approche nous permet donc de spécifier quels sont scénarii d’attaques à
-prendre en compte ou non dans un système et ainsi de sa  faciliter la phase de
-test.
-Les scénarii d’attaques à prendre en compte sont déterminés en fonction des
-capacités des attaquants (placements dans le système, protocoles et possibilités
-de nuisance) et de leurs objectifs possibles (atteinte à la configentialité ou 
-l'intrité d'un message, de la configuration d'un hôte, etc).
-Nous cherchons donc à savoir s'il existe une configuration où un attaquant
-positionné à un endroit du système, avec des capacités dépendant des propriétés
-de sécurité des protocoles de communication pourrait atteindre l'un de ses
-objectifs d'attaque.
+De la même façon, nous modélisons les attaques informatiques sur les systèmes
+industriels en fonction des capacités des attaquants (placements dans le
+système, protocoles et possibilités de nuisance) et de leurs objectifs possibles
+(atteinte à la configentialité ou  l'intrité d'un message, de la configuration
+d'un hôte, etc).
+En suite, à l'aide d'une approche déductive tenant compte de l’analyse métier
+d’un système industriel, nous calculons s'il existe une configuration où un
+attaquant positionné à un endroit de l'architecture, avec des capacités
+dépendant des propriétés de sécurité des protocoles de communication pourrait
+atteindre l'un de ses objectifs d'attaque.
+Ainsi, nous sommes en mesure de spécifier quels sont scénarii d’attaques sont à
+prendre en compte ou non pour faciliter la phase de test d'un système.
+Cette approche vise à être automatisée dans un outil.
 
 \section{Auteur}
 
