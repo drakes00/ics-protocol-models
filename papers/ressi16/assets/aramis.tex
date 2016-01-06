@@ -1,0 +1,25 @@
+\begin{tikzpicture}[
+    arrow/.style={thick,<-,shorten >=2pt,shorten <=2pt,>=stealth},
+]
+
+    \draw[dashed] (-.5,-.5) rectangle (6.5,4.5) node [below=.3,left] {Zone de confiance};
+    \fill[white] (6.25,1.5) rectangle (6.75,2.5);
+
+    \draw (0,0) rectangle (3,1) node [pos=.5] {$SCADA_{3}$};
+    \draw (0,1.5) rectangle (3,2.5) node [pos=.5] {$SCADA_{2}$};
+    \draw (0,3) rectangle (3,4) node [pos=.5] {$SCADA_{1}$};
+    
+    \draw (5,1.5) rectangle (8,2.5) node [pos=.5] {$Aramis$};
+    
+    \draw (10,0) rectangle (13,1) node [pos=.5] {$Client$};
+    \draw (10,1.5) rectangle (13,2.5) node [pos=.5] {$Client_{corrompu}$};
+    \draw (10,3) rectangle (13,4) node [pos=.5] {$Intrus$};
+
+    \draw[arrow,green] (3,.5) -- (5,1.5);
+    \draw[arrow,green] (3,2) -- (5,2);
+    \draw[arrow,green] (3,3.5) -- (5,2.5);
+
+    \draw[arrow,green] (8,1.5) -- (10,.5);
+    \draw[arrow,red] (8,2) -- (10,2);
+    \draw[arrow,red] (8,2.5) -- (10,3.5);
+\end{tikzpicture}

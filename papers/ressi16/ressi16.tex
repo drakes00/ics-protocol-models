@@ -14,9 +14,14 @@
 \usepackage{subcaption}
 
 \usepackage{graphicx}
+\graphicspath{{assets/}}
+\makeatletter
+    \def\input@path{{assets/}}
+\makeatother
+
 \usepackage{xstring}
 
-%\usepackage{times}
+\usepackage{times}
 
 \usepackage{auto-pst-pdf}
 \ifpdf
@@ -50,17 +55,15 @@
 \newcommand{\UNSAFE}{{\color{red!50!black} UNSAFE}}
 \newcommand{\SAFE}{{\color{green!50!black} SAFE}}
 \newcommand{\proverif}{ProVerif}
+\newcommand{\aramis}{Aramis}
 
-\title{Verification formelle de protocoles industriels}
+\title{La sécurité informatique dans les systèmes d'informations industriels}
 
-\author[1]{Maxime Puys}
-\author[1]{Marie-Laure Potet}
-\author[2]{Jean-Louis ?}
-\author[3]{Pascal ?}
-
-\affil[1]{
+\author{
+    Maxime Puys\\
     Univ. Grenoble Alpes, VERIMAG, F-38000 Grenoble, France\\
     CNRS, VERIMAG, F-38000 Grenoble, France
+    \thanks{Ce travail a été partiellement financé par le projet PIA Sécurité Numérique ARAMIS.}
 }
 
 \date{}
@@ -75,104 +78,142 @@
 
 \section{Introduction}
 
-Les protocoles sont un ingrédient essentiel des communications réseaux de notre époque.
-Ces communications pouvant être attaquées soit en espionnant le trafic, soit en le modifiant,
-il apparait depuis plusieurs décennies que la preuve formelle de la sécurité de ces protocoles
-est un enjeu majeur.
-Un exemple connu étant {\em mi.TLS} \cite{BFKPS13}, une implémentation prouvée du protocole TLS \cite{DR08}
-servant par exemple au paiement en ligne.
-Cependant, les protocoles de communication des systèmes industriels servant à envoyer des commandes
-et recevoir des informations n'ont jamais été vérifiés de cette façon.
-Ces protocoles régissant parfois jusqu'à des centrales nucléaires, des barrages ou la distribution d'énergie,
-il est vital de s'assurer de leur sécurité.
+De plus en plus d'attaques informatiques contre les systèmes industriels sont
+présentées par les médias.
+Ces systèmes tendent à devenir géographiquement distribués et communiquant via
+des reseaux vulnérables tels qu'Internet.
+Depuis son apparition, l'informatique industrielle a toujours été physiquement
+isolée du reste du monde.
+Les attaques nécessitaient donc d'être présent sur le site et étaient donc peu
+probable.
+L'industrie a donc préféré se focaliser sur la protection contre les risques
+naturels et les erreurs de manipulation, appelée {\em sûreté}.
+Ainsi, ces systèmes ont grossis au point de devenir omniprésents dans nos
+vies tandis que leur sécurité informatique a toujours été presque inéxistante.
+La particularité de la sécurité informatique face à la sûreté est la volonté
+de nuire de l'attauqant, doublée de sa capacité à réfléchir et à apprendre de
+ses erreurs, suivant l'état de l'art de la sécurité informatique.
+Aujourd'hui, ces systèmes régissent aussi bien la production et la distribution
+d'énergie, les barrages ou le nucléaire et il apparait que leur protection
+contre les attaques informatiques doit se mettre à l'état de l'art afin d'éviter
+des attaques massives telles que Stuxnet en Iran \cite{Lan11}.
 
-Les traveaux d'analyse de protocoles hors du cadre industriel ont commencé avec la contribution de
-G. Lowe \cite{Low96}, brisant le protocole {\em Needham-Schoeder} en 1995.
-Depuis, les outils d'analyse et les travaux de modélisation se sont multipliés.
-Ces outils reposent sur des approches théoriques variées telles que la réécriture,
-la résolution de contrainte, les clauses de Horn ou les {\em SAT-solvers}.
-Ces outils considèrent un intrus dit de Dolev-Yao \cite{DY81} qui contrôle le réseau,
-espionne, stoppe, forge, modifie, entrelace ou rejoue des messages en utilisant la connaissance
-des messages qu'ils appris précédemment.
-En jouant en parallèle plusieurs sessions avec les différents rôles du protocole,
-l'intrus tente de violer des propriétés telles que l'{\em autentification} et le {\em secret}.
-La première propriété signifie qu'un participant est conviancu qu'il parle avec un autre.
-Le secret assure qu'un agent non autorisé (y compris l'intrus) n'accède pas au message désigné.
-Enfin, les outils se basent sur l'hypothèse du chiffrement parfait, selon laquelle
-il n'est pas possible de déchiffrer un message sans la chef de chiffrement ou d'usurper une signature.
+Dans le cadre de cette thèse, nous abordons plusieurs façons d'améliorer la
+sécurité informatique des systèmes industriels et d'y incorporer les méthodes
+formelles de vérification qui sont utilisées dans l'informatique de la vie de 
+tous les jours.
 
-En particulier, \proverif{} \cite{Bla01,PROVERIF14_manual}, développé par B. Blanchet et al. analyse un protocole écrit
-soit en clauses de Horn soit dans un sous ensemble du Pi-Calcul pour un nombre non borné
-de sessions.
-Via des techniques de sur-approximation, il est capable de prouver la sécurité d'un protocole
-mais les attaques qu'il trouve peuvent être des faux-positifs.
-Lorsqu'une attaque est trouvée, l'outil reconstruit une trace montrant sa réalisation.
+\section{Filtrage des communications}
 
-\section{Le protocol OPC-UA}
+Un premier axe repose sur le projet \aramis{} \cite{aramis} qui consiste à
+cloisonner physiquement les réseaux et à filtrer les échanges pour rejeter tout
+flux identifié comme non autorisé, donc potentiellement malveillant.
+La spécificité de ce projet est de fournir simultanément ces fonctionnalités
+dans un même dispositif robuste, dont l'ajout n'impacte pas les applications
+d'un système d'information industriel existant.
+Ceci, tout en le protégeant d'agressions qu'elles soient issues du monde
+extérieur ou internes.
+%La figure \ref{fig:aramis} montre le placement du dispositif \aramis{} dans un
+%système industriel.
+Les communications se résument à des requêtes envoyées par des clients vers des
+systèmes SCADA (système de contrôle et d'acquisition de données est un système
+de télégestion à grande échelle).
+Ces requêtes sont principalement des lectures ou des écritures sur des variables
+afin de surveiller l'état du processus.
+La spécificité des messages nous permet donc d'effectuer un filtrage applicatif
+prenant en compte les besoins liés au corps de métier du système industriel à
+protéger.
+De plus, les systèmes industriels acceptant une latence maximale de l'ordre du
+centième de seconde, le filtrage doit être pensé pour une efficacité maximale.
 
-OPC-UA \cite{MLD09} est un protocole de communication qui devient un standard dans le milieu industriel.
-Ce nouveau protocole très complexe de part la diversité des données qu'il peut transférer
-se divise en plusieurs couches. 
-Parmi elles, la couche {\em Secure Conversation} est en charge de la sécurité en termes d'authentification,
-de contrôle d'accès, d'intégrité et de chiffrement.
-Trois niveaux de sécurité peuvent être utilisés suivant la configuration des clients et des serveurs.
-
-Plusieurs sous-protocoles atomiques interviennent dans cette couche :
-\begin{enumerate}
-    \item Le sous-protocole {\em Secure Channel Establishment} se sert des
-        clefs assymétriques des participants pour établir une clef symétrique partagée.
-    \item Ensuite, le sous-protocole {\em Session Establishment} utilise la clef symétrique partagée
-        par les participants pour que le client envoie ses identifiants au serveur.
-    \item Le client peut alors envoyer des requêtes et le serveur les réponses associées
-        en utilisant la clef symétrique partagée.
-    \item Enfin, le sous-protocole {\em Secure Conversation Closing} clot la session et le {\em Secure Channel}.
-\end{enumerate}
-
-\section{Travaux de recherche}
-
-Nous souhaitons tester formellement la sécurité d'OPC-UA à l'aide d'outils de vérification de protocoles.
-Une attaque pouvant être découverte pourrait être la compromission de la clef symétrique partagée
-(qui révèlerait le contenu des communication).
-D'autre part, un intrus pourrait se faire passer pour le serveur aux yeux du client ou beaucoup plus grave, se faire passer
-pour le client aux yeux du serveur.
-Ce scénario gravissime autoriserait l'intrus à lancer des commandes ayant un réel impact sur le monde extérieur
-pouvant par exemple égaler les conséquenses du virus Stuxnet en Iran \cite{Lan11}.
-
-Afin de découvrir des attaques ou de prouver formellement la sécurité du protocole, nous cherchons tout d'abord à l'exprimer
-sous forme de diagrammess de séquence.
-La figure \ref{fig:opcua_diagram} montre par exemple une représentation du sous-protocole {\em Secure Channel Establishment}.
-
-\begin{figure}[htb]
-    \input{opcua_secure_channel}
-    \caption{Diagramme de séquence pour OPC-UA}
-    \label{fig:opcua_diagram}
-\end{figure}
-    
-%\begin{figure}[htb]
-%    \lstinputlisting[language=caml]{opcua_proverif.pv}
-%    \caption{Exemple de modélisation \proverif{}}
-%    \label{fig:opcua_proverif}
+%\begin{figure}
+%    \resizebox{\textwidth}{!}{
+%        \input{aramis}
+%    }
+%    \caption{Placement du dispositif \aramis{}}
+%    \label{fig:aramis}
 %\end{figure}
 
-A partir de représentations, nous pouvons modéliser le rôle de chaque agent dans le langage de l'outil de vérification.
-L'outil nous répondra alors soit que le protocole est sûre pour les propriétés que nous avons exprimé,
-soit par une attaque contre l'une des propriétés.
+\section{Vérification formelle de protocoles industriels}
 
-\section{Conclusion}
+Les protocoles sont un ingrédient essentiel des communications réseaux de notre
+époque.
+Ces communications pouvant être attaquées soit en espionnant le trafic, soit en
+le modifiant, il apparait depuis plusieurs décennies que la preuve formelle de
+la sécurité de ces protocoles est un enjeu majeur.
+Un exemple connu étant {\em mi.TLS} \cite{BFKPS13}, une implémentation prouvée
+du protocole TLS \cite{DR08} servant par exemple au paiement en ligne.
+Les traveaux d'analyse de protocoles ont commencé avec la contribution de
+G. Lowe \cite{Low96}, brisant le protocole {\em Needham-Schoeder} en 1995.
+Depuis, les outils d'analyse et les travaux de modélisation se sont multipliés.
+%Ces outils reposent sur des approches théoriques variées telles que la
+%réécriture, la résolution de contrainte, les clauses de Horn ou les
+%{\em SAT-solvers}.
+Ces outils considèrent un intrus dit de Dolev-Yao \cite{DY81} qui contrôle le
+réseau, espionne, stoppe, forge, modifie, entrelace ou rejoue des messages en
+utilisant la connaissance des messages qu'ils appris précédemment.
+L'intrus tente de violer des propriétés telles que l'{\em autentification}
+et le {\em secret}.
+%La première propriété signifie qu'un participant est conviancu qu'il parle avec
+%un autre.
+%Le secret assure qu'un agent non autorisé (y compris l'intrus) n'accède pas au
+%message désigné.
+%Enfin, les outils se basent sur l'hypothèse du chiffrement parfait, selon
+%laquelle il n'est pas possible de déchiffrer un message sans la chef de
+%chiffrement ou d'usurper une signature.
 
-Les défis de ce type d'approche sont principalement la difficulté de modéliser le protocole en captant les propriétés
-de sécurité qu'il revendique.
-L'outil pouvant produire des faux positifs, il faut également comprendre le attaques trouvée et si elles sont fausses,
-changer la modélisation pour qu'elles n'apparaissent plus.
-Certains outils permettent également à l'utilisateur d'ajouter des théories equationelles afin d'augmenter
-le pouvoir de l'intrus.
-Il également possible de modéliser des propriétés de sécurité plus complexes telles que la non-répudiation
-(impossibilité de nier l'envoie ou la réception d'un message) ou l'intégrité du flux (vérifier que les messages
-reçu par un participant sont exactement ceux envoyés par un autre en tenant compte de l'ordre).
+Cependant, les protocoles de communication des systèmes industriels n'ont jamais
+été vérifiés de cette façon.
+Nous souhaitons donc tester formellement la sécurité de ces protocoles à l'aide
+d'outils de vérification de protocoles.
+En violant le secret, un intrus pourrait compromettre une clef de chiffrement,
+ce qui révèlerait le contenu des communication.
+D'autre part, en attaquant l'autentification, un intrus pourrait se faire passer
+pour un serveur aux yeux d'un client ou beaucoup plus grave, se faire passer
+pour un client aux yeux d'un serveur.
+Ce scénario gravissime autoriserait l'intrus à lancer des commandes ayant un
+réel impact sur le monde extérieur.
+Les défis de ce type d'approche appliquées aux protocoles industriels viennent
+de la particularité des propriétés de sécurité à consdérer qui demandent une
+modélisation finne des protocoles.
+Par exemple, vérifier l'intégrité du flux stipulant que les messages reçu par
+un participant sont exactement ceux envoyés par un autre en tenant compte de
+l'ordre.
 
-\section{Auteurs}
+\section{Modèles d'attaques}
 
-Biographie ... ?
+Enfin, nous souhaiterions tirer parti des travaux sur les méthodes d'analyse
+de risques telles que EBIOS \cite{EBIOS} et MEHARI \cite{MEHARI}.
+Ces méthodes servent à générer automatiquement des scénarios d'attaques en
+fonction des objectifs des attaquants et des biens que l'on souhaite protéger.
+De la même façon, nous nous intéressons à la génération de scénarii d'attaques
+et travaillons sur une approche déductive tenant compte de l’architecture et de
+l’analyse métier d’un système industriel
+Cette approche nous permet donc de spécifier quels sont scénarii d’attaques à
+prendre en compte ou non dans un système et ainsi de sa  faciliter la phase de
+test.
+Les scénarii d’attaques à prendre en compte sont déterminés en fonction des
+capacités des attaquants (placements dans le système, protocoles et possibilités
+de nuisance) et de leurs objectifs possibles (atteinte à la configentialité ou 
+l'intrité d'un message, de la configuration d'un hôte, etc).
+Nous cherchons donc à savoir s'il existe une configuration où un attaquant
+positionné à un endroit du système, avec des capacités dépendant des propriétés
+de sécurité des protocoles de communication pourrait atteindre l'un de ses
+objectifs d'attaque.
+
+\section{Auteur}
+
+Maxime Puys est doctorant en deuxième année au laboratoire Verimag de
+l'Université Grenoble Alpes.
+Sous la direction de Marie-Laure Potet (Prof. Grenoble INP) et Jean-Louis Roch
+(MCF. Grenoble INP), il travaille sur à la sécurité informatique dans les
+systèmes d'informations industriels.
+Diplômé en 2014 du {\em Master Sécurité, Audit et Informatique Légal} de
+l'Université Grenoble Alpes, il a partcipé pendant deux ans à des recherches sur
+la sécurité des cartes-à-puce contre les attaques par fautes dans le laboratoire
+Verimag et l'entreprise SAFRAN Morpho.
+Intéressé par les méthodes formelles dans le domaine de la sécurité, il
+participe à les intégrer dans les projets concrets des industriels.
 
 \bibliographystyle{plain}
 \bibliography{phdBiblio}
