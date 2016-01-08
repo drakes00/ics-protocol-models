@@ -67,7 +67,7 @@ let client(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) =
     (* Role starting *)
     out(c, GetEndpointRequest);
 
-    in(c, (SPs: bitstring, =SignAndEncrypt, UP: bitstring, =pkSess));
+    in(c, (SPs: bitstring, =None, UP: bitstring, =pkSess));
 
     new SPc: bitstring;
     new Nc: bitstring;

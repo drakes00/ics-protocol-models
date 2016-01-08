@@ -79,7 +79,6 @@ let client(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) =
     event endCli(Sess, Cli, PartS).
 
 
-
 let disco(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) = 
     in(c, (Cli: host, Disco: host, Sess: host));
     let skDisco = if Disco = A then skA else if Disco = B then skB else if Disco = C then skC else skI in
