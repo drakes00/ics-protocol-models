@@ -1,6 +1,8 @@
 \documentclass{article}
+%\documentclass{IEEEtran}
 
 %\usepackage{fullpage}
+\usepackage[left=3.8cm,right=3.8cm]{geometry}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -57,13 +59,13 @@
 \newcommand{\proverif}{ProVerif}
 \newcommand{\aramis}{ARAMIS}
 
-\title{La sécurité informatique dans les systèmes d'informations industriels}
+\title{La sécurité informatique dans les systèmes d'information industriels}
 
 \author{
     Maxime Puys\\
     Univ. Grenoble Alpes, VERIMAG, F-38000 Grenoble, France\\
     CNRS, VERIMAG, F-38000 Grenoble, France
-    \thanks{Ce travail a été partiellement financé par le projet PIA Sécurité Numérique ARAMIS.}
+    \thanks{Ce travail a été partiellement financé par le LabEx PERSYVAL-Lab (ANR–11-LABX-0025) et le projet Programme Investissement d’Avenir FSN AAP Sécurité Numérique \no 3 ARAMIS (P3342-146798).}
 }
 
 \date{}
@@ -72,28 +74,48 @@
 
 \maketitle
 
-%\begin{abstract}
-%    aa
-%\end{abstract}
+\begin{abstract}
+    De plus en plus d’attaques informatiques contre les systèmes industriels
+    sont présentées par les médias.
+    Ces systèmes tendent à devenir géographiquement distribués et communiquer
+    via des réseaux vulnérables tels qu’Internet.
+    Depuis son apparition, l’informatique industrielle a toujours été
+    physiquement isolée du reste du monde.
+    Ainsi, les systèmes industriels ont grossi au point de devenir omniprésents
+    dans nos vies tandis que leur sécurité informatique est historiquement
+    faible.
+    Aujourd'hui, il apparaît que l'industrie doit améliorer sa sécurité
+    informatique pour s'accorder avec l'état-de-l'art afin d'éviter des
+    attaques massives telles que Stuxnet.
+    Une des difficulté en terme de sécurité est de combiner les propriétés des
+    protocoles de communication et les attendus métiers en terme de flux.
+    Pour ce faire, nous regardons comment filtrer les messages en tenant compte
+    des aspects métiers.
+    Ensuite, nous nous intéressons à la vérification formelle des propriétés
+    des protocoles de communication industriels.
+    Enfin nous proposons un modèle pour décrire les attaques informatiques
+    contre les systèmes industriels en fonction de paramètres tels que les
+    objectifs, les capacités des attaquants et leur positions dans une
+    architecture réseau.
+\end{abstract}
 
 \section{Introduction}
 
 De plus en plus d'attaques informatiques contre les systèmes industriels sont
 présentées par les médias.
 Ces systèmes tendent à devenir géographiquement distribués et communiquer via
-des reseaux vulnérables tels qu'Internet.
+des réseaux vulnérables tels qu'Internet.
 Depuis son apparition, l'informatique industrielle a toujours été physiquement
 isolée du reste du monde.
 Les attaques nécessitaient donc d'être présent sur le site et étaient peu
 probables.
 L'industrie a donc préféré se focaliser sur la protection contre les risques
 naturels et les erreurs de manipulation, appelée {\em sûreté}.
-Ainsi, les systèmes infdustriels ont grossi au point de devenir omniprésents
-dans nos vies tandis que leur sécurité informatique a toujours été presque
-inexistante.
+Ainsi, les systèmes industriels ont grossi au point de devenir omniprésents
+dans nos vies tandis que leur sécurité informatique est historiquement faible.
 La particularité de la sécurité informatique face à la sûreté est la volonté
 de nuire de l'attaquant, doublée de sa capacité à réfléchir et à apprendre de
-ses erreurs, suivant l'état de l'art de la sécurité informatique.
+ses erreurs, suivant ainsi l'état de l'art de la sécurité informatique.
 Aujourd'hui, ces systèmes régissent aussi bien la production et la distribution
 d'énergie, les barrages ou le nucléaire et il apparait que leur protection
 contre les attaques informatiques doit se mettre à l'état de l'art afin d'éviter
@@ -106,8 +128,9 @@ messages en tenant compte des aspects métiers.
 La Section \ref{sec:protocols} traitera de la vérification formelle des
 propriétés des protocoles de communication industriels.
 Enfin la Section \ref{sec:models} proposera un modèle pour décrire les attaques
-informatiques en fonction de paramètres tels que les objectifs, les capacités
-des attaquants et leur positions dans une architecture réseau.
+informatiques contre les systèmes industriels en fonction de paramètres tels que
+les objectifs, les capacités des attaquants et leur positions dans une
+architecture réseau.
 
 \section{Filtrage des communications}\label{sec:aramis}
 
@@ -122,8 +145,8 @@ extérieur ou internes.
 %La figure \ref{fig:aramis} montre le placement du dispositif \aramis{} dans un
 %système industriel.
 Les communications se résument à des requêtes envoyées par des clients vers des
-systèmes SCADA (système de contrôle et d'acquisition de données est un système
-de télégestion à grande échelle).
+systèmes SCADA (système de contrôle et d'acquisition de données à grande
+échelle).
 Ces requêtes sont principalement des lectures ou des écritures sur des variables
 afin de surveiller l'état du processus.
 La spécificité des messages nous permet donc d'effectuer un filtrage applicatif
@@ -195,17 +218,28 @@ Enfin, nous souhaitons tirer parti des travaux sur les méthodes d'analyse
 de risques telles que EBIOS \cite{EBIOS} et MEHARI \cite{MEHARI}.
 Ces méthodes servent à générer automatiquement des scénarios d'attaques en
 fonction des objectifs des attaquants et des biens que l'on souhaite protéger.
-De la même façon, nous modélisons les attaques informatiques sur les systèmes
-industriels en fonction des capacités des attaquants (placements dans le
-système, protocoles et possibilités de nuisance) et de leurs objectifs possibles
-(atteinte à la configentialité ou  l'intrité d'un message, de la configuration
-d'un hôte, etc).
+Comme illustré dans la Figure \ref{fig:models}, nous proposons une modélisation
+des attaques informatiques sur les systèmes industriels en fonction du placement
+des attaquants dans l'architecture réseau d'une part.
+D'autre part nous considérons les capacité de nuisance réelles des attaquants
+dépendant des éventuelles failles de sécurité des protocoles de communication et
+de leur exploitations possibles.
+
+\begin{figure}[htb]
+    \centering
+    \resizebox{.6\textwidth}{!}{
+        \input{approach_attack_model_fr}
+    }
+    \caption{Approche des modèles d'attaques}
+    \label{fig:models}
+\end{figure}
+
 En suite, à l'aide d'une approche déductive tenant compte de l’analyse métier
-d’un système industriel, nous calculons s'il existe une configuration où un
-attaquant positionné à un endroit de l'architecture, avec des capacités
+d’un système industriel nous calculons s'il existe une configuration où un
+attaquant, positionné à un endroit de l'architecture, avec des capacités
 dépendant des propriétés de sécurité des protocoles de communication pourrait
 atteindre l'un de ses objectifs d'attaque.
-Ainsi, nous sommes en mesure de spécifier quels sont scénarii d’attaques sont à
+Ainsi, nous sommes en mesure de spécifier quels sont scénarii d’attaques à
 prendre en compte ou non pour faciliter la phase de test d'un système.
 Cette approche vise à être automatisée dans un outil.
 
@@ -214,9 +248,9 @@ Cette approche vise à être automatisée dans un outil.
 Maxime Puys est doctorant en deuxième année au laboratoire Verimag de
 l'Université Grenoble Alpes.
 Sous la direction de Marie-Laure Potet (Prof. Grenoble INP) et Jean-Louis Roch
-(MCF. Grenoble INP), il travaille sur à la sécurité informatique dans les
-systèmes d'informations industriels.
-Diplômé en 2014 du {\em Master Sécurité, Audit et Informatique Légal} de
+(MCF. Grenoble INP), il travaille sur la sécurité informatique dans les
+systèmes d'information industriels.
+Diplômé en 2014 du {\em Master Sécurité, Audit et Informatique Légale} de
 l'Université Grenoble Alpes, il a partcipé pendant deux ans à des recherches sur
 la sécurité des cartes-à-puce contre les attaques par fautes dans le laboratoire
 Verimag et l'entreprise SAFRAN Morpho.

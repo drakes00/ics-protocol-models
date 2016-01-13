@@ -1,0 +1,15 @@
+\begin{tikzpicture}[
+        arrow/.style={thick,->,shorten >=2pt,shorten <=2pt,>=stealth},
+    ]
+    \draw node [below] at (0,0) {Intrus};
+    \draw[arrow] (0,0) -- (0,1) -- (2.25,1);
+    \draw node [above] at (0,2) {Objectifs};
+    \draw[arrow] (0,2) -- (0,1) -- (2.25,1);
+
+    \draw node at (3,1) {Sc\'enarii};
+
+    \draw node [below] at (6,0) {Prop. de S\'ecurit\'e};
+    \draw[arrow] (6,0) -- (6,1) -- (3.75,1);
+    \draw node [above] at (6,2) {Protocoles};
+    \draw[arrow] (6,2) -- (6,1) -- (3.75,1);
+\end{tikzpicture}
