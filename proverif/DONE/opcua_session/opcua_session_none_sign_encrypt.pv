@@ -1,0 +1,123 @@
+(*  OpcUaClient --[CreateSessionRequest]--> SessionEndpoint
+    SessionEndpoint --[SSC, Ns2]--> OpcUaClient
+    OpcUaClient --[CSC, Login, Password]--> SessionEndpoint
+    SessionEndpoint --[ActivateSessionResponse]--> OpcUaClient
+*)
+
+free c: channel.
+
+
+(* Hosts *)
+type host.
+free A, B, I: host.
+
+
+(* Symetric key crypto *)
+fun senc(bitstring, bitstring): bitstring.
+reduc forall x: bitstring, k: bitstring ; sdec(senc(x, k), k) = x.
+
+
+(* Signatures *)
+fun pub(bitstring): bitstring.
+fun sign(bitstring, bitstring): bitstring.
+reduc forall x:bitstring, s:bitstring, k:bitstring ; verify(x, sign(x, k), pub(k)) = true.
+
+
+(* Constants *)
+const CreateSessionRequest: bitstring.
+const ActivateSessionResponse: bitstring.
+
+
+(* Private keys *)
+free skA: bitstring [private].
+free skB: bitstring [private].
+fun Skey(bitstring, bitstring): bitstring [private].
+
+
+(* Secrets *)
+fun Login(bitstring, bitstring): bitstring [private].
+fun Passwd(bitstring, bitstring): bitstring [private].
+
+
+(* Events *)
+event beginCli(host, host, bitstring).
+event endSrv(host, host, bitstring).
+
+
+(* Goals *)
+query attacker(Login(pub(skA), pub(skB))).
+query attacker(Passwd(pub(skA), pub(skB))).
+query attacker(Skey(pub(skA), pub(skB))).
+query attacker(Skey(pub(skB), pub(skA))).
+
+query X: host, N: bitstring ; event(endSrv(A, X, N)) ==> event(beginCli(A, X, N)).
+
+
+let client(skA: bitstring, skB: bitstring, skI: bitstring) = 
+    in(c, (Cli: host, Sess: host));
+    let skCli = if Cli = A then skA else if Cli = B then skB else skI in
+    let pkCli = pub(skCli) in
+    let skSess = if Sess = A then skA else if Sess = B then skB else skI in
+    let pkSess = pub(skSess) in
+    let K = Skey(pkCli, pkSess) in
+
+    (* Role starting *)
+    let m1 = CreateSessionRequest in
+    out(c, m1);
+
+    in(c, m2: bitstring);
+    let (SSC: bitstring, Ns2: bitstring) = m2 in
+
+    new CSC: bitstring;
+    event beginCli(Cli, Sess, (Login(pkCli, pkSess), Passwd(pkCli, pkSess)));
+    let m3 = (CSC, Login(pkCli, pkSess), Passwd(pkCli, pkSess)) in
+    out(c, m3);
+
+    in(c, m4: bitstring);
+    if m4 <> ActivateSessionResponse then 0.
+
+
+let sess(skA: bitstring, skB: bitstring, skI: bitstring) = 
+    in(c, (Cli: host, Sess: host));
+    let skCli = if Cli = A then skA else if Cli = B then skB else skI in
+    let pkCli = pub(skCli) in
+    let skSess = if Sess = A then skA else if Sess = B then skB else skI in
+    let pkSess = pub(skSess) in
+    let K = Skey(pkCli, pkSess) in
+
+    (* Role starting *)
+    in(c, (em1: bitstring, sigM1: bitstring));
+    let m1 = sdec(em1, K) in
+    if verify(m1, sigM1, pkCli) <> true then 0 else
+    if m1 <> CreateSessionRequest then 0 else
+
+    new SSC: bitstring;
+    new Ns2: bitstring;
+    let m2 = (SSC, Ns2) in
+    out(c, (senc(m2, K), sign(m2, skSess)));
+
+    in(c, (em3: bitstring, sigM3: bitstring));
+    let m3 = sdec(em3, K) in
+    if verify(m3, sigM3, pkCli) <> true then 0 else
+    let (=Login(pkCli, pkSess), =Passwd(pkCli, pkSess)) = m3 in
+    event endSrv(Cli, Sess, (Login(pkCli, pkSess), Passwd(pkCli, pkSess)));
+    
+    let m4 = ActivateSessionResponse in
+    out(c, (senc(m4, K), sign(m4, skSess))).
+
+
+process
+    let pkA = pub(skA) in out(c, pkA);
+    let pkB = pub(skB) in out(c, pkB);
+
+    new skI: bitstring;
+    let pkI = pub(skI) in out(c, (pkI, skI));
+
+    out(c, Skey(pkI, pkA));
+    out(c, Skey(pkI, pkB));
+    out(c, Skey(pkA, pkI));
+    out(c, Skey(pkB, pkI));
+
+    (!client(skA, skB, skI) |
+     !sess(skA, skB, skI)
+    )
