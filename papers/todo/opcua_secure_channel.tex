@@ -6,26 +6,26 @@
                 \setlength{\envinstdist}{1.5\envinstdist}
                 \setlength{\instdist}{3.5\instdist}
 
-                \declinst{cli}{OpcUaClient}{}
-                \declinst{disco}{DiscoreryEndpoint}{}
-                \declinst{sess}{SessionEndpoint}{}
+                \declinst{cli}{C}{}
+                \declinst{intruder}{DiscoreryEndpoint}{}
+                \declinst{sess}{S}{}
 
-                \mess{GetEndpointsRequest}[b]{cli}{disco}
+                \mess{GetEndpointsRequest}[b]{cli}{intruder}
                 \nextlevel[1.5]
 
-                \mess{SP, \smname, UP, pk(SessionEndpoint)}[b]{disco}{cli}
+                \mess{SP, \smname, UP, pk(S)}[b]{intruder}{cli}
                 \nextlevel[1.5]
                 
-                \action*{Validates pk(SessionEndpoint)}{cli}
+                \action*{Validates pk(S)}{cli}
                 \nextlevel[2]
                 
                 \action*{Generates N$_{C}$}{cli}
                 \nextlevel[2]
 
-                \mess{pk(OpcUaClient), \sm{SP, $g^{N_{C}}$}{pk(SessionEndpoint)}{sk(OpcUaClient)}}[b]{cli}{sess}
+                \mess{pk(C), \sm{SP, $g^{N_{C}}$}{pk(S)}{sk(C)}}[b]{cli}{sess}
                 \nextlevel[2]
 
-                \action*{Validates pk(OpcUaClient) }{sess}
+                \action*{Validates pk(C) }{sess}
                 \nextlevel[2]
 
                 \action*{Generates N$_{S}$ }{sess}
@@ -36,7 +36,7 @@
                     \nextlevel[2]
                 }
 
-                \mess{\sm{$g^{N_{S}}$}{pk(OpcUaClient)}{sk(SessionEndpoint)}}[b]{sess}{cli}
+                \mess{\sm{$g^{N_{S}}$}{pk(C)}{sk(S)}}[b]{sess}{cli}
                 \nextlevel[2]
 
                 \ifsmnotnone{%
@@ -58,26 +58,26 @@
                 \setlength{\envinstdist}{1.5\envinstdist}
                 \setlength{\instdist}{3.5\instdist}
 
-                \declinst{cli}{OpcUaClient}{}
-                \declinst{disco}{DiscoreryEndpoint}{}
-                \declinst{sess}{SessionEndpoint}{}
+                \declinst{cli}{C}{}
+                \declinst{intruder}{DiscoreryEndpoint}{}
+                \declinst{sess}{S}{}
 
-                \mess{GetEndpointsRequest}[b]{cli}{disco}
+                \mess{GetEndpointsRequest}[b]{cli}{intruder}
                 \nextlevel[1.5]
 
-                \mess{SP, \smname, UP, pk(SessionEndpoint)}[b]{disco}{cli}
+                \mess{SP, \smname, UP, pk(S)}[b]{intruder}{cli}
                 \nextlevel[1.5]
                 
-                \action*{Validates pk(SessionEndpoint)}{cli}
+                \action*{Validates pk(S)}{cli}
                 \nextlevel[2]
                 
                 \action*{Generates N$_{C}$}{cli}
                 \nextlevel[2]
 
-                \mess{pk(OpcUaClient), \sm{SP, $g^{N_{C}}$}{pk(SessionEndpoint)}{sk(OpcUaClient)}}[b]{cli}{sess}
+                \mess{pk(C), \sm{SP, $g^{N_{C}}$}{pk(S)}{sk(C)}}[b]{cli}{sess}
                 \nextlevel[2]
 
-                \action*{Validates pk(OpcUaClient) }{sess}
+                \action*{Validates pk(C) }{sess}
                 \nextlevel[2]
 
                 \action*{Generates N$_{S}$ }{sess}
@@ -88,7 +88,7 @@
                     \nextlevel[2]
                 }
 
-                \mess{\sm{$g^{N_{S}}$}{pk(OpcUaClient)}{sk(SessionEndpoint)}}[b]{sess}{cli}
+                \mess{\sm{$g^{N_{S}}$}{pk(C)}{sk(S)}}[b]{sess}{cli}
                 \nextlevel[2]
 
                 \ifsmnotnone{%
@@ -110,26 +110,26 @@
                 \setlength{\envinstdist}{1.5\envinstdist}
                 \setlength{\instdist}{3.5\instdist}
 
-                \declinst{cli}{OpcUaClient}{}
-                \declinst{disco}{DiscoreryEndpoint}{}
-                \declinst{sess}{SessionEndpoint}{}
+                \declinst{cli}{C}{}
+                \declinst{intruder}{DiscoreryEndpoint}{}
+                \declinst{sess}{S}{}
 
-                \mess{GetEndpointsRequest}[b]{cli}{disco}
+                \mess{GetEndpointsRequest}[b]{cli}{intruder}
                 \nextlevel[1.5]
 
-                \mess{SP, \smname, UP, pk(SessionEndpoint)}[b]{disco}{cli}
+                \mess{SP, \smname, UP, pk(S)}[b]{intruder}{cli}
                 \nextlevel[1.5]
                 
-                \action*{Validates pk(SessionEndpoint)}{cli}
+                \action*{Validates pk(S)}{cli}
                 \nextlevel[2]
                 
                 \action*{Generates N$_{C}$}{cli}
                 \nextlevel[2]
 
-                \mess{pk(OpcUaClient), \sm{SP, $g^{N_{C}}$}{pk(SessionEndpoint)}{sk(OpcUaClient)}}[b]{cli}{sess}
+                \mess{pk(C), \sm{SP, $g^{N_{C}}$}{pk(S)}{sk(C)}}[b]{cli}{sess}
                 \nextlevel[2]
 
-                \action*{Validates pk(OpcUaClient) }{sess}
+                \action*{Validates pk(C) }{sess}
                 \nextlevel[2]
 
                 \action*{Generates N$_{S}$ }{sess}
@@ -140,7 +140,7 @@
                     \nextlevel[2]
                 }
 
-                \mess{\sm{$g^{N_{S}}$}{pk(OpcUaClient)}{sk(SessionEndpoint)}}[b]{sess}{cli}
+                \mess{\sm{$g^{N_{S}}$}{pk(C)}{sk(S)}}[b]{sess}{cli}
                 \nextlevel[2]
 
                 \ifsmnotnone{%
@@ -155,8 +155,8 @@
 
 Objectives:
 \begin{enumerate}
-    \item\label{item:sc_sec_cli} Secrecy of $K_{cli}$ shared between OpcUaClient and SessionEndpoint
-    \item\label{item:sc_sec_srv} Secrecy of $K_{src}$ shared between OpcUaClient and SessionEndpoint
+    \item\label{item:sc_sec_cli} Secrecy of $K_{cli}$ shared between C and S
+    \item\label{item:sc_sec_srv} Secrecy of $K_{src}$ shared between C and S
     \item\label{item:sc_auth_cli} Authentication on $g^{Nc}$
     \item\label{item:sc_auth_srv} Authentication on $g^{Ns}$
 \end{enumerate}
@@ -169,7 +169,7 @@ Objectives:
         \hline
         \multicolumn{2}{|c}{Security modes} & \multicolumn{4}{|c|}{Objectives} \\
         \hline
-        Client          & SessionEndpoint   & \ref{item:sc_sec_cli} & \ref{item:sc_sec_srv} & \ref{item:sc_auth_cli}    & \ref{item:sc_auth_srv}    \\
+        Client          & S   & \ref{item:sc_sec_cli} & \ref{item:sc_sec_srv} & \ref{item:sc_auth_cli}    & \ref{item:sc_auth_srv}    \\
         \hline
         None            & None              & \UNSAFE{}               & \UNSAFE{}               & \UNSAFE{}                   & \UNSAFE{}                   \\ 
         \hline
@@ -192,6 +192,53 @@ Objectives:
     \end{tabular}
     \caption{Results}
 \end{table}
+
+Exemple d'attaque :
+\begin{figure}[h!]
+    \renewcommand{\smname}{\smse}
+    \resizebox{\textwidth}{!}{
+        \begin{postscript}
+            \begin{msc}{Secure channel creation}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{3.5\instdist}
+
+                \declinst{cli}{C}{}
+                \declinst{intruder}{I}{}
+                \declinst{sess}{S}{}
+
+                \mess{GetEndpointsRequest}[b]{cli}{intruder}
+                \nextlevel[1.5]
+
+                \mess{SP, \smname, UP, pk(I)}[b]{intruder}{cli}
+                \nextlevel[1.5]
+                
+                \action*{Validates pk(I)}{cli}
+                \nextlevel[2]
+                
+                \action*{Generates N$_{C}$}{cli}
+                \nextlevel[2]
+
+                \mess{pk(C), \sm{SP, $g^{N_{C}}$}{pk(I)}{sk(C)}}[b]{cli}{intruder}
+                \mess{pk(C), \sm{SP, $g^{N_{C}}$}{pk(S)}{sk(C)}}[b]{intruder}{sess}
+                \nextlevel[2]
+
+                \action*{Validates pk(C) }{sess}
+                \nextlevel[2]
+
+                \action*{Generates N$_{S}$ }{sess}
+                \nextlevel[2]
+
+                \ifsmnotnone{%
+                    \action*{$K_{srv}$ = $(g^{N_{C}})^{N_{S}}$ }{sess}
+                    \nextlevel[2]
+                }
+
+                \mess{\sm{$g^{N_{S}}$}{pk(C)}{sk(S)}}[b]{sess}{intruder}
+            \end{msc}
+        \end{postscript}
+    }
+    \caption{OPC-UA Secure Channel SignAndEncrypt}
+\end{figure}
 
 NB: Dans la plus part des attaques, le client parle avec un autre client, problème ?\\
 L'open secure channel request devrait contenir la pk du serveur dans la signature.
