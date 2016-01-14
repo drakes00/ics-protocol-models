@@ -68,10 +68,9 @@ let client(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) =
 
     new SPc: bitstring;
     new Nc: bitstring;
-    let m1 = (pkSess, SPc, exp(g, Nc)) in
-    out(c, (pkCli, m1));
+    out(c, (pkCli, (Sess, SPc, exp(g, Nc))));
 
-    in(c, (=pkCli, PartS: bitstring));
+    in(c, (=Cli, PartS: bitstring));
 
     let Kcli = exp(PartS, Nc) in
     out(c, senc(mCli(pkCli, pkSess), Kcli)).
@@ -89,7 +88,7 @@ let disco(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) =
 
     new SPs: bitstring;
     new UP: bitstring;
-    out(c, (SPs, Sign, UP, pkSess)).
+    out(c, (SPs, None, UP, pkSess)).
 
 
 let sess(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) = 
@@ -100,13 +99,10 @@ let sess(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) =
     let pkDisco = if Disco = A then pub(skA) else if Disco = B then pub(skB) else if Disco = C then pub(skC) else pub(skI) in
 
     (* Role starting *)
-    in(c, (=pkCli, m1: bitstring, sigM1: bitstring));
-    if verify(m1, sigM1, pkCli) <> true then 0 else
-    let (=pkSess, SPc: bitstring, PartC: bitstring) = m1 in
+    in(c, (=pkCli, =Sess, SPc: bitstring, PartC: bitstring));
 
     new Ns: bitstring;
-    let m2 = (pkCli, exp(g, Ns)) in
-    out(c, (m2, sign(m2, skSess)));
+    out(c, (Cli, exp(g, Ns)));
 
     let Ksrv = exp(PartC, Ns) in
     out(c, senc(mSrv(pkCli, pkSess), Ksrv)).
