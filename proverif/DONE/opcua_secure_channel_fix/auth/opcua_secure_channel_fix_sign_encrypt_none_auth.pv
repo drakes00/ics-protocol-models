@@ -67,16 +67,18 @@ let client(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) =
     (* Role starting *)
     out(c, GetEndpointRequest);
 
-    in(c, (SPs: bitstring, =None, UP: bitstring, =pkSess));
+    in(c, (SPs: bitstring, =SignAndEncrypt, UP: bitstring, =pkSess));
 
     new SPc: bitstring;
     new Nc: bitstring;
     let gNc = exp(g, Nc) in
-    let m1 = (SPc, gNc) in
-    out(c, (pkCli, m1));
+    let m1 = (Sess, SPc, gNc) in
     event beginCli(Cli, Sess, gNc);
+    out(c, (pkCli, enc(m1, pkSess), sign(m1, skCli)));
 
-    in(c, PartS: bitstring);
+    in(c, (ePartS: bitstring, sigPartS: bitstring));
+    let (=Cli, PartS: bitstring) = dec(ePartS, skCli) in
+    if verify((Cli, PartS), sigPartS, pkSess) <> true then 0 else
     event endCli(Sess, Cli, PartS).
 
 
@@ -92,7 +94,7 @@ let disco(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) =
 
     new SPs: bitstring;
     new UP: bitstring;
-    out(c, (SPs, Sign, UP, pkSess)).
+    out(c, (SPs, None, UP, pkSess)).
 
 
 let sess(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) = 
@@ -103,16 +105,15 @@ let sess(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) =
     let pkDisco = if Disco = A then pub(skA) else if Disco = B then pub(skB) else if Disco = C then pub(skC) else pub(skI) in
 
     (* Role starting *)
-    in(c, (=pkCli, m1: bitstring, sigM1: bitstring));
-    if verify(m1, sigM1, pkCli) <> true then 0 else
-    let (SPc: bitstring, PartC: bitstring) = m1 in
+    in(c, (=pkCli, m1: bitstring));
+    let (=Sess, SPc: bitstring, PartC: bitstring) = m1 in
     event endSrv(Cli, Sess, PartC);
 
     new Ns: bitstring;
     let gNs = exp(g, Ns) in
-    let m2 = gNs in
-    out(c, (m2, sign(m2, skSess)));
-    event beginSrv(Sess, Cli, gNs).
+    let m2 = (Cli, gNs) in
+    event beginSrv(Sess, Cli, gNs);
+    out(c, m2).
 
 
 process
