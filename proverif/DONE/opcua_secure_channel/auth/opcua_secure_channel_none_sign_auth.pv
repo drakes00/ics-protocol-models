@@ -73,8 +73,8 @@ let client(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) =
     new Nc: bitstring;
     let gNc = exp(g, Nc) in
     let m1 = (SPc, gNc) in
-    out(c, (pkCli, m1));
     event beginCli(Cli, Sess, gNc);
+    out(c, (pkCli, m1));
 
     in(c, PartS: bitstring);
     event endCli(Sess, Cli, PartS).
@@ -111,8 +111,8 @@ let sess(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) =
     new Ns: bitstring;
     let gNs = exp(g, Ns) in
     let m2 = gNs in
-    out(c, (m2, sign(m2, skSess)));
-    event beginSrv(Sess, Cli, gNs).
+    event beginSrv(Sess, Cli, gNs);
+    out(c, (m2, sign(m2, skSess))).
 
 
 process
