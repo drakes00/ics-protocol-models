@@ -2,7 +2,7 @@
 %\documentclass{IEEEtran}
 
 %\usepackage{fullpage}
-\usepackage[left=3.8cm,right=3.8cm]{geometry}
+%\usepackage[left=3.8cm,right=3.8cm]{geometry}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -59,7 +59,7 @@
 \newcommand{\proverif}{ProVerif}
 \newcommand{\aramis}{ARAMIS}
 
-\title{La sécurité informatique dans les systèmes d'information industriels}
+\title{Filtrage et vérification de flux métiers dans les systèmes industriels}
 
 \author{
     Maxime Puys\\
@@ -77,7 +77,7 @@
 \begin{abstract}
     De plus en plus d’attaques informatiques contre les systèmes industriels
     sont présentées par les médias.
-    Ces systèmes tendent à devenir géographiquement distribués et communiquer
+    Ces systèmes tendent à devenir géographiquement distribués et à communiquer
     via des réseaux vulnérables tels qu’Internet.
     Depuis son apparition, l’informatique industrielle a toujours été
     physiquement isolée du reste du monde.
@@ -87,16 +87,16 @@
     Aujourd'hui, il apparaît que l'industrie doit améliorer sa sécurité
     informatique pour s'accorder avec l'état-de-l'art afin d'éviter des
     attaques massives telles que Stuxnet.
-    Une des difficulté en terme de sécurité est de combiner les propriétés des
+    Une des difficultés en terme de sécurité est de combiner les propriétés des
     protocoles de communication et les attendus métiers en terme de flux.
-    Pour ce faire, nous regardons comment filtrer les messages en tenant compte
-    des aspects métiers.
-    Ensuite, nous nous intéressons à la vérification formelle des propriétés
-    des protocoles de communication industriels.
-    Enfin nous proposons un modèle pour décrire les attaques informatiques
-    contre les systèmes industriels en fonction de paramètres tels que les
-    objectifs, les capacités des attaquants et leur positions dans une
-    architecture réseau.
+    %Pour ce faire, nous regardons comment filtrer les messages en tenant compte
+    %des aspects métiers.
+    %Ensuite, nous nous intéressons à la vérification formelle des propriétés
+    %des protocoles de communication industriels.
+    %Enfin nous proposons un modèle pour décrire les attaques informatiques
+    %contre les systèmes industriels en fonction de paramètres tels que les
+    %objectifs, les capacités des attaquants et leur positions dans une
+    %architecture réseau.
 \end{abstract}
 
 \section{Introduction}
@@ -121,7 +121,7 @@ d'énergie, les barrages ou le nucléaire et il apparait que leur protection
 contre les attaques informatiques doit se mettre à l'état de l'art afin d'éviter
 des attaques massives telles que Stuxnet \cite{Lan11}.
 
-Une des difficulté en terme de sécurité est de combiner les propriétés des
+Une des difficultés en terme de sécurité est de combiner les propriétés des
 protocoles de communication et les attendus métiers en terme de flux.
 Pour ce faire, la Section \ref{sec:aramis} expliquera comment filtrer les
 messages en tenant compte des aspects métiers.
@@ -134,14 +134,15 @@ architecture réseau.
 
 \section{Filtrage des communications}\label{sec:aramis}
 
-Un premier axe repose sur le projet \aramis{} \cite{aramis} qui consiste à
-cloisonner physiquement les réseaux et à filtrer les échanges pour rejeter tout
-flux identifié comme non autorisé, donc potentiellement malveillant.
+Un premier axe de notre travail se déroule dans le cadre du projet \aramis{}
+\cite{aramis} qui vise à proposer un dispositif permettant de cloisonner
+physiquement les réseaux et de filtrer les échanges pour rejeter tout flux
+identifié comme non autorisé, donc potentiellement malveillant.
 La spécificité de ce projet est de fournir simultanément ces deux
 fonctionnalités dans un même dispositif robuste, dont l'ajout n'impacte pas le
 système existant.
-Ceci, tout en le protégeant d'agressions qu'elles soient issues du monde
-extérieur ou internes.
+%Ceci, tout en le protégeant d'agressions qu'elles soient issues du monde
+%extérieur ou internes.
 %La figure \ref{fig:aramis} montre le placement du dispositif \aramis{} dans un
 %système industriel.
 Les communications se résument à des requêtes envoyées par des clients vers des
@@ -149,9 +150,9 @@ systèmes SCADA (système de contrôle et d'acquisition de données à grande
 échelle).
 Ces requêtes sont principalement des lectures ou des écritures sur des variables
 afin de surveiller l'état du processus.
-La spécificité des messages nous permet donc d'effectuer un filtrage applicatif
-prenant en compte les besoins liés au corps de métier du système industriel à
-protéger.
+Cette simplicité des messages nous permet donc d'effectuer un filtrage
+applicatif prenant en compte les besoins liés au corps de métier du système
+industriel à protéger.
 De plus, les systèmes industriels acceptant une latence maximale de l'ordre du
 centième de seconde, le filtrage doit être pensé pour une efficacité maximale.
 
@@ -170,7 +171,7 @@ centième de seconde, le filtrage doit être pensé pour une efficacité maximal
 %Ces communications pouvant être attaquées soit en espionnant le trafic, soit en
 %le modifiant,
 Il apparait depuis plusieurs décennies que la preuve formelle de
-la sécurité de ces protocoles est un enjeu majeur.
+la sécurité des protocoles de communication est un enjeu majeur.
 Un exemple connu est {\em mi.TLS} \cite{BFKPS13}, une implémentation prouvée
 du protocole TLS \cite{DR08} servant par exemple au paiement en ligne.
 %Les traveaux d'analyse de protocoles ont commencé avec la contribution de
@@ -194,10 +195,10 @@ et le {\em secret}.
 %laquelle il n'est pas possible de déchiffrer un message sans la chef de
 %chiffrement ou d'usurper une signature.
 
-Cependant, les protocoles de communication des systèmes industriels n'ont jamais
-été vérifiés de cette façon.
-Nous souhaitons donc tester formellement la sécurité de ces protocoles à l'aide
-d'outils de vérification de protocoles.
+Les protocoles de communication des systèmes industriels tels que OPC-UA n'ont
+jamais été vérifiés de cette façon.
+Nous souhaitons donc tester formellement la sécurité de ces protocoles.% à l'aide
+%d'outils de vérification de protocoles.
 %En violant le secret, un intrus pourrait compromettre une clef de chiffrement,
 %ce qui révèlerait le contenu des communication.
 %D'autre part, en attaquant l'autentification, un intrus pourrait se faire passer
@@ -205,25 +206,26 @@ d'outils de vérification de protocoles.
 %pour un client aux yeux d'un serveur.
 %Ce scénario gravissime autoriserait l'intrus à lancer des commandes ayant un
 %réel impact sur le monde extérieur.
-Les défis de ce type d'approche appliquée aux protocoles industriels viennent
-de la particularité des propriétés de sécurité à considérer qui demandent une
-modélisation adaptée des protocoles.
-Par exemple, vérifier l'intégrité du flux stipulant que les messages reçu par
-un participant sont exactement ceux envoyés par un autre en tenant compte de
-l'ordre.
+La difficulté principale d'appliquer ce type d'approche aux protocoles
+industriels vient de la particularité des propriétés de sécurité à considérer
+qui demandent une modélisation adaptée des protocoles.
+Par exemple, une propriété importante est l'intégrité du flux stipulant que les
+messages reçu par un participant sont exactement ceux envoyés par un autre en
+tenant compte de l'ordre.
 
 \section{Modèles d'attaques}\label{sec:models}
 
-Enfin, nous souhaitons tirer parti des travaux sur les méthodes d'analyse
-de risques telles que EBIOS \cite{EBIOS} et MEHARI \cite{MEHARI}.
-Ces méthodes servent à générer automatiquement des scénarios d'attaques en
-fonction des objectifs des attaquants et des biens que l'on souhaite protéger.
-Comme illustré dans la Figure \ref{fig:models}, nous proposons une modélisation
-des attaques informatiques sur les systèmes industriels en fonction du placement
-des attaquants dans l'architecture réseau d'une part.
-D'autre part nous considérons les capacité de nuisance réelles des attaquants
-dépendant des éventuelles failles de sécurité des protocoles de communication et
-de leur exploitations possibles.
+%Enfin, nous souhaitons tirer parti des travaux sur les méthodes d'analyse
+%de risques telles que EBIOS \cite{EBIOS} et MEHARI \cite{MEHARI}.
+%Ces méthodes servent à générer automatiquement des scénarios d'attaques en
+%fonction des objectifs des attaquants et des biens que l'on souhaite protéger.
+Nous souhaitons mettre en place un modèle générique permettant de produire des
+scénarios d'attaques informatiques contre les systèmes industriels.
+Comme illustré dans la Figure \ref{fig:models}, cette approche tient compte de
+l'architecture réseau et des objectifs des attaquants d'une part.
+D'autre part nous considérons leurs capacités de nuisance réelles dépendant des
+éventuelles failles de sécurité des protocoles de communication et de leur
+exploitations possibles.
 
 \begin{figure}[htb]
     \centering
@@ -234,7 +236,7 @@ de leur exploitations possibles.
     \label{fig:models}
 \end{figure}
 
-En suite, à l'aide d'une approche déductive tenant compte de l’analyse métier
+Ensuite, à l'aide d'une approche déductive tenant compte de l’analyse métier
 d’un système industriel nous calculons s'il existe une configuration où un
 attaquant, positionné à un endroit de l'architecture, avec des capacités
 dépendant des propriétés de sécurité des protocoles de communication pourrait
@@ -251,9 +253,9 @@ Sous la direction de Marie-Laure Potet (Prof. Grenoble INP) et Jean-Louis Roch
 (MCF. Grenoble INP), il travaille sur la sécurité informatique dans les
 systèmes d'information industriels.
 Diplômé en 2014 du {\em Master Sécurité, Audit et Informatique Légale} de
-l'Université Grenoble Alpes, il a partcipé pendant deux ans à des recherches sur
-la sécurité des cartes-à-puce contre les attaques par fautes dans le laboratoire
-Verimag et l'entreprise SAFRAN Morpho.
+l'Université Grenoble Alpes, il a participé pendant deux ans à des recherches
+sur la sécurité des cartes à puce contre les attaques par fautes dans le
+laboratoire Verimag et l'entreprise SAFRAN Morpho.
 Intéressé par les méthodes formelles dans le domaine de la sécurité, il
 participe à les intégrer dans les projets concrets des industriels.
 
