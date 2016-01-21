@@ -1,0 +1,24 @@
+Process:
+(
+    {1}in(cAO, m1: bitstring);
+    {2}in(cBO, m2: bitstring);
+    {3}if (m1 = m2) then
+        0
+    else
+        {4}event different(m1,m2)
+) | (
+    {5}out(cAO, m);
+    {6}out(c, enc(k,m))
+) | (
+    {7}in(c, y_31: bitstring);
+    {8}out(cBO, dec(k,y_31))
+)
+
+-- Query not event(different(x_32,m[]))
+Completing...
+Starting query not event(different(x_32,m[]))
+RESULT not event(different(x_32,m[])) is true.
+-- Query not event(different(m[],x_168))
+Completing...
+Starting query not event(different(m[],x_168))
+RESULT not event(different(m[],x_168)) is true.

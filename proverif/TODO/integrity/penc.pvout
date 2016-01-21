@@ -1,0 +1,69 @@
+Process:
+{1}out(c, pub(skB));
+(
+    {2}in(cAO, m1: bitstring);
+    {3}in(cBO, m2: bitstring);
+    {4}if (m1 = m2) then
+        0
+    else
+        {5}event different(m1,m2)
+) | (
+    {6}out(cAO, m);
+    {7}out(c, enc(pub(skB),m))
+) | (
+    {8}in(c, y_31: bitstring);
+    {9}out(cBO, dec(skB,y_31))
+)
+
+-- Query not event(different(x_32,m[]))
+Completing...
+Starting query not event(different(x_32,m[]))
+RESULT not event(different(x_32,m[])) is true.
+-- Query not event(different(m[],x_188))
+Completing...
+Starting query not event(different(m[],x_188))
+goal reachable: x_337 <> m[] && attacker(x_337) -> end(different(m[],x_337))
+
+1. The message m[] may be sent on channel cAO[] at output {6}.
+mess(cAO[],m[]).
+
+2. We assume as hypothesis that
+attacker(x_344).
+
+3. The message pub(skB[]) may be sent to the attacker at output {1}.
+attacker(pub(skB[])).
+
+4. By 3, the attacker may know pub(skB[]).
+By 2, the attacker may know x_344.
+Using the function enc the attacker may obtain enc(pub(skB[]),x_344).
+attacker(enc(pub(skB[]),x_344)).
+
+5. The message enc(pub(skB[]),x_344) that the attacker may have by 4 may be received at input {8}.
+So the message x_344 may be sent on channel cBO[] at output {9}.
+mess(cBO[],x_344).
+
+6. The message m[] that may be sent on channel cAO[] by 1 may be received at input {2}.
+The message x_344 that may be sent on channel cBO[] by 5 may be received at input {3}.
+We have m[] <> x_344.
+So event different(m[],x_344) may be executed at {5}.
+end(different(m[],x_344)).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(c, pub(skB)) at {1}
+
+out(cAO, m) at {6} received at {2}
+
+out(c, enc(pub(skB),m)) at {7}
+
+in(c, enc(pub(skB),a)) at {8}
+
+out(cBO, a) at {9} received at {3}
+
+event(different(m,a)) at {5}
+
+The event different(m,a) is executed.
+A trace has been found.
+RESULT not event(different(m[],x_188)) is false.
