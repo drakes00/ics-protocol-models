@@ -1,0 +1,119 @@
+\modbus does not provide any security by default.
+A message contains an applicative header, a function code and data.
+Thus a modbus message can by seen represented as:
+
+\begin{figure}[htb]
+    \centering
+    \renewcommand{\smname}{\smn}
+    \resizebox{.75\textwidth}{!}{
+        \begin{postscript}
+            \begin{msc}{\modbus}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{4\instdist}
+
+                \declinst{cli}{C}{}
+                \declinst{srv}{S}{}
+
+                \mess{\sm{Header$_1$, Fc$_1$, Data$_1$}{}{skC}}[b]{cli}{srv}
+                \nextlevel[1.5]
+
+                \mess{\sm{Header$_2$, Fc$_2$, Data$_2$}{}{skS}}[b]{srv}{cli}
+                \nextlevel[1]
+            \end{msc}
+        \end{postscript}
+    }
+    \caption{\modbus request and response}
+    \label{fig:modbus_none}
+\end{figure}
+
+However in \cite{FCMT09}, Fovino et al, proposed a way to secure \modbus using
+classical cryptographic primitives such as hash function and digital signatures.
+
+\begin{figure}[htb]
+    \centering
+    \renewcommand{\smname}{\sms}
+    \resizebox{.8\textwidth}{!}{
+        \begin{postscript}
+            \begin{msc}{\modbus}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{4.5\instdist}
+
+                \declinst{cli}{C}{}
+                \declinst{srv}{S}{}
+
+                \mess{\sm{TS$_1$, Header$_1$, Fc$_1$, Data$_1$}{}{skC}}[b]{cli}{srv}
+                \nextlevel[1.5]
+
+                \mess{\sm{TS$_2$, Header$_2$, Fc$_2$, Data$_2$}{}{skS}}[b]{srv}{cli}
+                \nextlevel[1]
+            \end{msc}
+        \end{postscript}
+    }
+    \caption{Secure \modbus request and response}
+    \label{fig:modbus_fix}
+\end{figure}
+
+According to their proposition, integrity is provided using a secure hashing
+function.
+Authentication is guaranted by signing the entire message with a digital public
+key signature scheme.
+In addition, they added a timestamp information to protect against replay
+attacks.
+As discrete time cannot be modelised using protocol verification tools (\TODO
+Pascal ok ?) we abstract this counter-measure.
+
+\subsection{Modelisation}
+
+\modbus has barely any interaction between the client and the server.
+The client only sends a request and the server answers a response which can
+sometimes be deduced from the request (\eg for WRITE requests).
+However, in the general case the response and the request can be modelised as
+two distinct messages.
+
+\subsection{Results}
+
+As neither default \modbus nor the version of \cite{FCMT09} provides secrecy,
+all messages can be accessed by the intruder.
+
+\begin{table}[htb]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Protocol        &  Intruder Model   & Secrecy   & Integrity & Authentication    \\
+        \hline
+        \modbus         & NonIdent          & \UNSAFE   & \UNSAFE   & \UNSAFE           \\
+        \hline
+        \modbus         & Ident             & \UNSAFE   & \UNSAFE   & \UNSAFE           \\
+        \hline
+        \cite{FCMT09}   & NonIdent          & \UNSAFE   & \UNSAFE   & \UNSAFE           \\
+        \hline
+        \cite{FCMT09}   & Ident             & \UNSAFE   & \SAFE     & \SAFE             \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Attack on integrity with secure modbus and model NonIdent:
+
+\begin{figure}[htb]
+    \centering
+    \renewcommand{\smname}{\sms}
+    \resizebox{.8\textwidth}{!}{
+        \begin{postscript}
+            \begin{msc}{\modbus}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{1.5\instdist}
+
+                \declinst{cli}{C}{}
+                \declinst{i1}{I$_1$}{}
+                \declinst{i2}{I$_2$}{}
+                \declinst{srv}{S}{}
+
+                \mess{\sm{m$_1$}{}{skC}}[b]{cli}{i1}
+                \mess{\sm{m$_2$}{}{skI$_2$}}[b]{i2}{srv}
+                \nextlevel[1]
+            \end{msc}
+        \end{postscript}
+    }
+    \caption{Secure \modbus attack}
+    \label{fig:modbus_fix}
+\end{figure}

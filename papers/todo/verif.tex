@@ -23,8 +23,8 @@
 \makeatother
 
 \newcommand{\dosmnone}[3]{#1}
-\newcommand{\dosmsign}[3]{#1, $\left\{\mbox{#1}\right\}_{\mbox{#3}}$}
-\newcommand{\dosmsignandencrypt}[3]{$\left\{\mbox{#1}\right\}_{\mbox{#2}}$, $\left\{\mbox{#1}\right\}_{\mbox{#3}}$}
+\newcommand{\dosmsign}[3]{#1, $\left\{\mbox{h(#1)}\right\}_{\mbox{#3}}$}
+\newcommand{\dosmsignandencrypt}[3]{$\left\{\mbox{#1}\right\}_{\mbox{#2}}$, $\left\{\mbox{h(#1)}\right\}_{\mbox{#3}}$}
 
 \newcommand{\smn}{None}
 \newcommand{\sms}{Sign}
@@ -41,11 +41,27 @@
 \newcommand{\TODO}{{\color{red}\bf TODO}\xspace}
 \newcommand{\proverif}{ProVerif\xspace}
 \newcommand{\opcua}{OPC-UA\xspace}
+\newcommand{\modbus}{MODBUS\xspace}
+\newcommand{\eg}{e.g.:\xspace}
 
 \begin{document}
 
-\section{MODBUS}
-%TODO \input{modbus}
+\section{Misc}
+
+\paragraph{NonIdent} Considering a powerful intruder, anybody could play the role of the client and
+the role of the server, including the interder.
+In such model, a legitimate client could communicate with a rogue server.
+
+
+\paragraph{Ident} A more realistic model supposes that the client and the server know each other
+and would only communicate together.
+Obviously, these models are equivalent if the protocol does not provide any
+authentication method.
+Integrity only applies in this model since it abstracts hosts identity
+(integrity can be seen as a mono-session authentication).
+
+\section{\modbus}
+\input{modbus}
 
 \section{\opcua OpenSecureConversation}
 \input{opcua_secure_conv}
