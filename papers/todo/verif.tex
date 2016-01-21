@@ -5,6 +5,7 @@
 
 \usepackage{graphicx}
 \usepackage{xstring}
+\usepackage{xspace}
 
 \usepackage{auto-pst-pdf}
 \ifpdf
@@ -35,18 +36,21 @@
 \newcommand{\smname}{\smn}
 % ========== Don't touch ==========
 
-\def\UNSAFE{{\color{red!50!black} UNSAFE}}
-\def\SAFE{{\color{green!50!black} SAFE}}
+\newcommand{\UNSAFE}{{\color{red!50!black} UNSAFE}\xspace}
+\newcommand{\SAFE}{{\color{green!50!black} SAFE}\xspace}
+\newcommand{\TODO}{{\color{red}\bf TODO}\xspace}
+\newcommand{\proverif}{ProVerif\xspace}
+\newcommand{\opcua}{OPC-UA\xspace}
 
 \begin{document}
 
 \section{MODBUS}
 %TODO \input{modbus}
 
-\section{OPC-UA Secure Channel}
-\input{opcua_secure_channel}
+\section{\opcua OpenSecureConversation}
+\input{opcua_secure_conv}
 
-\section{OPC-UA Session}
+\section{\opcua OpenSession}
 \input{opcua_session}
 
 \section{Flow integrity}
