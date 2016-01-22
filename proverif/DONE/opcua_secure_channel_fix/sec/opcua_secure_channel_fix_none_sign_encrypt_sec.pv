@@ -12,6 +12,10 @@ type host.
 free A, B, C, I: host.
 
 
+(* Hash function *)
+fun h(bitstring): bitstring.
+
+
 (* Symetric key crypto *)
 fun senc(bitstring, bitstring): bitstring.
 reduc forall x: bitstring, k: bitstring ; sdec(senc(x, k), k) = x.
@@ -102,12 +106,12 @@ let sess(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) =
     (* Role starting *)
     in(c, (=pkCli, em1: bitstring, sigM1: bitstring));
     let m1 = dec(em1, skSess) in
-    if verify(m1, sigM1, pkCli) <> true then 0 else
+    if verify(h(m1), sigM1, pkCli) <> true then 0 else
     let (=Sess, SPc: bitstring, PartC: bitstring) = m1 in
 
     new Ns: bitstring;
     let m2 = (Cli, exp(g, Ns)) in
-    out(c, (enc(m2, pkCli), sign(m2, skSess)));
+    out(c, (enc(m2, pkCli), sign(h(m2), skSess)));
 
     let Ksrv = exp(PartC, Ns) in
     out(c, senc(mSrv(pkCli, pkSess), Ksrv)).

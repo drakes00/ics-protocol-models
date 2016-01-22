@@ -12,6 +12,10 @@ type host.
 free A, B, I: host.
 
 
+(* Hash function *)
+fun h(bitstring): bitstring.
+
+
 (* Symetric key crypto *)
 fun senc(bitstring, bitstring): bitstring.
 reduc forall x: bitstring, k: bitstring ; sdec(senc(x, k), k) = x.

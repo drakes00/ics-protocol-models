@@ -12,6 +12,10 @@ type host.
 free A, B, C, I: host.
 
 
+(* Hash function *)
+fun h(bitstring): bitstring.
+
+
 (* Symetric key crypto *)
 fun senc(bitstring, bitstring): bitstring.
 reduc forall x: bitstring, k: bitstring ; sdec(senc(x, k), k) = x.
@@ -69,11 +73,11 @@ let client(skA: bitstring, skB: bitstring, skC: bitstring, skI: bitstring) =
     new SPc: bitstring;
     new Nc: bitstring;
     let m1 = (SPc, exp(g, Nc)) in
-    out(c, (pkCli, enc(m1, pkSess), sign(m1, skCli)));
+    out(c, (pkCli, enc(m1, pkSess), sign(h(m1), skCli)));
 
     in(c, (ePartS: bitstring, sigPartS: bitstring));
     let PartS = dec(ePartS, skCli) in
-    if verify(PartS, sigPartS, pkSess) <> true then 0 else
+    if verify(h(PartS), sigPartS, pkSess) <> true then 0 else
 
     let Kcli = exp(PartS, Nc) in
     out(c, senc(mCli(pkCli, pkSess), Kcli)).

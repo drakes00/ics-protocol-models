@@ -11867,16 +11867,16 @@ Process:
 
 -- Query event(endCli(C[],X,N)) ==> event(beginSrv(C[],X,N))
 Completing...
-200 rules inserted. The rule base contains 77 rules. 341 rules in the queue.
-400 rules inserted. The rule base contains 93 rules. 338 rules in the queue.
-600 rules inserted. The rule base contains 93 rules. 338 rules in the queue.
-800 rules inserted. The rule base contains 60 rules. 334 rules in the queue.
-1000 rules inserted. The rule base contains 87 rules. 292 rules in the queue.
-1200 rules inserted. The rule base contains 133 rules. 270 rules in the queue.
+200 rules inserted. The rule base contains 78 rules. 341 rules in the queue.
+400 rules inserted. The rule base contains 94 rules. 338 rules in the queue.
+600 rules inserted. The rule base contains 94 rules. 338 rules in the queue.
+800 rules inserted. The rule base contains 62 rules. 334 rules in the queue.
+1000 rules inserted. The rule base contains 88 rules. 292 rules in the queue.
+1200 rules inserted. The rule base contains 133 rules. 271 rules in the queue.
 1400 rules inserted. The rule base contains 295 rules. 163 rules in the queue.
-1600 rules inserted. The rule base contains 485 rules. 20 rules in the queue.
+1600 rules inserted. The rule base contains 485 rules. 21 rules in the queue.
 Starting query event(endCli(C[],X,N)) ==> event(beginSrv(C[],X,N))
-goal reachable: attacker(N_57915) -> end(endCli(C[],B[],N_57915))
+goal reachable: attacker(N_57917) -> end(endCli(C[],B[],N_57917))
 
 1. The attacker initially knows C[].
 attacker(C[]).
@@ -11893,35 +11893,35 @@ attacker((B[],B[],C[])).
 4. The message pub(skC[]) may be sent to the attacker at output {6}.
 attacker(pub(skC[])).
 
-5. The attacker has some term UP_57942.
-attacker(UP_57942).
+5. The attacker has some term UP_57944.
+attacker(UP_57944).
 
 6. Using the function None the attacker may obtain None.
 attacker(None).
 
-7. The attacker has some term SPs_57941.
-attacker(SPs_57941).
+7. The attacker has some term SPs_57943.
+attacker(SPs_57943).
 
-8. By 7, the attacker may know SPs_57941.
+8. By 7, the attacker may know SPs_57943.
 By 6, the attacker may know None.
-By 5, the attacker may know UP_57942.
+By 5, the attacker may know UP_57944.
 By 4, the attacker may know pub(skC[]).
-Using the function 4-tuple the attacker may obtain (SPs_57941,None,UP_57942,pub(skC[])).
-attacker((SPs_57941,None,UP_57942,pub(skC[]))).
+Using the function 4-tuple the attacker may obtain (SPs_57943,None,UP_57944,pub(skC[])).
+attacker((SPs_57943,None,UP_57944,pub(skC[]))).
 
 9. We assume as hypothesis that
-attacker(N_57945).
+attacker(N_57947).
 
 10. By 2, the attacker may know B[].
-By 9, the attacker may know N_57945.
-Using the function 2-tuple the attacker may obtain (B[],N_57945).
-attacker((B[],N_57945)).
+By 9, the attacker may know N_57947.
+Using the function 2-tuple the attacker may obtain (B[],N_57947).
+attacker((B[],N_57947)).
 
 11. The message (B[],B[],C[]) that the attacker may have by 3 may be received at input {10}.
-The message (SPs_57941,None,UP_57942,pub(skC[])) that the attacker may have by 8 may be received at input {674}.
-The message (B[],N_57945) that the attacker may have by 10 may be received at input {680}.
-So event endCli(C[],B[],N_57945) may be executed at {681}.
-end(endCli(C[],B[],N_57945)).
+The message (SPs_57943,None,UP_57944,pub(skC[])) that the attacker may have by 8 may be received at input {674}.
+The message (B[],N_57947) that the attacker may have by 10 may be received at input {680}.
+So event endCli(C[],B[],N_57947) may be executed at {681}.
+end(endCli(C[],B[],N_57947)).
 
 
 A more detailed output of the traces is available with
@@ -11933,43 +11933,43 @@ out(c, pub(skB)) at {4}
 
 out(c, pub(skC)) at {6}
 
-new skI creating skI_70375 at {7}
+new skI creating skI_70377 at {7}
 
-out(c, skI_70375) at {8}
+out(c, skI_70377) at {8}
 
-in(c, (B,B,C)) at {10} in copy a_57948
+in(c, (B,B,C)) at {10} in copy a_57950
 
-out(c, GetEndpointRequest) at {673} in copy a_57948
+out(c, GetEndpointRequest) at {673} in copy a_57950
 
-in(c, (a_57946,None,a_57947,pub(skC))) at {674} in copy a_57948
+in(c, (a_57948,None,a_57949,pub(skC))) at {674} in copy a_57950
 
-new SPc_1037 creating SPc_78139 at {675} in copy a_57948
+new SPc_1037 creating SPc_78141 at {675} in copy a_57950
 
-new Nc_1038 creating Nc_78140 at {676} in copy a_57948
+new Nc_1038 creating Nc_78142 at {676} in copy a_57950
 
-event(beginCli(B,C,exp(g,Nc_78140))) at {678} in copy a_57948
+event(beginCli(B,C,exp(g,Nc_78142))) at {678} in copy a_57950
 
-out(c, (pub(skB),(C,SPc_78139,exp(g,Nc_78140)))) at {679} in copy a_57948
+out(c, (pub(skB),(C,SPc_78141,exp(g,Nc_78142)))) at {679} in copy a_57950
 
-in(c, (B,a)) at {680} in copy a_57948
+in(c, (B,a)) at {680} in copy a_57950
 
-event(endCli(C,B,a)) at {681} in copy a_57948
+event(endCli(C,B,a)) at {681} in copy a_57950
 
 The event endCli(C,B,a) is executed.
 A trace has been found.
 RESULT event(endCli(C[],X,N)) ==> event(beginSrv(C[],X,N)) is false.
--- Query event(endSrv(A[],X_78145,N_78146)) ==> event(beginCli(A[],X_78145,N_78146))
+-- Query event(endSrv(A[],X_78147,N_78148)) ==> event(beginCli(A[],X_78147,N_78148))
 Completing...
-200 rules inserted. The rule base contains 73 rules. 350 rules in the queue.
-400 rules inserted. The rule base contains 93 rules. 338 rules in the queue.
-600 rules inserted. The rule base contains 93 rules. 338 rules in the queue.
-800 rules inserted. The rule base contains 58 rules. 334 rules in the queue.
-1000 rules inserted. The rule base contains 88 rules. 291 rules in the queue.
-1200 rules inserted. The rule base contains 139 rules. 264 rules in the queue.
-1400 rules inserted. The rule base contains 301 rules. 158 rules in the queue.
-1600 rules inserted. The rule base contains 492 rules. 13 rules in the queue.
-Starting query event(endSrv(A[],X_78145,N_78146)) ==> event(beginCli(A[],X_78145,N_78146))
-goal reachable: attacker(N_131513) -> end(endSrv(A[],C[],N_131513))
+200 rules inserted. The rule base contains 74 rules. 350 rules in the queue.
+400 rules inserted. The rule base contains 94 rules. 338 rules in the queue.
+600 rules inserted. The rule base contains 94 rules. 338 rules in the queue.
+800 rules inserted. The rule base contains 60 rules. 334 rules in the queue.
+1000 rules inserted. The rule base contains 89 rules. 291 rules in the queue.
+1200 rules inserted. The rule base contains 140 rules. 264 rules in the queue.
+1400 rules inserted. The rule base contains 302 rules. 158 rules in the queue.
+1600 rules inserted. The rule base contains 492 rules. 14 rules in the queue.
+Starting query event(endSrv(A[],X_78147,N_78148)) ==> event(beginCli(A[],X_78147,N_78148))
+goal reachable: attacker(N_131517) -> end(endSrv(A[],C[],N_131517))
 
 1. The attacker initially knows C[].
 attacker(C[]).
@@ -11984,25 +11984,25 @@ Using the function 3-tuple the attacker may obtain (A[],A[],C[]).
 attacker((A[],A[],C[])).
 
 4. We assume as hypothesis that
-attacker(N_131541).
+attacker(N_131545).
 
-5. The attacker has some term SPc_131537.
-attacker(SPc_131537).
+5. The attacker has some term SPc_131541.
+attacker(SPc_131541).
 
 6. The message pub(skA[]) may be sent to the attacker at output {2}.
 attacker(pub(skA[])).
 
 7. By 6, the attacker may know pub(skA[]).
 By 1, the attacker may know C[].
-By 5, the attacker may know SPc_131537.
-By 4, the attacker may know N_131541.
-Using the function 4-tuple the attacker may obtain (pub(skA[]),C[],SPc_131537,N_131541).
-attacker((pub(skA[]),C[],SPc_131537,N_131541)).
+By 5, the attacker may know SPc_131541.
+By 4, the attacker may know N_131545.
+Using the function 4-tuple the attacker may obtain (pub(skA[]),C[],SPc_131541,N_131545).
+attacker((pub(skA[]),C[],SPc_131541,N_131545)).
 
 8. The message (A[],A[],C[]) that the attacker may have by 3 may be received at input {5969}.
-The message (pub(skA[]),C[],SPc_131537,N_131541) that the attacker may have by 7 may be received at input {6784}.
-So event endSrv(A[],C[],N_131541) may be executed at {6785}.
-end(endSrv(A[],C[],N_131541)).
+The message (pub(skA[]),C[],SPc_131541,N_131545) that the attacker may have by 7 may be received at input {6784}.
+So event endSrv(A[],C[],N_131545) may be executed at {6785}.
+end(endSrv(A[],C[],N_131545)).
 
 
 A more detailed output of the traces is available with
@@ -12014,16 +12014,16 @@ out(c, pub(skB)) at {4}
 
 out(c, pub(skC)) at {6}
 
-new skI creating skI_143971 at {7}
+new skI creating skI_143975 at {7}
 
-out(c, skI_143971) at {8}
+out(c, skI_143975) at {8}
 
-in(c, (A,A,C)) at {5969} in copy a_131544
+in(c, (A,A,C)) at {5969} in copy a_131548
 
-in(c, (pub(skA),C,a_131543,a_131542)) at {6784} in copy a_131544
+in(c, (pub(skA),C,a_131547,a_131546)) at {6784} in copy a_131548
 
-event(endSrv(A,C,a_131542)) at {6785} in copy a_131544
+event(endSrv(A,C,a_131546)) at {6785} in copy a_131548
 
-The event endSrv(A,C,a_131542) is executed.
+The event endSrv(A,C,a_131546) is executed.
 A trace has been found.
-RESULT event(endSrv(A[],X_78145,N_78146)) ==> event(beginCli(A[],X_78145,N_78146)) is false.
+RESULT event(endSrv(A[],X_78147,N_78148)) ==> event(beginCli(A[],X_78147,N_78148)) is false.

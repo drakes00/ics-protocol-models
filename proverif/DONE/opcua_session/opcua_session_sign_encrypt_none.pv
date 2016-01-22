@@ -12,6 +12,10 @@ type host.
 free A, B, I: host.
 
 
+(* Hash function *)
+fun h(bitstring): bitstring.
+
+
 (* Symetric key crypto *)
 fun senc(bitstring, bitstring): bitstring.
 reduc forall x: bitstring, k: bitstring ; sdec(senc(x, k), k) = x.
@@ -63,21 +67,21 @@ let client(skA: bitstring, skB: bitstring, skI: bitstring) =
 
     (* Role starting *)
     let m1 = CreateSessionRequest in
-    out(c, (senc(m1, K), sign(m1, skCli)));
+    out(c, (senc(m1, K), sign(h(m1), skCli)));
 
     in(c, (em2: bitstring, sigM2: bitstring));
     let m2 = sdec(em2, K) in
-    if verify(m2, sigM2, pkSess) <> true then 0 else
+    if verify(h(m2), sigM2, pkSess) <> true then 0 else
     let (SSC: bitstring, Ns2: bitstring) = m2 in
 
     new CSC: bitstring;
     event beginCli(Cli, Sess, (Login(pkCli, pkSess), Passwd(pkCli, pkSess)));
     let m3 = (CSC, Login(pkCli, pkSess), Passwd(pkCli, pkSess)) in
-    out(c, (senc(m3, K), sign(m3, skCli)));
+    out(c, (senc(m3, K), sign(h(m3), skCli)));
 
     in(c, (em4: bitstring, sigM4: bitstring));
     let m4 = sdec(em4, K) in
-    if verify(m4, sigM4, pkSess) <> true then 0 else
+    if verify(h(m4), sigM4, pkSess) <> true then 0 else
     if m4 <> ActivateSessionResponse then 0.
 
 
