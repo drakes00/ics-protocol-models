@@ -22,6 +22,7 @@ reduc forall x: bitstring, k: bitstring ; sdec(senc(x, k), k) = x.
 
 
 (* Signatures *)
+fun sk(host): bitstring.
 fun pub(bitstring): bitstring.
 fun sign(bitstring, bitstring): bitstring.
 reduc forall x:bitstring, s:bitstring, k:bitstring ; verify(x, sign(x, k), pub(k)) = true.
@@ -54,14 +55,23 @@ query attacker(Passwd(pub(skA), pub(skB))).
 query attacker(Skey(pub(skA), pub(skB))).
 query attacker(Skey(pub(skB), pub(skA))).
 
-query X: host, N: bitstring ; event(endSrv(A, X, N)) ==> event(beginCli(A, X, N)).
+query X: host, Y: host, N: bitstring ; event(endSrv(X, Y, N)) ==> event(beginCli(X, Y, N)).
 
 
-let client(skA: bitstring, skB: bitstring, skI: bitstring) = 
+let keyRegistration =
+    in(c, (X: host, Y: host));
+    let skX = if X = A then skA else if X = B then skB else sk(X) in
+    let skY = if Y = A then skA else if Y = B then skB else sk(Y) in
+    if (X, Y) = (A, B) then 0 else
+    if (X, Y) = (B, A) then 0 else
+    out(c, Skey(pub(skX), pub(skY))).
+
+
+let client(skA: bitstring, skB: bitstring) = 
     in(c, (Cli: host, Sess: host));
-    let skCli = if Cli = A then skA else if Cli = B then skB else skI in
+    let skCli = if Cli = A then skA else if Cli = B then skB else sk(Cli) in
     let pkCli = pub(skCli) in
-    let skSess = if Sess = A then skA else if Sess = B then skB else skI in
+    let skSess = if Sess = A then skA else if Sess = B then skB else sk(Sess) in
     let pkSess = pub(skSess) in
     let K = Skey(pkCli, pkSess) in
 
@@ -81,11 +91,11 @@ let client(skA: bitstring, skB: bitstring, skI: bitstring) =
     if m4 <> ActivateSessionResponse then 0.
 
 
-let sess(skA: bitstring, skB: bitstring, skI: bitstring) = 
+let sess(skA: bitstring, skB: bitstring) = 
     in(c, (Cli: host, Sess: host));
-    let skCli = if Cli = A then skA else if Cli = B then skB else skI in
+    let skCli = if Cli = A then skA else if Cli = B then skB else sk(Cli) in
     let pkCli = pub(skCli) in
-    let skSess = if Sess = A then skA else if Sess = B then skB else skI in
+    let skSess = if Sess = A then skA else if Sess = B then skB else sk(Sess) in
     let pkSess = pub(skSess) in
     let K = Skey(pkCli, pkSess) in
 
@@ -101,7 +111,7 @@ let sess(skA: bitstring, skB: bitstring, skI: bitstring) =
 
     in(c, (m3: bitstring, sigM3: bitstring));
     if verify(h(m3), sigM3, pkCli) <> true then 0 else
-    let (=Login(pkCli, pkSess), =Passwd(pkCli, pkSess)) = m3 in
+    let (CSC: bitstring, =Login(pkCli, pkSess), =Passwd(pkCli, pkSess)) = m3 in
     event endSrv(Cli, Sess, (Login(pkCli, pkSess), Passwd(pkCli, pkSess)));
     
     let m4 = ActivateSessionResponse in
@@ -112,14 +122,7 @@ process
     let pkA = pub(skA) in out(c, pkA);
     let pkB = pub(skB) in out(c, pkB);
 
-    new skI: bitstring;
-    let pkI = pub(skI) in out(c, (pkI, skI));
-
-    out(c, Skey(pkI, pkA));
-    out(c, Skey(pkI, pkB));
-    out(c, Skey(pkA, pkI));
-    out(c, Skey(pkB, pkI));
-
-    (!client(skA, skB, skI) |
-     !sess(skA, skB, skI)
+    (!client(skA, skB) |
+     !sess(skA, skB)   |
+     !keyRegistration
     )
