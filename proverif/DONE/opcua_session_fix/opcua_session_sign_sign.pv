@@ -85,7 +85,7 @@ let client(skA: bitstring, skB: bitstring) =
 
     new CSC: bitstring;
     event beginCli(Cli, Sess, (Login(skCli), Passwd(skCli)));
-    let m3 = (CSC, Login(skCli), Passwd(skCli)) in
+    let m3 = (CSC, Sess, Login(skCli), Passwd(skCli)) in
     out(c, (m3, sign(h(m3), skCli)));
 
     in(c, (m4: bitstring, sigM4: bitstring));
@@ -113,7 +113,7 @@ let sess(skA: bitstring, skB: bitstring) =
 
     in(c, (m3: bitstring, sigM3: bitstring));
     if verify(h(m3), sigM3, pkCli) <> true then 0 else
-    let (CSC: bitstring, =Login(skCli), =Passwd(skCli)) = m3 in
+    let (CSC: bitstring, =Sess, =Login(skCli), =Passwd(skCli)) = m3 in
     event endSrv(Cli, Sess, (Login(skCli), Passwd(skCli)));
     
     let m4 = ActivateSessionResponse in

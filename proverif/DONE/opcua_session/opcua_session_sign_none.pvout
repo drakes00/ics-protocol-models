@@ -8,7 +8,7 @@ Process:
     {6}in(c, (Cli: host,Sess: host));
     {7}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else fail-any)) in
     {8}let pkCli: bitstring = pub(skCli) in
-    {9}let skSess: bitstring = (if (Sess = A) then skA else (if (Sess = B) then skB else fail-any)) in
+    {9}let skSess: bitstring = (if (Sess = A) then skA else (if (Sess = B) then skB else sk(Sess))) in
     {10}let pkSess: bitstring = pub(skSess) in
     {11}let K: bitstring = Skey(skCli,skSess) in
     {12}let m1: bitstring = CreateSessionRequest in
@@ -19,8 +19,8 @@ Process:
     else
         {16}let (SSC: bitstring,Ns2: bitstring) = m2 in
         {17}new CSC: bitstring;
-        {18}event beginCli(Cli,Sess,(Login(skCli,skSess),Passwd(skCli,skSess)));
-        {19}let m3: bitstring = (CSC,Login(skCli,skSess),Passwd(skCli,skSess)) in
+        {18}event beginCli(Cli,Sess,(Login(skCli),Passwd(skCli)));
+        {19}let m3: bitstring = (CSC,Login(skCli),Passwd(skCli)) in
         {20}out(c, (m3,sign(h(m3),skCli)));
         {21}in(c, (m4: bitstring,sigM4: bitstring));
         {22}if (verify(h(m4),sigM4,pkSess) <> true) then
@@ -31,7 +31,7 @@ Process:
 ) | (
     {24}!
     {25}in(c, (Cli_59: host,Sess_60: host));
-    {26}let skCli_61: bitstring = (if (Cli_59 = A) then skA else (if (Cli_59 = B) then skB else fail-any)) in
+    {26}let skCli_61: bitstring = (if (Cli_59 = A) then skA else (if (Cli_59 = B) then skB else sk(Cli_59))) in
     {27}let pkCli_62: bitstring = pub(skCli_61) in
     {28}let skSess_63: bitstring = (if (Sess_60 = A) then skA else (if (Sess_60 = B) then skB else fail-any)) in
     {29}let pkSess_64: bitstring = pub(skSess_63) in
@@ -45,8 +45,8 @@ Process:
         {35}let m2_69: bitstring = (SSC_67,Ns2_68) in
         {36}out(c, m2_69);
         {37}in(c, m3_70: bitstring);
-        {38}let (CSC_71: bitstring,=Login(skCli_61,skSess_63),=Passwd(skCli_61,skSess_63)) = m3_70 in
-        {39}event endSrv(Cli_59,Sess_60,(Login(skCli_61,skSess_63),Passwd(skCli_61,skSess_63)));
+        {38}let (CSC_71: bitstring,=Login(skCli_61),=Passwd(skCli_61)) = m3_70 in
+        {39}event endSrv(Cli_59,Sess_60,(Login(skCli_61),Passwd(skCli_61)));
         {40}let m4_72: bitstring = ActivateSessionResponse in
         {41}out(c, m4_72)
 ) | (
@@ -61,62 +61,136 @@ Process:
             0
         else
             {48}out(c, Skey(skX,skY))
-) | (
-    {49}!
-    {50}in(c, (X_73: host,Y_74: host));
-    {51}let skX_75: bitstring = (if (X_73 = A) then skA else (if (X_73 = B) then skB else sk(X_73))) in
-    {52}let skY_76: bitstring = (if (Y_74 = A) then skA else (if (Y_74 = B) then skB else sk(Y_74))) in
-    {53}if ((X_73,Y_74) = (A,B)) then
-        0
-    else
-        {54}if ((X_73,Y_74) = (B,A)) then
-            0
-        else
-            {55}out(c, (Login(skX_75,skY_76),Passwd(skX_75,skY_76)))
 )
 
--- Query event(endSrv(X_77,Y_78,N)) ==> event(beginCli(X_77,Y_78,N))
+-- Query event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N))
 Completing...
-Starting query event(endSrv(X_77,Y_78,N)) ==> event(beginCli(X_77,Y_78,N))
-goal reachable: end(endSrv(B[],B[],(Login(skB[],skB[]),Passwd(skB[],skB[]))))
+Starting query event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N))
+goal reachable: Sess_5592 <> B[] && Sess_5592 <> A[] && begin(beginCli(B[],Sess_5592,(Login(skB[]),Passwd(skB[])))) && attacker(Sess_5592) -> end(endSrv(B[],A[],(Login(skB[]),Passwd(skB[]))))
+Abbreviations:
+CSC_5651 = CSC[sigM2 = sign(h((SSC_5633,Ns2_5634)),sk(Sess_5611)),m2 = (SSC_5633,Ns2_5634),Sess = Sess_5611,Cli = B[],!1 = @sid_5635]
+CSC_5652 = CSC[sigM2 = sign(h((SSC_5612,Ns2_5613)),sk(Sess_5611)),m2 = (SSC_5612,Ns2_5613),Sess = Sess_5611,Cli = B[],!1 = @sid_5614]
 
-1. The attacker initially knows B[].
+1. The attacker initially knows A[].
+attacker(A[]).
+
+2. The attacker initially knows B[].
 attacker(B[]).
 
-2. By 1, the attacker may know B[].
-By 1, the attacker may know B[].
-Using the function 2-tuple the attacker may obtain (B[],B[]).
-attacker((B[],B[])).
+3. By 2, the attacker may know B[].
+By 1, the attacker may know A[].
+Using the function 2-tuple the attacker may obtain (B[],A[]).
+attacker((B[],A[])).
 
-3. Using the function CreateSessionRequest the attacker may obtain CreateSessionRequest.
+4. Using the function CreateSessionRequest the attacker may obtain CreateSessionRequest.
 attacker(CreateSessionRequest).
 
-4. The message (B[],B[]) that the attacker may have by 2 may be received at input {50}.
-So the message (Login(skB[],skB[]),Passwd(skB[],skB[])) may be sent to the attacker at output {55}.
-attacker((Login(skB[],skB[]),Passwd(skB[],skB[]))).
+5. We assume as hypothesis that
+attacker(Sess_5611).
 
-5. By 4, the attacker may know (Login(skB[],skB[]),Passwd(skB[],skB[])).
-Using the function 2-proj-2-tuple the attacker may obtain Passwd(skB[],skB[]).
-attacker(Passwd(skB[],skB[])).
+6. By 2, the attacker may know B[].
+By 5, the attacker may know Sess_5611.
+Using the function 2-tuple the attacker may obtain (B[],Sess_5611).
+attacker((B[],Sess_5611)).
 
-6. By 4, the attacker may know (Login(skB[],skB[]),Passwd(skB[],skB[])).
-Using the function 1-proj-2-tuple the attacker may obtain Login(skB[],skB[]).
-attacker(Login(skB[],skB[])).
+7. By 5, the attacker may know Sess_5611.
+Using the function sk the attacker may obtain sk(Sess_5611).
+attacker(sk(Sess_5611)).
 
-7. The attacker has some term CSC_5759.
-attacker(CSC_5759).
+8. The attacker has some term Ns2_5613.
+attacker(Ns2_5613).
 
-8. By 7, the attacker may know CSC_5759.
-By 6, the attacker may know Login(skB[],skB[]).
-By 5, the attacker may know Passwd(skB[],skB[]).
-Using the function 3-tuple the attacker may obtain (CSC_5759,Login(skB[],skB[]),Passwd(skB[],skB[])).
-attacker((CSC_5759,Login(skB[],skB[]),Passwd(skB[],skB[]))).
+9. The attacker has some term SSC_5612.
+attacker(SSC_5612).
 
-9. The message (B[],B[]) that the attacker may have by 2 may be received at input {25}.
-The message CreateSessionRequest that the attacker may have by 3 may be received at input {31}.
-The message (CSC_5759,Login(skB[],skB[]),Passwd(skB[],skB[])) that the attacker may have by 8 may be received at input {37}.
-So event endSrv(B[],B[],(Login(skB[],skB[]),Passwd(skB[],skB[]))) may be executed at {39}.
-end(endSrv(B[],B[],(Login(skB[],skB[]),Passwd(skB[],skB[])))).
+10. By 9, the attacker may know SSC_5612.
+By 8, the attacker may know Ns2_5613.
+Using the function 2-tuple the attacker may obtain (SSC_5612,Ns2_5613).
+attacker((SSC_5612,Ns2_5613)).
+
+11. By 10, the attacker may know (SSC_5612,Ns2_5613).
+Using the function h the attacker may obtain h((SSC_5612,Ns2_5613)).
+attacker(h((SSC_5612,Ns2_5613))).
+
+12. By 11, the attacker may know h((SSC_5612,Ns2_5613)).
+By 7, the attacker may know sk(Sess_5611).
+Using the function sign the attacker may obtain sign(h((SSC_5612,Ns2_5613)),sk(Sess_5611)).
+attacker(sign(h((SSC_5612,Ns2_5613)),sk(Sess_5611))).
+
+13. By 10, the attacker may know (SSC_5612,Ns2_5613).
+By 12, the attacker may know sign(h((SSC_5612,Ns2_5613)),sk(Sess_5611)).
+Using the function 2-tuple the attacker may obtain ((SSC_5612,Ns2_5613),sign(h((SSC_5612,Ns2_5613)),sk(Sess_5611))).
+attacker(((SSC_5612,Ns2_5613),sign(h((SSC_5612,Ns2_5613)),sk(Sess_5611)))).
+
+14. The message (B[],Sess_5611) that the attacker may have by 6 may be received at input {6}.
+The message ((SSC_5612,Ns2_5613),sign(h((SSC_5612,Ns2_5613)),sk(Sess_5611))) that the attacker may have by 13 may be received at input {14}.
+The event beginCli(B[],Sess_5611,(Login(skB[]),Passwd(skB[]))) may be executed at {18}.
+We have Sess_5611 <> B[] & Sess_5611 <> A[].
+So the message ((CSC_5652,Login(skB[]),Passwd(skB[])),sign(h((CSC_5652,Login(skB[]),Passwd(skB[]))),skB[])) may be sent to the attacker at output {20}.
+attacker(((CSC_5652,Login(skB[]),Passwd(skB[])),sign(h((CSC_5652,Login(skB[]),Passwd(skB[]))),skB[]))).
+
+15. By 14, the attacker may know ((CSC_5652,Login(skB[]),Passwd(skB[])),sign(h((CSC_5652,Login(skB[]),Passwd(skB[]))),skB[])).
+Using the function 1-proj-2-tuple the attacker may obtain (CSC_5652,Login(skB[]),Passwd(skB[])).
+attacker((CSC_5652,Login(skB[]),Passwd(skB[]))).
+
+16. By 15, the attacker may know (CSC_5652,Login(skB[]),Passwd(skB[])).
+Using the function 3-proj-3-tuple the attacker may obtain Passwd(skB[]).
+attacker(Passwd(skB[])).
+
+17. The attacker has some term Ns2_5634.
+attacker(Ns2_5634).
+
+18. The attacker has some term SSC_5633.
+attacker(SSC_5633).
+
+19. By 18, the attacker may know SSC_5633.
+By 17, the attacker may know Ns2_5634.
+Using the function 2-tuple the attacker may obtain (SSC_5633,Ns2_5634).
+attacker((SSC_5633,Ns2_5634)).
+
+20. By 19, the attacker may know (SSC_5633,Ns2_5634).
+Using the function h the attacker may obtain h((SSC_5633,Ns2_5634)).
+attacker(h((SSC_5633,Ns2_5634))).
+
+21. By 20, the attacker may know h((SSC_5633,Ns2_5634)).
+By 7, the attacker may know sk(Sess_5611).
+Using the function sign the attacker may obtain sign(h((SSC_5633,Ns2_5634)),sk(Sess_5611)).
+attacker(sign(h((SSC_5633,Ns2_5634)),sk(Sess_5611))).
+
+22. By 19, the attacker may know (SSC_5633,Ns2_5634).
+By 21, the attacker may know sign(h((SSC_5633,Ns2_5634)),sk(Sess_5611)).
+Using the function 2-tuple the attacker may obtain ((SSC_5633,Ns2_5634),sign(h((SSC_5633,Ns2_5634)),sk(Sess_5611))).
+attacker(((SSC_5633,Ns2_5634),sign(h((SSC_5633,Ns2_5634)),sk(Sess_5611)))).
+
+23. The message (B[],Sess_5611) that the attacker may have by 6 may be received at input {6}.
+The message ((SSC_5633,Ns2_5634),sign(h((SSC_5633,Ns2_5634)),sk(Sess_5611))) that the attacker may have by 22 may be received at input {14}.
+The event beginCli(B[],Sess_5611,(Login(skB[]),Passwd(skB[]))) may be executed at {18}.
+We have Sess_5611 <> B[] & Sess_5611 <> A[].
+So the message ((CSC_5651,Login(skB[]),Passwd(skB[])),sign(h((CSC_5651,Login(skB[]),Passwd(skB[]))),skB[])) may be sent to the attacker at output {20}.
+attacker(((CSC_5651,Login(skB[]),Passwd(skB[])),sign(h((CSC_5651,Login(skB[]),Passwd(skB[]))),skB[]))).
+
+24. By 23, the attacker may know ((CSC_5651,Login(skB[]),Passwd(skB[])),sign(h((CSC_5651,Login(skB[]),Passwd(skB[]))),skB[])).
+Using the function 1-proj-2-tuple the attacker may obtain (CSC_5651,Login(skB[]),Passwd(skB[])).
+attacker((CSC_5651,Login(skB[]),Passwd(skB[]))).
+
+25. By 24, the attacker may know (CSC_5651,Login(skB[]),Passwd(skB[])).
+Using the function 2-proj-3-tuple the attacker may obtain Login(skB[]).
+attacker(Login(skB[])).
+
+26. The attacker has some term CSC_5646.
+attacker(CSC_5646).
+
+27. By 26, the attacker may know CSC_5646.
+By 25, the attacker may know Login(skB[]).
+By 16, the attacker may know Passwd(skB[]).
+Using the function 3-tuple the attacker may obtain (CSC_5646,Login(skB[]),Passwd(skB[])).
+attacker((CSC_5646,Login(skB[]),Passwd(skB[]))).
+
+28. The message (B[],A[]) that the attacker may have by 3 may be received at input {25}.
+The message CreateSessionRequest that the attacker may have by 4 may be received at input {31}.
+The message (CSC_5646,Login(skB[]),Passwd(skB[])) that the attacker may have by 27 may be received at input {37}.
+So event endSrv(B[],A[],(Login(skB[]),Passwd(skB[]))) may be executed at {39}.
+end(endSrv(B[],A[],(Login(skB[]),Passwd(skB[])))).
 
 
 A more detailed output of the traces is available with
@@ -126,27 +200,47 @@ out(c, pub(skA)) at {2}
 
 out(c, pub(skB)) at {4}
 
-in(c, (B,B)) at {25} in copy a_5765
+in(c, (B,a_5655)) at {6} in copy a_5656
 
-in(c, CreateSessionRequest) at {31} in copy a_5765
+out(c, (CreateSessionRequest,sign(h(CreateSessionRequest),skB))) at {13} in copy a_5656
 
-new SSC_67 creating SSC_5932 at {33} in copy a_5765
+in(c, ((a_5653,a_5654),sign(h((a_5653,a_5654)),sk(a_5655)))) at {14} in copy a_5656
 
-new Ns2_68 creating Ns2_5933 at {34} in copy a_5765
+new CSC creating CSC_5661 at {17} in copy a_5656
 
-out(c, (SSC_5932,Ns2_5933)) at {36} in copy a_5765
+event(beginCli(B,a_5655,(Login(skB),Passwd(skB)))) at {18} in copy a_5656
 
-in(c, (B,B)) at {50} in copy a_5764
+out(c, ((CSC_5661,Login(skB),Passwd(skB)),sign(h((CSC_5661,Login(skB),Passwd(skB))),skB))) at {20} in copy a_5656
 
-out(c, (Login(skB,skB),Passwd(skB,skB))) at {55} in copy a_5764
+in(c, (B,a_5655)) at {6} in copy a_5659
 
-in(c, (a,Login(skB,skB),Passwd(skB,skB))) at {37} in copy a_5765
+out(c, (CreateSessionRequest,sign(h(CreateSessionRequest),skB))) at {13} in copy a_5659
 
-event(endSrv(B,B,(Login(skB,skB),Passwd(skB,skB)))) at {39} in copy a_5765
+in(c, ((a_5657,a_5658),sign(h((a_5657,a_5658)),sk(a_5655)))) at {14} in copy a_5659
 
-The event endSrv(B,B,(Login(skB,skB),Passwd(skB,skB))) is executed.
+new CSC creating CSC_5662 at {17} in copy a_5659
+
+event(beginCli(B,a_5655,(Login(skB),Passwd(skB)))) at {18} in copy a_5659
+
+out(c, ((CSC_5662,Login(skB),Passwd(skB)),sign(h((CSC_5662,Login(skB),Passwd(skB))),skB))) at {20} in copy a_5659
+
+in(c, (B,A)) at {25} in copy a_5660
+
+in(c, CreateSessionRequest) at {31} in copy a_5660
+
+new SSC_67 creating SSC_6084 at {33} in copy a_5660
+
+new Ns2_68 creating Ns2_6085 at {34} in copy a_5660
+
+out(c, (SSC_6084,Ns2_6085)) at {36} in copy a_5660
+
+in(c, (a,Login(skB),Passwd(skB))) at {37} in copy a_5660
+
+event(endSrv(B,A,(Login(skB),Passwd(skB)))) at {39} in copy a_5660
+
+The event endSrv(B,A,(Login(skB),Passwd(skB))) is executed.
 A trace has been found.
-RESULT event(endSrv(X_77,Y_78,N)) ==> event(beginCli(X_77,Y_78,N)) is false.
+RESULT event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N)) is false.
 -- Query not attacker(Skey(skB[],skA[]))
 Completing...
 Starting query not attacker(Skey(skB[],skA[]))
@@ -155,11 +249,171 @@ RESULT not attacker(Skey(skB[],skA[])) is true.
 Completing...
 Starting query not attacker(Skey(skA[],skB[]))
 RESULT not attacker(Skey(skA[],skB[])) is true.
--- Query not attacker(Passwd(skA[],skB[]))
+-- Query not attacker(Passwd(skA[]))
 Completing...
-Starting query not attacker(Passwd(skA[],skB[]))
-RESULT not attacker(Passwd(skA[],skB[])) is true.
--- Query not attacker(Login(skA[],skB[]))
+Starting query not attacker(Passwd(skA[]))
+goal reachable: attacker(Passwd(skA[]))
+Abbreviations:
+CSC_21000 = CSC[sigM2 = sign(h((SSC_20991,Ns2_20992)),sk(Sess_20993)),m2 = (SSC_20991,Ns2_20992),Sess = Sess_20993,Cli = A[],!1 = @sid_20994]
+
+1. The attacker has some term Sess_20993.
+attacker(Sess_20993).
+
+2. The attacker initially knows A[].
+attacker(A[]).
+
+3. By 2, the attacker may know A[].
+By 1, the attacker may know Sess_20993.
+Using the function 2-tuple the attacker may obtain (A[],Sess_20993).
+attacker((A[],Sess_20993)).
+
+4. By 1, the attacker may know Sess_20993.
+Using the function sk the attacker may obtain sk(Sess_20993).
+attacker(sk(Sess_20993)).
+
+5. The attacker has some term Ns2_20992.
+attacker(Ns2_20992).
+
+6. The attacker has some term SSC_20991.
+attacker(SSC_20991).
+
+7. By 6, the attacker may know SSC_20991.
+By 5, the attacker may know Ns2_20992.
+Using the function 2-tuple the attacker may obtain (SSC_20991,Ns2_20992).
+attacker((SSC_20991,Ns2_20992)).
+
+8. By 7, the attacker may know (SSC_20991,Ns2_20992).
+Using the function h the attacker may obtain h((SSC_20991,Ns2_20992)).
+attacker(h((SSC_20991,Ns2_20992))).
+
+9. By 8, the attacker may know h((SSC_20991,Ns2_20992)).
+By 4, the attacker may know sk(Sess_20993).
+Using the function sign the attacker may obtain sign(h((SSC_20991,Ns2_20992)),sk(Sess_20993)).
+attacker(sign(h((SSC_20991,Ns2_20992)),sk(Sess_20993))).
+
+10. By 7, the attacker may know (SSC_20991,Ns2_20992).
+By 9, the attacker may know sign(h((SSC_20991,Ns2_20992)),sk(Sess_20993)).
+Using the function 2-tuple the attacker may obtain ((SSC_20991,Ns2_20992),sign(h((SSC_20991,Ns2_20992)),sk(Sess_20993))).
+attacker(((SSC_20991,Ns2_20992),sign(h((SSC_20991,Ns2_20992)),sk(Sess_20993)))).
+
+11. The message (A[],Sess_20993) that the attacker may have by 3 may be received at input {6}.
+The message ((SSC_20991,Ns2_20992),sign(h((SSC_20991,Ns2_20992)),sk(Sess_20993))) that the attacker may have by 10 may be received at input {14}.
+We have Sess_20993 <> B[] & Sess_20993 <> A[].
+So the message ((CSC_21000,Login(skA[]),Passwd(skA[])),sign(h((CSC_21000,Login(skA[]),Passwd(skA[]))),skA[])) may be sent to the attacker at output {20}.
+attacker(((CSC_21000,Login(skA[]),Passwd(skA[])),sign(h((CSC_21000,Login(skA[]),Passwd(skA[]))),skA[]))).
+
+12. By 11, the attacker may know ((CSC_21000,Login(skA[]),Passwd(skA[])),sign(h((CSC_21000,Login(skA[]),Passwd(skA[]))),skA[])).
+Using the function 1-proj-2-tuple the attacker may obtain (CSC_21000,Login(skA[]),Passwd(skA[])).
+attacker((CSC_21000,Login(skA[]),Passwd(skA[]))).
+
+13. By 12, the attacker may know (CSC_21000,Login(skA[]),Passwd(skA[])).
+Using the function 3-proj-3-tuple the attacker may obtain Passwd(skA[]).
+attacker(Passwd(skA[])).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(c, pub(skA)) at {2}
+
+out(c, pub(skB)) at {4}
+
+in(c, (A,a_21003)) at {6} in copy a_21004
+
+out(c, (CreateSessionRequest,sign(h(CreateSessionRequest),skA))) at {13} in copy a_21004
+
+in(c, ((a_21001,a_21002),sign(h((a_21001,a_21002)),sk(a_21003)))) at {14} in copy a_21004
+
+new CSC creating CSC_21005 at {17} in copy a_21004
+
+event(beginCli(A,a_21003,(Login(skA),Passwd(skA)))) at {18} in copy a_21004
+
+out(c, ((CSC_21005,Login(skA),Passwd(skA)),sign(h((CSC_21005,Login(skA),Passwd(skA))),skA))) at {20} in copy a_21004
+
+The attacker has the message Passwd(skA).
+A trace has been found.
+RESULT not attacker(Passwd(skA[])) is false.
+-- Query not attacker(Login(skA[]))
 Completing...
-Starting query not attacker(Login(skA[],skB[]))
-RESULT not attacker(Login(skA[],skB[])) is true.
+Starting query not attacker(Login(skA[]))
+goal reachable: attacker(Login(skA[]))
+Abbreviations:
+CSC_26187 = CSC[sigM2 = sign(h((SSC_26178,Ns2_26179)),sk(Sess_26180)),m2 = (SSC_26178,Ns2_26179),Sess = Sess_26180,Cli = A[],!1 = @sid_26181]
+
+1. The attacker has some term Sess_26180.
+attacker(Sess_26180).
+
+2. The attacker initially knows A[].
+attacker(A[]).
+
+3. By 2, the attacker may know A[].
+By 1, the attacker may know Sess_26180.
+Using the function 2-tuple the attacker may obtain (A[],Sess_26180).
+attacker((A[],Sess_26180)).
+
+4. By 1, the attacker may know Sess_26180.
+Using the function sk the attacker may obtain sk(Sess_26180).
+attacker(sk(Sess_26180)).
+
+5. The attacker has some term Ns2_26179.
+attacker(Ns2_26179).
+
+6. The attacker has some term SSC_26178.
+attacker(SSC_26178).
+
+7. By 6, the attacker may know SSC_26178.
+By 5, the attacker may know Ns2_26179.
+Using the function 2-tuple the attacker may obtain (SSC_26178,Ns2_26179).
+attacker((SSC_26178,Ns2_26179)).
+
+8. By 7, the attacker may know (SSC_26178,Ns2_26179).
+Using the function h the attacker may obtain h((SSC_26178,Ns2_26179)).
+attacker(h((SSC_26178,Ns2_26179))).
+
+9. By 8, the attacker may know h((SSC_26178,Ns2_26179)).
+By 4, the attacker may know sk(Sess_26180).
+Using the function sign the attacker may obtain sign(h((SSC_26178,Ns2_26179)),sk(Sess_26180)).
+attacker(sign(h((SSC_26178,Ns2_26179)),sk(Sess_26180))).
+
+10. By 7, the attacker may know (SSC_26178,Ns2_26179).
+By 9, the attacker may know sign(h((SSC_26178,Ns2_26179)),sk(Sess_26180)).
+Using the function 2-tuple the attacker may obtain ((SSC_26178,Ns2_26179),sign(h((SSC_26178,Ns2_26179)),sk(Sess_26180))).
+attacker(((SSC_26178,Ns2_26179),sign(h((SSC_26178,Ns2_26179)),sk(Sess_26180)))).
+
+11. The message (A[],Sess_26180) that the attacker may have by 3 may be received at input {6}.
+The message ((SSC_26178,Ns2_26179),sign(h((SSC_26178,Ns2_26179)),sk(Sess_26180))) that the attacker may have by 10 may be received at input {14}.
+We have Sess_26180 <> B[] & Sess_26180 <> A[].
+So the message ((CSC_26187,Login(skA[]),Passwd(skA[])),sign(h((CSC_26187,Login(skA[]),Passwd(skA[]))),skA[])) may be sent to the attacker at output {20}.
+attacker(((CSC_26187,Login(skA[]),Passwd(skA[])),sign(h((CSC_26187,Login(skA[]),Passwd(skA[]))),skA[]))).
+
+12. By 11, the attacker may know ((CSC_26187,Login(skA[]),Passwd(skA[])),sign(h((CSC_26187,Login(skA[]),Passwd(skA[]))),skA[])).
+Using the function 1-proj-2-tuple the attacker may obtain (CSC_26187,Login(skA[]),Passwd(skA[])).
+attacker((CSC_26187,Login(skA[]),Passwd(skA[]))).
+
+13. By 12, the attacker may know (CSC_26187,Login(skA[]),Passwd(skA[])).
+Using the function 2-proj-3-tuple the attacker may obtain Login(skA[]).
+attacker(Login(skA[])).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(c, pub(skA)) at {2}
+
+out(c, pub(skB)) at {4}
+
+in(c, (A,a_26190)) at {6} in copy a_26191
+
+out(c, (CreateSessionRequest,sign(h(CreateSessionRequest),skA))) at {13} in copy a_26191
+
+in(c, ((a_26188,a_26189),sign(h((a_26188,a_26189)),sk(a_26190)))) at {14} in copy a_26191
+
+new CSC creating CSC_26192 at {17} in copy a_26191
+
+event(beginCli(A,a_26190,(Login(skA),Passwd(skA)))) at {18} in copy a_26191
+
+out(c, ((CSC_26192,Login(skA),Passwd(skA)),sign(h((CSC_26192,Login(skA),Passwd(skA))),skA))) at {20} in copy a_26191
+
+The attacker has the message Login(skA).
+A trace has been found.
+RESULT not attacker(Login(skA[])) is false.

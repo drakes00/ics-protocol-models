@@ -1,0 +1,87 @@
+Process:
+{1}let pkA: bitstring = pub(skA) in
+{2}out(c, pkA);
+{3}let pkB: bitstring = pub(skB) in
+{4}out(c, pkB);
+(
+    {5}!
+    {6}in(c, (Cli: host,Sess: host));
+    {7}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else fail-any)) in
+    {8}let pkCli: bitstring = pub(skCli) in
+    {9}let skSess: bitstring = (if (Sess = A) then skA else (if (Sess = B) then skB else sk(Sess))) in
+    {10}let pkSess: bitstring = pub(skSess) in
+    {11}let K: bitstring = Skey(skCli,skSess) in
+    {12}let m1: bitstring = CreateSessionRequest in
+    {13}out(c, (senc(m1,K),sign(h(m1),skCli)));
+    {14}in(c, (em2: bitstring,sigM2: bitstring));
+    {15}let m2: bitstring = sdec(em2,K) in
+    {16}if (verify(h(m2),sigM2,pkSess) <> true) then
+        0
+    else
+        {17}let (SSC: bitstring,Ns2: bitstring) = m2 in
+        {18}new CSC: bitstring;
+        {19}event beginCli(Cli,Sess,(Login(skCli,skSess),Passwd(skCli,skSess)));
+        {20}let m3: bitstring = (CSC,Login(skCli,skSess),Passwd(skCli,skSess)) in
+        {21}out(c, (senc(m3,K),sign(h(m3),skCli)));
+        {22}in(c, (em4: bitstring,sigM4: bitstring));
+        {23}let m4: bitstring = sdec(em4,K) in
+        {24}if (verify(h(m4),sigM4,pkSess) <> true) then
+            0
+        else
+            {25}if (m4 <> ActivateSessionResponse) then
+            0
+) | (
+    {26}!
+    {27}in(c, (Cli_59: host,Sess_60: host));
+    {28}let skCli_61: bitstring = (if (Cli_59 = A) then skA else (if (Cli_59 = B) then skB else sk(Cli_59))) in
+    {29}let pkCli_62: bitstring = pub(skCli_61) in
+    {30}let skSess_63: bitstring = (if (Sess_60 = A) then skA else (if (Sess_60 = B) then skB else fail-any)) in
+    {31}let pkSess_64: bitstring = pub(skSess_63) in
+    {32}let K_65: bitstring = Skey(skCli_61,skSess_63) in
+    {33}in(c, m1_66: bitstring);
+    {34}if (m1_66 <> CreateSessionRequest) then
+        0
+    else
+        {35}new SSC_67: bitstring;
+        {36}new Ns2_68: bitstring;
+        {37}let m2_69: bitstring = (SSC_67,Ns2_68) in
+        {38}out(c, m2_69);
+        {39}in(c, m3_70: bitstring);
+        {40}let (CSC_71: bitstring,=Login(skCli_61,skSess_63),=Passwd(skCli_61,skSess_63)) = m3_70 in
+        {41}event endSrv(Cli_59,Sess_60,(Login(skCli_61,skSess_63),Passwd(skCli_61,skSess_63)));
+        {42}let m4_72: bitstring = ActivateSessionResponse in
+        {43}out(c, m4_72)
+) | (
+    {44}!
+    {45}in(c, (X: host,Y: host));
+    {46}let skX: bitstring = (if (X = A) then skA else (if (X = B) then skB else sk(X))) in
+    {47}let skY: bitstring = (if (Y = A) then skA else (if (Y = B) then skB else sk(Y))) in
+    {48}if ((X,Y) = (A,B)) then
+        0
+    else
+        {49}if ((X,Y) = (B,A)) then
+            0
+        else
+            {50}out(c, Skey(skX,skY))
+)
+
+-- Query event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N))
+Completing...
+Starting query event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N))
+RESULT event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N)) is true.
+-- Query not attacker(Skey(skB[],skA[]))
+Completing...
+Starting query not attacker(Skey(skB[],skA[]))
+RESULT not attacker(Skey(skB[],skA[])) is true.
+-- Query not attacker(Skey(skA[],skB[]))
+Completing...
+Starting query not attacker(Skey(skA[],skB[]))
+RESULT not attacker(Skey(skA[],skB[])) is true.
+-- Query not attacker(Passwd(skA[],skB[]))
+Completing...
+Starting query not attacker(Passwd(skA[],skB[]))
+RESULT not attacker(Passwd(skA[],skB[])) is true.
+-- Query not attacker(Login(skA[],skB[]))
+Completing...
+Starting query not attacker(Login(skA[],skB[]))
+RESULT not attacker(Login(skA[],skB[])) is true.

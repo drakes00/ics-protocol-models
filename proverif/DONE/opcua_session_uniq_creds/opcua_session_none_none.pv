@@ -40,8 +40,8 @@ fun Skey(bitstring, bitstring): bitstring [private].
 
 
 (* Secrets *)
-fun Login(bitstring): bitstring [private].
-fun Passwd(bitstring): bitstring [private].
+fun Login(bitstring, bitstring): bitstring [private].
+fun Passwd(bitstring, bitstring): bitstring [private].
 
 
 (* Events *)
@@ -50,8 +50,8 @@ event endSrv(host, host, bitstring).
 
 
 (* Goals *)
-query attacker(Login(skA)).
-query attacker(Passwd(skA)).
+query attacker(Login(skA, skB)).
+query attacker(Passwd(skA, skB)).
 query attacker(Skey(skA, skB)).
 query attacker(Skey(skB, skA)).
 
@@ -77,19 +77,17 @@ let client(skA: bitstring, skB: bitstring) =
 
     (* Role starting *)
     let m1 = CreateSessionRequest in
-    out(c, (m1, sign(h(m1), skCli)));
+    out(c, m1);
 
-    in(c, (m2: bitstring, sigM2: bitstring));
-    if verify(h(m2), sigM2, pkSess) <> true then 0 else
+    in(c, m2: bitstring);
     let (SSC: bitstring, Ns2: bitstring) = m2 in
 
     new CSC: bitstring;
-    event beginCli(Cli, Sess, (Login(skCli), Passwd(skCli)));
-    let m3 = (CSC, Login(skCli), Passwd(skCli)) in
-    out(c, (m3, sign(h(m3), skCli)));
+    event beginCli(Cli, Sess, (Login(skCli, skSess), Passwd(skCli, skSess)));
+    let m3 = (CSC, Login(skCli, skSess), Passwd(skCli, skSess)) in
+    out(c, m3);
 
-    in(c, (m4: bitstring, sigM4: bitstring));
-    if verify(h(m4), sigM4, pkSess) <> true then 0 else
+    in(c, m4: bitstring);
     if m4 <> ActivateSessionResponse then 0.
 
 
@@ -102,22 +100,20 @@ let sess(skA: bitstring, skB: bitstring) =
     let K = Skey(skCli, skSess) in
 
     (* Role starting *)
-    in(c, (m1: bitstring, sigM1: bitstring));
-    if verify(h(m1), sigM1, pkCli) <> true then 0 else
+    in(c, m1: bitstring);
     if m1 <> CreateSessionRequest then 0 else
 
     new SSC: bitstring;
     new Ns2: bitstring;
     let m2 = (SSC, Ns2) in
-    out(c, (m2, sign(h(m2), skSess)));
+    out(c, m2);
 
-    in(c, (m3: bitstring, sigM3: bitstring));
-    if verify(h(m3), sigM3, pkCli) <> true then 0 else
-    let (CSC: bitstring, =Login(skCli), =Passwd(skCli)) = m3 in
-    event endSrv(Cli, Sess, (Login(skCli), Passwd(skCli)));
+    in(c, m3: bitstring);
+    let (CSC: bitstring, =Login(skCli, skSess), =Passwd(skCli, skSess)) = m3 in
+    event endSrv(Cli, Sess, (Login(skCli, skSess), Passwd(skCli, skSess)));
     
     let m4 = ActivateSessionResponse in
-    out(c, (m4, sign(h(m4), skSess))).
+    out(c, m4).
 
 
 process
