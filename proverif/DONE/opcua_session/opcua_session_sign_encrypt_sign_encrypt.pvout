@@ -6,11 +6,11 @@ Process:
 (
     {5}!
     {6}in(c, (Cli: host,Sess: host));
-    {7}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else sk(Cli))) in
+    {7}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else fail-any)) in
     {8}let pkCli: bitstring = pub(skCli) in
-    {9}let skSess: bitstring = (if (Sess = A) then skA else (if (Sess = B) then skB else sk(Sess))) in
+    {9}let skSess: bitstring = (if (Sess = A) then skA else (if (Sess = B) then skB else fail-any)) in
     {10}let pkSess: bitstring = pub(skSess) in
-    {11}let K: bitstring = Skey(pkCli,pkSess) in
+    {11}let K: bitstring = Skey(skCli,skSess) in
     {12}let m1: bitstring = CreateSessionRequest in
     {13}out(c, (senc(m1,K),sign(h(m1),skCli)));
     {14}in(c, (em2: bitstring,sigM2: bitstring));
@@ -20,8 +20,8 @@ Process:
     else
         {17}let (SSC: bitstring,Ns2: bitstring) = m2 in
         {18}new CSC: bitstring;
-        {19}event beginCli(Cli,Sess,(Login(pkCli,pkSess),Passwd(pkCli,pkSess)));
-        {20}let m3: bitstring = (CSC,Login(pkCli,pkSess),Passwd(pkCli,pkSess)) in
+        {19}event beginCli(Cli,Sess,(Login(skCli,skSess),Passwd(skCli,skSess)));
+        {20}let m3: bitstring = (CSC,Login(skCli,skSess),Passwd(skCli,skSess)) in
         {21}out(c, (senc(m3,K),sign(h(m3),skCli)));
         {22}in(c, (em4: bitstring,sigM4: bitstring));
         {23}let m4: bitstring = sdec(em4,K) in
@@ -33,11 +33,11 @@ Process:
 ) | (
     {26}!
     {27}in(c, (Cli_59: host,Sess_60: host));
-    {28}let skCli_61: bitstring = (if (Cli_59 = A) then skA else (if (Cli_59 = B) then skB else sk(Cli_59))) in
+    {28}let skCli_61: bitstring = (if (Cli_59 = A) then skA else (if (Cli_59 = B) then skB else fail-any)) in
     {29}let pkCli_62: bitstring = pub(skCli_61) in
-    {30}let skSess_63: bitstring = (if (Sess_60 = A) then skA else (if (Sess_60 = B) then skB else sk(Sess_60))) in
+    {30}let skSess_63: bitstring = (if (Sess_60 = A) then skA else (if (Sess_60 = B) then skB else fail-any)) in
     {31}let pkSess_64: bitstring = pub(skSess_63) in
-    {32}let K_65: bitstring = Skey(pkCli_62,pkSess_64) in
+    {32}let K_65: bitstring = Skey(skCli_61,skSess_63) in
     {33}in(c, (em1: bitstring,sigM1: bitstring));
     {34}let m1_66: bitstring = sdec(em1,K_65) in
     {35}if (verify(h(m1_66),sigM1,pkCli_62) <> true) then
@@ -55,8 +55,8 @@ Process:
             {43}if (verify(h(m3_70),sigM3,pkCli_62) <> true) then
                 0
             else
-                {44}let (CSC_71: bitstring,=Login(pkCli_62,pkSess_64),=Passwd(pkCli_62,pkSess_64)) = m3_70 in
-                {45}event endSrv(Cli_59,Sess_60,(Login(pkCli_62,pkSess_64),Passwd(pkCli_62,pkSess_64)));
+                {44}let (CSC_71: bitstring,=Login(skCli_61,skSess_63),=Passwd(skCli_61,skSess_63)) = m3_70 in
+                {45}event endSrv(Cli_59,Sess_60,(Login(skCli_61,skSess_63),Passwd(skCli_61,skSess_63)));
                 {46}let m4_72: bitstring = ActivateSessionResponse in
                 {47}out(c, (senc(m4_72,K_65),sign(h(m4_72),skSess_63)))
 ) | (
@@ -70,50 +70,47 @@ Process:
         {53}if ((X,Y) = (B,A)) then
             0
         else
-            {54}out(c, Skey(pub(skX),pub(skY)))
+            {54}out(c, Skey(skX,skY))
+) | (
+    {55}!
+    {56}in(c, (X_73: host,Y_74: host));
+    {57}let skX_75: bitstring = (if (X_73 = A) then skA else (if (X_73 = B) then skB else sk(X_73))) in
+    {58}let skY_76: bitstring = (if (Y_74 = A) then skA else (if (Y_74 = B) then skB else sk(Y_74))) in
+    {59}if ((X_73,Y_74) = (A,B)) then
+        0
+    else
+        {60}if ((X_73,Y_74) = (B,A)) then
+            0
+        else
+            {61}out(c, (Login(skX_75,skY_76),Passwd(skX_75,skY_76)))
 )
 
--- Query event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N))
+-- Query event(endSrv(X_77,Y_78,N)) ==> event(beginCli(X_77,Y_78,N))
 Completing...
-200 rules inserted. The rule base contains 130 rules. 59 rules in the queue.
-400 rules inserted. The rule base contains 176 rules. 42 rules in the queue.
-600 rules inserted. The rule base contains 246 rules. 46 rules in the queue.
-Starting query event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N))
-goal reachable: X_13369 <> B[] && X_13369 <> A[] && begin(beginCli(X_13369,B[],(Login(pub(sk(X_13369)),pub(skB[])),Passwd(pub(sk(X_13369)),pub(skB[]))))) && attacker(X_13369) -> end(endSrv(X_13369,B[],(Login(pub(sk(X_13369)),pub(skB[])),Passwd(pub(sk(X_13369)),pub(skB[])))))
-goal reachable: X_13370 <> B[] && X_13370 <> A[] && begin(beginCli(X_13370,A[],(Login(pub(sk(X_13370)),pub(skA[])),Passwd(pub(sk(X_13370)),pub(skA[]))))) && attacker(X_13370) -> end(endSrv(X_13370,A[],(Login(pub(sk(X_13370)),pub(skA[])),Passwd(pub(sk(X_13370)),pub(skA[])))))
-goal reachable: begin(beginCli(B[],A[],(Login(pub(skB[]),pub(skA[])),Passwd(pub(skB[]),pub(skA[]))))) -> end(endSrv(B[],A[],(Login(pub(skB[]),pub(skA[])),Passwd(pub(skB[]),pub(skA[])))))
-goal reachable: begin(beginCli(A[],B[],(Login(pub(skA[]),pub(skB[])),Passwd(pub(skA[]),pub(skB[]))))) -> end(endSrv(A[],B[],(Login(pub(skA[]),pub(skB[])),Passwd(pub(skA[]),pub(skB[])))))
-goal reachable: Y_13372 <> B[] && Y_13372 <> A[] && X_13371 <> B[] && X_13371 <> A[] && begin(beginCli(X_13371,Y_13372,(Login(pub(sk(X_13371)),pub(sk(Y_13372))),Passwd(pub(sk(X_13371)),pub(sk(Y_13372)))))) && attacker(X_13371) && attacker(Y_13372) -> end(endSrv(X_13371,Y_13372,(Login(pub(sk(X_13371)),pub(sk(Y_13372))),Passwd(pub(sk(X_13371)),pub(sk(Y_13372))))))
-goal reachable: begin(beginCli(B[],B[],(Login(pub(skB[]),pub(skB[])),Passwd(pub(skB[]),pub(skB[]))))) -> end(endSrv(B[],B[],(Login(pub(skB[]),pub(skB[])),Passwd(pub(skB[]),pub(skB[])))))
-goal reachable: begin(beginCli(A[],A[],(Login(pub(skA[]),pub(skA[])),Passwd(pub(skA[]),pub(skA[]))))) -> end(endSrv(A[],A[],(Login(pub(skA[]),pub(skA[])),Passwd(pub(skA[]),pub(skA[])))))
-goal reachable: Y_13373 <> B[] && Y_13373 <> A[] && begin(beginCli(B[],Y_13373,(Login(pub(skB[]),pub(sk(Y_13373))),Passwd(pub(skB[]),pub(sk(Y_13373)))))) && attacker(Y_13373) -> end(endSrv(B[],Y_13373,(Login(pub(skB[]),pub(sk(Y_13373))),Passwd(pub(skB[]),pub(sk(Y_13373))))))
-goal reachable: Y_13374 <> B[] && Y_13374 <> A[] && begin(beginCli(A[],Y_13374,(Login(pub(skA[]),pub(sk(Y_13374))),Passwd(pub(skA[]),pub(sk(Y_13374)))))) && attacker(Y_13374) -> end(endSrv(A[],Y_13374,(Login(pub(skA[]),pub(sk(Y_13374))),Passwd(pub(skA[]),pub(sk(Y_13374))))))
-RESULT event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N)) is true.
--- Query not attacker(Skey(pub(skB[]),pub(skA[])))
+200 rules inserted. The rule base contains 107 rules. 32 rules in the queue.
+Starting query event(endSrv(X_77,Y_78,N)) ==> event(beginCli(X_77,Y_78,N))
+goal reachable: begin(beginCli(B[],A[],(Login(skB[],skA[]),Passwd(skB[],skA[])))) -> end(endSrv(B[],A[],(Login(skB[],skA[]),Passwd(skB[],skA[]))))
+goal reachable: begin(beginCli(A[],B[],(Login(skA[],skB[]),Passwd(skA[],skB[])))) -> end(endSrv(A[],B[],(Login(skA[],skB[]),Passwd(skA[],skB[]))))
+goal reachable: begin(beginCli(B[],B[],(Login(skB[],skB[]),Passwd(skB[],skB[])))) -> end(endSrv(B[],B[],(Login(skB[],skB[]),Passwd(skB[],skB[]))))
+goal reachable: begin(beginCli(A[],A[],(Login(skA[],skA[]),Passwd(skA[],skA[])))) -> end(endSrv(A[],A[],(Login(skA[],skA[]),Passwd(skA[],skA[]))))
+RESULT event(endSrv(X_77,Y_78,N)) ==> event(beginCli(X_77,Y_78,N)) is true.
+-- Query not attacker(Skey(skB[],skA[]))
 Completing...
-200 rules inserted. The rule base contains 119 rules. 50 rules in the queue.
-400 rules inserted. The rule base contains 164 rules. 60 rules in the queue.
-600 rules inserted. The rule base contains 181 rules. 16 rules in the queue.
-Starting query not attacker(Skey(pub(skB[]),pub(skA[])))
-RESULT not attacker(Skey(pub(skB[]),pub(skA[]))) is true.
--- Query not attacker(Skey(pub(skA[]),pub(skB[])))
+200 rules inserted. The rule base contains 101 rules. 23 rules in the queue.
+Starting query not attacker(Skey(skB[],skA[]))
+RESULT not attacker(Skey(skB[],skA[])) is true.
+-- Query not attacker(Skey(skA[],skB[]))
 Completing...
-200 rules inserted. The rule base contains 119 rules. 50 rules in the queue.
-400 rules inserted. The rule base contains 164 rules. 60 rules in the queue.
-600 rules inserted. The rule base contains 181 rules. 16 rules in the queue.
-Starting query not attacker(Skey(pub(skA[]),pub(skB[])))
-RESULT not attacker(Skey(pub(skA[]),pub(skB[]))) is true.
--- Query not attacker(Passwd(pub(skA[]),pub(skB[])))
+200 rules inserted. The rule base contains 101 rules. 23 rules in the queue.
+Starting query not attacker(Skey(skA[],skB[]))
+RESULT not attacker(Skey(skA[],skB[])) is true.
+-- Query not attacker(Passwd(skA[],skB[]))
 Completing...
-200 rules inserted. The rule base contains 119 rules. 50 rules in the queue.
-400 rules inserted. The rule base contains 164 rules. 60 rules in the queue.
-600 rules inserted. The rule base contains 181 rules. 16 rules in the queue.
-Starting query not attacker(Passwd(pub(skA[]),pub(skB[])))
-RESULT not attacker(Passwd(pub(skA[]),pub(skB[]))) is true.
--- Query not attacker(Login(pub(skA[]),pub(skB[])))
+200 rules inserted. The rule base contains 101 rules. 23 rules in the queue.
+Starting query not attacker(Passwd(skA[],skB[]))
+RESULT not attacker(Passwd(skA[],skB[])) is true.
+-- Query not attacker(Login(skA[],skB[]))
 Completing...
-200 rules inserted. The rule base contains 119 rules. 50 rules in the queue.
-400 rules inserted. The rule base contains 164 rules. 60 rules in the queue.
-600 rules inserted. The rule base contains 181 rules. 16 rules in the queue.
-Starting query not attacker(Login(pub(skA[]),pub(skB[])))
-RESULT not attacker(Login(pub(skA[]),pub(skB[]))) is true.
+200 rules inserted. The rule base contains 101 rules. 23 rules in the queue.
+Starting query not attacker(Login(skA[],skB[]))
+RESULT not attacker(Login(skA[],skB[])) is true.
