@@ -1,3 +1,43 @@
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
+File "opcua_session_sign_encrypt_sign.pv", line 97, character 10 - line 97, character 13:
+Warning: identifier Ns2 rebound
 Process:
 {1}let pkA: bitstring = pub(skA) in
 {2}out(c, pkA);
@@ -6,87 +46,1407 @@ Process:
 (
     {5}!
     {6}in(c, (Cli: host,Sess: host));
-    {7}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else fail-any)) in
-    {8}let pkCli: bitstring = pub(skCli) in
-    {9}let skSess: bitstring = (if (Sess = A) then skA else (if (Sess = B) then skB else sk(Sess))) in
-    {10}let pkSess: bitstring = pub(skSess) in
-    {11}let K: bitstring = Skey(skCli,skSess) in
-    {12}let m1: bitstring = CreateSessionRequest in
-    {13}out(c, (senc(m1,K),sign(h(m1),skCli)));
-    {14}in(c, (em2: bitstring,sigM2: bitstring));
-    {15}let m2: bitstring = sdec(em2,K) in
-    {16}if (verify(h(m2),sigM2,pkSess) <> true) then
-        0
-    else
-        {17}let (SSC: bitstring,Ns2: bitstring) = m2 in
-        {18}new CSC: bitstring;
-        {19}event beginCli(Cli,Sess,(Login(skCli),Passwd(skCli)));
-        {20}let m3: bitstring = (CSC,Login(skCli),Passwd(skCli)) in
-        {21}out(c, (senc(m3,K),sign(h(m3),skCli)));
-        {22}in(c, (em4: bitstring,sigM4: bitstring));
-        {23}let m4: bitstring = sdec(em4,K) in
-        {24}if (verify(h(m4),sigM4,pkSess) <> true) then
-            0
+    {7}let v_84: bool = (Cli = A) in
+    (
+        {8}if v_84 then
+        (
+            {9}let skCli: bitstring = skA in
+            {10}let pkCli: bitstring = pub(skCli) in
+            {11}let v_85: bool = (Sess = A) in
+            (
+                {12}if v_85 then
+                (
+                    {13}let skSess: bitstring = skA in
+                    {14}let pkSess: bitstring = pub(skSess) in
+                    {15}let K: bitstring = Skey(skCli,skSess) in
+                    {16}new Nc: bitstring;
+                    {17}let m1: bitstring = (pkCli,Nc,CreateSessionRequest) in
+                    {18}out(c, (senc(m1,K),sign(h(m1),skCli)));
+                    {19}in(c, (em2: bitstring,sigM2: bitstring));
+                    {20}let m2: bitstring = sdec(em2,K) in
+                    {21}if (verify(h(m2),sigM2,pkSess) <> true) then
+                        0
+                    else
+                        {22}let (=pkSess,SSC: bitstring,Ns: bitstring) = m2 in
+                        {23}new CSC: bitstring;
+                        {24}event beginCli(Cli,Sess,(Login(skCli),Passwd(skCli)));
+                        {25}let m3: bitstring = (CSC,Login(skCli),Passwd(skCli)) in
+                        {26}out(c, (senc(m3,K),sign(h(m3),skCli)));
+                        {27}in(c, (em4: bitstring,sigM4: bitstring));
+                        {28}new Ns2: bitstring;
+                        {29}let m4: bitstring = sdec(em4,K) in
+                        {30}if (verify(h(m4),sigM4,pkSess) <> true) then
+                            0
+                        else
+                            {31}let (Ns2_86: bitstring,=ActivateSessionResponse) = m4 in
+                            0
+                )
+                else
+                    {32}let v_87: bool = (Sess = B) in
+                    (
+                        {33}if v_87 then
+                        (
+                            {34}let skSess_88: bitstring = skB in
+                            {35}let pkSess_89: bitstring = pub(skSess_88) in
+                            {36}let K_90: bitstring = Skey(skCli,skSess_88) in
+                            {37}new Nc_91: bitstring;
+                            {38}let m1_92: bitstring = (pkCli,Nc_91,CreateSessionRequest) in
+                            {39}out(c, (senc(m1_92,K_90),sign(h(m1_92),skCli)));
+                            {40}in(c, (em2_93: bitstring,sigM2_94: bitstring));
+                            {41}let m2_95: bitstring = sdec(em2_93,K_90) in
+                            {42}if (verify(h(m2_95),sigM2_94,pkSess_89) <> true) then
+                                0
+                            else
+                                {43}let (=pkSess_89,SSC_96: bitstring,Ns_97: bitstring) = m2_95 in
+                                {44}new CSC_98: bitstring;
+                                {45}event beginCli(Cli,Sess,(Login(skCli),Passwd(skCli)));
+                                {46}let m3_99: bitstring = (CSC_98,Login(skCli),Passwd(skCli)) in
+                                {47}out(c, (senc(m3_99,K_90),sign(h(m3_99),skCli)));
+                                {48}in(c, (em4_100: bitstring,sigM4_101: bitstring));
+                                {49}new Ns2_102: bitstring;
+                                {50}let m4_103: bitstring = sdec(em4_100,K_90) in
+                                {51}if (verify(h(m4_103),sigM4_101,pkSess_89) <> true) then
+                                    0
+                                else
+                                    {52}let (Ns2_104: bitstring,=ActivateSessionResponse) = m4_103 in
+                                    0
+                        )
+                        else
+                            {53}let skSess_105: bitstring = sk(Sess) in
+                            {54}let pkSess_106: bitstring = pub(skSess_105) in
+                            {55}let K_107: bitstring = Skey(skCli,skSess_105) in
+                            {56}new Nc_108: bitstring;
+                            {57}let m1_109: bitstring = (pkCli,Nc_108,CreateSessionRequest) in
+                            {58}out(c, (senc(m1_109,K_107),sign(h(m1_109),skCli)));
+                            {59}in(c, (em2_110: bitstring,sigM2_111: bitstring));
+                            {60}let m2_112: bitstring = sdec(em2_110,K_107) in
+                            {61}if (verify(h(m2_112),sigM2_111,pkSess_106) <> true) then
+                                0
+                            else
+                                {62}let (=pkSess_106,SSC_113: bitstring,Ns_114: bitstring) = m2_112 in
+                                {63}new CSC_115: bitstring;
+                                {64}event beginCli(Cli,Sess,(Login(skCli),Passwd(skCli)));
+                                {65}let m3_116: bitstring = (CSC_115,Login(skCli),Passwd(skCli)) in
+                                {66}out(c, (senc(m3_116,K_107),sign(h(m3_116),skCli)));
+                                {67}in(c, (em4_117: bitstring,sigM4_118: bitstring));
+                                {68}new Ns2_119: bitstring;
+                                {69}let m4_120: bitstring = sdec(em4_117,K_107) in
+                                {70}if (verify(h(m4_120),sigM4_118,pkSess_106) <> true) then
+                                    0
+                                else
+                                    {71}let (Ns2_121: bitstring,=ActivateSessionResponse) = m4_120 in
+                                    0
+                    )
+                    else
+                        {72}let skSess_122: bitstring = fail-any in
+                        {73}let pkSess_123: bitstring = pub(skSess_122) in
+                        {74}let K_124: bitstring = Skey(skCli,skSess_122) in
+                        {75}new Nc_125: bitstring;
+                        {76}let m1_126: bitstring = (pkCli,Nc_125,CreateSessionRequest) in
+                        {77}out(c, (senc(m1_126,K_124),sign(h(m1_126),skCli)));
+                        {78}in(c, (em2_127: bitstring,sigM2_128: bitstring));
+                        {79}let m2_129: bitstring = sdec(em2_127,K_124) in
+                        {80}if (verify(h(m2_129),sigM2_128,pkSess_123) <> true) then
+                            0
+                        else
+                            {81}let (=pkSess_123,SSC_130: bitstring,Ns_131: bitstring) = m2_129 in
+                            {82}new CSC_132: bitstring;
+                            {83}event beginCli(Cli,Sess,(Login(skCli),Passwd(skCli)));
+                            {84}let m3_133: bitstring = (CSC_132,Login(skCli),Passwd(skCli)) in
+                            {85}out(c, (senc(m3_133,K_124),sign(h(m3_133),skCli)));
+                            {86}in(c, (em4_134: bitstring,sigM4_135: bitstring));
+                            {87}new Ns2_136: bitstring;
+                            {88}let m4_137: bitstring = sdec(em4_134,K_124) in
+                            {89}if (verify(h(m4_137),sigM4_135,pkSess_123) <> true) then
+                                0
+                            else
+                                {90}let (Ns2_138: bitstring,=ActivateSessionResponse) = m4_137 in
+                                0
+            )
+            else
+                {91}let skSess_139: bitstring = fail-any in
+                {92}let pkSess_140: bitstring = pub(skSess_139) in
+                {93}let K_141: bitstring = Skey(skCli,skSess_139) in
+                {94}new Nc_142: bitstring;
+                {95}let m1_143: bitstring = (pkCli,Nc_142,CreateSessionRequest) in
+                {96}out(c, (senc(m1_143,K_141),sign(h(m1_143),skCli)));
+                {97}in(c, (em2_144: bitstring,sigM2_145: bitstring));
+                {98}let m2_146: bitstring = sdec(em2_144,K_141) in
+                {99}if (verify(h(m2_146),sigM2_145,pkSess_140) <> true) then
+                    0
+                else
+                    {100}let (=pkSess_140,SSC_147: bitstring,Ns_148: bitstring) = m2_146 in
+                    {101}new CSC_149: bitstring;
+                    {102}event beginCli(Cli,Sess,(Login(skCli),Passwd(skCli)));
+                    {103}let m3_150: bitstring = (CSC_149,Login(skCli),Passwd(skCli)) in
+                    {104}out(c, (senc(m3_150,K_141),sign(h(m3_150),skCli)));
+                    {105}in(c, (em4_151: bitstring,sigM4_152: bitstring));
+                    {106}new Ns2_153: bitstring;
+                    {107}let m4_154: bitstring = sdec(em4_151,K_141) in
+                    {108}if (verify(h(m4_154),sigM4_152,pkSess_140) <> true) then
+                        0
+                    else
+                        {109}let (Ns2_155: bitstring,=ActivateSessionResponse) = m4_154 in
+                        0
+        )
         else
-            {25}if (m4 <> ActivateSessionResponse) then
-            0
-) | (
-    {26}!
-    {27}in(c, (Cli_59: host,Sess_60: host));
-    {28}let skCli_61: bitstring = (if (Cli_59 = A) then skA else (if (Cli_59 = B) then skB else sk(Cli_59))) in
-    {29}let pkCli_62: bitstring = pub(skCli_61) in
-    {30}let skSess_63: bitstring = (if (Sess_60 = A) then skA else (if (Sess_60 = B) then skB else fail-any)) in
-    {31}let pkSess_64: bitstring = pub(skSess_63) in
-    {32}let K_65: bitstring = Skey(skCli_61,skSess_63) in
-    {33}in(c, (m1_66: bitstring,sigM1: bitstring));
-    {34}if (verify(h(m1_66),sigM1,pkCli_62) <> true) then
-        0
+            {110}let =true = (Cli = B) in
+            (
+                {111}let skCli_156: bitstring = skB in
+                {112}let pkCli_157: bitstring = pub(skCli_156) in
+                {113}let v_158: bool = (Sess = A) in
+                (
+                    {114}if v_158 then
+                    (
+                        {115}let skSess_159: bitstring = skA in
+                        {116}let pkSess_160: bitstring = pub(skSess_159) in
+                        {117}let K_161: bitstring = Skey(skCli_156,skSess_159) in
+                        {118}new Nc_162: bitstring;
+                        {119}let m1_163: bitstring = (pkCli_157,Nc_162,CreateSessionRequest) in
+                        {120}out(c, (senc(m1_163,K_161),sign(h(m1_163),skCli_156)));
+                        {121}in(c, (em2_164: bitstring,sigM2_165: bitstring));
+                        {122}let m2_166: bitstring = sdec(em2_164,K_161) in
+                        {123}if (verify(h(m2_166),sigM2_165,pkSess_160) <> true) then
+                            0
+                        else
+                            {124}let (=pkSess_160,SSC_167: bitstring,Ns_168: bitstring) = m2_166 in
+                            {125}new CSC_169: bitstring;
+                            {126}event beginCli(Cli,Sess,(Login(skCli_156),Passwd(skCli_156)));
+                            {127}let m3_170: bitstring = (CSC_169,Login(skCli_156),Passwd(skCli_156)) in
+                            {128}out(c, (senc(m3_170,K_161),sign(h(m3_170),skCli_156)));
+                            {129}in(c, (em4_171: bitstring,sigM4_172: bitstring));
+                            {130}new Ns2_173: bitstring;
+                            {131}let m4_174: bitstring = sdec(em4_171,K_161) in
+                            {132}if (verify(h(m4_174),sigM4_172,pkSess_160) <> true) then
+                                0
+                            else
+                                {133}let (Ns2_175: bitstring,=ActivateSessionResponse) = m4_174 in
+                                0
+                    )
+                    else
+                        {134}let v_176: bool = (Sess = B) in
+                        (
+                            {135}if v_176 then
+                            (
+                                {136}let skSess_177: bitstring = skB in
+                                {137}let pkSess_178: bitstring = pub(skSess_177) in
+                                {138}let K_179: bitstring = Skey(skCli_156,skSess_177) in
+                                {139}new Nc_180: bitstring;
+                                {140}let m1_181: bitstring = (pkCli_157,Nc_180,CreateSessionRequest) in
+                                {141}out(c, (senc(m1_181,K_179),sign(h(m1_181),skCli_156)));
+                                {142}in(c, (em2_182: bitstring,sigM2_183: bitstring));
+                                {143}let m2_184: bitstring = sdec(em2_182,K_179) in
+                                {144}if (verify(h(m2_184),sigM2_183,pkSess_178) <> true) then
+                                    0
+                                else
+                                    {145}let (=pkSess_178,SSC_185: bitstring,Ns_186: bitstring) = m2_184 in
+                                    {146}new CSC_187: bitstring;
+                                    {147}event beginCli(Cli,Sess,(Login(skCli_156),Passwd(skCli_156)));
+                                    {148}let m3_188: bitstring = (CSC_187,Login(skCli_156),Passwd(skCli_156)) in
+                                    {149}out(c, (senc(m3_188,K_179),sign(h(m3_188),skCli_156)));
+                                    {150}in(c, (em4_189: bitstring,sigM4_190: bitstring));
+                                    {151}new Ns2_191: bitstring;
+                                    {152}let m4_192: bitstring = sdec(em4_189,K_179) in
+                                    {153}if (verify(h(m4_192),sigM4_190,pkSess_178) <> true) then
+                                        0
+                                    else
+                                        {154}let (Ns2_193: bitstring,=ActivateSessionResponse) = m4_192 in
+                                        0
+                            )
+                            else
+                                {155}let skSess_194: bitstring = sk(Sess) in
+                                {156}let pkSess_195: bitstring = pub(skSess_194) in
+                                {157}let K_196: bitstring = Skey(skCli_156,skSess_194) in
+                                {158}new Nc_197: bitstring;
+                                {159}let m1_198: bitstring = (pkCli_157,Nc_197,CreateSessionRequest) in
+                                {160}out(c, (senc(m1_198,K_196),sign(h(m1_198),skCli_156)));
+                                {161}in(c, (em2_199: bitstring,sigM2_200: bitstring));
+                                {162}let m2_201: bitstring = sdec(em2_199,K_196) in
+                                {163}if (verify(h(m2_201),sigM2_200,pkSess_195) <> true) then
+                                    0
+                                else
+                                    {164}let (=pkSess_195,SSC_202: bitstring,Ns_203: bitstring) = m2_201 in
+                                    {165}new CSC_204: bitstring;
+                                    {166}event beginCli(Cli,Sess,(Login(skCli_156),Passwd(skCli_156)));
+                                    {167}let m3_205: bitstring = (CSC_204,Login(skCli_156),Passwd(skCli_156)) in
+                                    {168}out(c, (senc(m3_205,K_196),sign(h(m3_205),skCli_156)));
+                                    {169}in(c, (em4_206: bitstring,sigM4_207: bitstring));
+                                    {170}new Ns2_208: bitstring;
+                                    {171}let m4_209: bitstring = sdec(em4_206,K_196) in
+                                    {172}if (verify(h(m4_209),sigM4_207,pkSess_195) <> true) then
+                                        0
+                                    else
+                                        {173}let (Ns2_210: bitstring,=ActivateSessionResponse) = m4_209 in
+                                        0
+                        )
+                        else
+                            {174}let skSess_211: bitstring = fail-any in
+                            {175}let pkSess_212: bitstring = pub(skSess_211) in
+                            {176}let K_213: bitstring = Skey(skCli_156,skSess_211) in
+                            {177}new Nc_214: bitstring;
+                            {178}let m1_215: bitstring = (pkCli_157,Nc_214,CreateSessionRequest) in
+                            {179}out(c, (senc(m1_215,K_213),sign(h(m1_215),skCli_156)));
+                            {180}in(c, (em2_216: bitstring,sigM2_217: bitstring));
+                            {181}let m2_218: bitstring = sdec(em2_216,K_213) in
+                            {182}if (verify(h(m2_218),sigM2_217,pkSess_212) <> true) then
+                                0
+                            else
+                                {183}let (=pkSess_212,SSC_219: bitstring,Ns_220: bitstring) = m2_218 in
+                                {184}new CSC_221: bitstring;
+                                {185}event beginCli(Cli,Sess,(Login(skCli_156),Passwd(skCli_156)));
+                                {186}let m3_222: bitstring = (CSC_221,Login(skCli_156),Passwd(skCli_156)) in
+                                {187}out(c, (senc(m3_222,K_213),sign(h(m3_222),skCli_156)));
+                                {188}in(c, (em4_223: bitstring,sigM4_224: bitstring));
+                                {189}new Ns2_225: bitstring;
+                                {190}let m4_226: bitstring = sdec(em4_223,K_213) in
+                                {191}if (verify(h(m4_226),sigM4_224,pkSess_212) <> true) then
+                                    0
+                                else
+                                    {192}let (Ns2_227: bitstring,=ActivateSessionResponse) = m4_226 in
+                                    0
+                )
+                else
+                    {193}let skSess_228: bitstring = fail-any in
+                    {194}let pkSess_229: bitstring = pub(skSess_228) in
+                    {195}let K_230: bitstring = Skey(skCli_156,skSess_228) in
+                    {196}new Nc_231: bitstring;
+                    {197}let m1_232: bitstring = (pkCli_157,Nc_231,CreateSessionRequest) in
+                    {198}out(c, (senc(m1_232,K_230),sign(h(m1_232),skCli_156)));
+                    {199}in(c, (em2_233: bitstring,sigM2_234: bitstring));
+                    {200}let m2_235: bitstring = sdec(em2_233,K_230) in
+                    {201}if (verify(h(m2_235),sigM2_234,pkSess_229) <> true) then
+                        0
+                    else
+                        {202}let (=pkSess_229,SSC_236: bitstring,Ns_237: bitstring) = m2_235 in
+                        {203}new CSC_238: bitstring;
+                        {204}event beginCli(Cli,Sess,(Login(skCli_156),Passwd(skCli_156)));
+                        {205}let m3_239: bitstring = (CSC_238,Login(skCli_156),Passwd(skCli_156)) in
+                        {206}out(c, (senc(m3_239,K_230),sign(h(m3_239),skCli_156)));
+                        {207}in(c, (em4_240: bitstring,sigM4_241: bitstring));
+                        {208}new Ns2_242: bitstring;
+                        {209}let m4_243: bitstring = sdec(em4_240,K_230) in
+                        {210}if (verify(h(m4_243),sigM4_241,pkSess_229) <> true) then
+                            0
+                        else
+                            {211}let (Ns2_244: bitstring,=ActivateSessionResponse) = m4_243 in
+                            0
+            )
+            else
+                {212}let skCli_245: bitstring = fail-any in
+                {213}let pkCli_246: bitstring = pub(skCli_245) in
+                {214}let v_247: bool = (Sess = A) in
+                (
+                    {215}if v_247 then
+                    (
+                        {216}let skSess_248: bitstring = skA in
+                        {217}let pkSess_249: bitstring = pub(skSess_248) in
+                        {218}let K_250: bitstring = Skey(skCli_245,skSess_248) in
+                        {219}new Nc_251: bitstring;
+                        {220}let m1_252: bitstring = (pkCli_246,Nc_251,CreateSessionRequest) in
+                        {221}out(c, (senc(m1_252,K_250),sign(h(m1_252),skCli_245)));
+                        {222}in(c, (em2_253: bitstring,sigM2_254: bitstring));
+                        {223}let m2_255: bitstring = sdec(em2_253,K_250) in
+                        {224}if (verify(h(m2_255),sigM2_254,pkSess_249) <> true) then
+                            0
+                        else
+                            {225}let (=pkSess_249,SSC_256: bitstring,Ns_257: bitstring) = m2_255 in
+                            {226}new CSC_258: bitstring;
+                            {227}event beginCli(Cli,Sess,(Login(skCli_245),Passwd(skCli_245)));
+                            {228}let m3_259: bitstring = (CSC_258,Login(skCli_245),Passwd(skCli_245)) in
+                            {229}out(c, (senc(m3_259,K_250),sign(h(m3_259),skCli_245)));
+                            {230}in(c, (em4_260: bitstring,sigM4_261: bitstring));
+                            {231}new Ns2_262: bitstring;
+                            {232}let m4_263: bitstring = sdec(em4_260,K_250) in
+                            {233}if (verify(h(m4_263),sigM4_261,pkSess_249) <> true) then
+                                0
+                            else
+                                {234}let (Ns2_264: bitstring,=ActivateSessionResponse) = m4_263 in
+                                0
+                    )
+                    else
+                        {235}let v_265: bool = (Sess = B) in
+                        (
+                            {236}if v_265 then
+                            (
+                                {237}let skSess_266: bitstring = skB in
+                                {238}let pkSess_267: bitstring = pub(skSess_266) in
+                                {239}let K_268: bitstring = Skey(skCli_245,skSess_266) in
+                                {240}new Nc_269: bitstring;
+                                {241}let m1_270: bitstring = (pkCli_246,Nc_269,CreateSessionRequest) in
+                                {242}out(c, (senc(m1_270,K_268),sign(h(m1_270),skCli_245)));
+                                {243}in(c, (em2_271: bitstring,sigM2_272: bitstring));
+                                {244}let m2_273: bitstring = sdec(em2_271,K_268) in
+                                {245}if (verify(h(m2_273),sigM2_272,pkSess_267) <> true) then
+                                    0
+                                else
+                                    {246}let (=pkSess_267,SSC_274: bitstring,Ns_275: bitstring) = m2_273 in
+                                    {247}new CSC_276: bitstring;
+                                    {248}event beginCli(Cli,Sess,(Login(skCli_245),Passwd(skCli_245)));
+                                    {249}let m3_277: bitstring = (CSC_276,Login(skCli_245),Passwd(skCli_245)) in
+                                    {250}out(c, (senc(m3_277,K_268),sign(h(m3_277),skCli_245)));
+                                    {251}in(c, (em4_278: bitstring,sigM4_279: bitstring));
+                                    {252}new Ns2_280: bitstring;
+                                    {253}let m4_281: bitstring = sdec(em4_278,K_268) in
+                                    {254}if (verify(h(m4_281),sigM4_279,pkSess_267) <> true) then
+                                        0
+                                    else
+                                        {255}let (Ns2_282: bitstring,=ActivateSessionResponse) = m4_281 in
+                                        0
+                            )
+                            else
+                                {256}let skSess_283: bitstring = sk(Sess) in
+                                {257}let pkSess_284: bitstring = pub(skSess_283) in
+                                {258}let K_285: bitstring = Skey(skCli_245,skSess_283) in
+                                {259}new Nc_286: bitstring;
+                                {260}let m1_287: bitstring = (pkCli_246,Nc_286,CreateSessionRequest) in
+                                {261}out(c, (senc(m1_287,K_285),sign(h(m1_287),skCli_245)));
+                                {262}in(c, (em2_288: bitstring,sigM2_289: bitstring));
+                                {263}let m2_290: bitstring = sdec(em2_288,K_285) in
+                                {264}if (verify(h(m2_290),sigM2_289,pkSess_284) <> true) then
+                                    0
+                                else
+                                    {265}let (=pkSess_284,SSC_291: bitstring,Ns_292: bitstring) = m2_290 in
+                                    {266}new CSC_293: bitstring;
+                                    {267}event beginCli(Cli,Sess,(Login(skCli_245),Passwd(skCli_245)));
+                                    {268}let m3_294: bitstring = (CSC_293,Login(skCli_245),Passwd(skCli_245)) in
+                                    {269}out(c, (senc(m3_294,K_285),sign(h(m3_294),skCli_245)));
+                                    {270}in(c, (em4_295: bitstring,sigM4_296: bitstring));
+                                    {271}new Ns2_297: bitstring;
+                                    {272}let m4_298: bitstring = sdec(em4_295,K_285) in
+                                    {273}if (verify(h(m4_298),sigM4_296,pkSess_284) <> true) then
+                                        0
+                                    else
+                                        {274}let (Ns2_299: bitstring,=ActivateSessionResponse) = m4_298 in
+                                        0
+                        )
+                        else
+                            {275}let skSess_300: bitstring = fail-any in
+                            {276}let pkSess_301: bitstring = pub(skSess_300) in
+                            {277}let K_302: bitstring = Skey(skCli_245,skSess_300) in
+                            {278}new Nc_303: bitstring;
+                            {279}let m1_304: bitstring = (pkCli_246,Nc_303,CreateSessionRequest) in
+                            {280}out(c, (senc(m1_304,K_302),sign(h(m1_304),skCli_245)));
+                            {281}in(c, (em2_305: bitstring,sigM2_306: bitstring));
+                            {282}let m2_307: bitstring = sdec(em2_305,K_302) in
+                            {283}if (verify(h(m2_307),sigM2_306,pkSess_301) <> true) then
+                                0
+                            else
+                                {284}let (=pkSess_301,SSC_308: bitstring,Ns_309: bitstring) = m2_307 in
+                                {285}new CSC_310: bitstring;
+                                {286}event beginCli(Cli,Sess,(Login(skCli_245),Passwd(skCli_245)));
+                                {287}let m3_311: bitstring = (CSC_310,Login(skCli_245),Passwd(skCli_245)) in
+                                {288}out(c, (senc(m3_311,K_302),sign(h(m3_311),skCli_245)));
+                                {289}in(c, (em4_312: bitstring,sigM4_313: bitstring));
+                                {290}new Ns2_314: bitstring;
+                                {291}let m4_315: bitstring = sdec(em4_312,K_302) in
+                                {292}if (verify(h(m4_315),sigM4_313,pkSess_301) <> true) then
+                                    0
+                                else
+                                    {293}let (Ns2_316: bitstring,=ActivateSessionResponse) = m4_315 in
+                                    0
+                )
+                else
+                    {294}let skSess_317: bitstring = fail-any in
+                    {295}let pkSess_318: bitstring = pub(skSess_317) in
+                    {296}let K_319: bitstring = Skey(skCli_245,skSess_317) in
+                    {297}new Nc_320: bitstring;
+                    {298}let m1_321: bitstring = (pkCli_246,Nc_320,CreateSessionRequest) in
+                    {299}out(c, (senc(m1_321,K_319),sign(h(m1_321),skCli_245)));
+                    {300}in(c, (em2_322: bitstring,sigM2_323: bitstring));
+                    {301}let m2_324: bitstring = sdec(em2_322,K_319) in
+                    {302}if (verify(h(m2_324),sigM2_323,pkSess_318) <> true) then
+                        0
+                    else
+                        {303}let (=pkSess_318,SSC_325: bitstring,Ns_326: bitstring) = m2_324 in
+                        {304}new CSC_327: bitstring;
+                        {305}event beginCli(Cli,Sess,(Login(skCli_245),Passwd(skCli_245)));
+                        {306}let m3_328: bitstring = (CSC_327,Login(skCli_245),Passwd(skCli_245)) in
+                        {307}out(c, (senc(m3_328,K_319),sign(h(m3_328),skCli_245)));
+                        {308}in(c, (em4_329: bitstring,sigM4_330: bitstring));
+                        {309}new Ns2_331: bitstring;
+                        {310}let m4_332: bitstring = sdec(em4_329,K_319) in
+                        {311}if (verify(h(m4_332),sigM4_330,pkSess_318) <> true) then
+                            0
+                        else
+                            {312}let (Ns2_333: bitstring,=ActivateSessionResponse) = m4_332 in
+                            0
+    )
     else
-        {35}if (m1_66 <> CreateSessionRequest) then
-            0
+        {313}let skCli_334: bitstring = fail-any in
+        {314}let pkCli_335: bitstring = pub(skCli_334) in
+        {315}let v_336: bool = (Sess = A) in
+        (
+            {316}if v_336 then
+            (
+                {317}let skSess_337: bitstring = skA in
+                {318}let pkSess_338: bitstring = pub(skSess_337) in
+                {319}let K_339: bitstring = Skey(skCli_334,skSess_337) in
+                {320}new Nc_340: bitstring;
+                {321}let m1_341: bitstring = (pkCli_335,Nc_340,CreateSessionRequest) in
+                {322}out(c, (senc(m1_341,K_339),sign(h(m1_341),skCli_334)));
+                {323}in(c, (em2_342: bitstring,sigM2_343: bitstring));
+                {324}let m2_344: bitstring = sdec(em2_342,K_339) in
+                {325}if (verify(h(m2_344),sigM2_343,pkSess_338) <> true) then
+                    0
+                else
+                    {326}let (=pkSess_338,SSC_345: bitstring,Ns_346: bitstring) = m2_344 in
+                    {327}new CSC_347: bitstring;
+                    {328}event beginCli(Cli,Sess,(Login(skCli_334),Passwd(skCli_334)));
+                    {329}let m3_348: bitstring = (CSC_347,Login(skCli_334),Passwd(skCli_334)) in
+                    {330}out(c, (senc(m3_348,K_339),sign(h(m3_348),skCli_334)));
+                    {331}in(c, (em4_349: bitstring,sigM4_350: bitstring));
+                    {332}new Ns2_351: bitstring;
+                    {333}let m4_352: bitstring = sdec(em4_349,K_339) in
+                    {334}if (verify(h(m4_352),sigM4_350,pkSess_338) <> true) then
+                        0
+                    else
+                        {335}let (Ns2_353: bitstring,=ActivateSessionResponse) = m4_352 in
+                        0
+            )
+            else
+                {336}let v_354: bool = (Sess = B) in
+                (
+                    {337}if v_354 then
+                    (
+                        {338}let skSess_355: bitstring = skB in
+                        {339}let pkSess_356: bitstring = pub(skSess_355) in
+                        {340}let K_357: bitstring = Skey(skCli_334,skSess_355) in
+                        {341}new Nc_358: bitstring;
+                        {342}let m1_359: bitstring = (pkCli_335,Nc_358,CreateSessionRequest) in
+                        {343}out(c, (senc(m1_359,K_357),sign(h(m1_359),skCli_334)));
+                        {344}in(c, (em2_360: bitstring,sigM2_361: bitstring));
+                        {345}let m2_362: bitstring = sdec(em2_360,K_357) in
+                        {346}if (verify(h(m2_362),sigM2_361,pkSess_356) <> true) then
+                            0
+                        else
+                            {347}let (=pkSess_356,SSC_363: bitstring,Ns_364: bitstring) = m2_362 in
+                            {348}new CSC_365: bitstring;
+                            {349}event beginCli(Cli,Sess,(Login(skCli_334),Passwd(skCli_334)));
+                            {350}let m3_366: bitstring = (CSC_365,Login(skCli_334),Passwd(skCli_334)) in
+                            {351}out(c, (senc(m3_366,K_357),sign(h(m3_366),skCli_334)));
+                            {352}in(c, (em4_367: bitstring,sigM4_368: bitstring));
+                            {353}new Ns2_369: bitstring;
+                            {354}let m4_370: bitstring = sdec(em4_367,K_357) in
+                            {355}if (verify(h(m4_370),sigM4_368,pkSess_356) <> true) then
+                                0
+                            else
+                                {356}let (Ns2_371: bitstring,=ActivateSessionResponse) = m4_370 in
+                                0
+                    )
+                    else
+                        {357}let skSess_372: bitstring = sk(Sess) in
+                        {358}let pkSess_373: bitstring = pub(skSess_372) in
+                        {359}let K_374: bitstring = Skey(skCli_334,skSess_372) in
+                        {360}new Nc_375: bitstring;
+                        {361}let m1_376: bitstring = (pkCli_335,Nc_375,CreateSessionRequest) in
+                        {362}out(c, (senc(m1_376,K_374),sign(h(m1_376),skCli_334)));
+                        {363}in(c, (em2_377: bitstring,sigM2_378: bitstring));
+                        {364}let m2_379: bitstring = sdec(em2_377,K_374) in
+                        {365}if (verify(h(m2_379),sigM2_378,pkSess_373) <> true) then
+                            0
+                        else
+                            {366}let (=pkSess_373,SSC_380: bitstring,Ns_381: bitstring) = m2_379 in
+                            {367}new CSC_382: bitstring;
+                            {368}event beginCli(Cli,Sess,(Login(skCli_334),Passwd(skCli_334)));
+                            {369}let m3_383: bitstring = (CSC_382,Login(skCli_334),Passwd(skCli_334)) in
+                            {370}out(c, (senc(m3_383,K_374),sign(h(m3_383),skCli_334)));
+                            {371}in(c, (em4_384: bitstring,sigM4_385: bitstring));
+                            {372}new Ns2_386: bitstring;
+                            {373}let m4_387: bitstring = sdec(em4_384,K_374) in
+                            {374}if (verify(h(m4_387),sigM4_385,pkSess_373) <> true) then
+                                0
+                            else
+                                {375}let (Ns2_388: bitstring,=ActivateSessionResponse) = m4_387 in
+                                0
+                )
+                else
+                    {376}let skSess_389: bitstring = fail-any in
+                    {377}let pkSess_390: bitstring = pub(skSess_389) in
+                    {378}let K_391: bitstring = Skey(skCli_334,skSess_389) in
+                    {379}new Nc_392: bitstring;
+                    {380}let m1_393: bitstring = (pkCli_335,Nc_392,CreateSessionRequest) in
+                    {381}out(c, (senc(m1_393,K_391),sign(h(m1_393),skCli_334)));
+                    {382}in(c, (em2_394: bitstring,sigM2_395: bitstring));
+                    {383}let m2_396: bitstring = sdec(em2_394,K_391) in
+                    {384}if (verify(h(m2_396),sigM2_395,pkSess_390) <> true) then
+                        0
+                    else
+                        {385}let (=pkSess_390,SSC_397: bitstring,Ns_398: bitstring) = m2_396 in
+                        {386}new CSC_399: bitstring;
+                        {387}event beginCli(Cli,Sess,(Login(skCli_334),Passwd(skCli_334)));
+                        {388}let m3_400: bitstring = (CSC_399,Login(skCli_334),Passwd(skCli_334)) in
+                        {389}out(c, (senc(m3_400,K_391),sign(h(m3_400),skCli_334)));
+                        {390}in(c, (em4_401: bitstring,sigM4_402: bitstring));
+                        {391}new Ns2_403: bitstring;
+                        {392}let m4_404: bitstring = sdec(em4_401,K_391) in
+                        {393}if (verify(h(m4_404),sigM4_402,pkSess_390) <> true) then
+                            0
+                        else
+                            {394}let (Ns2_405: bitstring,=ActivateSessionResponse) = m4_404 in
+                            0
+        )
         else
-            {36}new SSC_67: bitstring;
-            {37}new Ns2_68: bitstring;
-            {38}let m2_69: bitstring = (SSC_67,Ns2_68) in
-            {39}out(c, (m2_69,sign(h(m2_69),skSess_63)));
-            {40}in(c, (m3_70: bitstring,sigM3: bitstring));
-            {41}if (verify(h(m3_70),sigM3,pkCli_62) <> true) then
+            {395}let skSess_406: bitstring = fail-any in
+            {396}let pkSess_407: bitstring = pub(skSess_406) in
+            {397}let K_408: bitstring = Skey(skCli_334,skSess_406) in
+            {398}new Nc_409: bitstring;
+            {399}let m1_410: bitstring = (pkCli_335,Nc_409,CreateSessionRequest) in
+            {400}out(c, (senc(m1_410,K_408),sign(h(m1_410),skCli_334)));
+            {401}in(c, (em2_411: bitstring,sigM2_412: bitstring));
+            {402}let m2_413: bitstring = sdec(em2_411,K_408) in
+            {403}if (verify(h(m2_413),sigM2_412,pkSess_407) <> true) then
                 0
             else
-                {42}let (CSC_71: bitstring,=Login(skCli_61),=Passwd(skCli_61)) = m3_70 in
-                {43}event endSrv(Cli_59,Sess_60,(Login(skCli_61),Passwd(skCli_61)));
-                {44}let m4_72: bitstring = ActivateSessionResponse in
-                {45}out(c, (m4_72,sign(h(m4_72),skSess_63)))
+                {404}let (=pkSess_407,SSC_414: bitstring,Ns_415: bitstring) = m2_413 in
+                {405}new CSC_416: bitstring;
+                {406}event beginCli(Cli,Sess,(Login(skCli_334),Passwd(skCli_334)));
+                {407}let m3_417: bitstring = (CSC_416,Login(skCli_334),Passwd(skCli_334)) in
+                {408}out(c, (senc(m3_417,K_408),sign(h(m3_417),skCli_334)));
+                {409}in(c, (em4_418: bitstring,sigM4_419: bitstring));
+                {410}new Ns2_420: bitstring;
+                {411}let m4_421: bitstring = sdec(em4_418,K_408) in
+                {412}if (verify(h(m4_421),sigM4_419,pkSess_407) <> true) then
+                    0
+                else
+                    {413}let (Ns2_422: bitstring,=ActivateSessionResponse) = m4_421 in
+                    0
 ) | (
-    {46}!
-    {47}in(c, (X: host,Y: host));
-    {48}let skX: bitstring = (if (X = A) then skA else (if (X = B) then skB else sk(X))) in
-    {49}let skY: bitstring = (if (Y = A) then skA else (if (Y = B) then skB else sk(Y))) in
-    {50}if ((X,Y) = (A,B)) then
-        0
-    else
-        {51}if ((X,Y) = (B,A)) then
-            0
+    {414}!
+    {415}in(c, (Cli_423: host,Sess_424: host));
+    {416}let v_425: bool = (Cli_423 = A) in
+    (
+        {417}if v_425 then
+        (
+            {418}let skCli_426: bitstring = skA in
+            {419}let pkCli_427: bitstring = pub(skCli_426) in
+            {420}let v_428: bool = (Sess_424 = A) in
+            (
+                {421}if v_428 then
+                (
+                    {422}let skSess_429: bitstring = skA in
+                    {423}let pkSess_430: bitstring = pub(skSess_429) in
+                    {424}let K_431: bitstring = Skey(skCli_426,skSess_429) in
+                    {425}in(c, (m1_432: bitstring,sigM1: bitstring));
+                    {426}if (verify(h(m1_432),sigM1,pkCli_427) <> true) then
+                        0
+                    else
+                        {427}let (=pkCli_427,Nc_433: bitstring,=CreateSessionRequest) = m1_432 in
+                        {428}new SSC_434: bitstring;
+                        {429}new Ns_435: bitstring;
+                        {430}let m2_436: bitstring = (pkSess_430,SSC_434,Ns_435) in
+                        {431}out(c, (m2_436,sign(h(m2_436),skSess_429)));
+                        {432}in(c, (m3_437: bitstring,sigM3: bitstring));
+                        {433}if (verify(h(m3_437),sigM3,pkCli_427) <> true) then
+                            0
+                        else
+                            {434}let (CSC_438: bitstring,=Login(skCli_426),=Passwd(skCli_426)) = m3_437 in
+                            {435}event endSrv(Cli_423,Sess_424,(Login(skCli_426),Passwd(skCli_426)));
+                            {436}new Ns2_439: bitstring;
+                            {437}let m4_440: bitstring = (Ns2_439,ActivateSessionResponse) in
+                            {438}out(c, (m4_440,sign(h(m4_440),skSess_429)))
+                )
+                else
+                    {439}let =true = (Sess_424 = B) in
+                    (
+                        {440}let skSess_441: bitstring = skB in
+                        {441}let pkSess_442: bitstring = pub(skSess_441) in
+                        {442}let K_443: bitstring = Skey(skCli_426,skSess_441) in
+                        {443}in(c, (m1_444: bitstring,sigM1_445: bitstring));
+                        {444}if (verify(h(m1_444),sigM1_445,pkCli_427) <> true) then
+                            0
+                        else
+                            {445}let (=pkCli_427,Nc_446: bitstring,=CreateSessionRequest) = m1_444 in
+                            {446}new SSC_447: bitstring;
+                            {447}new Ns_448: bitstring;
+                            {448}let m2_449: bitstring = (pkSess_442,SSC_447,Ns_448) in
+                            {449}out(c, (m2_449,sign(h(m2_449),skSess_441)));
+                            {450}in(c, (m3_450: bitstring,sigM3_451: bitstring));
+                            {451}if (verify(h(m3_450),sigM3_451,pkCli_427) <> true) then
+                                0
+                            else
+                                {452}let (CSC_452: bitstring,=Login(skCli_426),=Passwd(skCli_426)) = m3_450 in
+                                {453}event endSrv(Cli_423,Sess_424,(Login(skCli_426),Passwd(skCli_426)));
+                                {454}new Ns2_453: bitstring;
+                                {455}let m4_454: bitstring = (Ns2_453,ActivateSessionResponse) in
+                                {456}out(c, (m4_454,sign(h(m4_454),skSess_441)))
+                    )
+                    else
+                        {457}let skSess_455: bitstring = fail-any in
+                        {458}let pkSess_456: bitstring = pub(skSess_455) in
+                        {459}let K_457: bitstring = Skey(skCli_426,skSess_455) in
+                        {460}in(c, (m1_458: bitstring,sigM1_459: bitstring));
+                        {461}if (verify(h(m1_458),sigM1_459,pkCli_427) <> true) then
+                            0
+                        else
+                            {462}let (=pkCli_427,Nc_460: bitstring,=CreateSessionRequest) = m1_458 in
+                            {463}new SSC_461: bitstring;
+                            {464}new Ns_462: bitstring;
+                            {465}let m2_463: bitstring = (pkSess_456,SSC_461,Ns_462) in
+                            {466}out(c, (m2_463,sign(h(m2_463),skSess_455)));
+                            {467}in(c, (m3_464: bitstring,sigM3_465: bitstring));
+                            {468}if (verify(h(m3_464),sigM3_465,pkCli_427) <> true) then
+                                0
+                            else
+                                {469}let (CSC_466: bitstring,=Login(skCli_426),=Passwd(skCli_426)) = m3_464 in
+                                {470}event endSrv(Cli_423,Sess_424,(Login(skCli_426),Passwd(skCli_426)));
+                                {471}new Ns2_467: bitstring;
+                                {472}let m4_468: bitstring = (Ns2_467,ActivateSessionResponse) in
+                                {473}out(c, (m4_468,sign(h(m4_468),skSess_455)))
+            )
+            else
+                {474}let skSess_469: bitstring = fail-any in
+                {475}let pkSess_470: bitstring = pub(skSess_469) in
+                {476}let K_471: bitstring = Skey(skCli_426,skSess_469) in
+                {477}in(c, (m1_472: bitstring,sigM1_473: bitstring));
+                {478}if (verify(h(m1_472),sigM1_473,pkCli_427) <> true) then
+                    0
+                else
+                    {479}let (=pkCli_427,Nc_474: bitstring,=CreateSessionRequest) = m1_472 in
+                    {480}new SSC_475: bitstring;
+                    {481}new Ns_476: bitstring;
+                    {482}let m2_477: bitstring = (pkSess_470,SSC_475,Ns_476) in
+                    {483}out(c, (m2_477,sign(h(m2_477),skSess_469)));
+                    {484}in(c, (m3_478: bitstring,sigM3_479: bitstring));
+                    {485}if (verify(h(m3_478),sigM3_479,pkCli_427) <> true) then
+                        0
+                    else
+                        {486}let (CSC_480: bitstring,=Login(skCli_426),=Passwd(skCli_426)) = m3_478 in
+                        {487}event endSrv(Cli_423,Sess_424,(Login(skCli_426),Passwd(skCli_426)));
+                        {488}new Ns2_481: bitstring;
+                        {489}let m4_482: bitstring = (Ns2_481,ActivateSessionResponse) in
+                        {490}out(c, (m4_482,sign(h(m4_482),skSess_469)))
+        )
         else
-            {52}out(c, Skey(skX,skY))
+            {491}let v_483: bool = (Cli_423 = B) in
+            (
+                {492}if v_483 then
+                (
+                    {493}let skCli_484: bitstring = skB in
+                    {494}let pkCli_485: bitstring = pub(skCli_484) in
+                    {495}let v_486: bool = (Sess_424 = A) in
+                    (
+                        {496}if v_486 then
+                        (
+                            {497}let skSess_487: bitstring = skA in
+                            {498}let pkSess_488: bitstring = pub(skSess_487) in
+                            {499}let K_489: bitstring = Skey(skCli_484,skSess_487) in
+                            {500}in(c, (m1_490: bitstring,sigM1_491: bitstring));
+                            {501}if (verify(h(m1_490),sigM1_491,pkCli_485) <> true) then
+                                0
+                            else
+                                {502}let (=pkCli_485,Nc_492: bitstring,=CreateSessionRequest) = m1_490 in
+                                {503}new SSC_493: bitstring;
+                                {504}new Ns_494: bitstring;
+                                {505}let m2_495: bitstring = (pkSess_488,SSC_493,Ns_494) in
+                                {506}out(c, (m2_495,sign(h(m2_495),skSess_487)));
+                                {507}in(c, (m3_496: bitstring,sigM3_497: bitstring));
+                                {508}if (verify(h(m3_496),sigM3_497,pkCli_485) <> true) then
+                                    0
+                                else
+                                    {509}let (CSC_498: bitstring,=Login(skCli_484),=Passwd(skCli_484)) = m3_496 in
+                                    {510}event endSrv(Cli_423,Sess_424,(Login(skCli_484),Passwd(skCli_484)));
+                                    {511}new Ns2_499: bitstring;
+                                    {512}let m4_500: bitstring = (Ns2_499,ActivateSessionResponse) in
+                                    {513}out(c, (m4_500,sign(h(m4_500),skSess_487)))
+                        )
+                        else
+                            {514}let =true = (Sess_424 = B) in
+                            (
+                                {515}let skSess_501: bitstring = skB in
+                                {516}let pkSess_502: bitstring = pub(skSess_501) in
+                                {517}let K_503: bitstring = Skey(skCli_484,skSess_501) in
+                                {518}in(c, (m1_504: bitstring,sigM1_505: bitstring));
+                                {519}if (verify(h(m1_504),sigM1_505,pkCli_485) <> true) then
+                                    0
+                                else
+                                    {520}let (=pkCli_485,Nc_506: bitstring,=CreateSessionRequest) = m1_504 in
+                                    {521}new SSC_507: bitstring;
+                                    {522}new Ns_508: bitstring;
+                                    {523}let m2_509: bitstring = (pkSess_502,SSC_507,Ns_508) in
+                                    {524}out(c, (m2_509,sign(h(m2_509),skSess_501)));
+                                    {525}in(c, (m3_510: bitstring,sigM3_511: bitstring));
+                                    {526}if (verify(h(m3_510),sigM3_511,pkCli_485) <> true) then
+                                        0
+                                    else
+                                        {527}let (CSC_512: bitstring,=Login(skCli_484),=Passwd(skCli_484)) = m3_510 in
+                                        {528}event endSrv(Cli_423,Sess_424,(Login(skCli_484),Passwd(skCli_484)));
+                                        {529}new Ns2_513: bitstring;
+                                        {530}let m4_514: bitstring = (Ns2_513,ActivateSessionResponse) in
+                                        {531}out(c, (m4_514,sign(h(m4_514),skSess_501)))
+                            )
+                            else
+                                {532}let skSess_515: bitstring = fail-any in
+                                {533}let pkSess_516: bitstring = pub(skSess_515) in
+                                {534}let K_517: bitstring = Skey(skCli_484,skSess_515) in
+                                {535}in(c, (m1_518: bitstring,sigM1_519: bitstring));
+                                {536}if (verify(h(m1_518),sigM1_519,pkCli_485) <> true) then
+                                    0
+                                else
+                                    {537}let (=pkCli_485,Nc_520: bitstring,=CreateSessionRequest) = m1_518 in
+                                    {538}new SSC_521: bitstring;
+                                    {539}new Ns_522: bitstring;
+                                    {540}let m2_523: bitstring = (pkSess_516,SSC_521,Ns_522) in
+                                    {541}out(c, (m2_523,sign(h(m2_523),skSess_515)));
+                                    {542}in(c, (m3_524: bitstring,sigM3_525: bitstring));
+                                    {543}if (verify(h(m3_524),sigM3_525,pkCli_485) <> true) then
+                                        0
+                                    else
+                                        {544}let (CSC_526: bitstring,=Login(skCli_484),=Passwd(skCli_484)) = m3_524 in
+                                        {545}event endSrv(Cli_423,Sess_424,(Login(skCli_484),Passwd(skCli_484)));
+                                        {546}new Ns2_527: bitstring;
+                                        {547}let m4_528: bitstring = (Ns2_527,ActivateSessionResponse) in
+                                        {548}out(c, (m4_528,sign(h(m4_528),skSess_515)))
+                    )
+                    else
+                        {549}let skSess_529: bitstring = fail-any in
+                        {550}let pkSess_530: bitstring = pub(skSess_529) in
+                        {551}let K_531: bitstring = Skey(skCli_484,skSess_529) in
+                        {552}in(c, (m1_532: bitstring,sigM1_533: bitstring));
+                        {553}if (verify(h(m1_532),sigM1_533,pkCli_485) <> true) then
+                            0
+                        else
+                            {554}let (=pkCli_485,Nc_534: bitstring,=CreateSessionRequest) = m1_532 in
+                            {555}new SSC_535: bitstring;
+                            {556}new Ns_536: bitstring;
+                            {557}let m2_537: bitstring = (pkSess_530,SSC_535,Ns_536) in
+                            {558}out(c, (m2_537,sign(h(m2_537),skSess_529)));
+                            {559}in(c, (m3_538: bitstring,sigM3_539: bitstring));
+                            {560}if (verify(h(m3_538),sigM3_539,pkCli_485) <> true) then
+                                0
+                            else
+                                {561}let (CSC_540: bitstring,=Login(skCli_484),=Passwd(skCli_484)) = m3_538 in
+                                {562}event endSrv(Cli_423,Sess_424,(Login(skCli_484),Passwd(skCli_484)));
+                                {563}new Ns2_541: bitstring;
+                                {564}let m4_542: bitstring = (Ns2_541,ActivateSessionResponse) in
+                                {565}out(c, (m4_542,sign(h(m4_542),skSess_529)))
+                )
+                else
+                    {566}let skCli_543: bitstring = sk(Cli_423) in
+                    {567}let pkCli_544: bitstring = pub(skCli_543) in
+                    {568}let v_545: bool = (Sess_424 = A) in
+                    (
+                        {569}if v_545 then
+                        (
+                            {570}let skSess_546: bitstring = skA in
+                            {571}let pkSess_547: bitstring = pub(skSess_546) in
+                            {572}let K_548: bitstring = Skey(skCli_543,skSess_546) in
+                            {573}in(c, (m1_549: bitstring,sigM1_550: bitstring));
+                            {574}if (verify(h(m1_549),sigM1_550,pkCli_544) <> true) then
+                                0
+                            else
+                                {575}let (=pkCli_544,Nc_551: bitstring,=CreateSessionRequest) = m1_549 in
+                                {576}new SSC_552: bitstring;
+                                {577}new Ns_553: bitstring;
+                                {578}let m2_554: bitstring = (pkSess_547,SSC_552,Ns_553) in
+                                {579}out(c, (m2_554,sign(h(m2_554),skSess_546)));
+                                {580}in(c, (m3_555: bitstring,sigM3_556: bitstring));
+                                {581}if (verify(h(m3_555),sigM3_556,pkCli_544) <> true) then
+                                    0
+                                else
+                                    {582}let (CSC_557: bitstring,=Login(skCli_543),=Passwd(skCli_543)) = m3_555 in
+                                    {583}event endSrv(Cli_423,Sess_424,(Login(skCli_543),Passwd(skCli_543)));
+                                    {584}new Ns2_558: bitstring;
+                                    {585}let m4_559: bitstring = (Ns2_558,ActivateSessionResponse) in
+                                    {586}out(c, (m4_559,sign(h(m4_559),skSess_546)))
+                        )
+                        else
+                            {587}let =true = (Sess_424 = B) in
+                            (
+                                {588}let skSess_560: bitstring = skB in
+                                {589}let pkSess_561: bitstring = pub(skSess_560) in
+                                {590}let K_562: bitstring = Skey(skCli_543,skSess_560) in
+                                {591}in(c, (m1_563: bitstring,sigM1_564: bitstring));
+                                {592}if (verify(h(m1_563),sigM1_564,pkCli_544) <> true) then
+                                    0
+                                else
+                                    {593}let (=pkCli_544,Nc_565: bitstring,=CreateSessionRequest) = m1_563 in
+                                    {594}new SSC_566: bitstring;
+                                    {595}new Ns_567: bitstring;
+                                    {596}let m2_568: bitstring = (pkSess_561,SSC_566,Ns_567) in
+                                    {597}out(c, (m2_568,sign(h(m2_568),skSess_560)));
+                                    {598}in(c, (m3_569: bitstring,sigM3_570: bitstring));
+                                    {599}if (verify(h(m3_569),sigM3_570,pkCli_544) <> true) then
+                                        0
+                                    else
+                                        {600}let (CSC_571: bitstring,=Login(skCli_543),=Passwd(skCli_543)) = m3_569 in
+                                        {601}event endSrv(Cli_423,Sess_424,(Login(skCli_543),Passwd(skCli_543)));
+                                        {602}new Ns2_572: bitstring;
+                                        {603}let m4_573: bitstring = (Ns2_572,ActivateSessionResponse) in
+                                        {604}out(c, (m4_573,sign(h(m4_573),skSess_560)))
+                            )
+                            else
+                                {605}let skSess_574: bitstring = fail-any in
+                                {606}let pkSess_575: bitstring = pub(skSess_574) in
+                                {607}let K_576: bitstring = Skey(skCli_543,skSess_574) in
+                                {608}in(c, (m1_577: bitstring,sigM1_578: bitstring));
+                                {609}if (verify(h(m1_577),sigM1_578,pkCli_544) <> true) then
+                                    0
+                                else
+                                    {610}let (=pkCli_544,Nc_579: bitstring,=CreateSessionRequest) = m1_577 in
+                                    {611}new SSC_580: bitstring;
+                                    {612}new Ns_581: bitstring;
+                                    {613}let m2_582: bitstring = (pkSess_575,SSC_580,Ns_581) in
+                                    {614}out(c, (m2_582,sign(h(m2_582),skSess_574)));
+                                    {615}in(c, (m3_583: bitstring,sigM3_584: bitstring));
+                                    {616}if (verify(h(m3_583),sigM3_584,pkCli_544) <> true) then
+                                        0
+                                    else
+                                        {617}let (CSC_585: bitstring,=Login(skCli_543),=Passwd(skCli_543)) = m3_583 in
+                                        {618}event endSrv(Cli_423,Sess_424,(Login(skCli_543),Passwd(skCli_543)));
+                                        {619}new Ns2_586: bitstring;
+                                        {620}let m4_587: bitstring = (Ns2_586,ActivateSessionResponse) in
+                                        {621}out(c, (m4_587,sign(h(m4_587),skSess_574)))
+                    )
+                    else
+                        {622}let skSess_588: bitstring = fail-any in
+                        {623}let pkSess_589: bitstring = pub(skSess_588) in
+                        {624}let K_590: bitstring = Skey(skCli_543,skSess_588) in
+                        {625}in(c, (m1_591: bitstring,sigM1_592: bitstring));
+                        {626}if (verify(h(m1_591),sigM1_592,pkCli_544) <> true) then
+                            0
+                        else
+                            {627}let (=pkCli_544,Nc_593: bitstring,=CreateSessionRequest) = m1_591 in
+                            {628}new SSC_594: bitstring;
+                            {629}new Ns_595: bitstring;
+                            {630}let m2_596: bitstring = (pkSess_589,SSC_594,Ns_595) in
+                            {631}out(c, (m2_596,sign(h(m2_596),skSess_588)));
+                            {632}in(c, (m3_597: bitstring,sigM3_598: bitstring));
+                            {633}if (verify(h(m3_597),sigM3_598,pkCli_544) <> true) then
+                                0
+                            else
+                                {634}let (CSC_599: bitstring,=Login(skCli_543),=Passwd(skCli_543)) = m3_597 in
+                                {635}event endSrv(Cli_423,Sess_424,(Login(skCli_543),Passwd(skCli_543)));
+                                {636}new Ns2_600: bitstring;
+                                {637}let m4_601: bitstring = (Ns2_600,ActivateSessionResponse) in
+                                {638}out(c, (m4_601,sign(h(m4_601),skSess_588)))
+            )
+            else
+                {639}let skCli_602: bitstring = fail-any in
+                {640}let pkCli_603: bitstring = pub(skCli_602) in
+                {641}let v_604: bool = (Sess_424 = A) in
+                (
+                    {642}if v_604 then
+                    (
+                        {643}let skSess_605: bitstring = skA in
+                        {644}let pkSess_606: bitstring = pub(skSess_605) in
+                        {645}let K_607: bitstring = Skey(skCli_602,skSess_605) in
+                        {646}in(c, (m1_608: bitstring,sigM1_609: bitstring));
+                        {647}if (verify(h(m1_608),sigM1_609,pkCli_603) <> true) then
+                            0
+                        else
+                            {648}let (=pkCli_603,Nc_610: bitstring,=CreateSessionRequest) = m1_608 in
+                            {649}new SSC_611: bitstring;
+                            {650}new Ns_612: bitstring;
+                            {651}let m2_613: bitstring = (pkSess_606,SSC_611,Ns_612) in
+                            {652}out(c, (m2_613,sign(h(m2_613),skSess_605)));
+                            {653}in(c, (m3_614: bitstring,sigM3_615: bitstring));
+                            {654}if (verify(h(m3_614),sigM3_615,pkCli_603) <> true) then
+                                0
+                            else
+                                {655}let (CSC_616: bitstring,=Login(skCli_602),=Passwd(skCli_602)) = m3_614 in
+                                {656}event endSrv(Cli_423,Sess_424,(Login(skCli_602),Passwd(skCli_602)));
+                                {657}new Ns2_617: bitstring;
+                                {658}let m4_618: bitstring = (Ns2_617,ActivateSessionResponse) in
+                                {659}out(c, (m4_618,sign(h(m4_618),skSess_605)))
+                    )
+                    else
+                        {660}let =true = (Sess_424 = B) in
+                        (
+                            {661}let skSess_619: bitstring = skB in
+                            {662}let pkSess_620: bitstring = pub(skSess_619) in
+                            {663}let K_621: bitstring = Skey(skCli_602,skSess_619) in
+                            {664}in(c, (m1_622: bitstring,sigM1_623: bitstring));
+                            {665}if (verify(h(m1_622),sigM1_623,pkCli_603) <> true) then
+                                0
+                            else
+                                {666}let (=pkCli_603,Nc_624: bitstring,=CreateSessionRequest) = m1_622 in
+                                {667}new SSC_625: bitstring;
+                                {668}new Ns_626: bitstring;
+                                {669}let m2_627: bitstring = (pkSess_620,SSC_625,Ns_626) in
+                                {670}out(c, (m2_627,sign(h(m2_627),skSess_619)));
+                                {671}in(c, (m3_628: bitstring,sigM3_629: bitstring));
+                                {672}if (verify(h(m3_628),sigM3_629,pkCli_603) <> true) then
+                                    0
+                                else
+                                    {673}let (CSC_630: bitstring,=Login(skCli_602),=Passwd(skCli_602)) = m3_628 in
+                                    {674}event endSrv(Cli_423,Sess_424,(Login(skCli_602),Passwd(skCli_602)));
+                                    {675}new Ns2_631: bitstring;
+                                    {676}let m4_632: bitstring = (Ns2_631,ActivateSessionResponse) in
+                                    {677}out(c, (m4_632,sign(h(m4_632),skSess_619)))
+                        )
+                        else
+                            {678}let skSess_633: bitstring = fail-any in
+                            {679}let pkSess_634: bitstring = pub(skSess_633) in
+                            {680}let K_635: bitstring = Skey(skCli_602,skSess_633) in
+                            {681}in(c, (m1_636: bitstring,sigM1_637: bitstring));
+                            {682}if (verify(h(m1_636),sigM1_637,pkCli_603) <> true) then
+                                0
+                            else
+                                {683}let (=pkCli_603,Nc_638: bitstring,=CreateSessionRequest) = m1_636 in
+                                {684}new SSC_639: bitstring;
+                                {685}new Ns_640: bitstring;
+                                {686}let m2_641: bitstring = (pkSess_634,SSC_639,Ns_640) in
+                                {687}out(c, (m2_641,sign(h(m2_641),skSess_633)));
+                                {688}in(c, (m3_642: bitstring,sigM3_643: bitstring));
+                                {689}if (verify(h(m3_642),sigM3_643,pkCli_603) <> true) then
+                                    0
+                                else
+                                    {690}let (CSC_644: bitstring,=Login(skCli_602),=Passwd(skCli_602)) = m3_642 in
+                                    {691}event endSrv(Cli_423,Sess_424,(Login(skCli_602),Passwd(skCli_602)));
+                                    {692}new Ns2_645: bitstring;
+                                    {693}let m4_646: bitstring = (Ns2_645,ActivateSessionResponse) in
+                                    {694}out(c, (m4_646,sign(h(m4_646),skSess_633)))
+                )
+                else
+                    {695}let skSess_647: bitstring = fail-any in
+                    {696}let pkSess_648: bitstring = pub(skSess_647) in
+                    {697}let K_649: bitstring = Skey(skCli_602,skSess_647) in
+                    {698}in(c, (m1_650: bitstring,sigM1_651: bitstring));
+                    {699}if (verify(h(m1_650),sigM1_651,pkCli_603) <> true) then
+                        0
+                    else
+                        {700}let (=pkCli_603,Nc_652: bitstring,=CreateSessionRequest) = m1_650 in
+                        {701}new SSC_653: bitstring;
+                        {702}new Ns_654: bitstring;
+                        {703}let m2_655: bitstring = (pkSess_648,SSC_653,Ns_654) in
+                        {704}out(c, (m2_655,sign(h(m2_655),skSess_647)));
+                        {705}in(c, (m3_656: bitstring,sigM3_657: bitstring));
+                        {706}if (verify(h(m3_656),sigM3_657,pkCli_603) <> true) then
+                            0
+                        else
+                            {707}let (CSC_658: bitstring,=Login(skCli_602),=Passwd(skCli_602)) = m3_656 in
+                            {708}event endSrv(Cli_423,Sess_424,(Login(skCli_602),Passwd(skCli_602)));
+                            {709}new Ns2_659: bitstring;
+                            {710}let m4_660: bitstring = (Ns2_659,ActivateSessionResponse) in
+                            {711}out(c, (m4_660,sign(h(m4_660),skSess_647)))
+    )
+    else
+        {712}let skCli_661: bitstring = fail-any in
+        {713}let pkCli_662: bitstring = pub(skCli_661) in
+        {714}let v_663: bool = (Sess_424 = A) in
+        (
+            {715}if v_663 then
+            (
+                {716}let skSess_664: bitstring = skA in
+                {717}let pkSess_665: bitstring = pub(skSess_664) in
+                {718}let K_666: bitstring = Skey(skCli_661,skSess_664) in
+                {719}in(c, (m1_667: bitstring,sigM1_668: bitstring));
+                {720}if (verify(h(m1_667),sigM1_668,pkCli_662) <> true) then
+                    0
+                else
+                    {721}let (=pkCli_662,Nc_669: bitstring,=CreateSessionRequest) = m1_667 in
+                    {722}new SSC_670: bitstring;
+                    {723}new Ns_671: bitstring;
+                    {724}let m2_672: bitstring = (pkSess_665,SSC_670,Ns_671) in
+                    {725}out(c, (m2_672,sign(h(m2_672),skSess_664)));
+                    {726}in(c, (m3_673: bitstring,sigM3_674: bitstring));
+                    {727}if (verify(h(m3_673),sigM3_674,pkCli_662) <> true) then
+                        0
+                    else
+                        {728}let (CSC_675: bitstring,=Login(skCli_661),=Passwd(skCli_661)) = m3_673 in
+                        {729}event endSrv(Cli_423,Sess_424,(Login(skCli_661),Passwd(skCli_661)));
+                        {730}new Ns2_676: bitstring;
+                        {731}let m4_677: bitstring = (Ns2_676,ActivateSessionResponse) in
+                        {732}out(c, (m4_677,sign(h(m4_677),skSess_664)))
+            )
+            else
+                {733}let =true = (Sess_424 = B) in
+                (
+                    {734}let skSess_678: bitstring = skB in
+                    {735}let pkSess_679: bitstring = pub(skSess_678) in
+                    {736}let K_680: bitstring = Skey(skCli_661,skSess_678) in
+                    {737}in(c, (m1_681: bitstring,sigM1_682: bitstring));
+                    {738}if (verify(h(m1_681),sigM1_682,pkCli_662) <> true) then
+                        0
+                    else
+                        {739}let (=pkCli_662,Nc_683: bitstring,=CreateSessionRequest) = m1_681 in
+                        {740}new SSC_684: bitstring;
+                        {741}new Ns_685: bitstring;
+                        {742}let m2_686: bitstring = (pkSess_679,SSC_684,Ns_685) in
+                        {743}out(c, (m2_686,sign(h(m2_686),skSess_678)));
+                        {744}in(c, (m3_687: bitstring,sigM3_688: bitstring));
+                        {745}if (verify(h(m3_687),sigM3_688,pkCli_662) <> true) then
+                            0
+                        else
+                            {746}let (CSC_689: bitstring,=Login(skCli_661),=Passwd(skCli_661)) = m3_687 in
+                            {747}event endSrv(Cli_423,Sess_424,(Login(skCli_661),Passwd(skCli_661)));
+                            {748}new Ns2_690: bitstring;
+                            {749}let m4_691: bitstring = (Ns2_690,ActivateSessionResponse) in
+                            {750}out(c, (m4_691,sign(h(m4_691),skSess_678)))
+                )
+                else
+                    {751}let skSess_692: bitstring = fail-any in
+                    {752}let pkSess_693: bitstring = pub(skSess_692) in
+                    {753}let K_694: bitstring = Skey(skCli_661,skSess_692) in
+                    {754}in(c, (m1_695: bitstring,sigM1_696: bitstring));
+                    {755}if (verify(h(m1_695),sigM1_696,pkCli_662) <> true) then
+                        0
+                    else
+                        {756}let (=pkCli_662,Nc_697: bitstring,=CreateSessionRequest) = m1_695 in
+                        {757}new SSC_698: bitstring;
+                        {758}new Ns_699: bitstring;
+                        {759}let m2_700: bitstring = (pkSess_693,SSC_698,Ns_699) in
+                        {760}out(c, (m2_700,sign(h(m2_700),skSess_692)));
+                        {761}in(c, (m3_701: bitstring,sigM3_702: bitstring));
+                        {762}if (verify(h(m3_701),sigM3_702,pkCli_662) <> true) then
+                            0
+                        else
+                            {763}let (CSC_703: bitstring,=Login(skCli_661),=Passwd(skCli_661)) = m3_701 in
+                            {764}event endSrv(Cli_423,Sess_424,(Login(skCli_661),Passwd(skCli_661)));
+                            {765}new Ns2_704: bitstring;
+                            {766}let m4_705: bitstring = (Ns2_704,ActivateSessionResponse) in
+                            {767}out(c, (m4_705,sign(h(m4_705),skSess_692)))
+        )
+        else
+            {768}let skSess_706: bitstring = fail-any in
+            {769}let pkSess_707: bitstring = pub(skSess_706) in
+            {770}let K_708: bitstring = Skey(skCli_661,skSess_706) in
+            {771}in(c, (m1_709: bitstring,sigM1_710: bitstring));
+            {772}if (verify(h(m1_709),sigM1_710,pkCli_662) <> true) then
+                0
+            else
+                {773}let (=pkCli_662,Nc_711: bitstring,=CreateSessionRequest) = m1_709 in
+                {774}new SSC_712: bitstring;
+                {775}new Ns_713: bitstring;
+                {776}let m2_714: bitstring = (pkSess_707,SSC_712,Ns_713) in
+                {777}out(c, (m2_714,sign(h(m2_714),skSess_706)));
+                {778}in(c, (m3_715: bitstring,sigM3_716: bitstring));
+                {779}if (verify(h(m3_715),sigM3_716,pkCli_662) <> true) then
+                    0
+                else
+                    {780}let (CSC_717: bitstring,=Login(skCli_661),=Passwd(skCli_661)) = m3_715 in
+                    {781}event endSrv(Cli_423,Sess_424,(Login(skCli_661),Passwd(skCli_661)));
+                    {782}new Ns2_718: bitstring;
+                    {783}let m4_719: bitstring = (Ns2_718,ActivateSessionResponse) in
+                    {784}out(c, (m4_719,sign(h(m4_719),skSess_706)))
+) | (
+    {785}!
+    {786}in(c, (X: host,Y: host));
+    {787}let v_720: bool = (X = A) in
+    (
+        {788}if v_720 then
+        (
+            {789}let skX: bitstring = skA in
+            {790}let v_721: bool = (Y = A) in
+            (
+                {791}if v_721 then
+                (
+                    {792}let skY: bitstring = skA in
+                    {793}if ((X,Y) = (A,B)) then
+                        0
+                    else
+                        {794}if ((X,Y) = (B,A)) then
+                            0
+                        else
+                            {795}out(c, Skey(skX,skY))
+                )
+                else
+                    {796}let v_722: bool = (Y = B) in
+                    (
+                        {797}if v_722 then
+                        (
+                            {798}let skY_723: bitstring = skB in
+                            {799}if ((X,Y) = (A,B)) then
+                                0
+                            else
+                                {800}if ((X,Y) = (B,A)) then
+                                    0
+                                else
+                                    {801}out(c, Skey(skX,skY_723))
+                        )
+                        else
+                            {802}let skY_724: bitstring = sk(Y) in
+                            {803}if ((X,Y) = (A,B)) then
+                                0
+                            else
+                                {804}if ((X,Y) = (B,A)) then
+                                    0
+                                else
+                                    {805}out(c, Skey(skX,skY_724))
+                    )
+                    else
+                        {806}let skY_725: bitstring = fail-any in
+                        {807}if ((X,Y) = (A,B)) then
+                            0
+                        else
+                            {808}if ((X,Y) = (B,A)) then
+                                0
+                            else
+                                {809}out(c, Skey(skX,skY_725))
+            )
+            else
+                {810}let skY_726: bitstring = fail-any in
+                {811}if ((X,Y) = (A,B)) then
+                    0
+                else
+                    {812}if ((X,Y) = (B,A)) then
+                        0
+                    else
+                        {813}out(c, Skey(skX,skY_726))
+        )
+        else
+            {814}let v_727: bool = (X = B) in
+            (
+                {815}if v_727 then
+                (
+                    {816}let skX_728: bitstring = skB in
+                    {817}let v_729: bool = (Y = A) in
+                    (
+                        {818}if v_729 then
+                        (
+                            {819}let skY_730: bitstring = skA in
+                            {820}if ((X,Y) = (A,B)) then
+                                0
+                            else
+                                {821}if ((X,Y) = (B,A)) then
+                                    0
+                                else
+                                    {822}out(c, Skey(skX_728,skY_730))
+                        )
+                        else
+                            {823}let v_731: bool = (Y = B) in
+                            (
+                                {824}if v_731 then
+                                (
+                                    {825}let skY_732: bitstring = skB in
+                                    {826}if ((X,Y) = (A,B)) then
+                                        0
+                                    else
+                                        {827}if ((X,Y) = (B,A)) then
+                                            0
+                                        else
+                                            {828}out(c, Skey(skX_728,skY_732))
+                                )
+                                else
+                                    {829}let skY_733: bitstring = sk(Y) in
+                                    {830}if ((X,Y) = (A,B)) then
+                                        0
+                                    else
+                                        {831}if ((X,Y) = (B,A)) then
+                                            0
+                                        else
+                                            {832}out(c, Skey(skX_728,skY_733))
+                            )
+                            else
+                                {833}let skY_734: bitstring = fail-any in
+                                {834}if ((X,Y) = (A,B)) then
+                                    0
+                                else
+                                    {835}if ((X,Y) = (B,A)) then
+                                        0
+                                    else
+                                        {836}out(c, Skey(skX_728,skY_734))
+                    )
+                    else
+                        {837}let skY_735: bitstring = fail-any in
+                        {838}if ((X,Y) = (A,B)) then
+                            0
+                        else
+                            {839}if ((X,Y) = (B,A)) then
+                                0
+                            else
+                                {840}out(c, Skey(skX_728,skY_735))
+                )
+                else
+                    {841}let skX_736: bitstring = sk(X) in
+                    {842}let v_737: bool = (Y = A) in
+                    (
+                        {843}if v_737 then
+                        (
+                            {844}let skY_738: bitstring = skA in
+                            {845}if ((X,Y) = (A,B)) then
+                                0
+                            else
+                                {846}if ((X,Y) = (B,A)) then
+                                    0
+                                else
+                                    {847}out(c, Skey(skX_736,skY_738))
+                        )
+                        else
+                            {848}let v_739: bool = (Y = B) in
+                            (
+                                {849}if v_739 then
+                                (
+                                    {850}let skY_740: bitstring = skB in
+                                    {851}if ((X,Y) = (A,B)) then
+                                        0
+                                    else
+                                        {852}if ((X,Y) = (B,A)) then
+                                            0
+                                        else
+                                            {853}out(c, Skey(skX_736,skY_740))
+                                )
+                                else
+                                    {854}let skY_741: bitstring = sk(Y) in
+                                    {855}if ((X,Y) = (A,B)) then
+                                        0
+                                    else
+                                        {856}if ((X,Y) = (B,A)) then
+                                            0
+                                        else
+                                            {857}out(c, Skey(skX_736,skY_741))
+                            )
+                            else
+                                {858}let skY_742: bitstring = fail-any in
+                                {859}if ((X,Y) = (A,B)) then
+                                    0
+                                else
+                                    {860}if ((X,Y) = (B,A)) then
+                                        0
+                                    else
+                                        {861}out(c, Skey(skX_736,skY_742))
+                    )
+                    else
+                        {862}let skY_743: bitstring = fail-any in
+                        {863}if ((X,Y) = (A,B)) then
+                            0
+                        else
+                            {864}if ((X,Y) = (B,A)) then
+                                0
+                            else
+                                {865}out(c, Skey(skX_736,skY_743))
+            )
+            else
+                {866}let skX_744: bitstring = fail-any in
+                {867}let v_745: bool = (Y = A) in
+                (
+                    {868}if v_745 then
+                    (
+                        {869}let skY_746: bitstring = skA in
+                        {870}if ((X,Y) = (A,B)) then
+                            0
+                        else
+                            {871}if ((X,Y) = (B,A)) then
+                                0
+                            else
+                                {872}out(c, Skey(skX_744,skY_746))
+                    )
+                    else
+                        {873}let v_747: bool = (Y = B) in
+                        (
+                            {874}if v_747 then
+                            (
+                                {875}let skY_748: bitstring = skB in
+                                {876}if ((X,Y) = (A,B)) then
+                                    0
+                                else
+                                    {877}if ((X,Y) = (B,A)) then
+                                        0
+                                    else
+                                        {878}out(c, Skey(skX_744,skY_748))
+                            )
+                            else
+                                {879}let skY_749: bitstring = sk(Y) in
+                                {880}if ((X,Y) = (A,B)) then
+                                    0
+                                else
+                                    {881}if ((X,Y) = (B,A)) then
+                                        0
+                                    else
+                                        {882}out(c, Skey(skX_744,skY_749))
+                        )
+                        else
+                            {883}let skY_750: bitstring = fail-any in
+                            {884}if ((X,Y) = (A,B)) then
+                                0
+                            else
+                                {885}if ((X,Y) = (B,A)) then
+                                    0
+                                else
+                                    {886}out(c, Skey(skX_744,skY_750))
+                )
+                else
+                    {887}let skY_751: bitstring = fail-any in
+                    {888}if ((X,Y) = (A,B)) then
+                        0
+                    else
+                        {889}if ((X,Y) = (B,A)) then
+                            0
+                        else
+                            {890}out(c, Skey(skX_744,skY_751))
+    )
+    else
+        {891}let skX_752: bitstring = fail-any in
+        {892}let v_753: bool = (Y = A) in
+        (
+            {893}if v_753 then
+            (
+                {894}let skY_754: bitstring = skA in
+                {895}if ((X,Y) = (A,B)) then
+                    0
+                else
+                    {896}if ((X,Y) = (B,A)) then
+                        0
+                    else
+                        {897}out(c, Skey(skX_752,skY_754))
+            )
+            else
+                {898}let v_755: bool = (Y = B) in
+                (
+                    {899}if v_755 then
+                    (
+                        {900}let skY_756: bitstring = skB in
+                        {901}if ((X,Y) = (A,B)) then
+                            0
+                        else
+                            {902}if ((X,Y) = (B,A)) then
+                                0
+                            else
+                                {903}out(c, Skey(skX_752,skY_756))
+                    )
+                    else
+                        {904}let skY_757: bitstring = sk(Y) in
+                        {905}if ((X,Y) = (A,B)) then
+                            0
+                        else
+                            {906}if ((X,Y) = (B,A)) then
+                                0
+                            else
+                                {907}out(c, Skey(skX_752,skY_757))
+                )
+                else
+                    {908}let skY_758: bitstring = fail-any in
+                    {909}if ((X,Y) = (A,B)) then
+                        0
+                    else
+                        {910}if ((X,Y) = (B,A)) then
+                            0
+                        else
+                            {911}out(c, Skey(skX_752,skY_758))
+        )
+        else
+            {912}let skY_759: bitstring = fail-any in
+            {913}if ((X,Y) = (A,B)) then
+                0
+            else
+                {914}if ((X,Y) = (B,A)) then
+                    0
+                else
+                    {915}out(c, Skey(skX_752,skY_759))
 )
 
--- Query event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N))
+-- Query event(endSrv(X_760,Y_761,N)) ==> event(beginCli(X_760,Y_761,N))
 Completing...
-200 rules inserted. The rule base contains 100 rules. 31 rules in the queue.
-400 rules inserted. The rule base contains 153 rules. 33 rules in the queue.
-Starting query event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N))
-goal reachable: begin(beginCli(B[],B[],(Login(skB[]),Passwd(skB[])))) -> end(endSrv(B[],A[],(Login(skB[]),Passwd(skB[]))))
+200 rules inserted. The rule base contains 140 rules. 137 rules in the queue.
+400 rules inserted. The rule base contains 145 rules. 88 rules in the queue.
+600 rules inserted. The rule base contains 199 rules. 74 rules in the queue.
+800 rules inserted. The rule base contains 261 rules. 100 rules in the queue.
+1000 rules inserted. The rule base contains 299 rules. 136 rules in the queue.
+1200 rules inserted. The rule base contains 320 rules. 126 rules in the queue.
+1400 rules inserted. The rule base contains 369 rules. 112 rules in the queue.
+1600 rules inserted. The rule base contains 410 rules. 125 rules in the queue.
+1800 rules inserted. The rule base contains 476 rules. 151 rules in the queue.
+2000 rules inserted. The rule base contains 518 rules. 125 rules in the queue.
+2200 rules inserted. The rule base contains 523 rules. 120 rules in the queue.
+2400 rules inserted. The rule base contains 539 rules. 104 rules in the queue.
+2600 rules inserted. The rule base contains 628 rules. 15 rules in the queue.
+Starting query event(endSrv(X_760,Y_761,N)) ==> event(beginCli(X_760,Y_761,N))
+goal reachable: Sess_37558 <> B[] && Sess_37558 <> A[] && begin(beginCli(B[],Sess_37558,(Login(skB[]),Passwd(skB[])))) && attacker(Sess_37558) -> end(endSrv(B[],A[],(Login(skB[]),Passwd(skB[]))))
 Abbreviations:
-SSC_8136 = SSC_67[sigM1 = sign(h(CreateSessionRequest),skB[]),m1_66 = CreateSessionRequest,Sess_60 = B[],Cli_59 = B[],!1 = @sid_8106]
-Ns2_8137 = Ns2_68[sigM1 = sign(h(CreateSessionRequest),skB[]),m1_66 = CreateSessionRequest,Sess_60 = B[],Cli_59 = B[],!1 = @sid_8106]
-CSC_8138 = CSC[sigM2 = sign(h((SSC_8136,Ns2_8137)),skB[]),em2 = senc((SSC_8136,Ns2_8137),Skey(skB[],skB[])),Sess = B[],Cli = B[],!1 = @sid_8119]
-SSC_8139 = SSC_67[sigM1 = sign(h(CreateSessionRequest),skB[]),m1_66 = CreateSessionRequest,Sess_60 = B[],Cli_59 = B[],!1 = @sid_7976]
-Ns2_8140 = Ns2_68[sigM1 = sign(h(CreateSessionRequest),skB[]),m1_66 = CreateSessionRequest,Sess_60 = B[],Cli_59 = B[],!1 = @sid_7976]
-CSC_8141 = CSC[sigM2 = sign(h((SSC_8139,Ns2_8140)),skB[]),em2 = senc((SSC_8139,Ns2_8140),Skey(skB[],skB[])),Sess = B[],Cli = B[],!1 = @sid_7989]
-SSC_8142 = SSC_67[sigM1 = sign(h(CreateSessionRequest),skB[]),m1_66 = CreateSessionRequest,Sess_60 = B[],Cli_59 = B[],!1 = @sid_7912]
-Ns2_8143 = Ns2_68[sigM1 = sign(h(CreateSessionRequest),skB[]),m1_66 = CreateSessionRequest,Sess_60 = B[],Cli_59 = B[],!1 = @sid_7912]
-CSC_8144 = CSC[sigM2 = sign(h((SSC_8142,Ns2_8143)),skB[]),em2 = senc((SSC_8142,Ns2_8143),Skey(skB[],skB[])),Sess = B[],Cli = B[],!1 = @sid_7925]
+CSC_37743 = CSC_204[sigM2_200 = sign(h((pub(sk(Sess_37719)),SSC_37720,Ns_37721)),sk(Sess_37719)),em2_199 = senc((pub(sk(Sess_37719)),SSC_37720,Ns_37721),Skey(skB[],sk(Sess_37719))),Sess = Sess_37719,Cli = B[],!1 = @sid_37722]
+CSC_37744 = CSC_204[sigM2_200 = sign(h((pub(sk(Sess_37719)),SSC_37646,Ns_37647)),sk(Sess_37719)),em2_199 = senc((pub(sk(Sess_37719)),SSC_37646,Ns_37647),Skey(skB[],sk(Sess_37719))),Sess = Sess_37719,Cli = B[],!1 = @sid_37648]
+CSC_37745 = CSC_204[sigM2_200 = sign(h((pub(sk(Sess_37719)),SSC_37610,Ns_37611)),sk(Sess_37719)),em2_199 = senc((pub(sk(Sess_37719)),SSC_37610,Ns_37611),Skey(skB[],sk(Sess_37719))),Sess = Sess_37719,Cli = B[],!1 = @sid_37612]
+Nc_37746 = Nc_197[Sess = Sess_37658,Cli = B[],!1 = @sid_37659]
 
 1. The attacker initially knows A[].
 attacker(A[]).
@@ -99,215 +1459,251 @@ By 1, the attacker may know A[].
 Using the function 2-tuple the attacker may obtain (B[],A[]).
 attacker((B[],A[])).
 
-4. By 2, the attacker may know B[].
-By 2, the attacker may know B[].
-Using the function 2-tuple the attacker may obtain (B[],B[]).
-attacker((B[],B[])).
+4. The attacker has some term Sess_37658.
+attacker(Sess_37658).
 
-5. The message (B[],B[]) that the attacker may have by 4 may be received at input {6}.
-So the message (senc(CreateSessionRequest,Skey(skB[],skB[])),sign(h(CreateSessionRequest),skB[])) may be sent to the attacker at output {13}.
-attacker((senc(CreateSessionRequest,Skey(skB[],skB[])),sign(h(CreateSessionRequest),skB[]))).
+5. By 2, the attacker may know B[].
+By 4, the attacker may know Sess_37658.
+Using the function 2-tuple the attacker may obtain (B[],Sess_37658).
+attacker((B[],Sess_37658)).
 
-6. By 5, the attacker may know (senc(CreateSessionRequest,Skey(skB[],skB[])),sign(h(CreateSessionRequest),skB[])).
-Using the function 2-proj-2-tuple the attacker may obtain sign(h(CreateSessionRequest),skB[]).
-attacker(sign(h(CreateSessionRequest),skB[])).
+6. The message (B[],Sess_37658) that the attacker may have by 5 may be received at input {6}.
+We have Sess_37658 <> B[] & Sess_37658 <> A[].
+So the message (senc((pub(skB[]),Nc_37746,CreateSessionRequest),Skey(skB[],sk(Sess_37658))),sign(h((pub(skB[]),Nc_37746,CreateSessionRequest)),skB[])) may be sent to the attacker at output {160}.
+attacker((senc((pub(skB[]),Nc_37746,CreateSessionRequest),Skey(skB[],sk(Sess_37658))),sign(h((pub(skB[]),Nc_37746,CreateSessionRequest)),skB[]))).
 
-7. Using the function CreateSessionRequest the attacker may obtain CreateSessionRequest.
+7. By 6, the attacker may know (senc((pub(skB[]),Nc_37746,CreateSessionRequest),Skey(skB[],sk(Sess_37658))),sign(h((pub(skB[]),Nc_37746,CreateSessionRequest)),skB[])).
+Using the function 2-proj-2-tuple the attacker may obtain sign(h((pub(skB[]),Nc_37746,CreateSessionRequest)),skB[]).
+attacker(sign(h((pub(skB[]),Nc_37746,CreateSessionRequest)),skB[])).
+
+8. Using the function CreateSessionRequest the attacker may obtain CreateSessionRequest.
 attacker(CreateSessionRequest).
 
-8. By 7, the attacker may know CreateSessionRequest.
-By 6, the attacker may know sign(h(CreateSessionRequest),skB[]).
-Using the function 2-tuple the attacker may obtain (CreateSessionRequest,sign(h(CreateSessionRequest),skB[])).
-attacker((CreateSessionRequest,sign(h(CreateSessionRequest),skB[]))).
+9. The message (B[],Sess_37658) that the attacker may have by 5 may be received at input {786}.
+We have Sess_37658 <> B[] & Sess_37658 <> A[].
+So the message Skey(skB[],sk(Sess_37658)) may be sent to the attacker at output {832}.
+attacker(Skey(skB[],sk(Sess_37658))).
 
-9. The message (B[],B[]) that the attacker may have by 4 may be received at input {27}.
-The message (CreateSessionRequest,sign(h(CreateSessionRequest),skB[])) that the attacker may have by 8 may be received at input {33}.
-So the message ((SSC_8136,Ns2_8137),sign(h((SSC_8136,Ns2_8137)),skB[])) may be sent to the attacker at output {39}.
-attacker(((SSC_8136,Ns2_8137),sign(h((SSC_8136,Ns2_8137)),skB[]))).
+10. By 6, the attacker may know (senc((pub(skB[]),Nc_37746,CreateSessionRequest),Skey(skB[],sk(Sess_37658))),sign(h((pub(skB[]),Nc_37746,CreateSessionRequest)),skB[])).
+Using the function 1-proj-2-tuple the attacker may obtain senc((pub(skB[]),Nc_37746,CreateSessionRequest),Skey(skB[],sk(Sess_37658))).
+attacker(senc((pub(skB[]),Nc_37746,CreateSessionRequest),Skey(skB[],sk(Sess_37658)))).
 
-10. By 9, the attacker may know ((SSC_8136,Ns2_8137),sign(h((SSC_8136,Ns2_8137)),skB[])).
-Using the function 2-proj-2-tuple the attacker may obtain sign(h((SSC_8136,Ns2_8137)),skB[]).
-attacker(sign(h((SSC_8136,Ns2_8137)),skB[])).
+11. By 10, the attacker may know senc((pub(skB[]),Nc_37746,CreateSessionRequest),Skey(skB[],sk(Sess_37658))).
+By 9, the attacker may know Skey(skB[],sk(Sess_37658)).
+Using the function sdec the attacker may obtain (pub(skB[]),Nc_37746,CreateSessionRequest).
+attacker((pub(skB[]),Nc_37746,CreateSessionRequest)).
 
-11. The message (B[],B[]) that the attacker may have by 4 may be received at input {47}.
-So the message Skey(skB[],skB[]) may be sent to the attacker at output {52}.
-attacker(Skey(skB[],skB[])).
+12. By 11, the attacker may know (pub(skB[]),Nc_37746,CreateSessionRequest).
+Using the function 2-proj-3-tuple the attacker may obtain Nc_37746.
+attacker(Nc_37746).
 
-12. By 9, the attacker may know ((SSC_8136,Ns2_8137),sign(h((SSC_8136,Ns2_8137)),skB[])).
-Using the function 1-proj-2-tuple the attacker may obtain (SSC_8136,Ns2_8137).
-attacker((SSC_8136,Ns2_8137)).
+13. The message pub(skB[]) may be sent to the attacker at output {4}.
+attacker(pub(skB[])).
 
-13. By 12, the attacker may know (SSC_8136,Ns2_8137).
-Using the function 2-proj-2-tuple the attacker may obtain Ns2_8137.
-attacker(Ns2_8137).
+14. By 13, the attacker may know pub(skB[]).
+By 12, the attacker may know Nc_37746.
+By 8, the attacker may know CreateSessionRequest.
+Using the function 3-tuple the attacker may obtain (pub(skB[]),Nc_37746,CreateSessionRequest).
+attacker((pub(skB[]),Nc_37746,CreateSessionRequest)).
 
-14. By 12, the attacker may know (SSC_8136,Ns2_8137).
-Using the function 1-proj-2-tuple the attacker may obtain SSC_8136.
-attacker(SSC_8136).
+15. By 14, the attacker may know (pub(skB[]),Nc_37746,CreateSessionRequest).
+By 7, the attacker may know sign(h((pub(skB[]),Nc_37746,CreateSessionRequest)),skB[]).
+Using the function 2-tuple the attacker may obtain ((pub(skB[]),Nc_37746,CreateSessionRequest),sign(h((pub(skB[]),Nc_37746,CreateSessionRequest)),skB[])).
+attacker(((pub(skB[]),Nc_37746,CreateSessionRequest),sign(h((pub(skB[]),Nc_37746,CreateSessionRequest)),skB[]))).
 
-15. By 14, the attacker may know SSC_8136.
-By 13, the attacker may know Ns2_8137.
-Using the function 2-tuple the attacker may obtain (SSC_8136,Ns2_8137).
-attacker((SSC_8136,Ns2_8137)).
+16. We assume as hypothesis that
+attacker(Sess_37719).
 
-16. By 15, the attacker may know (SSC_8136,Ns2_8137).
-By 11, the attacker may know Skey(skB[],skB[]).
-Using the function senc the attacker may obtain senc((SSC_8136,Ns2_8137),Skey(skB[],skB[])).
-attacker(senc((SSC_8136,Ns2_8137),Skey(skB[],skB[]))).
+17. By 2, the attacker may know B[].
+By 16, the attacker may know Sess_37719.
+Using the function 2-tuple the attacker may obtain (B[],Sess_37719).
+attacker((B[],Sess_37719)).
 
-17. By 16, the attacker may know senc((SSC_8136,Ns2_8137),Skey(skB[],skB[])).
-By 10, the attacker may know sign(h((SSC_8136,Ns2_8137)),skB[]).
-Using the function 2-tuple the attacker may obtain (senc((SSC_8136,Ns2_8137),Skey(skB[],skB[])),sign(h((SSC_8136,Ns2_8137)),skB[])).
-attacker((senc((SSC_8136,Ns2_8137),Skey(skB[],skB[])),sign(h((SSC_8136,Ns2_8137)),skB[]))).
+18. By 16, the attacker may know Sess_37719.
+Using the function sk the attacker may obtain sk(Sess_37719).
+attacker(sk(Sess_37719)).
 
-18. The message (B[],B[]) that the attacker may have by 4 may be received at input {6}.
-The message (senc((SSC_8136,Ns2_8137),Skey(skB[],skB[])),sign(h((SSC_8136,Ns2_8137)),skB[])) that the attacker may have by 17 may be received at input {14}.
-The event beginCli(B[],B[],(Login(skB[]),Passwd(skB[]))) may be executed at {19}.
-So the message (senc((CSC_8138,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])),sign(h((CSC_8138,Login(skB[]),Passwd(skB[]))),skB[])) may be sent to the attacker at output {21}.
-attacker((senc((CSC_8138,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])),sign(h((CSC_8138,Login(skB[]),Passwd(skB[]))),skB[]))).
+19. The attacker has some term Ns_37721.
+attacker(Ns_37721).
 
-19. By 18, the attacker may know (senc((CSC_8138,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])),sign(h((CSC_8138,Login(skB[]),Passwd(skB[]))),skB[])).
-Using the function 2-proj-2-tuple the attacker may obtain sign(h((CSC_8138,Login(skB[]),Passwd(skB[]))),skB[]).
-attacker(sign(h((CSC_8138,Login(skB[]),Passwd(skB[]))),skB[])).
+20. The attacker has some term SSC_37720.
+attacker(SSC_37720).
 
-20. The message (B[],B[]) that the attacker may have by 4 may be received at input {27}.
-The message (CreateSessionRequest,sign(h(CreateSessionRequest),skB[])) that the attacker may have by 8 may be received at input {33}.
-So the message ((SSC_8142,Ns2_8143),sign(h((SSC_8142,Ns2_8143)),skB[])) may be sent to the attacker at output {39}.
-attacker(((SSC_8142,Ns2_8143),sign(h((SSC_8142,Ns2_8143)),skB[]))).
+21. By 18, the attacker may know sk(Sess_37719).
+Using the function pub the attacker may obtain pub(sk(Sess_37719)).
+attacker(pub(sk(Sess_37719))).
 
-21. By 20, the attacker may know ((SSC_8142,Ns2_8143),sign(h((SSC_8142,Ns2_8143)),skB[])).
-Using the function 2-proj-2-tuple the attacker may obtain sign(h((SSC_8142,Ns2_8143)),skB[]).
-attacker(sign(h((SSC_8142,Ns2_8143)),skB[])).
+22. By 21, the attacker may know pub(sk(Sess_37719)).
+By 20, the attacker may know SSC_37720.
+By 19, the attacker may know Ns_37721.
+Using the function 3-tuple the attacker may obtain (pub(sk(Sess_37719)),SSC_37720,Ns_37721).
+attacker((pub(sk(Sess_37719)),SSC_37720,Ns_37721)).
 
-22. By 20, the attacker may know ((SSC_8142,Ns2_8143),sign(h((SSC_8142,Ns2_8143)),skB[])).
-Using the function 1-proj-2-tuple the attacker may obtain (SSC_8142,Ns2_8143).
-attacker((SSC_8142,Ns2_8143)).
+23. By 22, the attacker may know (pub(sk(Sess_37719)),SSC_37720,Ns_37721).
+Using the function h the attacker may obtain h((pub(sk(Sess_37719)),SSC_37720,Ns_37721)).
+attacker(h((pub(sk(Sess_37719)),SSC_37720,Ns_37721))).
 
-23. By 22, the attacker may know (SSC_8142,Ns2_8143).
-Using the function 2-proj-2-tuple the attacker may obtain Ns2_8143.
-attacker(Ns2_8143).
+24. By 23, the attacker may know h((pub(sk(Sess_37719)),SSC_37720,Ns_37721)).
+By 18, the attacker may know sk(Sess_37719).
+Using the function sign the attacker may obtain sign(h((pub(sk(Sess_37719)),SSC_37720,Ns_37721)),sk(Sess_37719)).
+attacker(sign(h((pub(sk(Sess_37719)),SSC_37720,Ns_37721)),sk(Sess_37719))).
 
-24. By 22, the attacker may know (SSC_8142,Ns2_8143).
-Using the function 1-proj-2-tuple the attacker may obtain SSC_8142.
-attacker(SSC_8142).
+25. The message (B[],Sess_37719) that the attacker may have by 17 may be received at input {786}.
+We have Sess_37719 <> B[] & Sess_37719 <> A[].
+So the message Skey(skB[],sk(Sess_37719)) may be sent to the attacker at output {832}.
+attacker(Skey(skB[],sk(Sess_37719))).
 
-25. By 24, the attacker may know SSC_8142.
-By 23, the attacker may know Ns2_8143.
-Using the function 2-tuple the attacker may obtain (SSC_8142,Ns2_8143).
-attacker((SSC_8142,Ns2_8143)).
+26. By 22, the attacker may know (pub(sk(Sess_37719)),SSC_37720,Ns_37721).
+By 25, the attacker may know Skey(skB[],sk(Sess_37719)).
+Using the function senc the attacker may obtain senc((pub(sk(Sess_37719)),SSC_37720,Ns_37721),Skey(skB[],sk(Sess_37719))).
+attacker(senc((pub(sk(Sess_37719)),SSC_37720,Ns_37721),Skey(skB[],sk(Sess_37719)))).
 
-26. By 25, the attacker may know (SSC_8142,Ns2_8143).
-By 11, the attacker may know Skey(skB[],skB[]).
-Using the function senc the attacker may obtain senc((SSC_8142,Ns2_8143),Skey(skB[],skB[])).
-attacker(senc((SSC_8142,Ns2_8143),Skey(skB[],skB[]))).
+27. By 26, the attacker may know senc((pub(sk(Sess_37719)),SSC_37720,Ns_37721),Skey(skB[],sk(Sess_37719))).
+By 24, the attacker may know sign(h((pub(sk(Sess_37719)),SSC_37720,Ns_37721)),sk(Sess_37719)).
+Using the function 2-tuple the attacker may obtain (senc((pub(sk(Sess_37719)),SSC_37720,Ns_37721),Skey(skB[],sk(Sess_37719))),sign(h((pub(sk(Sess_37719)),SSC_37720,Ns_37721)),sk(Sess_37719))).
+attacker((senc((pub(sk(Sess_37719)),SSC_37720,Ns_37721),Skey(skB[],sk(Sess_37719))),sign(h((pub(sk(Sess_37719)),SSC_37720,Ns_37721)),sk(Sess_37719)))).
 
-27. By 26, the attacker may know senc((SSC_8142,Ns2_8143),Skey(skB[],skB[])).
-By 21, the attacker may know sign(h((SSC_8142,Ns2_8143)),skB[]).
-Using the function 2-tuple the attacker may obtain (senc((SSC_8142,Ns2_8143),Skey(skB[],skB[])),sign(h((SSC_8142,Ns2_8143)),skB[])).
-attacker((senc((SSC_8142,Ns2_8143),Skey(skB[],skB[])),sign(h((SSC_8142,Ns2_8143)),skB[]))).
+28. The message (B[],Sess_37719) that the attacker may have by 17 may be received at input {6}.
+The message (senc((pub(sk(Sess_37719)),SSC_37720,Ns_37721),Skey(skB[],sk(Sess_37719))),sign(h((pub(sk(Sess_37719)),SSC_37720,Ns_37721)),sk(Sess_37719))) that the attacker may have by 27 may be received at input {161}.
+The event beginCli(B[],Sess_37719,(Login(skB[]),Passwd(skB[]))) may be executed at {166}.
+We have Sess_37719 <> B[] & Sess_37719 <> A[].
+So the message (senc((CSC_37743,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))),sign(h((CSC_37743,Login(skB[]),Passwd(skB[]))),skB[])) may be sent to the attacker at output {168}.
+attacker((senc((CSC_37743,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))),sign(h((CSC_37743,Login(skB[]),Passwd(skB[]))),skB[]))).
 
-28. The message (B[],B[]) that the attacker may have by 4 may be received at input {6}.
-The message (senc((SSC_8142,Ns2_8143),Skey(skB[],skB[])),sign(h((SSC_8142,Ns2_8143)),skB[])) that the attacker may have by 27 may be received at input {14}.
-The event beginCli(B[],B[],(Login(skB[]),Passwd(skB[]))) may be executed at {19}.
-So the message (senc((CSC_8144,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])),sign(h((CSC_8144,Login(skB[]),Passwd(skB[]))),skB[])) may be sent to the attacker at output {21}.
-attacker((senc((CSC_8144,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])),sign(h((CSC_8144,Login(skB[]),Passwd(skB[]))),skB[]))).
+29. By 28, the attacker may know (senc((CSC_37743,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))),sign(h((CSC_37743,Login(skB[]),Passwd(skB[]))),skB[])).
+Using the function 2-proj-2-tuple the attacker may obtain sign(h((CSC_37743,Login(skB[]),Passwd(skB[]))),skB[]).
+attacker(sign(h((CSC_37743,Login(skB[]),Passwd(skB[]))),skB[])).
 
-29. By 28, the attacker may know (senc((CSC_8144,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])),sign(h((CSC_8144,Login(skB[]),Passwd(skB[]))),skB[])).
-Using the function 1-proj-2-tuple the attacker may obtain senc((CSC_8144,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])).
-attacker(senc((CSC_8144,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[]))).
+30. The attacker has some term Ns_37611.
+attacker(Ns_37611).
 
-30. By 29, the attacker may know senc((CSC_8144,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])).
-By 11, the attacker may know Skey(skB[],skB[]).
-Using the function sdec the attacker may obtain (CSC_8144,Login(skB[]),Passwd(skB[])).
-attacker((CSC_8144,Login(skB[]),Passwd(skB[]))).
+31. The attacker has some term SSC_37610.
+attacker(SSC_37610).
 
-31. By 30, the attacker may know (CSC_8144,Login(skB[]),Passwd(skB[])).
+32. By 21, the attacker may know pub(sk(Sess_37719)).
+By 31, the attacker may know SSC_37610.
+By 30, the attacker may know Ns_37611.
+Using the function 3-tuple the attacker may obtain (pub(sk(Sess_37719)),SSC_37610,Ns_37611).
+attacker((pub(sk(Sess_37719)),SSC_37610,Ns_37611)).
+
+33. By 32, the attacker may know (pub(sk(Sess_37719)),SSC_37610,Ns_37611).
+Using the function h the attacker may obtain h((pub(sk(Sess_37719)),SSC_37610,Ns_37611)).
+attacker(h((pub(sk(Sess_37719)),SSC_37610,Ns_37611))).
+
+34. By 33, the attacker may know h((pub(sk(Sess_37719)),SSC_37610,Ns_37611)).
+By 18, the attacker may know sk(Sess_37719).
+Using the function sign the attacker may obtain sign(h((pub(sk(Sess_37719)),SSC_37610,Ns_37611)),sk(Sess_37719)).
+attacker(sign(h((pub(sk(Sess_37719)),SSC_37610,Ns_37611)),sk(Sess_37719))).
+
+35. By 32, the attacker may know (pub(sk(Sess_37719)),SSC_37610,Ns_37611).
+By 25, the attacker may know Skey(skB[],sk(Sess_37719)).
+Using the function senc the attacker may obtain senc((pub(sk(Sess_37719)),SSC_37610,Ns_37611),Skey(skB[],sk(Sess_37719))).
+attacker(senc((pub(sk(Sess_37719)),SSC_37610,Ns_37611),Skey(skB[],sk(Sess_37719)))).
+
+36. By 35, the attacker may know senc((pub(sk(Sess_37719)),SSC_37610,Ns_37611),Skey(skB[],sk(Sess_37719))).
+By 34, the attacker may know sign(h((pub(sk(Sess_37719)),SSC_37610,Ns_37611)),sk(Sess_37719)).
+Using the function 2-tuple the attacker may obtain (senc((pub(sk(Sess_37719)),SSC_37610,Ns_37611),Skey(skB[],sk(Sess_37719))),sign(h((pub(sk(Sess_37719)),SSC_37610,Ns_37611)),sk(Sess_37719))).
+attacker((senc((pub(sk(Sess_37719)),SSC_37610,Ns_37611),Skey(skB[],sk(Sess_37719))),sign(h((pub(sk(Sess_37719)),SSC_37610,Ns_37611)),sk(Sess_37719)))).
+
+37. The message (B[],Sess_37719) that the attacker may have by 17 may be received at input {6}.
+The message (senc((pub(sk(Sess_37719)),SSC_37610,Ns_37611),Skey(skB[],sk(Sess_37719))),sign(h((pub(sk(Sess_37719)),SSC_37610,Ns_37611)),sk(Sess_37719))) that the attacker may have by 36 may be received at input {161}.
+The event beginCli(B[],Sess_37719,(Login(skB[]),Passwd(skB[]))) may be executed at {166}.
+We have Sess_37719 <> B[] & Sess_37719 <> A[].
+So the message (senc((CSC_37745,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))),sign(h((CSC_37745,Login(skB[]),Passwd(skB[]))),skB[])) may be sent to the attacker at output {168}.
+attacker((senc((CSC_37745,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))),sign(h((CSC_37745,Login(skB[]),Passwd(skB[]))),skB[]))).
+
+38. By 37, the attacker may know (senc((CSC_37745,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))),sign(h((CSC_37745,Login(skB[]),Passwd(skB[]))),skB[])).
+Using the function 1-proj-2-tuple the attacker may obtain senc((CSC_37745,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))).
+attacker(senc((CSC_37745,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719)))).
+
+39. By 38, the attacker may know senc((CSC_37745,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))).
+By 25, the attacker may know Skey(skB[],sk(Sess_37719)).
+Using the function sdec the attacker may obtain (CSC_37745,Login(skB[]),Passwd(skB[])).
+attacker((CSC_37745,Login(skB[]),Passwd(skB[]))).
+
+40. By 39, the attacker may know (CSC_37745,Login(skB[]),Passwd(skB[])).
 Using the function 3-proj-3-tuple the attacker may obtain Passwd(skB[]).
 attacker(Passwd(skB[])).
 
-32. The message (B[],B[]) that the attacker may have by 4 may be received at input {27}.
-The message (CreateSessionRequest,sign(h(CreateSessionRequest),skB[])) that the attacker may have by 8 may be received at input {33}.
-So the message ((SSC_8139,Ns2_8140),sign(h((SSC_8139,Ns2_8140)),skB[])) may be sent to the attacker at output {39}.
-attacker(((SSC_8139,Ns2_8140),sign(h((SSC_8139,Ns2_8140)),skB[]))).
+41. The attacker has some term Ns_37647.
+attacker(Ns_37647).
 
-33. By 32, the attacker may know ((SSC_8139,Ns2_8140),sign(h((SSC_8139,Ns2_8140)),skB[])).
-Using the function 2-proj-2-tuple the attacker may obtain sign(h((SSC_8139,Ns2_8140)),skB[]).
-attacker(sign(h((SSC_8139,Ns2_8140)),skB[])).
+42. The attacker has some term SSC_37646.
+attacker(SSC_37646).
 
-34. By 32, the attacker may know ((SSC_8139,Ns2_8140),sign(h((SSC_8139,Ns2_8140)),skB[])).
-Using the function 1-proj-2-tuple the attacker may obtain (SSC_8139,Ns2_8140).
-attacker((SSC_8139,Ns2_8140)).
+43. By 21, the attacker may know pub(sk(Sess_37719)).
+By 42, the attacker may know SSC_37646.
+By 41, the attacker may know Ns_37647.
+Using the function 3-tuple the attacker may obtain (pub(sk(Sess_37719)),SSC_37646,Ns_37647).
+attacker((pub(sk(Sess_37719)),SSC_37646,Ns_37647)).
 
-35. By 34, the attacker may know (SSC_8139,Ns2_8140).
-Using the function 2-proj-2-tuple the attacker may obtain Ns2_8140.
-attacker(Ns2_8140).
+44. By 43, the attacker may know (pub(sk(Sess_37719)),SSC_37646,Ns_37647).
+Using the function h the attacker may obtain h((pub(sk(Sess_37719)),SSC_37646,Ns_37647)).
+attacker(h((pub(sk(Sess_37719)),SSC_37646,Ns_37647))).
 
-36. By 34, the attacker may know (SSC_8139,Ns2_8140).
-Using the function 1-proj-2-tuple the attacker may obtain SSC_8139.
-attacker(SSC_8139).
+45. By 44, the attacker may know h((pub(sk(Sess_37719)),SSC_37646,Ns_37647)).
+By 18, the attacker may know sk(Sess_37719).
+Using the function sign the attacker may obtain sign(h((pub(sk(Sess_37719)),SSC_37646,Ns_37647)),sk(Sess_37719)).
+attacker(sign(h((pub(sk(Sess_37719)),SSC_37646,Ns_37647)),sk(Sess_37719))).
 
-37. By 36, the attacker may know SSC_8139.
-By 35, the attacker may know Ns2_8140.
-Using the function 2-tuple the attacker may obtain (SSC_8139,Ns2_8140).
-attacker((SSC_8139,Ns2_8140)).
+46. By 43, the attacker may know (pub(sk(Sess_37719)),SSC_37646,Ns_37647).
+By 25, the attacker may know Skey(skB[],sk(Sess_37719)).
+Using the function senc the attacker may obtain senc((pub(sk(Sess_37719)),SSC_37646,Ns_37647),Skey(skB[],sk(Sess_37719))).
+attacker(senc((pub(sk(Sess_37719)),SSC_37646,Ns_37647),Skey(skB[],sk(Sess_37719)))).
 
-38. By 37, the attacker may know (SSC_8139,Ns2_8140).
-By 11, the attacker may know Skey(skB[],skB[]).
-Using the function senc the attacker may obtain senc((SSC_8139,Ns2_8140),Skey(skB[],skB[])).
-attacker(senc((SSC_8139,Ns2_8140),Skey(skB[],skB[]))).
+47. By 46, the attacker may know senc((pub(sk(Sess_37719)),SSC_37646,Ns_37647),Skey(skB[],sk(Sess_37719))).
+By 45, the attacker may know sign(h((pub(sk(Sess_37719)),SSC_37646,Ns_37647)),sk(Sess_37719)).
+Using the function 2-tuple the attacker may obtain (senc((pub(sk(Sess_37719)),SSC_37646,Ns_37647),Skey(skB[],sk(Sess_37719))),sign(h((pub(sk(Sess_37719)),SSC_37646,Ns_37647)),sk(Sess_37719))).
+attacker((senc((pub(sk(Sess_37719)),SSC_37646,Ns_37647),Skey(skB[],sk(Sess_37719))),sign(h((pub(sk(Sess_37719)),SSC_37646,Ns_37647)),sk(Sess_37719)))).
 
-39. By 38, the attacker may know senc((SSC_8139,Ns2_8140),Skey(skB[],skB[])).
-By 33, the attacker may know sign(h((SSC_8139,Ns2_8140)),skB[]).
-Using the function 2-tuple the attacker may obtain (senc((SSC_8139,Ns2_8140),Skey(skB[],skB[])),sign(h((SSC_8139,Ns2_8140)),skB[])).
-attacker((senc((SSC_8139,Ns2_8140),Skey(skB[],skB[])),sign(h((SSC_8139,Ns2_8140)),skB[]))).
+48. The message (B[],Sess_37719) that the attacker may have by 17 may be received at input {6}.
+The message (senc((pub(sk(Sess_37719)),SSC_37646,Ns_37647),Skey(skB[],sk(Sess_37719))),sign(h((pub(sk(Sess_37719)),SSC_37646,Ns_37647)),sk(Sess_37719))) that the attacker may have by 47 may be received at input {161}.
+The event beginCli(B[],Sess_37719,(Login(skB[]),Passwd(skB[]))) may be executed at {166}.
+We have Sess_37719 <> B[] & Sess_37719 <> A[].
+So the message (senc((CSC_37744,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))),sign(h((CSC_37744,Login(skB[]),Passwd(skB[]))),skB[])) may be sent to the attacker at output {168}.
+attacker((senc((CSC_37744,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))),sign(h((CSC_37744,Login(skB[]),Passwd(skB[]))),skB[]))).
 
-40. The message (B[],B[]) that the attacker may have by 4 may be received at input {6}.
-The message (senc((SSC_8139,Ns2_8140),Skey(skB[],skB[])),sign(h((SSC_8139,Ns2_8140)),skB[])) that the attacker may have by 39 may be received at input {14}.
-The event beginCli(B[],B[],(Login(skB[]),Passwd(skB[]))) may be executed at {19}.
-So the message (senc((CSC_8141,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])),sign(h((CSC_8141,Login(skB[]),Passwd(skB[]))),skB[])) may be sent to the attacker at output {21}.
-attacker((senc((CSC_8141,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])),sign(h((CSC_8141,Login(skB[]),Passwd(skB[]))),skB[]))).
+49. By 48, the attacker may know (senc((CSC_37744,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))),sign(h((CSC_37744,Login(skB[]),Passwd(skB[]))),skB[])).
+Using the function 1-proj-2-tuple the attacker may obtain senc((CSC_37744,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))).
+attacker(senc((CSC_37744,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719)))).
 
-41. By 40, the attacker may know (senc((CSC_8141,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])),sign(h((CSC_8141,Login(skB[]),Passwd(skB[]))),skB[])).
-Using the function 1-proj-2-tuple the attacker may obtain senc((CSC_8141,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])).
-attacker(senc((CSC_8141,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[]))).
+50. By 49, the attacker may know senc((CSC_37744,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))).
+By 25, the attacker may know Skey(skB[],sk(Sess_37719)).
+Using the function sdec the attacker may obtain (CSC_37744,Login(skB[]),Passwd(skB[])).
+attacker((CSC_37744,Login(skB[]),Passwd(skB[]))).
 
-42. By 41, the attacker may know senc((CSC_8141,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])).
-By 11, the attacker may know Skey(skB[],skB[]).
-Using the function sdec the attacker may obtain (CSC_8141,Login(skB[]),Passwd(skB[])).
-attacker((CSC_8141,Login(skB[]),Passwd(skB[]))).
-
-43. By 42, the attacker may know (CSC_8141,Login(skB[]),Passwd(skB[])).
+51. By 50, the attacker may know (CSC_37744,Login(skB[]),Passwd(skB[])).
 Using the function 2-proj-3-tuple the attacker may obtain Login(skB[]).
 attacker(Login(skB[])).
 
-44. By 18, the attacker may know (senc((CSC_8138,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])),sign(h((CSC_8138,Login(skB[]),Passwd(skB[]))),skB[])).
-Using the function 1-proj-2-tuple the attacker may obtain senc((CSC_8138,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])).
-attacker(senc((CSC_8138,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[]))).
+52. By 28, the attacker may know (senc((CSC_37743,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))),sign(h((CSC_37743,Login(skB[]),Passwd(skB[]))),skB[])).
+Using the function 1-proj-2-tuple the attacker may obtain senc((CSC_37743,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))).
+attacker(senc((CSC_37743,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719)))).
 
-45. By 44, the attacker may know senc((CSC_8138,Login(skB[]),Passwd(skB[])),Skey(skB[],skB[])).
-By 11, the attacker may know Skey(skB[],skB[]).
-Using the function sdec the attacker may obtain (CSC_8138,Login(skB[]),Passwd(skB[])).
-attacker((CSC_8138,Login(skB[]),Passwd(skB[]))).
+53. By 52, the attacker may know senc((CSC_37743,Login(skB[]),Passwd(skB[])),Skey(skB[],sk(Sess_37719))).
+By 25, the attacker may know Skey(skB[],sk(Sess_37719)).
+Using the function sdec the attacker may obtain (CSC_37743,Login(skB[]),Passwd(skB[])).
+attacker((CSC_37743,Login(skB[]),Passwd(skB[]))).
 
-46. By 45, the attacker may know (CSC_8138,Login(skB[]),Passwd(skB[])).
-Using the function 1-proj-3-tuple the attacker may obtain CSC_8138.
-attacker(CSC_8138).
+54. By 53, the attacker may know (CSC_37743,Login(skB[]),Passwd(skB[])).
+Using the function 1-proj-3-tuple the attacker may obtain CSC_37743.
+attacker(CSC_37743).
 
-47. By 46, the attacker may know CSC_8138.
-By 43, the attacker may know Login(skB[]).
-By 31, the attacker may know Passwd(skB[]).
-Using the function 3-tuple the attacker may obtain (CSC_8138,Login(skB[]),Passwd(skB[])).
-attacker((CSC_8138,Login(skB[]),Passwd(skB[]))).
+55. By 54, the attacker may know CSC_37743.
+By 51, the attacker may know Login(skB[]).
+By 40, the attacker may know Passwd(skB[]).
+Using the function 3-tuple the attacker may obtain (CSC_37743,Login(skB[]),Passwd(skB[])).
+attacker((CSC_37743,Login(skB[]),Passwd(skB[]))).
 
-48. By 47, the attacker may know (CSC_8138,Login(skB[]),Passwd(skB[])).
-By 19, the attacker may know sign(h((CSC_8138,Login(skB[]),Passwd(skB[]))),skB[]).
-Using the function 2-tuple the attacker may obtain ((CSC_8138,Login(skB[]),Passwd(skB[])),sign(h((CSC_8138,Login(skB[]),Passwd(skB[]))),skB[])).
-attacker(((CSC_8138,Login(skB[]),Passwd(skB[])),sign(h((CSC_8138,Login(skB[]),Passwd(skB[]))),skB[]))).
+56. By 55, the attacker may know (CSC_37743,Login(skB[]),Passwd(skB[])).
+By 29, the attacker may know sign(h((CSC_37743,Login(skB[]),Passwd(skB[]))),skB[]).
+Using the function 2-tuple the attacker may obtain ((CSC_37743,Login(skB[]),Passwd(skB[])),sign(h((CSC_37743,Login(skB[]),Passwd(skB[]))),skB[])).
+attacker(((CSC_37743,Login(skB[]),Passwd(skB[])),sign(h((CSC_37743,Login(skB[]),Passwd(skB[]))),skB[]))).
 
-49. The message (B[],A[]) that the attacker may have by 3 may be received at input {27}.
-The message (CreateSessionRequest,sign(h(CreateSessionRequest),skB[])) that the attacker may have by 8 may be received at input {33}.
-The message ((CSC_8138,Login(skB[]),Passwd(skB[])),sign(h((CSC_8138,Login(skB[]),Passwd(skB[]))),skB[])) that the attacker may have by 48 may be received at input {40}.
-So event endSrv(B[],A[],(Login(skB[]),Passwd(skB[]))) may be executed at {43}.
+57. The message (B[],A[]) that the attacker may have by 3 may be received at input {415}.
+The message ((pub(skB[]),Nc_37746,CreateSessionRequest),sign(h((pub(skB[]),Nc_37746,CreateSessionRequest)),skB[])) that the attacker may have by 15 may be received at input {500}.
+The message ((CSC_37743,Login(skB[]),Passwd(skB[])),sign(h((CSC_37743,Login(skB[]),Passwd(skB[]))),skB[])) that the attacker may have by 56 may be received at input {507}.
+So event endSrv(B[],A[],(Login(skB[]),Passwd(skB[]))) may be executed at {510}.
 end(endSrv(B[],A[],(Login(skB[]),Passwd(skB[])))).
 
 
@@ -318,181 +1714,172 @@ out(c, pub(skA)) at {2}
 
 out(c, pub(skB)) at {4}
 
-in(c, (B,B)) at {6} in copy a_8147
+in(c, (B,a)) at {6} in copy a_37752
 
-out(c, (senc(CreateSessionRequest,Skey(skB,skB)),sign(h(CreateSessionRequest),skB))) at {13} in copy a_8147
+new Nc_197 creating Nc_41327 at {158} in copy a_37752
 
-in(c, (B,B)) at {6} in copy a_8149
+out(c, (senc((pub(skB),Nc_41327,CreateSessionRequest),Skey(skB,sk(a))),sign(h((pub(skB),Nc_41327,CreateSessionRequest)),skB))) at {160} in copy a_37752
 
-out(c, (senc(CreateSessionRequest,Skey(skB,skB)),sign(h(CreateSessionRequest),skB))) at {13} in copy a_8149
+in(c, (B,a)) at {6} in copy a_37755
 
-in(c, (B,B)) at {6} in copy a_8145
+new Nc_197 creating Nc_42211 at {158} in copy a_37755
 
-out(c, (senc(CreateSessionRequest,Skey(skB,skB)),sign(h(CreateSessionRequest),skB))) at {13} in copy a_8145
+out(c, (senc((pub(skB),Nc_42211,CreateSessionRequest),Skey(skB,sk(a))),sign(h((pub(skB),Nc_42211,CreateSessionRequest)),skB))) at {160} in copy a_37755
 
-in(c, (B,B)) at {6} in copy a_8151
+in(c, (B,a)) at {6} in copy a_37749
 
-out(c, (senc(CreateSessionRequest,Skey(skB,skB)),sign(h(CreateSessionRequest),skB))) at {13} in copy a_8151
+new Nc_197 creating Nc_43095 at {158} in copy a_37749
 
-in(c, (B,B)) at {27} in copy a_8146
+out(c, (senc((pub(skB),Nc_43095,CreateSessionRequest),Skey(skB,sk(a))),sign(h((pub(skB),Nc_43095,CreateSessionRequest)),skB))) at {160} in copy a_37749
 
-in(c, (CreateSessionRequest,sign(h(CreateSessionRequest),skB))) at {33} in copy a_8146
+in(c, (B,a_37757)) at {6} in copy a_37758
 
-new SSC_67 creating SSC_8156 at {36} in copy a_8146
+new Nc_197 creating Nc_37764 at {158} in copy a_37758
 
-new Ns2_68 creating Ns2_8157 at {37} in copy a_8146
+out(c, (senc((pub(skB),Nc_37764,CreateSessionRequest),Skey(skB,sk(a_37757))),sign(h((pub(skB),Nc_37764,CreateSessionRequest)),skB))) at {160} in copy a_37758
 
-out(c, ((SSC_8156,Ns2_8157),sign(h((SSC_8156,Ns2_8157)),skB))) at {39} in copy a_8146
+in(c, (B,A)) at {415} in copy a_37760
 
-in(c, (B,B)) at {27} in copy a_8148
+in(c, (B,a)) at {786} in copy a_37756
 
-in(c, (CreateSessionRequest,sign(h(CreateSessionRequest),skB))) at {33} in copy a_8148
+out(c, Skey(skB,sk(a))) at {832} in copy a_37756
 
-new SSC_67 creating SSC_8159 at {36} in copy a_8148
+in(c, (senc((pub(sk(a)),a_37750,a_37751),Skey(skB,sk(a))),sign(h((pub(sk(a)),a_37750,a_37751)),sk(a)))) at {161} in copy a_37752
 
-new Ns2_68 creating Ns2_8160 at {37} in copy a_8148
+new CSC_204 creating CSC_37762 at {165} in copy a_37752
 
-out(c, ((SSC_8159,Ns2_8160),sign(h((SSC_8159,Ns2_8160)),skB))) at {39} in copy a_8148
+event(beginCli(B,a,(Login(skB),Passwd(skB)))) at {166} in copy a_37752
 
-in(c, (B,B)) at {27} in copy a
+out(c, (senc((CSC_37762,Login(skB),Passwd(skB)),Skey(skB,sk(a))),sign(h((CSC_37762,Login(skB),Passwd(skB))),skB))) at {168} in copy a_37752
 
-in(c, (CreateSessionRequest,sign(h(CreateSessionRequest),skB))) at {33} in copy a
+in(c, (senc((pub(sk(a)),a_37753,a_37754),Skey(skB,sk(a))),sign(h((pub(sk(a)),a_37753,a_37754)),sk(a)))) at {161} in copy a_37755
 
-new SSC_67 creating SSC_8153 at {36} in copy a
+new CSC_204 creating CSC_37763 at {165} in copy a_37755
 
-new Ns2_68 creating Ns2_8154 at {37} in copy a
+event(beginCli(B,a,(Login(skB),Passwd(skB)))) at {166} in copy a_37755
 
-out(c, ((SSC_8153,Ns2_8154),sign(h((SSC_8153,Ns2_8154)),skB))) at {39} in copy a
+out(c, (senc((CSC_37763,Login(skB),Passwd(skB)),Skey(skB,sk(a))),sign(h((CSC_37763,Login(skB),Passwd(skB))),skB))) at {168} in copy a_37755
 
-in(c, (B,A)) at {27} in copy a_8152
+in(c, (senc((pub(sk(a)),a_37747,a_37748),Skey(skB,sk(a))),sign(h((pub(sk(a)),a_37747,a_37748)),sk(a)))) at {161} in copy a_37749
 
-in(c, (CreateSessionRequest,sign(h(CreateSessionRequest),skB))) at {33} in copy a_8152
+new CSC_204 creating CSC_37761 at {165} in copy a_37749
 
-new SSC_67 creating SSC_9194 at {36} in copy a_8152
+event(beginCli(B,a,(Login(skB),Passwd(skB)))) at {166} in copy a_37749
 
-new Ns2_68 creating Ns2_9195 at {37} in copy a_8152
+out(c, (senc((CSC_37761,Login(skB),Passwd(skB)),Skey(skB,sk(a))),sign(h((CSC_37761,Login(skB),Passwd(skB))),skB))) at {168} in copy a_37749
 
-out(c, ((SSC_9194,Ns2_9195),sign(h((SSC_9194,Ns2_9195)),skA))) at {39} in copy a_8152
+in(c, (B,a_37757)) at {786} in copy a_37759
 
-in(c, (B,B)) at {47} in copy a_8150
+out(c, Skey(skB,sk(a_37757))) at {832} in copy a_37759
 
-out(c, Skey(skB,skB)) at {52} in copy a_8150
+in(c, ((pub(skB),Nc_37764,CreateSessionRequest),sign(h((pub(skB),Nc_37764,CreateSessionRequest)),skB))) at {500} in copy a_37760
 
-in(c, (senc((SSC_8156,Ns2_8157),Skey(skB,skB)),sign(h((SSC_8156,Ns2_8157)),skB))) at {14} in copy a_8147
+new SSC_493 creating SSC_45042 at {503} in copy a_37760
 
-new CSC creating CSC_8158 at {18} in copy a_8147
+new Ns_494 creating Ns_45043 at {504} in copy a_37760
 
-event(beginCli(B,B,(Login(skB),Passwd(skB)))) at {19} in copy a_8147
+out(c, ((pub(skA),SSC_45042,Ns_45043),sign(h((pub(skA),SSC_45042,Ns_45043)),skA))) at {506} in copy a_37760
 
-out(c, (senc((CSC_8158,Login(skB),Passwd(skB)),Skey(skB,skB)),sign(h((CSC_8158,Login(skB),Passwd(skB))),skB))) at {21} in copy a_8147
+in(c, ((CSC_37761,Login(skB),Passwd(skB)),sign(h((CSC_37761,Login(skB),Passwd(skB))),skB))) at {507} in copy a_37760
 
-in(c, (senc((SSC_8159,Ns2_8160),Skey(skB,skB)),sign(h((SSC_8159,Ns2_8160)),skB))) at {14} in copy a_8149
-
-new CSC creating CSC_8161 at {18} in copy a_8149
-
-event(beginCli(B,B,(Login(skB),Passwd(skB)))) at {19} in copy a_8149
-
-out(c, (senc((CSC_8161,Login(skB),Passwd(skB)),Skey(skB,skB)),sign(h((CSC_8161,Login(skB),Passwd(skB))),skB))) at {21} in copy a_8149
-
-in(c, (senc((SSC_8153,Ns2_8154),Skey(skB,skB)),sign(h((SSC_8153,Ns2_8154)),skB))) at {14} in copy a_8145
-
-new CSC creating CSC_8155 at {18} in copy a_8145
-
-event(beginCli(B,B,(Login(skB),Passwd(skB)))) at {19} in copy a_8145
-
-out(c, (senc((CSC_8155,Login(skB),Passwd(skB)),Skey(skB,skB)),sign(h((CSC_8155,Login(skB),Passwd(skB))),skB))) at {21} in copy a_8145
-
-in(c, ((CSC_8155,Login(skB),Passwd(skB)),sign(h((CSC_8155,Login(skB),Passwd(skB))),skB))) at {40} in copy a_8152
-
-event(endSrv(B,A,(Login(skB),Passwd(skB)))) at {43} in copy a_8152
+event(endSrv(B,A,(Login(skB),Passwd(skB)))) at {510} in copy a_37760
 
 The event endSrv(B,A,(Login(skB),Passwd(skB))) is executed.
 A trace has been found.
-RESULT event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N)) is false.
+RESULT event(endSrv(X_760,Y_761,N)) ==> event(beginCli(X_760,Y_761,N)) is false.
 -- Query not attacker(Skey(skB[],skA[]))
 Completing...
-200 rules inserted. The rule base contains 91 rules. 26 rules in the queue.
+200 rules inserted. The rule base contains 133 rules. 112 rules in the queue.
+400 rules inserted. The rule base contains 143 rules. 88 rules in the queue.
+600 rules inserted. The rule base contains 196 rules. 104 rules in the queue.
+800 rules inserted. The rule base contains 231 rules. 82 rules in the queue.
+1000 rules inserted. The rule base contains 285 rules. 92 rules in the queue.
+1200 rules inserted. The rule base contains 329 rules. 88 rules in the queue.
+1400 rules inserted. The rule base contains 369 rules. 138 rules in the queue.
+1600 rules inserted. The rule base contains 437 rules. 150 rules in the queue.
+1800 rules inserted. The rule base contains 467 rules. 120 rules in the queue.
+2000 rules inserted. The rule base contains 467 rules. 120 rules in the queue.
+2200 rules inserted. The rule base contains 494 rules. 93 rules in the queue.
 Starting query not attacker(Skey(skB[],skA[]))
 RESULT not attacker(Skey(skB[],skA[])) is true.
 -- Query not attacker(Skey(skA[],skB[]))
 Completing...
-200 rules inserted. The rule base contains 91 rules. 26 rules in the queue.
+200 rules inserted. The rule base contains 133 rules. 112 rules in the queue.
+400 rules inserted. The rule base contains 143 rules. 88 rules in the queue.
+600 rules inserted. The rule base contains 196 rules. 104 rules in the queue.
+800 rules inserted. The rule base contains 231 rules. 82 rules in the queue.
+1000 rules inserted. The rule base contains 285 rules. 92 rules in the queue.
+1200 rules inserted. The rule base contains 329 rules. 88 rules in the queue.
+1400 rules inserted. The rule base contains 369 rules. 138 rules in the queue.
+1600 rules inserted. The rule base contains 437 rules. 150 rules in the queue.
+1800 rules inserted. The rule base contains 467 rules. 120 rules in the queue.
+2000 rules inserted. The rule base contains 467 rules. 120 rules in the queue.
+2200 rules inserted. The rule base contains 494 rules. 93 rules in the queue.
 Starting query not attacker(Skey(skA[],skB[]))
 RESULT not attacker(Skey(skA[],skB[])) is true.
 -- Query not attacker(Passwd(skA[]))
 Completing...
-200 rules inserted. The rule base contains 91 rules. 26 rules in the queue.
+200 rules inserted. The rule base contains 133 rules. 112 rules in the queue.
+400 rules inserted. The rule base contains 143 rules. 88 rules in the queue.
+600 rules inserted. The rule base contains 196 rules. 104 rules in the queue.
+800 rules inserted. The rule base contains 231 rules. 82 rules in the queue.
+1000 rules inserted. The rule base contains 285 rules. 92 rules in the queue.
+1200 rules inserted. The rule base contains 329 rules. 88 rules in the queue.
+1400 rules inserted. The rule base contains 369 rules. 138 rules in the queue.
+1600 rules inserted. The rule base contains 437 rules. 150 rules in the queue.
+1800 rules inserted. The rule base contains 467 rules. 120 rules in the queue.
+2000 rules inserted. The rule base contains 467 rules. 120 rules in the queue.
+2200 rules inserted. The rule base contains 494 rules. 93 rules in the queue.
 Starting query not attacker(Passwd(skA[]))
 goal reachable: attacker(Passwd(skA[]))
 Abbreviations:
-CSC_28950 = CSC[sigM2 = sign(h((SSC_28939,Ns2_28940)),sk(Sess_28941)),em2 = senc((SSC_28939,Ns2_28940),Skey(skA[],sk(Sess_28941))),Sess = Sess_28941,Cli = A[],!1 = @sid_28942]
+Nc_100143 = Nc[Sess = A[],Cli = A[],!1 = @sid_100126]
+CSC_100144 = CSC[sigM2 = sign(h((pub(skA[]),Nc_100143,CreateSessionRequest)),skA[]),em2 = senc((pub(skA[]),Nc_100143,CreateSessionRequest),Skey(skA[],skA[])),Sess = A[],Cli = A[],!1 = @sid_100135]
 
-1. The attacker has some term Sess_28941.
-attacker(Sess_28941).
-
-2. The attacker initially knows A[].
+1. The attacker initially knows A[].
 attacker(A[]).
 
-3. By 2, the attacker may know A[].
-By 1, the attacker may know Sess_28941.
-Using the function 2-tuple the attacker may obtain (A[],Sess_28941).
-attacker((A[],Sess_28941)).
+2. By 1, the attacker may know A[].
+By 1, the attacker may know A[].
+Using the function 2-tuple the attacker may obtain (A[],A[]).
+attacker((A[],A[])).
 
-4. The message (A[],Sess_28941) that the attacker may have by 3 may be received at input {47}.
-We have Sess_28941 <> B[] & Sess_28941 <> A[].
-So the message Skey(skA[],sk(Sess_28941)) may be sent to the attacker at output {52}.
-attacker(Skey(skA[],sk(Sess_28941))).
+3. The message (A[],A[]) that the attacker may have by 2 may be received at input {786}.
+So the message Skey(skA[],skA[]) may be sent to the attacker at output {795}.
+attacker(Skey(skA[],skA[])).
 
-5. By 1, the attacker may know Sess_28941.
-Using the function sk the attacker may obtain sk(Sess_28941).
-attacker(sk(Sess_28941)).
+4. The message (A[],A[]) that the attacker may have by 2 may be received at input {6}.
+So the message (senc((pub(skA[]),Nc_100143,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_100143,CreateSessionRequest)),skA[])) may be sent to the attacker at output {18}.
+attacker((senc((pub(skA[]),Nc_100143,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_100143,CreateSessionRequest)),skA[]))).
 
-6. The attacker has some term Ns2_28940.
-attacker(Ns2_28940).
+5. By 4, the attacker may know (senc((pub(skA[]),Nc_100143,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_100143,CreateSessionRequest)),skA[])).
+Using the function 2-proj-2-tuple the attacker may obtain sign(h((pub(skA[]),Nc_100143,CreateSessionRequest)),skA[]).
+attacker(sign(h((pub(skA[]),Nc_100143,CreateSessionRequest)),skA[])).
 
-7. The attacker has some term SSC_28939.
-attacker(SSC_28939).
+6. By 4, the attacker may know (senc((pub(skA[]),Nc_100143,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_100143,CreateSessionRequest)),skA[])).
+Using the function 1-proj-2-tuple the attacker may obtain senc((pub(skA[]),Nc_100143,CreateSessionRequest),Skey(skA[],skA[])).
+attacker(senc((pub(skA[]),Nc_100143,CreateSessionRequest),Skey(skA[],skA[]))).
 
-8. By 7, the attacker may know SSC_28939.
-By 6, the attacker may know Ns2_28940.
-Using the function 2-tuple the attacker may obtain (SSC_28939,Ns2_28940).
-attacker((SSC_28939,Ns2_28940)).
+7. By 6, the attacker may know senc((pub(skA[]),Nc_100143,CreateSessionRequest),Skey(skA[],skA[])).
+By 5, the attacker may know sign(h((pub(skA[]),Nc_100143,CreateSessionRequest)),skA[]).
+Using the function 2-tuple the attacker may obtain (senc((pub(skA[]),Nc_100143,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_100143,CreateSessionRequest)),skA[])).
+attacker((senc((pub(skA[]),Nc_100143,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_100143,CreateSessionRequest)),skA[]))).
 
-9. By 8, the attacker may know (SSC_28939,Ns2_28940).
-Using the function h the attacker may obtain h((SSC_28939,Ns2_28940)).
-attacker(h((SSC_28939,Ns2_28940))).
+8. The message (A[],A[]) that the attacker may have by 2 may be received at input {6}.
+The message (senc((pub(skA[]),Nc_100143,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_100143,CreateSessionRequest)),skA[])) that the attacker may have by 7 may be received at input {19}.
+So the message (senc((CSC_100144,Login(skA[]),Passwd(skA[])),Skey(skA[],skA[])),sign(h((CSC_100144,Login(skA[]),Passwd(skA[]))),skA[])) may be sent to the attacker at output {26}.
+attacker((senc((CSC_100144,Login(skA[]),Passwd(skA[])),Skey(skA[],skA[])),sign(h((CSC_100144,Login(skA[]),Passwd(skA[]))),skA[]))).
 
-10. By 9, the attacker may know h((SSC_28939,Ns2_28940)).
-By 5, the attacker may know sk(Sess_28941).
-Using the function sign the attacker may obtain sign(h((SSC_28939,Ns2_28940)),sk(Sess_28941)).
-attacker(sign(h((SSC_28939,Ns2_28940)),sk(Sess_28941))).
+9. By 8, the attacker may know (senc((CSC_100144,Login(skA[]),Passwd(skA[])),Skey(skA[],skA[])),sign(h((CSC_100144,Login(skA[]),Passwd(skA[]))),skA[])).
+Using the function 1-proj-2-tuple the attacker may obtain senc((CSC_100144,Login(skA[]),Passwd(skA[])),Skey(skA[],skA[])).
+attacker(senc((CSC_100144,Login(skA[]),Passwd(skA[])),Skey(skA[],skA[]))).
 
-11. By 8, the attacker may know (SSC_28939,Ns2_28940).
-By 4, the attacker may know Skey(skA[],sk(Sess_28941)).
-Using the function senc the attacker may obtain senc((SSC_28939,Ns2_28940),Skey(skA[],sk(Sess_28941))).
-attacker(senc((SSC_28939,Ns2_28940),Skey(skA[],sk(Sess_28941)))).
+10. By 9, the attacker may know senc((CSC_100144,Login(skA[]),Passwd(skA[])),Skey(skA[],skA[])).
+By 3, the attacker may know Skey(skA[],skA[]).
+Using the function sdec the attacker may obtain (CSC_100144,Login(skA[]),Passwd(skA[])).
+attacker((CSC_100144,Login(skA[]),Passwd(skA[]))).
 
-12. By 11, the attacker may know senc((SSC_28939,Ns2_28940),Skey(skA[],sk(Sess_28941))).
-By 10, the attacker may know sign(h((SSC_28939,Ns2_28940)),sk(Sess_28941)).
-Using the function 2-tuple the attacker may obtain (senc((SSC_28939,Ns2_28940),Skey(skA[],sk(Sess_28941))),sign(h((SSC_28939,Ns2_28940)),sk(Sess_28941))).
-attacker((senc((SSC_28939,Ns2_28940),Skey(skA[],sk(Sess_28941))),sign(h((SSC_28939,Ns2_28940)),sk(Sess_28941)))).
-
-13. The message (A[],Sess_28941) that the attacker may have by 3 may be received at input {6}.
-The message (senc((SSC_28939,Ns2_28940),Skey(skA[],sk(Sess_28941))),sign(h((SSC_28939,Ns2_28940)),sk(Sess_28941))) that the attacker may have by 12 may be received at input {14}.
-We have Sess_28941 <> B[] & Sess_28941 <> A[].
-So the message (senc((CSC_28950,Login(skA[]),Passwd(skA[])),Skey(skA[],sk(Sess_28941))),sign(h((CSC_28950,Login(skA[]),Passwd(skA[]))),skA[])) may be sent to the attacker at output {21}.
-attacker((senc((CSC_28950,Login(skA[]),Passwd(skA[])),Skey(skA[],sk(Sess_28941))),sign(h((CSC_28950,Login(skA[]),Passwd(skA[]))),skA[]))).
-
-14. By 13, the attacker may know (senc((CSC_28950,Login(skA[]),Passwd(skA[])),Skey(skA[],sk(Sess_28941))),sign(h((CSC_28950,Login(skA[]),Passwd(skA[]))),skA[])).
-Using the function 1-proj-2-tuple the attacker may obtain senc((CSC_28950,Login(skA[]),Passwd(skA[])),Skey(skA[],sk(Sess_28941))).
-attacker(senc((CSC_28950,Login(skA[]),Passwd(skA[])),Skey(skA[],sk(Sess_28941)))).
-
-15. By 14, the attacker may know senc((CSC_28950,Login(skA[]),Passwd(skA[])),Skey(skA[],sk(Sess_28941))).
-By 4, the attacker may know Skey(skA[],sk(Sess_28941)).
-Using the function sdec the attacker may obtain (CSC_28950,Login(skA[]),Passwd(skA[])).
-attacker((CSC_28950,Login(skA[]),Passwd(skA[]))).
-
-16. By 15, the attacker may know (CSC_28950,Login(skA[]),Passwd(skA[])).
+11. By 10, the attacker may know (CSC_100144,Login(skA[]),Passwd(skA[])).
 Using the function 3-proj-3-tuple the attacker may obtain Passwd(skA[]).
 attacker(Passwd(skA[])).
 
@@ -504,99 +1891,96 @@ out(c, pub(skA)) at {2}
 
 out(c, pub(skB)) at {4}
 
-in(c, (A,a_28953)) at {6} in copy a_28954
+in(c, (A,A)) at {6} in copy a_100145
 
-out(c, (senc(CreateSessionRequest,Skey(skA,sk(a_28953))),sign(h(CreateSessionRequest),skA))) at {13} in copy a_28954
+new Nc creating Nc_100148 at {16} in copy a_100145
 
-in(c, (A,a_28953)) at {47} in copy a_28955
+out(c, (senc((pub(skA),Nc_100148,CreateSessionRequest),Skey(skA,skA)),sign(h((pub(skA),Nc_100148,CreateSessionRequest)),skA))) at {18} in copy a_100145
 
-out(c, Skey(skA,sk(a_28953))) at {52} in copy a_28955
+in(c, (A,A)) at {6} in copy a_100146
 
-in(c, (senc((a_28951,a_28952),Skey(skA,sk(a_28953))),sign(h((a_28951,a_28952)),sk(a_28953)))) at {14} in copy a_28954
+new Nc creating Nc_103495 at {16} in copy a_100146
 
-new CSC creating CSC_28956 at {18} in copy a_28954
+out(c, (senc((pub(skA),Nc_103495,CreateSessionRequest),Skey(skA,skA)),sign(h((pub(skA),Nc_103495,CreateSessionRequest)),skA))) at {18} in copy a_100146
 
-event(beginCli(A,a_28953,(Login(skA),Passwd(skA)))) at {19} in copy a_28954
+in(c, (senc((pub(skA),Nc_100148,CreateSessionRequest),Skey(skA,skA)),sign(h((pub(skA),Nc_100148,CreateSessionRequest)),skA))) at {19} in copy a_100146
 
-out(c, (senc((CSC_28956,Login(skA),Passwd(skA)),Skey(skA,sk(a_28953))),sign(h((CSC_28956,Login(skA),Passwd(skA))),skA))) at {21} in copy a_28954
+new CSC creating CSC_100149 at {23} in copy a_100146
+
+event(beginCli(A,A,(Login(skA),Passwd(skA)))) at {24} in copy a_100146
+
+out(c, (senc((CSC_100149,Login(skA),Passwd(skA)),Skey(skA,skA)),sign(h((CSC_100149,Login(skA),Passwd(skA))),skA))) at {26} in copy a_100146
+
+in(c, (A,A)) at {786} in copy a_100147
+
+out(c, Skey(skA,skA)) at {795} in copy a_100147
 
 The attacker has the message Passwd(skA).
 A trace has been found.
 RESULT not attacker(Passwd(skA[])) is false.
 -- Query not attacker(Login(skA[]))
 Completing...
-200 rules inserted. The rule base contains 91 rules. 26 rules in the queue.
+200 rules inserted. The rule base contains 133 rules. 112 rules in the queue.
+400 rules inserted. The rule base contains 143 rules. 88 rules in the queue.
+600 rules inserted. The rule base contains 196 rules. 104 rules in the queue.
+800 rules inserted. The rule base contains 231 rules. 82 rules in the queue.
+1000 rules inserted. The rule base contains 285 rules. 92 rules in the queue.
+1200 rules inserted. The rule base contains 329 rules. 88 rules in the queue.
+1400 rules inserted. The rule base contains 369 rules. 138 rules in the queue.
+1600 rules inserted. The rule base contains 437 rules. 150 rules in the queue.
+1800 rules inserted. The rule base contains 467 rules. 120 rules in the queue.
+2000 rules inserted. The rule base contains 467 rules. 120 rules in the queue.
+2200 rules inserted. The rule base contains 494 rules. 93 rules in the queue.
 Starting query not attacker(Login(skA[]))
 goal reachable: attacker(Login(skA[]))
 Abbreviations:
-CSC_35795 = CSC[sigM2 = sign(h((SSC_35784,Ns2_35785)),sk(Sess_35786)),em2 = senc((SSC_35784,Ns2_35785),Skey(skA[],sk(Sess_35786))),Sess = Sess_35786,Cli = A[],!1 = @sid_35787]
+Nc_122019 = Nc[Sess = A[],Cli = A[],!1 = @sid_122002]
+CSC_122020 = CSC[sigM2 = sign(h((pub(skA[]),Nc_122019,CreateSessionRequest)),skA[]),em2 = senc((pub(skA[]),Nc_122019,CreateSessionRequest),Skey(skA[],skA[])),Sess = A[],Cli = A[],!1 = @sid_122011]
 
-1. The attacker has some term Sess_35786.
-attacker(Sess_35786).
-
-2. The attacker initially knows A[].
+1. The attacker initially knows A[].
 attacker(A[]).
 
-3. By 2, the attacker may know A[].
-By 1, the attacker may know Sess_35786.
-Using the function 2-tuple the attacker may obtain (A[],Sess_35786).
-attacker((A[],Sess_35786)).
+2. By 1, the attacker may know A[].
+By 1, the attacker may know A[].
+Using the function 2-tuple the attacker may obtain (A[],A[]).
+attacker((A[],A[])).
 
-4. The message (A[],Sess_35786) that the attacker may have by 3 may be received at input {47}.
-We have Sess_35786 <> B[] & Sess_35786 <> A[].
-So the message Skey(skA[],sk(Sess_35786)) may be sent to the attacker at output {52}.
-attacker(Skey(skA[],sk(Sess_35786))).
+3. The message (A[],A[]) that the attacker may have by 2 may be received at input {786}.
+So the message Skey(skA[],skA[]) may be sent to the attacker at output {795}.
+attacker(Skey(skA[],skA[])).
 
-5. By 1, the attacker may know Sess_35786.
-Using the function sk the attacker may obtain sk(Sess_35786).
-attacker(sk(Sess_35786)).
+4. The message (A[],A[]) that the attacker may have by 2 may be received at input {6}.
+So the message (senc((pub(skA[]),Nc_122019,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_122019,CreateSessionRequest)),skA[])) may be sent to the attacker at output {18}.
+attacker((senc((pub(skA[]),Nc_122019,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_122019,CreateSessionRequest)),skA[]))).
 
-6. The attacker has some term Ns2_35785.
-attacker(Ns2_35785).
+5. By 4, the attacker may know (senc((pub(skA[]),Nc_122019,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_122019,CreateSessionRequest)),skA[])).
+Using the function 2-proj-2-tuple the attacker may obtain sign(h((pub(skA[]),Nc_122019,CreateSessionRequest)),skA[]).
+attacker(sign(h((pub(skA[]),Nc_122019,CreateSessionRequest)),skA[])).
 
-7. The attacker has some term SSC_35784.
-attacker(SSC_35784).
+6. By 4, the attacker may know (senc((pub(skA[]),Nc_122019,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_122019,CreateSessionRequest)),skA[])).
+Using the function 1-proj-2-tuple the attacker may obtain senc((pub(skA[]),Nc_122019,CreateSessionRequest),Skey(skA[],skA[])).
+attacker(senc((pub(skA[]),Nc_122019,CreateSessionRequest),Skey(skA[],skA[]))).
 
-8. By 7, the attacker may know SSC_35784.
-By 6, the attacker may know Ns2_35785.
-Using the function 2-tuple the attacker may obtain (SSC_35784,Ns2_35785).
-attacker((SSC_35784,Ns2_35785)).
+7. By 6, the attacker may know senc((pub(skA[]),Nc_122019,CreateSessionRequest),Skey(skA[],skA[])).
+By 5, the attacker may know sign(h((pub(skA[]),Nc_122019,CreateSessionRequest)),skA[]).
+Using the function 2-tuple the attacker may obtain (senc((pub(skA[]),Nc_122019,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_122019,CreateSessionRequest)),skA[])).
+attacker((senc((pub(skA[]),Nc_122019,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_122019,CreateSessionRequest)),skA[]))).
 
-9. By 8, the attacker may know (SSC_35784,Ns2_35785).
-Using the function h the attacker may obtain h((SSC_35784,Ns2_35785)).
-attacker(h((SSC_35784,Ns2_35785))).
+8. The message (A[],A[]) that the attacker may have by 2 may be received at input {6}.
+The message (senc((pub(skA[]),Nc_122019,CreateSessionRequest),Skey(skA[],skA[])),sign(h((pub(skA[]),Nc_122019,CreateSessionRequest)),skA[])) that the attacker may have by 7 may be received at input {19}.
+So the message (senc((CSC_122020,Login(skA[]),Passwd(skA[])),Skey(skA[],skA[])),sign(h((CSC_122020,Login(skA[]),Passwd(skA[]))),skA[])) may be sent to the attacker at output {26}.
+attacker((senc((CSC_122020,Login(skA[]),Passwd(skA[])),Skey(skA[],skA[])),sign(h((CSC_122020,Login(skA[]),Passwd(skA[]))),skA[]))).
 
-10. By 9, the attacker may know h((SSC_35784,Ns2_35785)).
-By 5, the attacker may know sk(Sess_35786).
-Using the function sign the attacker may obtain sign(h((SSC_35784,Ns2_35785)),sk(Sess_35786)).
-attacker(sign(h((SSC_35784,Ns2_35785)),sk(Sess_35786))).
+9. By 8, the attacker may know (senc((CSC_122020,Login(skA[]),Passwd(skA[])),Skey(skA[],skA[])),sign(h((CSC_122020,Login(skA[]),Passwd(skA[]))),skA[])).
+Using the function 1-proj-2-tuple the attacker may obtain senc((CSC_122020,Login(skA[]),Passwd(skA[])),Skey(skA[],skA[])).
+attacker(senc((CSC_122020,Login(skA[]),Passwd(skA[])),Skey(skA[],skA[]))).
 
-11. By 8, the attacker may know (SSC_35784,Ns2_35785).
-By 4, the attacker may know Skey(skA[],sk(Sess_35786)).
-Using the function senc the attacker may obtain senc((SSC_35784,Ns2_35785),Skey(skA[],sk(Sess_35786))).
-attacker(senc((SSC_35784,Ns2_35785),Skey(skA[],sk(Sess_35786)))).
+10. By 9, the attacker may know senc((CSC_122020,Login(skA[]),Passwd(skA[])),Skey(skA[],skA[])).
+By 3, the attacker may know Skey(skA[],skA[]).
+Using the function sdec the attacker may obtain (CSC_122020,Login(skA[]),Passwd(skA[])).
+attacker((CSC_122020,Login(skA[]),Passwd(skA[]))).
 
-12. By 11, the attacker may know senc((SSC_35784,Ns2_35785),Skey(skA[],sk(Sess_35786))).
-By 10, the attacker may know sign(h((SSC_35784,Ns2_35785)),sk(Sess_35786)).
-Using the function 2-tuple the attacker may obtain (senc((SSC_35784,Ns2_35785),Skey(skA[],sk(Sess_35786))),sign(h((SSC_35784,Ns2_35785)),sk(Sess_35786))).
-attacker((senc((SSC_35784,Ns2_35785),Skey(skA[],sk(Sess_35786))),sign(h((SSC_35784,Ns2_35785)),sk(Sess_35786)))).
-
-13. The message (A[],Sess_35786) that the attacker may have by 3 may be received at input {6}.
-The message (senc((SSC_35784,Ns2_35785),Skey(skA[],sk(Sess_35786))),sign(h((SSC_35784,Ns2_35785)),sk(Sess_35786))) that the attacker may have by 12 may be received at input {14}.
-We have Sess_35786 <> B[] & Sess_35786 <> A[].
-So the message (senc((CSC_35795,Login(skA[]),Passwd(skA[])),Skey(skA[],sk(Sess_35786))),sign(h((CSC_35795,Login(skA[]),Passwd(skA[]))),skA[])) may be sent to the attacker at output {21}.
-attacker((senc((CSC_35795,Login(skA[]),Passwd(skA[])),Skey(skA[],sk(Sess_35786))),sign(h((CSC_35795,Login(skA[]),Passwd(skA[]))),skA[]))).
-
-14. By 13, the attacker may know (senc((CSC_35795,Login(skA[]),Passwd(skA[])),Skey(skA[],sk(Sess_35786))),sign(h((CSC_35795,Login(skA[]),Passwd(skA[]))),skA[])).
-Using the function 1-proj-2-tuple the attacker may obtain senc((CSC_35795,Login(skA[]),Passwd(skA[])),Skey(skA[],sk(Sess_35786))).
-attacker(senc((CSC_35795,Login(skA[]),Passwd(skA[])),Skey(skA[],sk(Sess_35786)))).
-
-15. By 14, the attacker may know senc((CSC_35795,Login(skA[]),Passwd(skA[])),Skey(skA[],sk(Sess_35786))).
-By 4, the attacker may know Skey(skA[],sk(Sess_35786)).
-Using the function sdec the attacker may obtain (CSC_35795,Login(skA[]),Passwd(skA[])).
-attacker((CSC_35795,Login(skA[]),Passwd(skA[]))).
-
-16. By 15, the attacker may know (CSC_35795,Login(skA[]),Passwd(skA[])).
+11. By 10, the attacker may know (CSC_122020,Login(skA[]),Passwd(skA[])).
 Using the function 2-proj-3-tuple the attacker may obtain Login(skA[]).
 attacker(Login(skA[])).
 
@@ -608,21 +1992,29 @@ out(c, pub(skA)) at {2}
 
 out(c, pub(skB)) at {4}
 
-in(c, (A,a_35798)) at {6} in copy a_35799
+in(c, (A,A)) at {6} in copy a_122021
 
-out(c, (senc(CreateSessionRequest,Skey(skA,sk(a_35798))),sign(h(CreateSessionRequest),skA))) at {13} in copy a_35799
+new Nc creating Nc_122024 at {16} in copy a_122021
 
-in(c, (A,a_35798)) at {47} in copy a_35800
+out(c, (senc((pub(skA),Nc_122024,CreateSessionRequest),Skey(skA,skA)),sign(h((pub(skA),Nc_122024,CreateSessionRequest)),skA))) at {18} in copy a_122021
 
-out(c, Skey(skA,sk(a_35798))) at {52} in copy a_35800
+in(c, (A,A)) at {6} in copy a_122022
 
-in(c, (senc((a_35796,a_35797),Skey(skA,sk(a_35798))),sign(h((a_35796,a_35797)),sk(a_35798)))) at {14} in copy a_35799
+new Nc creating Nc_125371 at {16} in copy a_122022
 
-new CSC creating CSC_35801 at {18} in copy a_35799
+out(c, (senc((pub(skA),Nc_125371,CreateSessionRequest),Skey(skA,skA)),sign(h((pub(skA),Nc_125371,CreateSessionRequest)),skA))) at {18} in copy a_122022
 
-event(beginCli(A,a_35798,(Login(skA),Passwd(skA)))) at {19} in copy a_35799
+in(c, (senc((pub(skA),Nc_122024,CreateSessionRequest),Skey(skA,skA)),sign(h((pub(skA),Nc_122024,CreateSessionRequest)),skA))) at {19} in copy a_122022
 
-out(c, (senc((CSC_35801,Login(skA),Passwd(skA)),Skey(skA,sk(a_35798))),sign(h((CSC_35801,Login(skA),Passwd(skA))),skA))) at {21} in copy a_35799
+new CSC creating CSC_122025 at {23} in copy a_122022
+
+event(beginCli(A,A,(Login(skA),Passwd(skA)))) at {24} in copy a_122022
+
+out(c, (senc((CSC_122025,Login(skA),Passwd(skA)),Skey(skA,skA)),sign(h((CSC_122025,Login(skA),Passwd(skA))),skA))) at {26} in copy a_122022
+
+in(c, (A,A)) at {786} in copy a_122023
+
+out(c, Skey(skA,skA)) at {795} in copy a_122023
 
 The attacker has the message Login(skA).
 A trace has been found.

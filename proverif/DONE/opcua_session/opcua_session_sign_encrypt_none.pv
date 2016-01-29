@@ -76,13 +76,14 @@ let client(skA: bitstring, skB: bitstring) =
     let K = Skey(skCli, skSess) in
 
     (* Role starting *)
-    let m1 = CreateSessionRequest in
+    new Nc: bitstring;
+    let m1 = (pkCli, Nc, CreateSessionRequest) in
     out(c, (senc(m1, K), sign(h(m1), skCli)));
 
     in(c, (em2: bitstring, sigM2: bitstring));
     let m2 = sdec(em2, K) in
     if verify(h(m2), sigM2, pkSess) <> true then 0 else
-    let (SSC: bitstring, Ns2: bitstring) = m2 in
+    let (=pkSess, SSC: bitstring, Ns: bitstring) = m2 in
 
     new CSC: bitstring;
     event beginCli(Cli, Sess, (Login(skCli), Passwd(skCli)));
@@ -90,9 +91,10 @@ let client(skA: bitstring, skB: bitstring) =
     out(c, (senc(m3, K), sign(h(m3), skCli)));
 
     in(c, (em4: bitstring, sigM4: bitstring));
+    new Ns2: bitstring;
     let m4 = sdec(em4, K) in
     if verify(h(m4), sigM4, pkSess) <> true then 0 else
-    if m4 <> ActivateSessionResponse then 0.
+    let (Ns2: bitstring, =ActivateSessionResponse) = m4 in 0.
 
 
 let sess(skA: bitstring, skB: bitstring) = 
@@ -105,18 +107,19 @@ let sess(skA: bitstring, skB: bitstring) =
 
     (* Role starting *)
     in(c, m1: bitstring);
-    if m1 <> CreateSessionRequest then 0 else
+    let (=pkCli, Nc: bitstring, =CreateSessionRequest) = m1 in
 
     new SSC: bitstring;
-    new Ns2: bitstring;
-    let m2 = (SSC, Ns2) in
+    new Ns: bitstring;
+    let m2 = (pkSess, SSC, Ns) in
     out(c, m2);
 
     in(c, m3: bitstring);
     let (CSC: bitstring, =Login(skCli), =Passwd(skCli)) = m3 in
     event endSrv(Cli, Sess, (Login(skCli), Passwd(skCli)));
     
-    let m4 = ActivateSessionResponse in
+    new Ns2: bitstring;
+    let m4 = (Ns2, ActivateSessionResponse) in
     out(c, m4).
 
 
