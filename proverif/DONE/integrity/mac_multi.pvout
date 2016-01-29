@@ -1,0 +1,81 @@
+Process:
+(
+    {1}out(cAO, m);
+    {2}event begin(A,C,m);
+    {3}out(c, (m,H(k,m)))
+) | (
+    {4}out(cAO, m);
+    {5}event begin(B,C,m);
+    {6}out(c, (m,H(k,m)))
+) | (
+    {7}in(c, (x: bitstring,h: bitstring));
+    {8}if (h = H(k,x)) then
+    {9}out(cBO, x);
+    {10}event end(A,C,x)
+) | (
+    {11}in(c, (x_19: bitstring,h_20: bitstring));
+    {12}if (h_20 = H(k,x_19)) then
+    {13}out(cBO, x_19);
+    {14}event end(B,C,x_19)
+) | (
+    {15}in(cAO, m1: bitstring);
+    {16}in(cBO, m2: bitstring);
+    {17}if (m1 = m2) then
+        0
+    else
+        {18}event different(m1,m2)
+)
+
+-- Query not event(different(x_21,m[]))
+Completing...
+Starting query not event(different(x_21,m[]))
+RESULT not event(different(x_21,m[])) is true.
+-- Query not event(different(m[],x_300))
+Completing...
+Starting query not event(different(m[],x_300))
+RESULT not event(different(m[],x_300)) is true.
+-- Query event(end(X,Y,z)) ==> event(begin(X,Y,z))
+Completing...
+Starting query event(end(X,Y,z)) ==> event(begin(X,Y,z))
+goal reachable: begin(begin(A[],C[],m[])) -> end(end(B[],C[],m[]))
+
+1. The event begin(A[],C[],m[]) may be executed at {2}.
+So the message (m[],H(k[],m[])) may be sent to the attacker at output {3}.
+attacker((m[],H(k[],m[]))).
+
+2. By 1, the attacker may know (m[],H(k[],m[])).
+Using the function 2-proj-2-tuple the attacker may obtain H(k[],m[]).
+attacker(H(k[],m[])).
+
+3. By 1, the attacker may know (m[],H(k[],m[])).
+Using the function 1-proj-2-tuple the attacker may obtain m[].
+attacker(m[]).
+
+4. By 3, the attacker may know m[].
+By 2, the attacker may know H(k[],m[]).
+Using the function 2-tuple the attacker may obtain (m[],H(k[],m[])).
+attacker((m[],H(k[],m[]))).
+
+5. The message (m[],H(k[],m[])) that the attacker may have by 4 may be received at input {11}.
+So event end(B[],C[],m[]) may be executed at {14}.
+end(end(B[],C[],m[])).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(cAO, m) at {1} received at {15}
+
+event(begin(A,C,m)) at {2}
+
+out(c, (m,H(k,m))) at {3}
+
+in(c, (m,H(k,m))) at {11}
+
+out(cBO, m) at {13} received at {16}
+
+event(end(B,C,m)) at {14}
+
+The event end(B,C,m) is executed.
+A trace has been found.
+RESULT event(end(X,Y,z)) ==> event(begin(X,Y,z)) is false.

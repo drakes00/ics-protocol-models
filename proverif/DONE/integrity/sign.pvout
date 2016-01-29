@@ -1,0 +1,33 @@
+Process:
+{1}out(c, pub(skA));
+(
+    {2}in(cAO, m1: bitstring);
+    {3}in(cBO, m2: bitstring);
+    {4}if (m1 = m2) then
+        0
+    else
+        {5}event different(m1,m2)
+) | (
+    {6}out(cAO, m);
+    {7}event begin(A,B,m);
+    {8}out(c, (m,sign(skA,m)))
+) | (
+    {9}in(c, (x_39: bitstring,y_40: bitstring));
+    {10}if (verify(pub(skA),y_40,x_39) = true) then
+    {11}out(cBO, x_39);
+    {12}event end(A,B,x_39)
+)
+
+-- Query not event(different(x_41,m[]))
+Completing...
+Starting query not event(different(x_41,m[]))
+RESULT not event(different(x_41,m[])) is true.
+-- Query not event(different(m[],x_308))
+Completing...
+Starting query not event(different(m[],x_308))
+RESULT not event(different(m[],x_308)) is true.
+-- Query event(end(X,Y,z)) ==> event(begin(X,Y,z))
+Completing...
+Starting query event(end(X,Y,z)) ==> event(begin(X,Y,z))
+goal reachable: begin(begin(A[],B[],m[])) -> end(end(A[],B[],m[]))
+RESULT event(end(X,Y,z)) ==> event(begin(X,Y,z)) is true.

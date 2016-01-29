@@ -4,6 +4,9 @@
 
 free c: channel.
 
+type host.
+free A, B, C: host.
+
 free cAO: channel [private].
 free cBO: channel [private].
 
@@ -12,13 +15,17 @@ fun H(bitstring, bitstring): bitstring.
 free k: bitstring [private].
 free m: bitstring [private].
 
+event begin(host, host, bitstring).
+event end(host, host, bitstring).
+query X: host, Y: host, z: bitstring; event(end(X, Y, z)) ==> event(begin(X, Y, z)).
+
 event different(bitstring, bitstring).
 query x: bitstring ; event(different(m, x)).
 query x: bitstring ; event(different(x, m)).
 
 let oracle = in(cAO, m1: bitstring); in(cBO, m2: bitstring); if m1 = m2 then 0 else event different(m1, m2).
 
-let alice = out(cAO, m); out(c, (m, H(k, m))).
-let bob = in(c, (x: bitstring, h: bitstring)); if h = H(k, x) then out(cBO, x) else 0.
+let alice = out(cAO, m); event begin(A, B, m); out(c, (m, H(k, m))).
+let bob = in(c, (x: bitstring, h: bitstring)); if h = H(k, x) then out(cBO, x); event end(A, B, x) else 0.
 
 process oracle | alice | bob

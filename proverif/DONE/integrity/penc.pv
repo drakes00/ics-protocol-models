@@ -4,6 +4,9 @@
 
 free c: channel.
 
+type host.
+free A, B, C: host.
+
 free cAO: channel [private].
 free cBO: channel [private].
 
@@ -15,13 +18,17 @@ reduc forall x: bitstring, y: bitstring; dec(y, enc(pub(y), x)) = x.
 free skB: bitstring [private].
 free m: bitstring [private].
 
+event begin(host, host, bitstring).
+event end(host, host, bitstring).
+query X: host, Y: host, z: bitstring; event(end(X, Y, z)) ==> event(begin(X, Y, z)).
+
 event different(bitstring, bitstring).
 query x: bitstring ; event(different(m, x)).
 query x: bitstring ; event(different(x, m)).
 
 let oracle = in(cAO, m1: bitstring); in(cBO, m2: bitstring); if m1 = m2 then 0 else event different(m1, m2).
 
-let alice = out(cAO, m); out(c, enc(pub(skB), m)).
-let bob = in(c, y: bitstring); out(cBO, dec(skB, y)).
+let alice = out(cAO, m); event begin(A, B, m); out(c, enc(pub(skB), m)).
+let bob = in(c, y: bitstring); out(cBO, dec(skB, y)); event end(A, B, y).
 
 process out(c, pub(skB)); oracle | alice | bob

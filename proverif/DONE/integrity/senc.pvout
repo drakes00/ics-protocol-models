@@ -1,0 +1,32 @@
+Process:
+(
+    {1}in(cAO, m1: bitstring);
+    {2}in(cBO, m2: bitstring);
+    {3}if (m1 = m2) then
+        0
+    else
+        {4}event different(m1,m2)
+) | (
+    {5}out(cAO, m);
+    {6}event begin(A,B,m);
+    {7}out(c, enc(k,m))
+) | (
+    {8}in(c, x_31: bitstring);
+    {9}let y_32: bitstring = dec(k,x_31) in
+    {10}out(cBO, dec(k,y_32));
+    {11}event end(A,B,y_32)
+)
+
+-- Query not event(different(x_33,m[]))
+Completing...
+Starting query not event(different(x_33,m[]))
+RESULT not event(different(x_33,m[])) is true.
+-- Query not event(different(m[],x_218))
+Completing...
+Starting query not event(different(m[],x_218))
+RESULT not event(different(m[],x_218)) is true.
+-- Query event(end(X,Y,z)) ==> event(begin(X,Y,z))
+Completing...
+Starting query event(end(X,Y,z)) ==> event(begin(X,Y,z))
+goal reachable: begin(begin(A[],B[],m[])) -> end(end(A[],B[],m[]))
+RESULT event(end(X,Y,z)) ==> event(begin(X,Y,z)) is true.

@@ -1,0 +1,110 @@
+Process:
+(
+    {1}in(cAO, m1: bitstring);
+    {2}in(cBO, m2: bitstring);
+    {3}if (m1 = m2) then
+        0
+    else
+        {4}event different(m1,m2)
+) | (
+    {5}out(cAO, m);
+    {6}event begin(A,B,m);
+    {7}out(c, (m,H(m)))
+) | (
+    {8}in(c, (x: bitstring,h: bitstring));
+    {9}if (h = H(x)) then
+    {10}out(cBO, x);
+    {11}event end(A,B,x)
+)
+
+-- Query not event(different(x_19,m[]))
+Completing...
+Starting query not event(different(x_19,m[]))
+RESULT not event(different(x_19,m[])) is true.
+-- Query not event(different(m[],x_203))
+Completing...
+Starting query not event(different(m[],x_203))
+goal reachable: x_374 <> m[] && attacker(x_374) -> end(different(m[],x_374))
+
+1. The message m[] may be sent on channel cAO[] at output {5}.
+mess(cAO[],m[]).
+
+2. We assume as hypothesis that
+attacker(x_382).
+
+3. By 2, the attacker may know x_382.
+Using the function H the attacker may obtain H(x_382).
+attacker(H(x_382)).
+
+4. By 2, the attacker may know x_382.
+By 3, the attacker may know H(x_382).
+Using the function 2-tuple the attacker may obtain (x_382,H(x_382)).
+attacker((x_382,H(x_382))).
+
+5. The message (x_382,H(x_382)) that the attacker may have by 4 may be received at input {8}.
+So the message x_382 may be sent on channel cBO[] at output {10}.
+mess(cBO[],x_382).
+
+6. The message m[] that may be sent on channel cAO[] by 1 may be received at input {1}.
+The message x_382 that may be sent on channel cBO[] by 5 may be received at input {2}.
+We have m[] <> x_382.
+So event different(m[],x_382) may be executed at {4}.
+end(different(m[],x_382)).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(cAO, m) at {5} received at {1}
+
+event(begin(A,B,m)) at {6}
+
+out(c, (m,H(m))) at {7}
+
+in(c, (a,H(a))) at {8}
+
+out(cBO, a) at {10} received at {2}
+
+event(end(A,B,a)) at {11}
+
+event(different(m,a)) at {4}
+
+The event different(m,a) is executed.
+A trace has been found.
+RESULT not event(different(m[],x_203)) is false.
+-- Query event(end(X,Y,z)) ==> event(begin(X,Y,z))
+Completing...
+Starting query event(end(X,Y,z)) ==> event(begin(X,Y,z))
+goal reachable: attacker(z_562) -> end(end(A[],B[],z_562))
+
+1. We assume as hypothesis that
+attacker(z_572).
+
+2. By 1, the attacker may know z_572.
+Using the function H the attacker may obtain H(z_572).
+attacker(H(z_572)).
+
+3. By 1, the attacker may know z_572.
+By 2, the attacker may know H(z_572).
+Using the function 2-tuple the attacker may obtain (z_572,H(z_572)).
+attacker((z_572,H(z_572))).
+
+4. The message (z_572,H(z_572)) that the attacker may have by 3 may be received at input {8}.
+So event end(A[],B[],z_572) may be executed at {11}.
+end(end(A[],B[],z_572)).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(cAO, m) at {5} received at {1}
+
+in(c, (a_573,H(a_573))) at {8}
+
+out(cBO, a_573) at {10} received at {2}
+
+event(end(A,B,a_573)) at {11}
+
+The event end(A,B,a_573) is executed.
+A trace has been found.
+RESULT event(end(X,Y,z)) ==> event(begin(X,Y,z)) is false.

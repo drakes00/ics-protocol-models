@@ -1,0 +1,91 @@
+Process:
+(
+    {1}in(cAO, m1: bitstring);
+    {2}in(cBO, m2: bitstring);
+    {3}if (m1 = m2) then
+        0
+    else
+        {4}event different(m1,m2)
+) | (
+    {5}out(cAO, m);
+    {6}event begin(A,B,m);
+    {7}out(c, m)
+) | (
+    {8}in(c, x: bitstring);
+    {9}out(cBO, x);
+    {10}event end(A,B,x)
+)
+
+-- Query not event(different(x_19,m[]))
+Completing...
+Starting query not event(different(x_19,m[]))
+RESULT not event(different(x_19,m[])) is true.
+-- Query not event(different(m[],x_146))
+Completing...
+Starting query not event(different(m[],x_146))
+goal reachable: x_272 <> m[] && attacker(x_272) -> end(different(m[],x_272))
+
+1. The message m[] may be sent on channel cAO[] at output {5}.
+mess(cAO[],m[]).
+
+2. We assume as hypothesis that
+attacker(x_277).
+
+3. The message x_277 that the attacker may have by 2 may be received at input {8}.
+So the message x_277 may be sent on channel cBO[] at output {9}.
+mess(cBO[],x_277).
+
+4. The message m[] that may be sent on channel cAO[] by 1 may be received at input {1}.
+The message x_277 that may be sent on channel cBO[] by 3 may be received at input {2}.
+We have m[] <> x_277.
+So event different(m[],x_277) may be executed at {4}.
+end(different(m[],x_277)).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(cAO, m) at {5} received at {1}
+
+event(begin(A,B,m)) at {6}
+
+out(c, m) at {7}
+
+in(c, a) at {8}
+
+out(cBO, a) at {9} received at {2}
+
+event(end(A,B,a)) at {10}
+
+event(different(m,a)) at {4}
+
+The event different(m,a) is executed.
+A trace has been found.
+RESULT not event(different(m[],x_146)) is false.
+-- Query event(end(X,Y,z)) ==> event(begin(X,Y,z))
+Completing...
+Starting query event(end(X,Y,z)) ==> event(begin(X,Y,z))
+goal reachable: attacker(z_408) -> end(end(A[],B[],z_408))
+
+1. We assume as hypothesis that
+attacker(z_415).
+
+2. The message z_415 that the attacker may have by 1 may be received at input {8}.
+So event end(A[],B[],z_415) may be executed at {10}.
+end(end(A[],B[],z_415)).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(cAO, m) at {5} received at {1}
+
+in(c, a_416) at {8}
+
+out(cBO, a_416) at {9} received at {2}
+
+event(end(A,B,a_416)) at {10}
+
+The event end(A,B,a_416) is executed.
+A trace has been found.
+RESULT event(end(X,Y,z)) ==> event(begin(X,Y,z)) is false.

@@ -1,0 +1,90 @@
+Process:
+{1}out(c, pub(skB));
+(
+    {2}in(cAO, m1: bitstring);
+    {3}in(cBO, m2: bitstring);
+    {4}if (m1 = m2) then
+        0
+    else
+        {5}event different(m1,m2)
+) | (
+    {6}out(cAO, m);
+    {7}event begin(A,B,m);
+    {8}out(c, enc(pub(skB),m))
+) | (
+    {9}in(c, y_31: bitstring);
+    {10}out(cBO, dec(skB,y_31));
+    {11}event end(A,B,y_31)
+)
+
+-- Query not event(different(x_32,m[]))
+Completing...
+Starting query not event(different(x_32,m[]))
+RESULT not event(different(x_32,m[])) is true.
+-- Query not event(different(m[],x_226))
+Completing...
+Starting query not event(different(m[],x_226))
+goal reachable: x_413 <> m[] && attacker(x_413) -> end(different(m[],x_413))
+
+1. The message m[] may be sent on channel cAO[] at output {6}.
+mess(cAO[],m[]).
+
+2. We assume as hypothesis that
+attacker(x_420).
+
+3. The message pub(skB[]) may be sent to the attacker at output {1}.
+attacker(pub(skB[])).
+
+4. By 3, the attacker may know pub(skB[]).
+By 2, the attacker may know x_420.
+Using the function enc the attacker may obtain enc(pub(skB[]),x_420).
+attacker(enc(pub(skB[]),x_420)).
+
+5. The message enc(pub(skB[]),x_420) that the attacker may have by 4 may be received at input {9}.
+So the message x_420 may be sent on channel cBO[] at output {10}.
+mess(cBO[],x_420).
+
+6. The message m[] that may be sent on channel cAO[] by 1 may be received at input {2}.
+The message x_420 that may be sent on channel cBO[] by 5 may be received at input {3}.
+We have m[] <> x_420.
+So event different(m[],x_420) may be executed at {5}.
+end(different(m[],x_420)).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(c, pub(skB)) at {1}
+
+out(cAO, m) at {6} received at {2}
+
+event(begin(A,B,m)) at {7}
+
+out(c, enc(pub(skB),m)) at {8}
+
+in(c, enc(pub(skB),a)) at {9}
+
+out(cBO, a) at {10} received at {3}
+
+event(end(A,B,enc(pub(skB),a))) at {11}
+
+event(different(m,a)) at {5}
+
+The event different(m,a) is executed.
+A trace has been found.
+RESULT not event(different(m[],x_226)) is false.
+-- Query event(end(X,Y,z)) ==> event(begin(X,Y,z))
+Completing...
+Starting query event(end(X,Y,z)) ==> event(begin(X,Y,z))
+goal reachable: attacker(z_612) -> end(end(A[],B[],z_612))
+
+1. We assume as hypothesis that
+attacker(z_619).
+
+2. The message z_619 that the attacker may have by 1 may be received at input {9}.
+So event end(A[],B[],z_619) may be executed at {11}.
+end(end(A[],B[],z_619)).
+
+
+Could not find a trace corresponding to this derivation.
+RESULT event(end(X,Y,z)) ==> event(begin(X,Y,z)) cannot be proved.
