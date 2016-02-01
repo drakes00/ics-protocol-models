@@ -41,6 +41,10 @@ equation forall x: bitstring, y: bitstring; exp(exp(g, x), y) = exp(exp(g, y), x
 
 (* Constants *)
 const GetEndpointRequest: bitstring.
+const GetEndpointResponse: bitstring.
+const OpenSecureChannelRequest: bitstring.
+const OpenSecureChannelResponse: bitstring.
+
 const None: bitstring.
 const Sign: bitstring.
 const SignAndEncrypt: bitstring.
@@ -72,17 +76,18 @@ let client(skA: bitstring, skB: bitstring, skC: bitstring) =
     (* Role starting *)
     out(c, GetEndpointRequest);
 
-    in(c, (SPs: bitstring, =Sign, UP: bitstring, =pkSess));
+    in(c, (=GetEndpointResponse, =pkSess, =Sign, SP: bitstring, UP: bitstring));
 
-    new SPc: bitstring;
     new Nc: bitstring;
     let gNc = exp(g, Nc) in
-    let m1 = (SPc, gNc) in
+    let m1 = (OpenSecureChannelRequest, pkCli, gNc) in
     event beginCli(Cli, Sess, gNc);
     out(c, (pkCli, m1, sign(h(m1), skCli)));
 
-    in(c, (PartS: bitstring, sigPartS: bitstring));
-    if verify(h(PartS), sigPartS, pkSess) <> true then 0 else
+    in(c, (em2: bitstring, sigM2: bitstring));
+    let m2 = em2 in
+    if verify(h(m2), sigM2, pkSess) <> true then 0 else
+    let (=OpenSecureChannelResponse, PartS: bitstring, ST: bitstring, TTL: bitstring) = m2 in
     if Sess = A || Sess = B || Sess = C then
     event endCli(Sess, Cli, PartS).
 
@@ -97,9 +102,9 @@ let disco(skA: bitstring, skB: bitstring, skC: bitstring) =
     (* Role starting *)
     in(c, =GetEndpointRequest);
 
-    new SPs: bitstring;
+    new SP: bitstring;
     new UP: bitstring;
-    out(c, (SPs, Sign, UP, pkSess)).
+    out(c, (GetEndpointResponse, pkSess, Sign, SP, UP)).
 
 
 let sess(skA: bitstring, skB: bitstring, skC: bitstring) = 
@@ -110,13 +115,16 @@ let sess(skA: bitstring, skB: bitstring, skC: bitstring) =
     let pkDisco = if Disco = A then pub(skA) else if Disco = B then pub(skB) else if Disco = C then pub(skC) else pub(sk(Disco)) in
 
     (* Role starting *)
-    in(c, (=pkCli, m1: bitstring, sigM1: bitstring));
+    in(c, (=pkCli, em1: bitstring, sigM1: bitstring));
+    let m1 = em1 in
     if verify(h(m1), sigM1, pkCli) <> true then 0 else
-    let (SPc: bitstring, PartC: bitstring) = m1 in
+    let (=OpenSecureChannelRequest, =pkCli, PartC: bitstring) = m1 in
     
     new Ns: bitstring;
+    new ST: bitstring;
+    new TTL: bitstring;
     let gNs = exp(g, Ns) in
-    let m2 = gNs in
+    let m2 = (OpenSecureChannelResponse, gNs, ST, TTL) in
     event beginSrv(Sess, Cli, gNs);
     out(c, (m2, sign(h(m2), skSess)));
     if Cli = A || Cli = B || Cli = C then
