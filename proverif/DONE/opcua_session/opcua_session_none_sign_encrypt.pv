@@ -1,6 +1,6 @@
 (*  OpcUaClient --[CreateSessionRequest]--> SessionEndpoint
-    SessionEndpoint --[SSC, Ns2]--> OpcUaClient
-    OpcUaClient --[CSC, Login, Password]--> SessionEndpoint
+    SessionEndpoint --[Ns2]--> OpcUaClient
+    OpcUaClient --[pkCli, Login, Password]--> SessionEndpoint
     SessionEndpoint --[ActivateSessionResponse]--> OpcUaClient
 *)
 
@@ -86,7 +86,7 @@ let client(skA: bitstring, skB: bitstring) =
     let (=CreateSessionResponse, =pkSess, Ns: bitstring) = m2 in
 
     event beginCli(Cli, Sess, (Login(skCli), Passwd(skCli)));
-    let m3 = (ActivateSessionRequest, Login(skCli), Passwd(skCli)) in
+    let m3 = (ActivateSessionRequest, pkCli, Login(skCli), Passwd(skCli)) in
     out(c, m3);
 
     in(c, m4: bitstring);
@@ -115,7 +115,7 @@ let sess(skA: bitstring, skB: bitstring) =
     in(c, (em3: bitstring, sigM3: bitstring));
     let m3 = sdec(em3, K) in
     if verify(h(m3), sigM3, pkCli) <> true then 0 else
-    let (=ActivateSessionRequest, =Login(skCli), =Passwd(skCli)) = m3 in
+    let (=ActivateSessionRequest, =pkCli, =Login(skCli), =Passwd(skCli)) = m3 in
     event endSrv(Cli, Sess, (Login(skCli), Passwd(skCli)));
     
     new Ns2: bitstring;
