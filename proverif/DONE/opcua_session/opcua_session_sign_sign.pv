@@ -62,6 +62,7 @@ query X: host, Y: host, N: bitstring ; event(endSrv(X, Y, N)) ==> event(beginCli
 
 let keyRegistration =
     in(c, (X: host, Y: host));
+    if X = Y then 0 else
     let skX = if X = A then skA else if X = B then skB else sk(X) in
     let skY = if Y = A then skA else if Y = B then skB else sk(Y) in
     if (X, Y) = (A, B) then 0 else
