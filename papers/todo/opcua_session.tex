@@ -1,83 +1,83 @@
-\begin{figure}[htb]
-    \renewcommand{\smname}{\smn}
-    \resizebox{\textwidth}{!}{
-        \begin{postscript}
-            \begin{msc}{Session creation}
-                \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{5.7\instdist}
+%\begin{figure}[htb]
+%    \renewcommand{\smname}{\smn}
+%    \resizebox{\textwidth}{!}{
+%        \begin{postscript}
+%            \begin{msc}{Session creation}
+%                \setlength{\envinstdist}{1.5\envinstdist}
+%                \setlength{\instdist}{5.7\instdist}
+%
+%                \declinst{cli}{C}{}
+%                \declinst{sess}{S}{}
+%
+%                \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+%                \nextlevel[1.5]
+%
+%                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
+%                \nextlevel[1.5]
+%                
+%                \action*{Validates SSC}{cli}
+%                \nextlevel[2]
+%                
+%                \action*{Verifies the signature of $N_{s2}$}{cli}
+%                \nextlevel[2]
+%                
+%                \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+%                \nextlevel[2]
+%                
+%                \action*{Validates CSC}{sess}
+%                \nextlevel[2]
+%
+%                \action*{Validates (Login, Passwd) }{sess}
+%                \nextlevel[2]
+%
+%                \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
+%                \nextlevel[2]
+%            \end{msc}
+%        \end{postscript}
+%    }
+%    \caption{OPC-UA Session None}
+%\end{figure}
 
-                \declinst{cli}{OpcUaClient}{}
-                \declinst{sess}{SessionEndpoint}{}
 
-                \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
-                \nextlevel[1.5]
-
-                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
-                \nextlevel[1.5]
-                
-                \action*{Validates SSC}{cli}
-                \nextlevel[2]
-                
-                \action*{Verifies the signature of $N_{s2}$}{cli}
-                \nextlevel[2]
-                
-                \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
-                \nextlevel[2]
-                
-                \action*{Validates CSC}{sess}
-                \nextlevel[2]
-
-                \action*{Validates (Login, Passwd) }{sess}
-                \nextlevel[2]
-
-                \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
-                \nextlevel[2]
-            \end{msc}
-        \end{postscript}
-    }
-    \caption{OPC-UA Session None}
-\end{figure}
-
-
-\begin{figure}[htb]
-    \renewcommand{\smname}{\sms}
-    \resizebox{\textwidth}{!}{
-        \begin{postscript}
-            \begin{msc}{Session creation}
-                \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{5.7\instdist}
-
-                \declinst{cli}{OpcUaClient}{}
-                \declinst{sess}{SessionEndpoint}{}
-
-                \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
-                \nextlevel[1.5]
-
-                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
-                \nextlevel[1.5]
-                
-                \action*{Validates SSC}{cli}
-                \nextlevel[2]
-                
-                \action*{Verifies the signature of $N_{s2}$}{cli}
-                \nextlevel[2]
-                
-                \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
-                \nextlevel[2]
-                
-                \action*{Validates CSC}{sess}
-                \nextlevel[2]
-
-                \action*{Validates (Login, Passwd) }{sess}
-                \nextlevel[2]
-
-                \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
-                \nextlevel[2]
-                \end{msc}
-        \end{postscript}
-    }
-    \caption{OPC-UA Session Sign}
-\end{figure}
+%\begin{figure}[htb]
+%    \renewcommand{\smname}{\sms}
+%    \resizebox{\textwidth}{!}{
+%        \begin{postscript}
+%            \begin{msc}{Session creation}
+%                \setlength{\envinstdist}{1.5\envinstdist}
+%                \setlength{\instdist}{5.7\instdist}
+%
+%                \declinst{cli}{C}{}
+%                \declinst{sess}{S}{}
+%
+%                \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+%                \nextlevel[1.5]
+%
+%                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
+%                \nextlevel[1.5]
+%                
+%                \action*{Validates SSC}{cli}
+%                \nextlevel[2]
+%                
+%                \action*{Verifies the signature of $N_{s2}$}{cli}
+%                \nextlevel[2]
+%                
+%                \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+%                \nextlevel[2]
+%                
+%                \action*{Validates CSC}{sess}
+%                \nextlevel[2]
+%
+%                \action*{Validates (Login, Passwd) }{sess}
+%                \nextlevel[2]
+%
+%                \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
+%                \nextlevel[2]
+%                \end{msc}
+%        \end{postscript}
+%    }
+%    \caption{OPC-UA Session Sign}
+%\end{figure}
 
 
 \begin{figure}[htb]
@@ -86,36 +86,182 @@
         \begin{postscript}
             \begin{msc}{Session creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{5.7\instdist}
+                \setlength{\instdist}{8\instdist}
 
-                \declinst{cli}{OpcUaClient}{}
-                \declinst{sess}{SessionEndpoint}{}
+                \declinst{cli}{C}{}
+                \declinst{sess}{S}{}
 
-                \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
-                \nextlevel[1.5]
-
-                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
+                \mess{\sm{CreateSessionRequest, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
                 \nextlevel[1.5]
                 
-                \action*{Validates SSC}{cli}
+                \action*{Validates pk(C)}{sess}
+                \nextlevel[2]
+
+                \mess{\sm{CreateSessionResponse, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
+                \nextlevel[1.5]
+                
+                \action*{Validates pk(S)}{cli}
                 \nextlevel[2]
                 
-                \action*{Verifies the signature of $N_{s2}$}{cli}
+                \mess{\sm{ActivateSessionRequest, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
                 \nextlevel[2]
                 
-                \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(OpcUaClient)}}[b]{cli}{sess}
-                \nextlevel[2]
-                
-                \action*{Validates CSC}{sess}
+                \action*{Validates pk(C)}{sess}
                 \nextlevel[2]
 
                 \action*{Validates (Login, Passwd) }{sess}
                 \nextlevel[2]
 
-                \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(SessionEndpoint)}}[b]{sess}{cli}
+                \mess{\sm{ActivateSessionResponse, $N_{S2}$}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
                 \nextlevel[2]
             \end{msc}
         \end{postscript}
     }
-    \caption{OPC-UA Session SignAndEncrypt}
+    \caption{OPC-UA CreateSession sub-protocol}
 \end{figure}
+
+Fro this protocol, a modeling choice appears.
+We can either suppose that C respects security standards and would use different credentials for each server.
+
+We first suppose that C always sends the same Login/Passwd including in a session with the intruder (possibly a rogue server).
+Thus, once the intruder obtained C's Login/Passwd, he can mount an authentication attack in another session.
+
+\begin{table}[htb]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{3}{|c|}{Objectives}   \\
+        \hline
+        C              & S              & Sec $K$       & Sec $Creds$   & Auth $Creds$  \\
+        \hline
+        None           & None           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        \hline
+        None           & Sign           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        None           & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        Sign           & None           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        \hline
+        Sign           & Sign           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        \hline
+        Sign           & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        SignAndEncrypt & None           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        \hline
+        SignAndEncrypt & Sign           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        \hline
+        SignAndEncrypt & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+    \end{tabular}
+    \label{tab:secure_conv_results}
+    \caption{Results}
+\end{table}
+
+\subsection{Fixed version}
+
+If we apply the same fix than in OpenSecureConversation, then authentication becomes secure.
+
+\begin{figure}[htb]
+    \renewcommand{\smname}{\smse}
+    \resizebox{\textwidth}{!}{
+        \begin{postscript}
+            \begin{msc}{Session creation}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{8.25\instdist}
+
+                \declinst{cli}{C}{}
+                \declinst{sess}{S}{}
+
+                \mess{\sm{CreateSessionRequest, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+                \nextlevel[1.5]
+                
+                \action*{Validates pk(C)}{sess}
+                \nextlevel[2]
+
+                \mess{\sm{CreateSessionResponse, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
+                \nextlevel[1.5]
+                
+                \action*{Validates pk(S)}{cli}
+                \nextlevel[2]
+                
+                \mess{\sm{ActivateSessionRequest, S, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+                \nextlevel[2]
+                
+                \action*{Validates pk(C)}{sess}
+                \nextlevel[2]
+
+                \action*{Validates (Login, Passwd) }{sess}
+                \nextlevel[2]
+
+                \mess{\sm{ActivateSessionResponse, $N_{S2}$}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
+                \nextlevel[2]
+            \end{msc}
+        \end{postscript}
+    }
+    \caption{OPC-UA fixed CreateSession sub-protocol}
+\end{figure}
+
+\begin{table}[htb]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{3}{|c|}{Objectives}   \\
+        \hline
+        C              & S              & Sec $K$       & Sec $Creds$   & Auth $Creds$  \\
+        \hline
+        None           & None           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        \hline
+        None           & Sign           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        None           & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        Sign           & None           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        \hline
+        Sign           & Sign           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        Sign           & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        SignAndEncrypt & None           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        \hline
+        SignAndEncrypt & Sign           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        SignAndEncrypt & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+    \end{tabular}
+    \label{tab:secure_conv_results}
+    \caption{Results}
+\end{table}
+
+In a second time, we suppose that C would use different credentials for each server.
+Then both normal and fixed OpenSession results in:
+
+\begin{table}[htb]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{3}{|c|}{Objectives}   \\
+        \hline
+        C              & S              & Sec $K$       & Sec $Creds$   & Auth $Creds$  \\
+        \hline
+        None           & None           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        None           & Sign           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        None           & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        Sign           & None           & \SAFE         & \SAFE         & \SAFE         \\ 
+        \hline
+        Sign           & Sign           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        Sign           & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        \hline
+        SignAndEncrypt & None           & \SAFE         & \SAFE         & \SAFE         \\ 
+        \hline
+        SignAndEncrypt & Sign           & \SAFE         & \SAFE         & \SAFE         \\ 
+        \hline
+        SignAndEncrypt & SignAndEncrypt & \SAFE         & \SAFE         & \SAFE         \\ 
+        \hline
+    \end{tabular}
+    \label{tab:secure_conv_results}
+    \caption{Results}
+\end{table}
