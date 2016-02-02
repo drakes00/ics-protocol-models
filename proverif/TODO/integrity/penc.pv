@@ -1,0 +1,27 @@
+(*  Public key encryption
+    A -> B: {m}_pub(skB)
+*)
+
+free c: channel.
+
+free cAO: channel [private].
+free cBO: channel [private].
+
+fun pub(bitstring): bitstring.
+
+fun enc(bitstring, bitstring): bitstring.
+reduc forall x: bitstring, y: bitstring; dec(y, enc(pub(y), x)) = x.
+
+free skB: bitstring [private].
+free m: bitstring [private].
+
+event different(bitstring, bitstring).
+query x: bitstring ; event(different(m, x)).
+query x: bitstring ; event(different(x, m)).
+
+let oracle = in(cAO, m1: bitstring); in(cBO, m2: bitstring); if m1 = m2 then 0 else event different(m1, m2).
+
+let alice = out(cAO, m); out(c, enc(pub(skB), m)).
+let bob = in(c, y: bitstring); out(cBO, dec(skB, y)).
+
+process out(c, pub(skB)); oracle | alice | bob

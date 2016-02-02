@@ -1,0 +1,26 @@
+Process:
+{1}out(c, pub(skA));
+(
+    {2}in(cAO, m1: bitstring);
+    {3}in(cBO, m2: bitstring);
+    {4}if (m1 = m2) then
+        0
+    else
+        {5}event different(m1,m2)
+) | (
+    {6}out(cAO, m);
+    {7}out(c, (m,sign(skA,m)))
+) | (
+    {8}in(c, (x_39: bitstring,y_40: bitstring));
+    {9}if (verify(pub(skA),y_40,x_39) = true) then
+    {10}out(cBO, x_39)
+)
+
+-- Query not event(different(x_41,m[]))
+Completing...
+Starting query not event(different(x_41,m[]))
+RESULT not event(different(x_41,m[])) is true.
+-- Query not event(different(m[],x_270))
+Completing...
+Starting query not event(different(m[],x_270))
+RESULT not event(different(m[],x_270)) is true.
