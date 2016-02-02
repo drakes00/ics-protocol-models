@@ -1,3 +1,13 @@
+%\newcommand{\gereq}{GetEndpointRequest}
+%\newcommand{\geres}{GetEndpointResponse}
+%\newcommand{\oscreq}{OpenSecureChannelRequest}
+%\newcommand{\oscres}{OpenSecureChannelResponse}
+\newcommand{\gereq}{GEReq}
+\newcommand{\geres}{GERes}
+\newcommand{\oscreq}{OSCReq}
+\newcommand{\oscres}{OSCRes}
+
+
 The {\em OpenSecureConversation} sub-protocol, aims to authenticate a client and
 a server and allow them to generate a shared key for the later communications.
 \opcua can be used with three security modes, namely {\em None}, {\em Sign} and
@@ -130,16 +140,16 @@ a server and allow them to generate a shared key for the later communications.
         \begin{postscript}
             \begin{msc}{Secure channel creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{3.5\instdist}
+                \setlength{\instdist}{3\instdist}
 
                 \declinst{cli}{C}{}
                 \declinst{intruder}{DiscoreryEndpoint}{}
                 \declinst{sess}{S}{}
 
-                \mess{GetEndpointsRequest}[b]{cli}{intruder}
+                \mess{\gereq}[b]{cli}{intruder}
                 \nextlevel[1.5]
 
-                \mess{SP, \smname, UP, pk(S)}[b]{intruder}{cli}
+                \mess{\geres, pk(S), \smname, SP, UP}[b]{intruder}{cli}
                 \nextlevel[1.5]
                 
                 \action*{Validates pk(S)}{cli}
@@ -148,7 +158,7 @@ a server and allow them to generate a shared key for the later communications.
                 \action*{Generates N$_{C}$}{cli}
                 \nextlevel[2]
 
-                \mess{pk(C), \sm{SP, $g^{N_{C}}$}{pk(S)}{sk(C)}}[b]{cli}{sess}
+                \mess{pk(C), \sm{\oscreq, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}[b]{cli}{sess}
                 \nextlevel[2]
 
                 \action*{Validates pk(C) }{sess}
@@ -162,7 +172,7 @@ a server and allow them to generate a shared key for the later communications.
                     \nextlevel[2]
                 }
 
-                \mess{\sm{$g^{N_{S}}$}{pk(C)}{sk(S)}}[b]{sess}{cli}
+                \mess{\sm{\oscres, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}[b]{sess}{cli}
                 \nextlevel[2]
 
                 \ifsmnotnone{%
@@ -210,24 +220,24 @@ Results are shown in Table \ref{tab:secure_conv_results}.
         \hline
         \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{4}{|c|}{Objectives} \\
         \hline
-        C              & S              & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{C}}$  & Auth $g^{N_{S}}$  \\
-        \hline
+        C              & S              & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
+        \hline                                                                                                 
         None           & None           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
-        \hline
-        None           & Sign           & \UNSAFE       & \SAFE         & \SAFE             & \UNSAFE           \\ 
-        \hline
-        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \SAFE             & \UNSAFE           \\ 
-        \hline
+        \hline                                                                                                 
+        None           & Sign           & \UNSAFE       & \SAFE         & \UNSAFE           & \SAFE             \\ 
+        \hline                                                                                                 
+        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \UNSAFE           & \SAFE             \\ 
+        \hline                                                                                                 
         Sign           & None           & \SAFE         & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
-        \hline
+        \hline                                                                                                 
         Sign           & Sign           & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
-        \hline
+        \hline                                                                                                 
         Sign           & SignAndEncrypt & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
-        \hline
+        \hline                                                                                                 
         SignAndEncrypt & None           & \SAFE         & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
-        \hline
+        \hline                                                                                                 
         SignAndEncrypt & Sign           & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
-        \hline
+        \hline                                                                                                 
         SignAndEncrypt & SignAndEncrypt & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
         \hline
     \end{tabular}
@@ -242,16 +252,16 @@ Exemple d'attaque :
         \begin{postscript}
             \begin{msc}{Secure channel creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{3.5\instdist}
+                \setlength{\instdist}{5.1\instdist}
 
                 \declinst{cli}{C}{}
                 \declinst{intruder}{I}{}
                 \declinst{sess}{S}{}
 
-                \mess{GetEndpointsRequest}[b]{cli}{intruder}
+                \mess{\gereq}[b]{cli}{intruder}
                 \nextlevel[1.5]
 
-                \mess{SP, \smname, UP, pk(I)}[b]{intruder}{cli}
+                \mess{\geres, pk(I), \smname, SP, UP}[b]{intruder}{cli}
                 \nextlevel[1.5]
                 
                 \action*{Validates pk(I)}{cli}
@@ -260,8 +270,10 @@ Exemple d'attaque :
                 \action*{Generates N$_{C}$}{cli}
                 \nextlevel[2]
 
-                \mess{pk(C), \sm{SP, $g^{N_{C}}$}{pk(I)}{sk(C)}}[b]{cli}{intruder}
-                \mess{pk(C), \sm{SP, $g^{N_{C}}$}{pk(S)}{sk(C)}}[b]{intruder}{sess}
+                \mess{pk(C), \sm{\oscreq, pk(C), $g^{N_{C}}$}{pk(I)}{sk(C)}}[b]{cli}{intruder}
+                \nextlevel[2]
+
+                \mess{pk(C), \sm{\oscreq, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}[b]{intruder}{sess}
                 \nextlevel[2]
 
                 \action*{Validates pk(C) }{sess}
@@ -275,15 +287,95 @@ Exemple d'attaque :
                     \nextlevel[2]
                 }
 
-                \mess{\sm{$g^{N_{S}}$}{pk(C)}{sk(S)}}[b]{sess}{intruder}
+                \mess{\sm{\oscres, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}[b]{sess}{intruder}
+                \nextlevel[1.5]
             \end{msc}
         \end{postscript}
     }
     \caption{\opcua Secure Conversation SignAndEncrypt}
 \end{figure}
 
-NB: Dans la plus part des attaques, le client parle avec un autre client, problème ?\\
-L'open secure channel request devrait contenir la pk du serveur dans la signature.
-\begin{itemize}
-    \item Le client atteste vouloir parler au serveur.
-\end{itemize}
+\subsection{Fixed version}
+
+\begin{figure}[htb]
+    \renewcommand{\smname}{\smse}
+    \resizebox{\textwidth}{!}{
+        \begin{postscript}
+            \begin{msc}{Secure channel creation}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{3\instdist}
+
+                \declinst{cli}{C}{}
+                \declinst{intruder}{DiscoreryEndpoint}{}
+                \declinst{sess}{S}{}
+
+                \mess{\gereq}[b]{cli}{intruder}
+                \nextlevel[1.5]
+
+                \mess{\geres, pk(S), \smname, SP, UP}[b]{intruder}{cli}
+                \nextlevel[1.5]
+                
+                \action*{Validates pk(S)}{cli}
+                \nextlevel[2]
+                
+                \action*{Generates N$_{C}$}{cli}
+                \nextlevel[2]
+
+                \mess{pk(C), \sm{\oscreq, S, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}[b]{cli}{sess}
+                \nextlevel[2]
+
+                \action*{Validates pk(C) }{sess}
+                \nextlevel[2]
+
+                \action*{Generates N$_{S}$ }{sess}
+                \nextlevel[2]
+
+                \ifsmnotnone{%
+                    \action*{$K_{srv}$ = $(g^{N_{C}})^{N_{S}}$ }{sess}
+                    \nextlevel[2]
+                }
+
+                \mess{\sm{\oscres, C, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}[b]{sess}{cli}
+                \nextlevel[2]
+
+                \ifsmnotnone{%
+                    \action*{$K_{cli}$ = $(g^{N_{S}})^{N_{C}}$}{cli}
+                    \nextlevel[2]
+                }
+            \end{msc}
+        \end{postscript}
+    }
+    \caption{\opcua OpenSecureConversation sub-protocol}
+    \label{fig:secure_conv_se}
+\end{figure}
+
+\begin{table}[htb]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{4}{|c|}{Objectives} \\
+        \hline
+        C              & S              & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
+        \hline                                                                                                  
+        None           & None           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
+        \hline                                                                                                  
+        None           & Sign           & \UNSAFE       & \SAFE         & \UNSAFE           & \SAFE             \\ 
+        \hline                                                                                                  
+        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \UNSAFE           & \SAFE             \\ 
+        \hline                                                                                                  
+        Sign           & None           & \SAFE         & \UNSAFE       & \SAFE             & \UNSAFE           \\ 
+        \hline                                                                                                  
+        Sign           & Sign           & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
+        \hline                                                                                                  
+        Sign           & SignAndEncrypt & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
+        \hline                                                                                                  
+        SignAndEncrypt & None           & \SAFE         & \UNSAFE       & \SAFE             & \UNSAFE           \\ 
+        \hline                                                                                                  
+        SignAndEncrypt & Sign           & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
+        \hline                                                                                                  
+        SignAndEncrypt & SignAndEncrypt & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
+        \hline
+    \end{tabular}
+    \label{tab:secure_conv_results}
+    \caption{Results}
+\end{table}

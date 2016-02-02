@@ -1,3 +1,12 @@
+%\newcommand{\csreq}{CreateSessionRequest}
+%\newcommand{\csres}{CreateSessionResponse}
+%\newcommand{\asreq}{ActivateSessionRequest}
+%\newcommand{\asres}{ActivateSessionResponse}
+\newcommand{\csreq}{CSReq}
+\newcommand{\csres}{CSRes}
+\newcommand{\asreq}{ASReq}
+\newcommand{\asres}{ASRes}
+
 %\begin{figure}[htb]
 %    \renewcommand{\smname}{\smn}
 %    \resizebox{\textwidth}{!}{
@@ -9,7 +18,7 @@
 %                \declinst{cli}{C}{}
 %                \declinst{sess}{S}{}
 %
-%                \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+%                \mess{\sm{\csreq}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
 %                \nextlevel[1.5]
 %
 %                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
@@ -30,7 +39,7 @@
 %                \action*{Validates (Login, Passwd) }{sess}
 %                \nextlevel[2]
 %
-%                \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
+%                \mess{\sm{\asres}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
 %                \nextlevel[2]
 %            \end{msc}
 %        \end{postscript}
@@ -50,7 +59,7 @@
 %                \declinst{cli}{C}{}
 %                \declinst{sess}{S}{}
 %
-%                \mess{\sm{CreateSessionRequest}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+%                \mess{\sm{\csreq}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
 %                \nextlevel[1.5]
 %
 %                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
@@ -71,7 +80,7 @@
 %                \action*{Validates (Login, Passwd) }{sess}
 %                \nextlevel[2]
 %
-%                \mess{\sm{ActivateSessionResponse}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
+%                \mess{\sm{\asres}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
 %                \nextlevel[2]
 %                \end{msc}
 %        \end{postscript}
@@ -86,24 +95,24 @@
         \begin{postscript}
             \begin{msc}{Session creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{8\instdist}
+                \setlength{\instdist}{6\instdist}
 
                 \declinst{cli}{C}{}
                 \declinst{sess}{S}{}
 
-                \mess{\sm{CreateSessionRequest, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
                 \nextlevel[1.5]
                 
                 \action*{Validates pk(C)}{sess}
                 \nextlevel[2]
 
-                \mess{\sm{CreateSessionResponse, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
+                \mess{\sm{\csres, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
                 \nextlevel[1.5]
                 
                 \action*{Validates pk(S)}{cli}
                 \nextlevel[2]
                 
-                \mess{\sm{ActivateSessionRequest, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+                \mess{\sm{\asreq, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
                 \nextlevel[2]
                 
                 \action*{Validates pk(C)}{sess}
@@ -112,7 +121,7 @@
                 \action*{Validates (Login, Passwd) }{sess}
                 \nextlevel[2]
 
-                \mess{\sm{ActivateSessionResponse, $N_{S2}$}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
+                \mess{\sm{\asres, $N_{S2}$}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
                 \nextlevel[2]
             \end{msc}
         \end{postscript}
@@ -167,24 +176,24 @@ If we apply the same fix than in OpenSecureConversation, then authentication bec
         \begin{postscript}
             \begin{msc}{Session creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{8.25\instdist}
+                \setlength{\instdist}{6.25\instdist}
 
                 \declinst{cli}{C}{}
                 \declinst{sess}{S}{}
 
-                \mess{\sm{CreateSessionRequest, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
                 \nextlevel[1.5]
                 
                 \action*{Validates pk(C)}{sess}
                 \nextlevel[2]
 
-                \mess{\sm{CreateSessionResponse, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
+                \mess{\sm{\csres, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
                 \nextlevel[1.5]
                 
                 \action*{Validates pk(S)}{cli}
                 \nextlevel[2]
                 
-                \mess{\sm{ActivateSessionRequest, S, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+                \mess{\sm{\asreq, S, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
                 \nextlevel[2]
                 
                 \action*{Validates pk(C)}{sess}
@@ -193,7 +202,7 @@ If we apply the same fix than in OpenSecureConversation, then authentication bec
                 \action*{Validates (Login, Passwd) }{sess}
                 \nextlevel[2]
 
-                \mess{\sm{ActivateSessionResponse, $N_{S2}$}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
+                \mess{\sm{\asres, $N_{S2}$}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
                 \nextlevel[2]
             \end{msc}
         \end{postscript}
@@ -233,7 +242,7 @@ If we apply the same fix than in OpenSecureConversation, then authentication bec
 \end{table}
 
 In a second time, we suppose that C would use different credentials for each server.
-Then both normal and fixed OpenSession results in:
+Then both normal and fixed CreateSession results in:
 
 \begin{table}[htb]
     \centering
