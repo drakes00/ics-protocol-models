@@ -223,7 +223,7 @@ This avoids an intruder replaying signed messages.
                 \action*{Generates N$_{C}$}{cli}
                 \nextlevel[3]
 
-                \mess{pk(C), \sm{\oscreq, S, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}{cli}{sess}
+                \mess{pk(C), \sm{\oscreq, {\bf S}, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}{cli}{sess}
                 \nextlevel[1]
 
                 \action*{Validates pk(C) }{sess}
@@ -237,7 +237,7 @@ This avoids an intruder replaying signed messages.
                     \nextlevel[3]
                 }
 
-                \mess{\sm{\oscres, C, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{cli}
+                \mess{\sm{\oscres, {\bf C}, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{cli}
                 \nextlevel[1]
 
                 \ifsmnotnone{%
