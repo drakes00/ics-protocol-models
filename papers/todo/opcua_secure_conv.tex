@@ -242,7 +242,7 @@ Results are shown in Table \ref{tab:secure_conv_results}.
         \hline
     \end{tabular}
     \label{tab:secure_conv_results}
-    \caption{Results}
+    \caption{Results for textbook {\em OpenSecureChannel} sub-protocol}
 \end{table}
 
 Exemple d'attaque :
@@ -297,6 +297,11 @@ Exemple d'attaque :
 
 \subsection{Fixed version}
 
+We propose a fixed version of the {\em OpenSecureConversation} sub-protocol in
+Figure \ref{fig:secure_conv_fix_se}.
+It consists in adding in a message the identity of its reciever.
+This avoids an intruder replaying signed messages.
+
 \begin{figure}[htb]
     \renewcommand{\smname}{\smse}
     \resizebox{\textwidth}{!}{
@@ -346,8 +351,12 @@ Exemple d'attaque :
         \end{postscript}
     }
     \caption{\opcua OpenSecureConversation sub-protocol}
-    \label{fig:secure_conv_se}
+    \label{fig:secure_conv_fix_se}
 \end{figure}
+
+We tested this fixed version under the same circumstances than the textbook
+version.
+Results are presented in Table \ref{tab:secure_conv_fix_results}.
 
 \begin{table}[htb]
     \centering
@@ -376,6 +385,6 @@ Exemple d'attaque :
         SignAndEncrypt & SignAndEncrypt & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
         \hline
     \end{tabular}
-    \label{tab:secure_conv_results}
-    \caption{Results}
+    \label{tab:secure_conv_fix_results}
+    \caption{Results for fixed {\em OpenSecureChannel} sub-protocol}
 \end{table}
