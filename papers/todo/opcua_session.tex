@@ -18,10 +18,10 @@
 %                \declinst{cli}{C}{}
 %                \declinst{sess}{S}{}
 %
-%                \mess{\sm{\csreq}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+%                \mess{\sm{\csreq}{$K_{cli}$}{sk(C)}}{cli}{sess}
 %                \nextlevel[1.5]
 %
-%                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
+%                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(S)}}{sess}{cli}
 %                \nextlevel[1.5]
 %                
 %                \action*{Validates SSC}{cli}
@@ -30,7 +30,7 @@
 %                \action*{Verifies the signature of $N_{s2}$}{cli}
 %                \nextlevel[2]
 %                
-%                \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+%                \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(C)}}{cli}{sess}
 %                \nextlevel[2]
 %                
 %                \action*{Validates CSC}{sess}
@@ -39,7 +39,7 @@
 %                \action*{Validates (Login, Passwd) }{sess}
 %                \nextlevel[2]
 %
-%                \mess{\sm{\asres}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
+%                \mess{\sm{\asres}{$K_{src}$}{sk(S)}}{sess}{cli}
 %                \nextlevel[2]
 %            \end{msc}
 %        \end{postscript}
@@ -59,10 +59,10 @@
 %                \declinst{cli}{C}{}
 %                \declinst{sess}{S}{}
 %
-%                \mess{\sm{\csreq}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+%                \mess{\sm{\csreq}{$K_{cli}$}{sk(C)}}{cli}{sess}
 %                \nextlevel[1.5]
 %
-%                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
+%                \mess{\sm{SSC, $N_{s2}$}{$K_{srv}$}{sk(S)}}{sess}{cli}
 %                \nextlevel[1.5]
 %                
 %                \action*{Validates SSC}{cli}
@@ -71,7 +71,7 @@
 %                \action*{Verifies the signature of $N_{s2}$}{cli}
 %                \nextlevel[2]
 %                
-%                \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
+%                \mess{\sm{CSC, Login, Passwd}{$K_{cli}$}{sk(C)}}{cli}{sess}
 %                \nextlevel[2]
 %                
 %                \action*{Validates CSC}{sess}
@@ -80,7 +80,7 @@
 %                \action*{Validates (Login, Passwd) }{sess}
 %                \nextlevel[2]
 %
-%                \mess{\sm{\asres}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
+%                \mess{\sm{\asres}{$K_{src}$}{sk(S)}}{sess}{cli}
 %                \nextlevel[2]
 %                \end{msc}
 %        \end{postscript}
@@ -100,32 +100,33 @@ This sub-protocol is presented in Figure \ref{fig:session_se}.
             \begin{msc}{Session creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
                 \setlength{\instdist}{6\instdist}
+                \setlength{\labeldist}{1.5\labeldist}
 
                 \declinst{cli}{C}{}
                 \declinst{sess}{S}{}
 
-                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
-                \nextlevel[1.5]
+                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}{cli}{sess}
+                \nextlevel[1]
                 
                 \action*{Validates pk(C)}{sess}
-                \nextlevel[2]
+                \nextlevel[2.5]
 
-                \mess{\sm{\csres, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
-                \nextlevel[1.5]
+                \mess{\sm{\csres, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}{sess}{cli}
+                \nextlevel[1]
                 
                 \action*{Validates pk(S)}{cli}
-                \nextlevel[2]
+                \nextlevel[3]
                 
-                \mess{\sm{\asreq, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
-                \nextlevel[2]
+                \mess{\sm{\asreq, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}{cli}{sess}
+                \nextlevel[1]
                 
                 \action*{Validates pk(C)}{sess}
                 \nextlevel[2]
 
                 \action*{Validates (Login, Passwd) }{sess}
-                \nextlevel[2]
+                \nextlevel[2.5]
 
-                \mess{\sm{\asres, $N_{S2}$}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
+                \mess{\sm{\asres, $N_{S2}$}{$K_{src}$}{sk(S)}}{sess}{cli}
                 \nextlevel[2]
             \end{msc}
         \end{postscript}
@@ -188,32 +189,33 @@ displayed in Figure \ref{fig:session_fix}
             \begin{msc}{Session creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
                 \setlength{\instdist}{6.25\instdist}
+                \setlength{\labeldist}{1.5\labeldist}
 
                 \declinst{cli}{C}{}
                 \declinst{sess}{S}{}
 
-                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
-                \nextlevel[1.5]
+                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}{cli}{sess}
+                \nextlevel[1]
                 
                 \action*{Validates pk(C)}{sess}
-                \nextlevel[2]
+                \nextlevel[2.5]
 
-                \mess{\sm{\csres, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}[b]{sess}{cli}
-                \nextlevel[1.5]
+                \mess{\sm{\csres, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}{sess}{cli}
+                \nextlevel[1]
                 
                 \action*{Validates pk(S)}{cli}
-                \nextlevel[2]
+                \nextlevel[3]
                 
-                \mess{\sm{\asreq, S, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}[b]{cli}{sess}
-                \nextlevel[2]
+                \mess{\sm{\asreq, S, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}{cli}{sess}
+                \nextlevel[1]
                 
                 \action*{Validates pk(C)}{sess}
                 \nextlevel[2]
 
                 \action*{Validates (Login, Passwd) }{sess}
-                \nextlevel[2]
+                \nextlevel[2.5]
 
-                \mess{\sm{\asres, $N_{S2}$}{$K_{src}$}{sk(S)}}[b]{sess}{cli}
+                \mess{\sm{\asres, $N_{S2}$}{$K_{src}$}{sk(S)}}{sess}{cli}
                 \nextlevel[2]
             \end{msc}
         \end{postscript}

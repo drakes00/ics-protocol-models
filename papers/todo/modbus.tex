@@ -10,14 +10,15 @@ Thus a modbus message can by seen represented as:
             \begin{msc}{\modbus}
                 \setlength{\envinstdist}{1.5\envinstdist}
                 \setlength{\instdist}{4\instdist}
+                \setlength{\labeldist}{1.5\labeldist}
 
                 \declinst{cli}{C}{}
                 \declinst{srv}{S}{}
 
-                \mess{\sm{Header$_1$, Fc$_1$, Data$_1$}{}{skC}}[b]{cli}{srv}
+                \mess{\sm{Header$_1$, Fc$_1$, Data$_1$}{}{skC}}{cli}{srv}
                 \nextlevel[1.5]
 
-                \mess{\sm{Header$_2$, Fc$_2$, Data$_2$}{}{skS}}[b]{srv}{cli}
+                \mess{\sm{Header$_2$, Fc$_2$, Data$_2$}{}{skS}}{srv}{cli}
                 \nextlevel[1]
             \end{msc}
         \end{postscript}
@@ -37,14 +38,15 @@ classical cryptographic primitives such as hash function and digital signatures.
             \begin{msc}{\modbus}
                 \setlength{\envinstdist}{1.5\envinstdist}
                 \setlength{\instdist}{4.5\instdist}
+                \setlength{\labeldist}{1.5\labeldist}
 
                 \declinst{cli}{C}{}
                 \declinst{srv}{S}{}
 
-                \mess{\sm{TS$_1$, Header$_1$, Fc$_1$, Data$_1$}{}{skC}}[b]{cli}{srv}
+                \mess{\sm{TS$_1$, Header$_1$, Fc$_1$, Data$_1$}{}{skC}}{cli}{srv}
                 \nextlevel[1.5]
 
-                \mess{\sm{TS$_2$, Header$_2$, Fc$_2$, Data$_2$}{}{skS}}[b]{srv}{cli}
+                \mess{\sm{TS$_2$, Header$_2$, Fc$_2$, Data$_2$}{}{skS}}{srv}{cli}
                 \nextlevel[1]
             \end{msc}
         \end{postscript}
@@ -102,14 +104,15 @@ Attack on integrity with secure modbus and model NonIdent:
             \begin{msc}{\modbus}
                 \setlength{\envinstdist}{1.5\envinstdist}
                 \setlength{\instdist}{1.5\instdist}
+                \setlength{\labeldist}{1.5\labeldist}
 
                 \declinst{cli}{C}{}
                 \declinst{i1}{I$_1$}{}
                 \declinst{i2}{I$_2$}{}
                 \declinst{srv}{S}{}
 
-                \mess{\sm{m$_1$}{}{skC}}[b]{cli}{i1}
-                \mess{\sm{m$_2$}{}{skI$_2$}}[b]{i2}{srv}
+                \mess{\sm{m$_1$}{}{skC}}{cli}{i1}
+                \mess{\sm{m$_2$}{}{skI$_2$}}{i2}{srv}
                 \nextlevel[1]
             \end{msc}
         \end{postscript}
