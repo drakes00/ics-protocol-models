@@ -7,19 +7,19 @@ free c: channel.
 free cAO: channel [private].
 free cBO: channel [private].
 
+(* Hosts *)
+type host.
+free Alice, Bob: host.
+
 (* Signatures *)
 type key.
+free skA, skB: key [private].
+fun sk(host): key.
 fun pub(key): key.
 
 fun h(bitstring): bitstring.
 fun sign(bitstring, key): bitstring.
 reduc forall x: bitstring, k: key ; verify(x, sign(x, k), pub(k)) = true.
-
-(* Hosts *)
-type host.
-free Alice, Bob, Intruder: host.
-free skA, skB: key [private].
-free skI: key.
 
 (* Integrity *)
 event different(bitstring, bitstring).
@@ -42,18 +42,20 @@ let oracle =
     in(cBO, m2: bitstring);
     if m1 = m2 then 0 else event different(m1, m2).
 
-let alice(skA: key, skB: key, skI: key) =
+let alice(skA: key, skB: key) =
     in(c, (A: host, B: host));
-    let sk = if A = Alice then skA else if A = Bob then skB else skI in
+    if A <> Alice && A <> Bob then 0 else
+    let sk = if A = Alice then skA else if A = Bob then skB in
 
     let m = (mbap, fc, data) in
     event begin(A, B, m);
     out(cAO, m);
     out(c, (m, sign(m, sk))).
 
-let bob(pkA: key, pkB: key, pkI: key) =
+let bob(pkA: key, pkB: key) =
     in(c, (A: host, B: host));
-    let pk = if A = Alice then pkA else if A = Bob then pkB else pkI in
+    if B <> Alice && B <> Bob then 0 else
+    let pk = if A = Alice then pkA else if A = Bob then pkB else pub(sk(A)) in
 
     in(c, (x: bitstring, sigX: bitstring));
     if verify(x, sigX, pk) <> true then 0 else
@@ -63,8 +65,7 @@ let bob(pkA: key, pkB: key, pkI: key) =
 process
     let pkA = pub(skA) in out(c, pkA);
     let pkB = pub(skB) in out(c, pkB);
-    let pkI = pub(skI) in
 
     oracle |
-    alice(skA, skB, skI) |
-    bob(pkA, pkB, pkI)
+    alice(skA, skB) |
+    bob(pkA, pkB)

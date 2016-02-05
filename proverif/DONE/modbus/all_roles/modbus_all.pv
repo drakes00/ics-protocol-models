@@ -33,6 +33,7 @@ let oracle =
 
 let alice =
     in(c, (A: host, B: host));
+    if A <> Alice && A <> Bob then 0 else
 
     let m = (mbap, fc, data) in
     event begin(A, B, m);
@@ -41,6 +42,7 @@ let alice =
 
 let bob =
     in(c, (A: host, B: host));
+    if B <> Alice && B <> Bob then 0 else
 
     in(c, x: bitstring);
     out(cBO, x);
