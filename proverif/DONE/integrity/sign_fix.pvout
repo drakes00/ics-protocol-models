@@ -1,0 +1,52 @@
+File "sign_fix.pv", line 41, character 9 - line 41, character 11:
+Warning: identifier sk rebound
+Process:
+{1}out(c, pub(skA));
+{2}out(c, pub(skB));
+(
+    {3}in(cAO, (X: host,Y: host,m1: bitstring));
+    {4}in(cBO, (=X,=Y,m2: bitstring));
+    {5}if (m1 = m2) then
+        0
+    else
+        {6}event different(X,Y,m2)
+) | (
+    {7}in(c, (X_45: host,Y_46: host));
+    {8}if ((X_45 <> A) && (X_45 <> B)) then
+        0
+    else
+        {9}let sk_47: bitstring = (if (X_45 = A) then skA else (if (X_45 = B) then skB else sk(X_45))) in
+        {10}event sent(X_45,Y_46,m);
+        {11}event begin(X_45,Y_46,m);
+        {12}out(cAO, (X_45,Y_46,m));
+        {13}let x_48: bitstring = (m,Y_46) in
+        {14}out(c, (x_48,sign(sk_47,x_48)))
+) | (
+    {15}in(c, (X_49: host,Y_50: host));
+    {16}if ((Y_50 <> A) && (Y_50 <> B)) then
+        0
+    else
+        {17}let pk: bitstring = (if (X_49 = A) then pub(skA) else (if (X_49 = B) then pub(skB) else pub(sk(X_49)))) in
+        {18}in(c, (y_51: bitstring,sY: bitstring));
+        {19}if (verify(pk,sY,y_51) <> true) then
+            0
+        else
+            {20}let (x_52: bitstring,=Y_50) = y_51 in
+            {21}event received(X_49,Y_50,x_52);
+            {22}out(cBO, (X_49,Y_50,x_52));
+            {23}if ((X_49 = A) || (X_49 = B)) then
+            {24}event end(X_49,Y_50,x_52)
+)
+
+-- Query event(different(X_53,Y_54,N)) ==> (event(sent(X_53,Y_54,N)) && event(received(X_53,Y_54,N)))
+Completing...
+Starting query event(different(X_53,Y_54,N)) ==> (event(sent(X_53,Y_54,N)) && event(received(X_53,Y_54,N)))
+RESULT event(different(X_53,Y_54,N)) ==> (event(sent(X_53,Y_54,N)) && event(received(X_53,Y_54,N))) is true.
+-- Query event(end(X_1947,Y_1948,Z)) ==> event(begin(X_1947,Y_1948,Z))
+Completing...
+Starting query event(end(X_1947,Y_1948,Z)) ==> event(begin(X_1947,Y_1948,Z))
+goal reachable: begin(begin(B[],A[],m[])) -> end(end(B[],A[],m[]))
+goal reachable: begin(begin(A[],B[],m[])) -> end(end(A[],B[],m[]))
+goal reachable: begin(begin(B[],B[],m[])) -> end(end(B[],B[],m[]))
+goal reachable: begin(begin(A[],A[],m[])) -> end(end(A[],A[],m[]))
+RESULT event(end(X_1947,Y_1948,Z)) ==> event(begin(X_1947,Y_1948,Z)) is true.

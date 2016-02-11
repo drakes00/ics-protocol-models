@@ -1,5 +1,5 @@
-(*  Plaintext
-    A -> B: m
+(*  Public key signature
+    A -> B: m, {m}_skA
 *)
 
 free c: channel.
@@ -10,6 +10,13 @@ free A, B: host.
 free cAO: channel [private].
 free cBO: channel [private].
 
+fun pub(bitstring): bitstring.
+fun sk(host): bitstring.
+
+fun sign(bitstring, bitstring): bitstring.
+reduc forall x: bitstring, y: bitstring; verify(pub(y), sign(y, x), x) = true.
+
+free skA, skB: bitstring [private].
 free m: bitstring [private].
 
 event begin(host, host, bitstring).
@@ -31,23 +38,30 @@ let oracle =
 let alice =
     in(c, (X: host, Y: host));
     if X <> A && X <> B then 0 else
+    let sk = if X = A then skA else if X = B then skB else sk(X) in
 
     (* Role starting *)
     event sent(X, Y, m);
     event begin(X, Y, m);
     out(cAO, (X, Y, m));
-    out(c, m).
+    let x = (m, Y) in
+    out(c, (x, sign(sk, x))).
 
 
-let bob =
+let bob = 
     in(c, (X: host, Y: host));
     if Y <> A && Y <> B then 0 else
+    let pk = if X = A then pub(skA) else if X = B then pub(skB) else pub(sk(X)) in
 
     (* Role starting *)
-    in(c, x: bitstring);
+    in(c, (y: bitstring, sY: bitstring));
+    if verify(pk, sY, y) <> true then 0 else
+    let (x: bitstring, =Y) = y in
     event received(X, Y, x);
     out(cBO, (X, Y, x));
     if X = A || X = B then event end(X, Y, x).
 
-
-process oracle | alice | bob
+process
+    out(c, pub(skA));
+    out(c, pub(skB));
+    oracle | alice | bob

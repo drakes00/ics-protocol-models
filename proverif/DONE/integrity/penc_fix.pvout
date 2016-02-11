@@ -1,4 +1,4 @@
-File "penc.pv", line 54, character 9 - line 54, character 11:
+File "penc_fix.pv", line 54, character 9 - line 54, character 11:
 Warning: identifier sk rebound
 Linear part:
 Completing equations...
@@ -27,7 +27,7 @@ Process:
         {10}event sent(X_30,Y_31,m);
         {11}event begin(X_30,Y_31,m);
         {12}out(cAO, (X_30,Y_31,m));
-        {13}out(c, enc(pk,m))
+        {13}out(c, enc(pk,(m,Y_31)))
 ) | (
     {14}in(c, (X_32: host,Y_33: host));
     {15}if ((Y_33 <> A) && (Y_33 <> B)) then
@@ -35,7 +35,7 @@ Process:
     else
         {16}let sk_34: bitstring = (if (Y_33 = A) then skA else (if (Y_33 = B) then skB else sk(Y_33))) in
         {17}in(c, y_35: bitstring);
-        {18}let x_36: bitstring = dec(sk_34,y_35) in
+        {18}let (x_36: bitstring,=Y_33) = dec(sk_34,y_35) in
         {19}event received(X_32,Y_33,x_36);
         {20}out(cBO, (X_32,Y_33,x_36));
         {21}if ((X_32 = A) || (X_32 = B)) then
@@ -45,7 +45,7 @@ Process:
 -- Query event(different(X_37,Y_38,N)) ==> (event(sent(X_37,Y_38,N)) && event(received(X_37,Y_38,N)))
 Completing...
 Starting query event(different(X_37,Y_38,N)) ==> (event(sent(X_37,Y_38,N)) && event(received(X_37,Y_38,N)))
-goal reachable: N_2152 <> m[] && begin(received(B[],B[],N_2152)) && attacker(N_2152) && begin(sent(B[],B[],m[])) -> end(different(B[],B[],N_2152))
+goal reachable: N_1908 <> m[] && begin(received(B[],B[],N_1908)) && attacker(N_1908) && begin(sent(B[],B[],m[])) -> end(different(B[],B[],N_1908))
 
 1. The attacker initially knows B[].
 attacker(B[]).
@@ -61,27 +61,32 @@ So the message (B[],B[],m[]) may be sent on channel cAO[] at output {12}.
 mess(cAO[],(B[],B[],m[])).
 
 4. We assume as hypothesis that
-attacker(N_2189).
+attacker(N_1931).
 
-5. The message pub(skB[]) may be sent to the attacker at output {2}.
+5. By 4, the attacker may know N_1931.
+By 1, the attacker may know B[].
+Using the function 2-tuple the attacker may obtain (N_1931,B[]).
+attacker((N_1931,B[])).
+
+6. The message pub(skB[]) may be sent to the attacker at output {2}.
 attacker(pub(skB[])).
 
-6. By 5, the attacker may know pub(skB[]).
-By 4, the attacker may know N_2189.
-Using the function enc the attacker may obtain enc(pub(skB[]),N_2189).
-attacker(enc(pub(skB[]),N_2189)).
+7. By 6, the attacker may know pub(skB[]).
+By 5, the attacker may know (N_1931,B[]).
+Using the function enc the attacker may obtain enc(pub(skB[]),(N_1931,B[])).
+attacker(enc(pub(skB[]),(N_1931,B[]))).
 
-7. The message (B[],B[]) that the attacker may have by 2 may be received at input {14}.
-The message enc(pub(skB[]),N_2189) that the attacker may have by 6 may be received at input {17}.
-The event received(B[],B[],N_2189) may be executed at {19}.
-So the message (B[],B[],N_2189) may be sent on channel cBO[] at output {20}.
-mess(cBO[],(B[],B[],N_2189)).
+8. The message (B[],B[]) that the attacker may have by 2 may be received at input {14}.
+The message enc(pub(skB[]),(N_1931,B[])) that the attacker may have by 7 may be received at input {17}.
+The event received(B[],B[],N_1931) may be executed at {19}.
+So the message (B[],B[],N_1931) may be sent on channel cBO[] at output {20}.
+mess(cBO[],(B[],B[],N_1931)).
 
-8. The message (B[],B[],m[]) that may be sent on channel cAO[] by 3 may be received at input {3}.
-The message (B[],B[],N_2189) that may be sent on channel cBO[] by 7 may be received at input {4}.
-We have m[] <> N_2189.
-So event different(B[],B[],N_2189) may be executed at {6}.
-end(different(B[],B[],N_2189)).
+9. The message (B[],B[],m[]) that may be sent on channel cAO[] by 3 may be received at input {3}.
+The message (B[],B[],N_1931) that may be sent on channel cBO[] by 8 may be received at input {4}.
+We have m[] <> N_1931.
+So event different(B[],B[],N_1931) may be executed at {6}.
+end(different(B[],B[],N_1931)).
 
 
 A more detailed output of the traces is available with
@@ -99,27 +104,27 @@ event(begin(B,B,m)) at {11}
 
 out(cAO, (B,B,m)) at {12} received at {3}
 
-out(c, enc(pub(skB),m)) at {13}
+out(c, enc(pub(skB),(m,B))) at {13}
 
 in(c, (B,B)) at {14}
 
-in(c, enc(pub(skB),a)) at {17}
+in(c, enc(pub(skB),(a,B))) at {17}
 
-event(received(B,B,dec(skB,enc(pub(skB),a)))) at {19}
+event(received(B,B,a)) at {19}
 
-out(cBO, (B,B,dec(skB,enc(pub(skB),a)))) at {20} received at {4}
+out(cBO, (B,B,a)) at {20} received at {4}
 
-event(end(B,B,dec(skB,enc(pub(skB),a)))) at {22}
+event(end(B,B,a)) at {22}
 
-event(different(B,B,dec(skB,enc(pub(skB),a)))) at {6}
+event(different(B,B,a)) at {6}
 
 The event different(B,B,a) is executed.
 A trace has been found.
 RESULT event(different(X_37,Y_38,N)) ==> (event(sent(X_37,Y_38,N)) && event(received(X_37,Y_38,N))) is false.
--- Query event(end(X_2255,Y_2256,Z)) ==> event(begin(X_2255,Y_2256,Z))
+-- Query event(end(X_1999,Y_2000,Z)) ==> event(begin(X_1999,Y_2000,Z))
 Completing...
-Starting query event(end(X_2255,Y_2256,Z)) ==> event(begin(X_2255,Y_2256,Z))
-goal reachable: attacker(Z_4319) -> end(end(A[],B[],Z_4319))
+Starting query event(end(X_1999,Y_2000,Z)) ==> event(begin(X_1999,Y_2000,Z))
+goal reachable: attacker(Z_3787) -> end(end(A[],B[],Z_3787))
 
 1. The attacker initially knows B[].
 attacker(B[]).
@@ -133,21 +138,26 @@ Using the function 2-tuple the attacker may obtain (A[],B[]).
 attacker((A[],B[])).
 
 4. We assume as hypothesis that
-attacker(Z_4365).
+attacker(Z_3819).
 
-5. The message pub(skB[]) may be sent to the attacker at output {2}.
+5. By 4, the attacker may know Z_3819.
+By 1, the attacker may know B[].
+Using the function 2-tuple the attacker may obtain (Z_3819,B[]).
+attacker((Z_3819,B[])).
+
+6. The message pub(skB[]) may be sent to the attacker at output {2}.
 attacker(pub(skB[])).
 
-6. By 5, the attacker may know pub(skB[]).
-By 4, the attacker may know Z_4365.
-Using the function enc the attacker may obtain enc(pub(skB[]),Z_4365).
-attacker(enc(pub(skB[]),Z_4365)).
+7. By 6, the attacker may know pub(skB[]).
+By 5, the attacker may know (Z_3819,B[]).
+Using the function enc the attacker may obtain enc(pub(skB[]),(Z_3819,B[])).
+attacker(enc(pub(skB[]),(Z_3819,B[]))).
 
-7. The message (A[],B[]) that the attacker may have by 3 may be received at input {14}.
-The message enc(pub(skB[]),Z_4365) that the attacker may have by 6 may be received at input {17}.
-So event end(A[],B[],Z_4365) may be executed at {22}.
-end(end(A[],B[],Z_4365)).
+8. The message (A[],B[]) that the attacker may have by 3 may be received at input {14}.
+The message enc(pub(skB[]),(Z_3819,B[])) that the attacker may have by 7 may be received at input {17}.
+So event end(A[],B[],Z_3819) may be executed at {22}.
+end(end(A[],B[],Z_3819)).
 
 
 Could not find a trace corresponding to this derivation.
-RESULT event(end(X_2255,Y_2256,Z)) ==> event(begin(X_2255,Y_2256,Z)) cannot be proved.
+RESULT event(end(X_1999,Y_2000,Z)) ==> event(begin(X_1999,Y_2000,Z)) cannot be proved.

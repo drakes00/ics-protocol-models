@@ -1,5 +1,5 @@
-(*  Plaintext
-    A -> B: m
+(*  With a mac
+    A -> B: m, h(k, m)
 *)
 
 free c: channel.
@@ -10,6 +10,9 @@ free A, B: host.
 free cAO: channel [private].
 free cBO: channel [private].
 
+fun H(bitstring, bitstring): bitstring.
+
+free k: bitstring [private].
 free m: bitstring [private].
 
 event begin(host, host, bitstring).
@@ -36,7 +39,8 @@ let alice =
     event sent(X, Y, m);
     event begin(X, Y, m);
     out(cAO, (X, Y, m));
-    out(c, m).
+    let x = (m, Y) in
+    out(c, (x, H(k, x))).
 
 
 let bob =
@@ -44,7 +48,9 @@ let bob =
     if Y <> A && Y <> B then 0 else
 
     (* Role starting *)
-    in(c, x: bitstring);
+    in(c, (y: bitstring, h: bitstring));
+    if h <> H(k, y) then 0 else
+    let (x: bitstring, =Y) = y in
     event received(X, Y, x);
     out(cBO, (X, Y, x));
     if X = A || X = B then event end(X, Y, x).
