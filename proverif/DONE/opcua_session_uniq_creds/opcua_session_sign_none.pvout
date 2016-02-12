@@ -3,89 +3,66 @@ Process:
 {2}out(c, pkA);
 {3}let pkB: bitstring = pub(skB) in
 {4}out(c, pkB);
+{5}!
+{6}new ch: channel;
 (
-    {5}!
-    {6}in(c, (Cli: host,Sess: host));
-    {7}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else fail-any)) in
-    {8}let pkCli: bitstring = pub(skCli) in
-    {9}let skSess: bitstring = (if (Sess = A) then skA else (if (Sess = B) then skB else sk(Sess))) in
-    {10}let pkSess: bitstring = pub(skSess) in
-    {11}let K: bitstring = Skey(skCli,skSess) in
-    {12}new Nc: bitstring;
-    {13}let m1: bitstring = (CreateSessionRequest,pkCli,Nc) in
-    {14}out(c, (m1,sign(h(m1),skCli)));
-    {15}in(c, (m2: bitstring,sigM2: bitstring));
-    {16}if (verify(h(m2),sigM2,pkSess) <> true) then
+    {7}in(c, (Cli: host,Sess: host));
+    {8}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else fail-any)) in
+    {9}let pkCli: bitstring = pub(skCli) in
+    {10}let skSess: bitstring = (if (Sess = A) then skA else (if (Sess = B) then skB else sk(Sess))) in
+    {11}let pkSess: bitstring = pub(skSess) in
+    {12}new K: bitstring;
+    {13}out(ch, (Cli,Sess,K));
+    {14}let tmp: bitstring = (if ((Sess <> A) && (Sess <> B)) then K else CreateSessionRequest) in
+    {15}out(c, tmp);
+    {16}new Nc: bitstring;
+    {17}let m1: bitstring = (CreateSessionRequest,pkCli,Nc) in
+    {18}out(c, (m1,sign(h(m1),skCli)));
+    {19}in(c, (m2: bitstring,sigM2: bitstring));
+    {20}if (verify(h(m2),sigM2,pkSess) <> true) then
         0
     else
-        {17}let (=CreateSessionResponse,=pkSess,Ns: bitstring) = m2 in
-        {18}event beginCli(Cli,Sess,(Login(skCli,skSess),Passwd(skCli,skSess)));
-        {19}let m3: bitstring = (ActivateSessionRequest,pkCli,Login(skCli,skSess),Passwd(skCli,skSess)) in
-        {20}out(c, (m3,sign(h(m3),skCli)));
-        {21}in(c, (m4: bitstring,sigM4: bitstring));
-        {22}if (verify(h(m4),sigM4,pkSess) <> true) then
+        {21}let (=CreateSessionResponse,=pkSess,Ns: bitstring) = m2 in
+        {22}event beginCli(Cli,Sess,(Login(skCli,skSess),Passwd(skCli,skSess)));
+        {23}let m3: bitstring = (ActivateSessionRequest,pkCli,Login(skCli,skSess),Passwd(skCli,skSess)) in
+        {24}out(c, (m3,sign(h(m3),skCli)));
+        {25}in(c, (m4: bitstring,sigM4: bitstring));
+        {26}if (verify(h(m4),sigM4,pkSess) <> true) then
             0
         else
-            {23}let (=ActivateSessionResponse,Ns2: bitstring) = m4 in
+            {27}let (=ActivateSessionResponse,Ns2: bitstring) = m4 in
             0
 ) | (
-    {24}!
-    {25}in(c, (Cli_59: host,Sess_60: host));
-    {26}let skCli_61: bitstring = (if (Cli_59 = A) then skA else (if (Cli_59 = B) then skB else sk(Cli_59))) in
-    {27}let pkCli_62: bitstring = pub(skCli_61) in
-    {28}let skSess_63: bitstring = (if (Sess_60 = A) then skA else (if (Sess_60 = B) then skB else fail-any)) in
-    {29}let pkSess_64: bitstring = pub(skSess_63) in
-    {30}let K_65: bitstring = Skey(skCli_61,skSess_63) in
-    {31}in(c, m1_66: bitstring);
-    {32}let (=CreateSessionRequest,=pkCli_62,Nc_67: bitstring) = m1_66 in
-    {33}new Ns_68: bitstring;
-    {34}let m2_69: bitstring = (CreateSessionResponse,pkSess_64,Ns_68) in
-    {35}out(c, m2_69);
-    {36}in(c, m3_70: bitstring);
-    {37}let (=ActivateSessionRequest,=pkCli_62,=Login(skCli_61,skSess_63),=Passwd(skCli_61,skSess_63)) = m3_70 in
-    {38}event endSrv(Cli_59,Sess_60,(Login(skCli_61,skSess_63),Passwd(skCli_61,skSess_63)));
-    {39}new Ns2_71: bitstring;
-    {40}let m4_72: bitstring = (ActivateSessionResponse,Ns2_71) in
-    {41}out(c, m4_72)
-) | (
-    {42}!
-    {43}in(c, (X: host,Y: host));
-    {44}if (X = Y) then
-        0
-    else
-        {45}let skX: bitstring = (if (X = A) then skA else (if (X = B) then skB else sk(X))) in
-        {46}let skY: bitstring = (if (Y = A) then skA else (if (Y = B) then skB else sk(Y))) in
-        {47}if ((X,Y) = (A,B)) then
-            0
-        else
-            {48}if ((X,Y) = (B,A)) then
-                0
-            else
-                {49}out(c, Skey(skX,skY))
+    {28}in(ch, (Cli_59: host,Sess_60: host,K_61: bitstring));
+    {29}let skCli_62: bitstring = (if (Cli_59 = A) then skA else (if (Cli_59 = B) then skB else sk(Cli_59))) in
+    {30}let pkCli_63: bitstring = pub(skCli_62) in
+    {31}let skSess_64: bitstring = (if (Sess_60 = A) then skA else (if (Sess_60 = B) then skB else fail-any)) in
+    {32}let pkSess_65: bitstring = pub(skSess_64) in
+    {33}in(c, m1_66: bitstring);
+    {34}let (=CreateSessionRequest,=pkCli_63,Nc_67: bitstring) = m1_66 in
+    {35}new Ns_68: bitstring;
+    {36}let m2_69: bitstring = (CreateSessionResponse,pkSess_65,Ns_68) in
+    {37}out(c, m2_69);
+    {38}in(c, m3_70: bitstring);
+    {39}let (=ActivateSessionRequest,=pkCli_63,=Login(skCli_62,skSess_64),=Passwd(skCli_62,skSess_64)) = m3_70 in
+    {40}event endSrv(Cli_59,Sess_60,(Login(skCli_62,skSess_64),Passwd(skCli_62,skSess_64)));
+    {41}new Ns2_71: bitstring;
+    {42}let m4_72: bitstring = (ActivateSessionResponse,Ns2_71) in
+    {43}out(c, m4_72)
 )
 
--- Query event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N))
+-- Query event(endSrv(X,Y,N)) ==> event(beginCli(X,Y,N))
 Completing...
-200 rules inserted. The rule base contains 92 rules. 8 rules in the queue.
-Starting query event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N))
-RESULT event(endSrv(X_73,Y_74,N)) ==> event(beginCli(X_73,Y_74,N)) is true.
--- Query not attacker(Skey(skB[],skA[]))
-Completing...
-200 rules inserted. The rule base contains 88 rules. 6 rules in the queue.
-Starting query not attacker(Skey(skB[],skA[]))
-RESULT not attacker(Skey(skB[],skA[])) is true.
--- Query not attacker(Skey(skA[],skB[]))
-Completing...
-200 rules inserted. The rule base contains 88 rules. 6 rules in the queue.
-Starting query not attacker(Skey(skA[],skB[]))
-RESULT not attacker(Skey(skA[],skB[])) is true.
+200 rules inserted. The rule base contains 104 rules. 28 rules in the queue.
+Starting query event(endSrv(X,Y,N)) ==> event(beginCli(X,Y,N))
+RESULT event(endSrv(X,Y,N)) ==> event(beginCli(X,Y,N)) is true.
 -- Query not attacker(Passwd(skA[],skB[]))
 Completing...
-200 rules inserted. The rule base contains 88 rules. 6 rules in the queue.
+200 rules inserted. The rule base contains 100 rules. 24 rules in the queue.
 Starting query not attacker(Passwd(skA[],skB[]))
 RESULT not attacker(Passwd(skA[],skB[])) is true.
 -- Query not attacker(Login(skA[],skB[]))
 Completing...
-200 rules inserted. The rule base contains 88 rules. 6 rules in the queue.
+200 rules inserted. The rule base contains 100 rules. 24 rules in the queue.
 Starting query not attacker(Login(skA[],skB[]))
 RESULT not attacker(Login(skA[],skB[])) is true.

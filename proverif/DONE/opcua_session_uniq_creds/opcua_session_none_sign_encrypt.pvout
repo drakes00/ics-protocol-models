@@ -1,92 +1,70 @@
-File "opcua_session_none_sign_encrypt.pv", line 110, character 41 - line 110, character 43:
+File "opcua_session_none_sign_encrypt.pv", line 99, character 41 - line 99, character 43:
 Warning: identifier Nc rebound
 Process:
 {1}let pkA: bitstring = pub(skA) in
 {2}out(c, pkA);
 {3}let pkB: bitstring = pub(skB) in
 {4}out(c, pkB);
+{5}!
+{6}new ch: channel;
 (
-    {5}!
-    {6}in(c, (Cli: host,Sess: host));
-    {7}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else fail-any)) in
-    {8}let pkCli: bitstring = pub(skCli) in
-    {9}let skSess: bitstring = (if (Sess = A) then skA else (if (Sess = B) then skB else sk(Sess))) in
-    {10}let pkSess: bitstring = pub(skSess) in
-    {11}let K: bitstring = Skey(skCli,skSess) in
-    {12}new Nc: bitstring;
-    {13}let m1: bitstring = (CreateSessionRequest,pkCli,Nc) in
-    {14}out(c, m1);
-    {15}in(c, m2: bitstring);
-    {16}let (=CreateSessionResponse,=pkSess,Ns: bitstring) = m2 in
-    {17}event beginCli(Cli,Sess,(Login(skCli,skSess),Passwd(skCli,skSess)));
-    {18}let m3: bitstring = (ActivateSessionRequest,pkCli,Login(skCli,skSess),Passwd(skCli,skSess)) in
-    {19}out(c, m3);
-    {20}in(c, m4: bitstring);
-    {21}let (=ActivateSessionResponse,Ns2: bitstring) = m4 in
+    {7}in(c, (Cli: host,Sess: host));
+    {8}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else fail-any)) in
+    {9}let pkCli: bitstring = pub(skCli) in
+    {10}let skSess: bitstring = (if (Sess = A) then skA else (if (Sess = B) then skB else sk(Sess))) in
+    {11}let pkSess: bitstring = pub(skSess) in
+    {12}new K: bitstring;
+    {13}out(ch, (Cli,Sess,K));
+    {14}let tmp: bitstring = (if ((Sess <> A) && (Sess <> B)) then K else CreateSessionRequest) in
+    {15}out(c, tmp);
+    {16}new Nc: bitstring;
+    {17}let m1: bitstring = (CreateSessionRequest,pkCli,Nc) in
+    {18}out(c, m1);
+    {19}in(c, m2: bitstring);
+    {20}let (=CreateSessionResponse,=pkSess,Ns: bitstring) = m2 in
+    {21}event beginCli(Cli,Sess,(Login(skCli,skSess),Passwd(skCli,skSess)));
+    {22}let m3: bitstring = (ActivateSessionRequest,pkCli,Login(skCli,skSess),Passwd(skCli,skSess)) in
+    {23}out(c, m3);
+    {24}in(c, m4: bitstring);
+    {25}let (=ActivateSessionResponse,Ns2: bitstring) = m4 in
     0
 ) | (
-    {22}!
-    {23}in(c, (Cli_59: host,Sess_60: host));
-    {24}let skCli_61: bitstring = (if (Cli_59 = A) then skA else (if (Cli_59 = B) then skB else sk(Cli_59))) in
-    {25}let pkCli_62: bitstring = pub(skCli_61) in
-    {26}let skSess_63: bitstring = (if (Sess_60 = A) then skA else (if (Sess_60 = B) then skB else fail-any)) in
-    {27}let pkSess_64: bitstring = pub(skSess_63) in
-    {28}let K_65: bitstring = Skey(skCli_61,skSess_63) in
-    {29}in(c, (em1: bitstring,sigM1: bitstring));
-    {30}new Nc_66: bitstring;
-    {31}let m1_67: bitstring = sdec(em1,K_65) in
-    {32}if (verify(h(m1_67),sigM1,pkCli_62) <> true) then
+    {26}in(ch, (Cli_59: host,Sess_60: host,K_61: bitstring));
+    {27}let skCli_62: bitstring = (if (Cli_59 = A) then skA else (if (Cli_59 = B) then skB else sk(Cli_59))) in
+    {28}let pkCli_63: bitstring = pub(skCli_62) in
+    {29}let skSess_64: bitstring = (if (Sess_60 = A) then skA else (if (Sess_60 = B) then skB else fail-any)) in
+    {30}let pkSess_65: bitstring = pub(skSess_64) in
+    {31}in(c, (em1: bitstring,sigM1: bitstring));
+    {32}new Nc_66: bitstring;
+    {33}let m1_67: bitstring = sdec(em1,K_61) in
+    {34}if (verify(h(m1_67),sigM1,pkCli_63) <> true) then
         0
     else
-        {33}let (=CreateSessionRequest,=pkCli_62,Nc_68: bitstring) = m1_67 in
-        {34}new Ns_69: bitstring;
-        {35}let m2_70: bitstring = (CreateSessionResponse,pkSess_64,Ns_69) in
-        {36}out(c, (senc(m2_70,K_65),sign(h(m2_70),skSess_63)));
-        {37}in(c, (em3: bitstring,sigM3: bitstring));
-        {38}let m3_71: bitstring = sdec(em3,K_65) in
-        {39}if (verify(h(m3_71),sigM3,pkCli_62) <> true) then
+        {35}let (=CreateSessionRequest,=pkCli_63,Nc_68: bitstring) = m1_67 in
+        {36}new Ns_69: bitstring;
+        {37}let m2_70: bitstring = (CreateSessionResponse,pkSess_65,Ns_69) in
+        {38}out(c, (senc(m2_70,K_61),sign(h(m2_70),skSess_64)));
+        {39}in(c, (em3: bitstring,sigM3: bitstring));
+        {40}let m3_71: bitstring = sdec(em3,K_61) in
+        {41}if (verify(h(m3_71),sigM3,pkCli_63) <> true) then
             0
         else
-            {40}let (=ActivateSessionRequest,=pkCli_62,=Login(skCli_61,skSess_63),=Passwd(skCli_61,skSess_63)) = m3_71 in
-            {41}event endSrv(Cli_59,Sess_60,(Login(skCli_61,skSess_63),Passwd(skCli_61,skSess_63)));
-            {42}new Ns2_72: bitstring;
-            {43}let m4_73: bitstring = (ActivateSessionResponse,Ns2_72) in
-            {44}out(c, (senc(m4_73,K_65),sign(h(m4_73),skSess_63)))
-) | (
-    {45}!
-    {46}in(c, (X: host,Y: host));
-    {47}if (X = Y) then
-        0
-    else
-        {48}let skX: bitstring = (if (X = A) then skA else (if (X = B) then skB else sk(X))) in
-        {49}let skY: bitstring = (if (Y = A) then skA else (if (Y = B) then skB else sk(Y))) in
-        {50}if ((X,Y) = (A,B)) then
-            0
-        else
-            {51}if ((X,Y) = (B,A)) then
-                0
-            else
-                {52}out(c, Skey(skX,skY))
+            {42}let (=ActivateSessionRequest,=pkCli_63,=Login(skCli_62,skSess_64),=Passwd(skCli_62,skSess_64)) = m3_71 in
+            {43}event endSrv(Cli_59,Sess_60,(Login(skCli_62,skSess_64),Passwd(skCli_62,skSess_64)));
+            {44}new Ns2_72: bitstring;
+            {45}let m4_73: bitstring = (ActivateSessionResponse,Ns2_72) in
+            {46}out(c, (senc(m4_73,K_61),sign(h(m4_73),skSess_64)))
 )
 
--- Query event(endSrv(X_74,Y_75,N)) ==> event(beginCli(X_74,Y_75,N))
+-- Query event(endSrv(X,Y,N)) ==> event(beginCli(X,Y,N))
 Completing...
-200 rules inserted. The rule base contains 114 rules. 36 rules in the queue.
-Starting query event(endSrv(X_74,Y_75,N)) ==> event(beginCli(X_74,Y_75,N))
-RESULT event(endSrv(X_74,Y_75,N)) ==> event(beginCli(X_74,Y_75,N)) is true.
--- Query not attacker(Skey(skB[],skA[]))
-Completing...
-200 rules inserted. The rule base contains 116 rules. 24 rules in the queue.
-Starting query not attacker(Skey(skB[],skA[]))
-RESULT not attacker(Skey(skB[],skA[])) is true.
--- Query not attacker(Skey(skA[],skB[]))
-Completing...
-200 rules inserted. The rule base contains 116 rules. 24 rules in the queue.
-Starting query not attacker(Skey(skA[],skB[]))
-RESULT not attacker(Skey(skA[],skB[])) is true.
+200 rules inserted. The rule base contains 113 rules. 41 rules in the queue.
+400 rules inserted. The rule base contains 236 rules. 22 rules in the queue.
+Starting query event(endSrv(X,Y,N)) ==> event(beginCli(X,Y,N))
+RESULT event(endSrv(X,Y,N)) ==> event(beginCli(X,Y,N)) is true.
 -- Query not attacker(Passwd(skA[],skB[]))
 Completing...
-200 rules inserted. The rule base contains 116 rules. 24 rules in the queue.
+200 rules inserted. The rule base contains 114 rules. 38 rules in the queue.
 Starting query not attacker(Passwd(skA[],skB[]))
 goal reachable: attacker(Passwd(skA[],skB[]))
 
@@ -101,8 +79,8 @@ By 1, the attacker may know B[].
 Using the function 2-tuple the attacker may obtain (A[],B[]).
 attacker((A[],B[])).
 
-4. The attacker has some term Ns_23900.
-attacker(Ns_23900).
+4. The attacker has some term Ns_12030.
+attacker(Ns_12030).
 
 5. The message pub(skB[]) may be sent to the attacker at output {4}.
 attacker(pub(skB[])).
@@ -112,13 +90,13 @@ attacker(CreateSessionResponse).
 
 7. By 6, the attacker may know CreateSessionResponse.
 By 5, the attacker may know pub(skB[]).
-By 4, the attacker may know Ns_23900.
-Using the function 3-tuple the attacker may obtain (CreateSessionResponse,pub(skB[]),Ns_23900).
-attacker((CreateSessionResponse,pub(skB[]),Ns_23900)).
+By 4, the attacker may know Ns_12030.
+Using the function 3-tuple the attacker may obtain (CreateSessionResponse,pub(skB[]),Ns_12030).
+attacker((CreateSessionResponse,pub(skB[]),Ns_12030)).
 
-8. The message (A[],B[]) that the attacker may have by 3 may be received at input {6}.
-The message (CreateSessionResponse,pub(skB[]),Ns_23900) that the attacker may have by 7 may be received at input {15}.
-So the message (ActivateSessionRequest,pub(skA[]),Login(skA[],skB[]),Passwd(skA[],skB[])) may be sent to the attacker at output {19}.
+8. The message (A[],B[]) that the attacker may have by 3 may be received at input {7}.
+The message (CreateSessionResponse,pub(skB[]),Ns_12030) that the attacker may have by 7 may be received at input {19}.
+So the message (ActivateSessionRequest,pub(skA[]),Login(skA[],skB[]),Passwd(skA[],skB[])) may be sent to the attacker at output {23}.
 attacker((ActivateSessionRequest,pub(skA[]),Login(skA[],skB[]),Passwd(skA[],skB[]))).
 
 9. By 8, the attacker may know (ActivateSessionRequest,pub(skA[]),Login(skA[],skB[]),Passwd(skA[],skB[])).
@@ -133,24 +111,32 @@ out(c, pub(skA)) at {2}
 
 out(c, pub(skB)) at {4}
 
-in(c, (A,B)) at {6} in copy a_23906
+new ch creating ch_12125 at {6} in copy a_12036
 
-new Nc creating Nc_24065 at {12} in copy a_23906
+in(c, (A,B)) at {7} in copy a_12036
 
-out(c, (CreateSessionRequest,pub(skA),Nc_24065)) at {14} in copy a_23906
+new K creating K_12196 at {12} in copy a_12036
 
-in(c, (CreateSessionResponse,pub(skB),a)) at {15} in copy a_23906
+out(ch_12125, (A,B,K_12196)) at {13} in copy a_12036 received at {26} in copy a_12036
 
-event(beginCli(A,B,(Login(skA,skB),Passwd(skA,skB)))) at {17} in copy a_23906
+out(c, CreateSessionRequest) at {15} in copy a_12036
 
-out(c, (ActivateSessionRequest,pub(skA),Login(skA,skB),Passwd(skA,skB))) at {19} in copy a_23906
+new Nc creating Nc_12294 at {16} in copy a_12036
+
+out(c, (CreateSessionRequest,pub(skA),Nc_12294)) at {18} in copy a_12036
+
+in(c, (CreateSessionResponse,pub(skB),a)) at {19} in copy a_12036
+
+event(beginCli(A,B,(Login(skA,skB),Passwd(skA,skB)))) at {21} in copy a_12036
+
+out(c, (ActivateSessionRequest,pub(skA),Login(skA,skB),Passwd(skA,skB))) at {23} in copy a_12036
 
 The attacker has the message Passwd(skA,skB).
 A trace has been found.
 RESULT not attacker(Passwd(skA[],skB[])) is false.
 -- Query not attacker(Login(skA[],skB[]))
 Completing...
-200 rules inserted. The rule base contains 116 rules. 24 rules in the queue.
+200 rules inserted. The rule base contains 114 rules. 38 rules in the queue.
 Starting query not attacker(Login(skA[],skB[]))
 goal reachable: attacker(Login(skA[],skB[]))
 
@@ -165,8 +151,8 @@ By 1, the attacker may know B[].
 Using the function 2-tuple the attacker may obtain (A[],B[]).
 attacker((A[],B[])).
 
-4. The attacker has some term Ns_29918.
-attacker(Ns_29918).
+4. The attacker has some term Ns_17891.
+attacker(Ns_17891).
 
 5. The message pub(skB[]) may be sent to the attacker at output {4}.
 attacker(pub(skB[])).
@@ -176,13 +162,13 @@ attacker(CreateSessionResponse).
 
 7. By 6, the attacker may know CreateSessionResponse.
 By 5, the attacker may know pub(skB[]).
-By 4, the attacker may know Ns_29918.
-Using the function 3-tuple the attacker may obtain (CreateSessionResponse,pub(skB[]),Ns_29918).
-attacker((CreateSessionResponse,pub(skB[]),Ns_29918)).
+By 4, the attacker may know Ns_17891.
+Using the function 3-tuple the attacker may obtain (CreateSessionResponse,pub(skB[]),Ns_17891).
+attacker((CreateSessionResponse,pub(skB[]),Ns_17891)).
 
-8. The message (A[],B[]) that the attacker may have by 3 may be received at input {6}.
-The message (CreateSessionResponse,pub(skB[]),Ns_29918) that the attacker may have by 7 may be received at input {15}.
-So the message (ActivateSessionRequest,pub(skA[]),Login(skA[],skB[]),Passwd(skA[],skB[])) may be sent to the attacker at output {19}.
+8. The message (A[],B[]) that the attacker may have by 3 may be received at input {7}.
+The message (CreateSessionResponse,pub(skB[]),Ns_17891) that the attacker may have by 7 may be received at input {19}.
+So the message (ActivateSessionRequest,pub(skA[]),Login(skA[],skB[]),Passwd(skA[],skB[])) may be sent to the attacker at output {23}.
 attacker((ActivateSessionRequest,pub(skA[]),Login(skA[],skB[]),Passwd(skA[],skB[]))).
 
 9. By 8, the attacker may know (ActivateSessionRequest,pub(skA[]),Login(skA[],skB[]),Passwd(skA[],skB[])).
@@ -197,17 +183,25 @@ out(c, pub(skA)) at {2}
 
 out(c, pub(skB)) at {4}
 
-in(c, (A,B)) at {6} in copy a_29925
+new ch creating ch_17988 at {6} in copy a_17898
 
-new Nc creating Nc_30085 at {12} in copy a_29925
+in(c, (A,B)) at {7} in copy a_17898
 
-out(c, (CreateSessionRequest,pub(skA),Nc_30085)) at {14} in copy a_29925
+new K creating K_18059 at {12} in copy a_17898
 
-in(c, (CreateSessionResponse,pub(skB),a_29924)) at {15} in copy a_29925
+out(ch_17988, (A,B,K_18059)) at {13} in copy a_17898 received at {26} in copy a_17898
 
-event(beginCli(A,B,(Login(skA,skB),Passwd(skA,skB)))) at {17} in copy a_29925
+out(c, CreateSessionRequest) at {15} in copy a_17898
 
-out(c, (ActivateSessionRequest,pub(skA),Login(skA,skB),Passwd(skA,skB))) at {19} in copy a_29925
+new Nc creating Nc_18157 at {16} in copy a_17898
+
+out(c, (CreateSessionRequest,pub(skA),Nc_18157)) at {18} in copy a_17898
+
+in(c, (CreateSessionResponse,pub(skB),a_17897)) at {19} in copy a_17898
+
+event(beginCli(A,B,(Login(skA,skB),Passwd(skA,skB)))) at {21} in copy a_17898
+
+out(c, (ActivateSessionRequest,pub(skA),Login(skA,skB),Passwd(skA,skB))) at {23} in copy a_17898
 
 The attacker has the message Login(skA,skB).
 A trace has been found.

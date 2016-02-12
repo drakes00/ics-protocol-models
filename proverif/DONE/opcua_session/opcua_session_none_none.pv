@@ -102,7 +102,7 @@ let sess(skA: bitstring, skB: bitstring, ch: channel) =
     in(c, m3: bitstring);
     let (=ActivateSessionRequest, =pkCli, =Login(skCli), =Passwd(skCli)) = m3 in
     event endSrv(Cli, Sess, (Login(skCli), Passwd(skCli)));
-    
+
     new Ns2: bitstring;
     let m4 = (ActivateSessionResponse, Ns2) in
     out(c, m4).
