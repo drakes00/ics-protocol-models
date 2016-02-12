@@ -113,6 +113,6 @@ process
     let pkB = pub(skB) in out(c, pkB);
 
     !(new ch: channel;
-      client(skA, skB, ch)   |
+      client(skA, skB, ch)  |
       sess(skA, skB, ch)
     )
