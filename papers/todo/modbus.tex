@@ -15,10 +15,10 @@ Thus a modbus message can by seen represented as:
                 \declinst{cli}{C}{}
                 \declinst{srv}{S}{}
 
-                \mess{\sm{Header$_1$, Fc$_1$, Data$_1$}{}{skC}}{cli}{srv}
+                \mess{\sm{m$_1$}{}{skC}}{cli}{srv}
                 \nextlevel[1.5]
 
-                \mess{\sm{Header$_2$, Fc$_2$, Data$_2$}{}{skS}}{srv}{cli}
+                \mess{\sm{m$_2$}{}{skS}}{srv}{cli}
                 \nextlevel[1]
             \end{msc}
         \end{postscript}
@@ -43,10 +43,10 @@ classical cryptographic primitives such as hash function and digital signatures.
                 \declinst{cli}{C}{}
                 \declinst{srv}{S}{}
 
-                \mess{\sm{TS$_1$, Header$_1$, Fc$_1$, Data$_1$}{}{skC}}{cli}{srv}
+                \mess{\sm{TS$_1$, m$_1$}{}{skC}}{cli}{srv}
                 \nextlevel[1.5]
 
-                \mess{\sm{TS$_2$, Header$_2$, Fc$_2$, Data$_2$}{}{skS}}{srv}{cli}
+                \mess{\sm{TS$_2$, m$_2$}{}{skS}}{srv}{cli}
                 \nextlevel[1]
             \end{msc}
         \end{postscript}
@@ -79,44 +79,40 @@ all messages can be accessed by the intruder.
 
 \begin{table}[htb]
     \centering
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|}
         \hline
-        Protocol        &  Intruder Model   & Secrecy   & Integrity & Authentication    \\
+        Protocol        & Secrecy   & Integrity & Authentication    \\
         \hline
-        \modbus         & NonIdent          & \UNSAFE   & \UNSAFE   & \UNSAFE           \\
+        \modbus         & \UNSAFE   & \UNSAFE   & \UNSAFE           \\
         \hline
-        \modbus         & Ident             & \UNSAFE   & \UNSAFE   & \UNSAFE           \\
-        \hline
-        \cite{FCMT09}   & NonIdent          & \UNSAFE   & \UNSAFE   & \UNSAFE           \\
-        \hline
-        \cite{FCMT09}   & Ident             & \UNSAFE   & \SAFE     & \SAFE             \\
+        \cite{FCMT09}   & \UNSAFE   & \SAFE     & \UNSAFE           \\
         \hline
     \end{tabular}
 \end{table}
 
-Attack on integrity with secure modbus and model NonIdent:
-
-\begin{figure}[htb]
-    \centering
-    \renewcommand{\smname}{\sms}
-    \resizebox{.8\textwidth}{!}{
-        \begin{postscript}
-            \begin{msc}{\modbus}
-                \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{1.5\instdist}
-                \setlength{\labeldist}{1.5\labeldist}
-
-                \declinst{cli}{C}{}
-                \declinst{i1}{I$_1$}{}
-                \declinst{i2}{I$_2$}{}
-                \declinst{srv}{S}{}
-
-                \mess{\sm{m$_1$}{}{skC}}{cli}{i1}
-                \mess{\sm{m$_2$}{}{skI$_2$}}{i2}{srv}
-                \nextlevel[1]
-            \end{msc}
-        \end{postscript}
-    }
-    \caption{Secure \modbus attack}
-    \label{fig:modbus_fix}
-\end{figure}
+%Attack on integrity with secure modbus and model NonIdent:
+%
+%\begin{figure}[htb]
+%    \centering
+%    \renewcommand{\smname}{\sms}
+%    \resizebox{.8\textwidth}{!}{
+%        \begin{postscript}
+%            \begin{msc}{\modbus}
+%                \setlength{\envinstdist}{1.5\envinstdist}
+%                \setlength{\instdist}{1.5\instdist}
+%                \setlength{\labeldist}{1.5\labeldist}
+%
+%                \declinst{cli}{C}{}
+%                \declinst{i1}{I$_1$}{}
+%                \declinst{i2}{I$_2$}{}
+%                \declinst{srv}{S}{}
+%
+%                \mess{\sm{m$_1$}{}{skC}}{cli}{i1}
+%                \mess{\sm{m$_2$}{}{skI$_2$}}{i2}{srv}
+%                \nextlevel[1]
+%            \end{msc}
+%        \end{postscript}
+%    }
+%    \caption{Secure \modbus attack}
+%    \label{fig:modbus_fix}
+%\end{figure}
