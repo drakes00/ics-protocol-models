@@ -75,23 +75,23 @@ Results under this assumption are presented in Table \ref{tab:session_results}.
         \hline
         C              & S              & Sec $Creds$   & Auth $Creds$  & Auth $N_S$    \\
         \hline                                                                          
-        None           & None           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
+        None           & None           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
         \hline
-        None           & Sign           & \UNSAFE       & \SAFE         & \TODO         \\ 
+        None           & Sign           & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
         \hline
-        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
+        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
         \hline
-        Sign           & None           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
+        Sign           & None           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
         \hline
-        Sign           & Sign           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
+        Sign           & Sign           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
         \hline
-        Sign           & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
+        Sign           & SignAndEncrypt & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        SignAndEncrypt & None           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
+        SignAndEncrypt & None           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
         \hline
-        SignAndEncrypt & Sign           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
+        SignAndEncrypt & Sign           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
         \hline
-        SignAndEncrypt & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
+        SignAndEncrypt & SignAndEncrypt & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
     \label{tab:session_results}
@@ -121,7 +121,7 @@ displayed in Figure \ref{fig:session_fix}
                 \action*{Validates pk(C)}{sess}
                 \nextlevel[2.5]
 
-                \mess{\sm{\csres, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}{sess}{cli}
+                \mess{\sm{\csres, {\bf C}, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}{sess}{cli}
                 \nextlevel[1]
                 
                 \action*{Validates pk(S)}{cli}
@@ -155,23 +155,23 @@ Then authentication becomes secure as shown in Table \ref{tab:session_fix_result
         \hline
         C              & S              & Sec $Creds$   & Auth $Creds$  & Auth $N_S$    \\
         \hline                                                                          
-        None           & None           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
+        None           & None           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
         \hline
-        None           & Sign           & \UNSAFE       & \SAFE         & \TODO         \\ 
+        None           & Sign           & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
         \hline
-        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
+        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
         \hline
-        Sign           & None           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
+        Sign           & None           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
         \hline
-        Sign           & Sign           & \UNSAFE       & \SAFE         & \TODO         \\ 
+        Sign           & Sign           & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        Sign           & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
+        Sign           & SignAndEncrypt & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        SignAndEncrypt & None           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
+        SignAndEncrypt & None           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
         \hline
-        SignAndEncrypt & Sign           & \UNSAFE       & \SAFE         & \TODO         \\ 
+        SignAndEncrypt & Sign           & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        SignAndEncrypt & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
+        SignAndEncrypt & SignAndEncrypt & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
     \label{tab:session_fix_results}
@@ -189,23 +189,23 @@ Then both normal and fixed CreateSession results in Table \ref{tab:session_uniq_
         \hline
         C              & S              & Sec $Creds$   & Auth $Creds$  & Auth $N_S$    \\
         \hline                                                                          
-        None           & None           & \UNSAFE       & \SAFE         & \TODO         \\ 
+        None           & None           & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        None           & Sign           & \UNSAFE       & \SAFE         & \TODO         \\ 
+        None           & Sign           & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
+        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        Sign           & None           & \SAFE         & \SAFE         & \TODO         \\ 
+        Sign           & None           & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline
-        Sign           & Sign           & \UNSAFE       & \SAFE         & \TODO         \\ 
+        Sign           & Sign           & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        Sign           & SignAndEncrypt & \SAFE         & \SAFE         & \TODO         \\ 
+        Sign           & SignAndEncrypt & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline
-        SignAndEncrypt & None           & \SAFE         & \SAFE         & \TODO         \\ 
+        SignAndEncrypt & None           & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline
-        SignAndEncrypt & Sign           & \SAFE         & \SAFE         & \TODO         \\ 
+        SignAndEncrypt & Sign           & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline
-        SignAndEncrypt & SignAndEncrypt & \SAFE         & \SAFE         & \TODO         \\ 
+        SignAndEncrypt & SignAndEncrypt & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
     \label{tab:session_uniq_creds_results}

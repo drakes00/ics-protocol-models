@@ -49,6 +49,8 @@ fun Passwd(bitstring, bitstring): bitstring [private].
 (* Events *)
 event beginCli(host, host, bitstring).
 event endSrv(host, host, bitstring).
+event beginSrv(host, host, bitstring).
+event endCli(host, host, bitstring).
 
 
 (* Goals *)
@@ -56,6 +58,7 @@ query attacker(Login(skA, skB)).
 query attacker(Passwd(skA, skB)).
 
 query X: host, Y: host, N: bitstring ; event(endSrv(X, Y, N)) ==> event(beginCli(X, Y, N)).
+query X: host, Y: host, N: bitstring ; event(endCli(X, Y, N)) ==> event(beginSrv(X, Y, N)).
 
 
 let client(skA: bitstring, skB: bitstring, ch: channel) = 
@@ -83,7 +86,9 @@ let client(skA: bitstring, skB: bitstring, ch: channel) =
 
     in(c, (m4: bitstring, sigM4: bitstring));
     if verify(h(m4), sigM4, pkSess) <> true then 0 else
-    let (=ActivateSessionResponse, Ns2: bitstring) = m4 in 0.
+    let (=ActivateSessionResponse, Ns2: bitstring) = m4 in
+    if Cli = A || Cli = B then
+    event endSrv(Cli, Sess, (Login(skCli, skSess), Passwd(skCli, skSess))).
 
 
 let sess(skA: bitstring, skB: bitstring, ch: channel) = 
@@ -103,11 +108,13 @@ let sess(skA: bitstring, skB: bitstring, ch: channel) =
 
     in(c, m3: bitstring);
     let (=ActivateSessionRequest, =pkCli, =Login(skCli, skSess), =Passwd(skCli, skSess)) = m3 in
-    event endSrv(Cli, Sess, (Login(skCli, skSess), Passwd(skCli, skSess)));
 
     new Ns2: bitstring;
     let m4 = (ActivateSessionResponse, Ns2) in
-    out(c, m4).
+    out(c, m4);
+    if Cli = A || Cli = B then
+    event endSrv(Cli, Sess, (Login(skCli, skSess), Passwd(skCli, skSess))).
+
 
 
 process

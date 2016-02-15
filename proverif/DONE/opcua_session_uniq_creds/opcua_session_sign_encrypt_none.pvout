@@ -33,31 +33,40 @@ Process:
             0
         else
             {29}let (=ActivateSessionResponse,Ns2: bitstring) = m4 in
-            0
+            {30}if ((Cli = A) || (Cli = B)) then
+            {31}event endSrv(Cli,Sess,(Login(skCli,skSess),Passwd(skCli,skSess)))
 ) | (
-    {30}in(ch, (Cli_59: host,Sess_60: host,K_61: bitstring));
-    {31}let skCli_62: bitstring = (if (Cli_59 = A) then skA else (if (Cli_59 = B) then skB else sk(Cli_59))) in
-    {32}let pkCli_63: bitstring = pub(skCli_62) in
-    {33}let skSess_64: bitstring = (if (Sess_60 = A) then skA else (if (Sess_60 = B) then skB else fail-any)) in
-    {34}let pkSess_65: bitstring = pub(skSess_64) in
-    {35}in(c, m1_66: bitstring);
-    {36}let (=CreateSessionRequest,=pkCli_63,Nc_67: bitstring) = m1_66 in
-    {37}new Ns_68: bitstring;
-    {38}let m2_69: bitstring = (CreateSessionResponse,pkSess_65,Ns_68) in
-    {39}out(c, m2_69);
-    {40}in(c, m3_70: bitstring);
-    {41}let (=ActivateSessionRequest,=pkCli_63,=Login(skCli_62,skSess_64),=Passwd(skCli_62,skSess_64)) = m3_70 in
-    {42}event endSrv(Cli_59,Sess_60,(Login(skCli_62,skSess_64),Passwd(skCli_62,skSess_64)));
-    {43}new Ns2_71: bitstring;
-    {44}let m4_72: bitstring = (ActivateSessionResponse,Ns2_71) in
-    {45}out(c, m4_72)
+    {32}in(ch, (Cli_59: host,Sess_60: host,K_61: bitstring));
+    {33}let skCli_62: bitstring = (if (Cli_59 = A) then skA else (if (Cli_59 = B) then skB else sk(Cli_59))) in
+    {34}let pkCli_63: bitstring = pub(skCli_62) in
+    {35}let skSess_64: bitstring = (if (Sess_60 = A) then skA else (if (Sess_60 = B) then skB else fail-any)) in
+    {36}let pkSess_65: bitstring = pub(skSess_64) in
+    {37}in(c, m1_66: bitstring);
+    {38}let (=CreateSessionRequest,=pkCli_63,Nc_67: bitstring) = m1_66 in
+    {39}new Ns_68: bitstring;
+    {40}let m2_69: bitstring = (CreateSessionResponse,pkSess_65,Ns_68) in
+    {41}out(c, m2_69);
+    {42}in(c, m3_70: bitstring);
+    {43}let (=ActivateSessionRequest,=pkCli_63,=Login(skCli_62,skSess_64),=Passwd(skCli_62,skSess_64)) = m3_70 in
+    {44}new Ns2_71: bitstring;
+    {45}let m4_72: bitstring = (ActivateSessionResponse,Ns2_71) in
+    {46}out(c, m4_72);
+    {47}if ((Cli_59 = A) || (Cli_59 = B)) then
+    {48}event endSrv(Cli_59,Sess_60,(Login(skCli_62,skSess_64),Passwd(skCli_62,skSess_64)))
 )
 
--- Query event(endSrv(X,Y,N)) ==> event(beginCli(X,Y,N))
+-- Query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
 Completing...
-200 rules inserted. The rule base contains 127 rules. 9 rules in the queue.
-Starting query event(endSrv(X,Y,N)) ==> event(beginCli(X,Y,N))
-RESULT event(endSrv(X,Y,N)) ==> event(beginCli(X,Y,N)) is true.
+200 rules inserted. The rule base contains 126 rules. 4 rules in the queue.
+Starting query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
+RESULT event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N)) is true.
+-- Query event(endSrv(X_5684,Y_5685,N_5686)) ==> event(beginCli(X_5684,Y_5685,N_5686))
+Completing...
+200 rules inserted. The rule base contains 137 rules. 26 rules in the queue.
+Starting query event(endSrv(X_5684,Y_5685,N_5686)) ==> event(beginCli(X_5684,Y_5685,N_5686))
+goal reachable: Y_12170 <> B[] && Y_12170 <> A[] && begin(beginCli(B[],Y_12170,(Login(skB[],sk(Y_12170)),Passwd(skB[],sk(Y_12170))))) && attacker(Y_12170) -> end(endSrv(B[],Y_12170,(Login(skB[],sk(Y_12170)),Passwd(skB[],sk(Y_12170)))))
+goal reachable: Y_12171 <> B[] && Y_12171 <> A[] && begin(beginCli(A[],Y_12171,(Login(skA[],sk(Y_12171)),Passwd(skA[],sk(Y_12171))))) && attacker(Y_12171) -> end(endSrv(A[],Y_12171,(Login(skA[],sk(Y_12171)),Passwd(skA[],sk(Y_12171)))))
+RESULT event(endSrv(X_5684,Y_5685,N_5686)) ==> event(beginCli(X_5684,Y_5685,N_5686)) is true.
 -- Query not attacker(Passwd(skA[],skB[]))
 Completing...
 200 rules inserted. The rule base contains 126 rules. 4 rules in the queue.
