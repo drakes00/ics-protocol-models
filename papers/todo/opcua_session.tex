@@ -73,25 +73,25 @@ Results under this assumption are presented in Table \ref{tab:session_results}.
         \hline
         \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{3}{|c|}{Objectives}   \\
         \hline
-        C              & S              & Sec $K$       & Sec $Creds$   & Auth $Creds$  \\
+        C              & S              & Sec $Creds$   & Auth $Creds$  & Auth $N_S$    \\
+        \hline                                                                          
+        None           & None           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
         \hline
-        None           & None           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        None           & Sign           & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
-        None           & Sign           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
-        None           & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        Sign           & None           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
         \hline
-        Sign           & None           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        Sign           & Sign           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
         \hline
-        Sign           & Sign           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        Sign           & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
-        Sign           & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        SignAndEncrypt & None           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
         \hline
-        SignAndEncrypt & None           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        SignAndEncrypt & Sign           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
         \hline
-        SignAndEncrypt & Sign           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
-        \hline
-        SignAndEncrypt & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        SignAndEncrypt & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
     \end{tabular}
     \label{tab:session_results}
@@ -153,29 +153,29 @@ Then authentication becomes secure as shown in Table \ref{tab:session_fix_result
         \hline
         \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{3}{|c|}{Objectives}   \\
         \hline
-        C              & S              & Sec $K$       & Sec $Creds$   & Auth $Creds$  \\
+        C              & S              & Sec $Creds$   & Auth $Creds$  & Auth $N_S$    \\
+        \hline                                                                          
+        None           & None           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
         \hline
-        None           & None           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        None           & Sign           & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
-        None           & Sign           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
-        None           & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        Sign           & None           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
         \hline
-        Sign           & None           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        Sign           & Sign           & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
-        Sign           & Sign           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        Sign           & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
-        Sign           & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        SignAndEncrypt & None           & \UNSAFE       & \UNSAFE       & \TODO         \\ 
         \hline
-        SignAndEncrypt & None           & \SAFE         & \UNSAFE       & \UNSAFE       \\ 
+        SignAndEncrypt & Sign           & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
-        SignAndEncrypt & Sign           & \SAFE         & \UNSAFE       & \SAFE         \\ 
-        \hline
-        SignAndEncrypt & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        SignAndEncrypt & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
     \end{tabular}
     \label{tab:session_fix_results}
-    \caption{Results}
+    \caption{Results for fixed \opcua {\em CreateSession} sub-protocol}
 \end{table}
 
 In a second time, we suppose that C would use different credentials for each server.
@@ -187,27 +187,27 @@ Then both normal and fixed CreateSession results in Table \ref{tab:session_uniq_
         \hline
         \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{3}{|c|}{Objectives}   \\
         \hline
-        C              & S              & Sec $K$       & Sec $Creds$   & Auth $Creds$  \\
+        C              & S              & Sec $Creds$   & Auth $Creds$  & Auth $N_S$    \\
+        \hline                                                                          
+        None           & None           & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
-        None           & None           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        None           & Sign           & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
-        None           & Sign           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
-        None           & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        Sign           & None           & \SAFE         & \SAFE         & \TODO         \\ 
         \hline
-        Sign           & None           & \SAFE         & \SAFE         & \SAFE         \\ 
+        Sign           & Sign           & \UNSAFE       & \SAFE         & \TODO         \\ 
         \hline
-        Sign           & Sign           & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        Sign           & SignAndEncrypt & \SAFE         & \SAFE         & \TODO         \\ 
         \hline
-        Sign           & SignAndEncrypt & \SAFE         & \UNSAFE       & \SAFE         \\ 
+        SignAndEncrypt & None           & \SAFE         & \SAFE         & \TODO         \\ 
         \hline
-        SignAndEncrypt & None           & \SAFE         & \SAFE         & \SAFE         \\ 
+        SignAndEncrypt & Sign           & \SAFE         & \SAFE         & \TODO         \\ 
         \hline
-        SignAndEncrypt & Sign           & \SAFE         & \SAFE         & \SAFE         \\ 
-        \hline
-        SignAndEncrypt & SignAndEncrypt & \SAFE         & \SAFE         & \SAFE         \\ 
+        SignAndEncrypt & SignAndEncrypt & \SAFE         & \SAFE         & \TODO         \\ 
         \hline
     \end{tabular}
     \label{tab:session_uniq_creds_results}
-    \caption{Results}
+    \caption{Results for \opcua {\em CreateSession} sub-protocol with uniq credentials}
 \end{table}
