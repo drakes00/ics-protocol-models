@@ -141,56 +141,56 @@ Results are shown in Table \ref{tab:secure_conv_results}.
     \caption{Results for textbook {\em OpenSecureChannel} sub-protocol}
 \end{table}
 
-Exemple d'attaque :
-\begin{figure}[htb]
-    \renewcommand{\smname}{\smse}
-    \resizebox{\textwidth}{!}{
-        \begin{postscript}
-            \begin{msc}{Secure channel creation}
-                \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{5.1\instdist}
-                \setlength{\labeldist}{1.5\labeldist}
-
-                \declinst{cli}{C}{}
-                \declinst{intruder}{I}{}
-                \declinst{sess}{S}{}
-
-                \mess{\gereq}{cli}{intruder}
-                \nextlevel[1.5]
-
-                \mess{\geres, pk(I), \smname, SP, UP}{intruder}{cli}
-                \nextlevel[1]
-                
-                \action*{Validates pk(I)}{cli}
-                \nextlevel[2]
-                
-                \action*{Generates N$_{C}$}{cli}
-                \nextlevel[3]
-
-                \mess{pk(C), \sm{\oscreq, pk(C), $g^{N_{C}}$}{pk(I)}{sk(C)}}{cli}{intruder}
-                \nextlevel[2]
-
-                \mess{pk(C), \sm{\oscreq, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}{intruder}{sess}
-                \nextlevel[1]
-
-                \action*{Validates pk(C) }{sess}
-                \nextlevel[2]
-
-                \action*{Generates N$_{S}$ }{sess}
-                \nextlevel[2]
-
-                \ifsmnotnone{%
-                    \action*{$K_{srv}$ = $(g^{N_{C}})^{N_{S}}$ }{sess}
-                    \nextlevel[3]
-                }
-
-                \mess{\sm{\oscres, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{intruder}
-                \nextlevel[1.5]
-            \end{msc}
-        \end{postscript}
-    }
-    \caption{\opcua Secure Conversation SignAndEncrypt}
-\end{figure}
+%Exemple d'attaque :
+%\begin{figure}[htb]
+%    \renewcommand{\smname}{\smse}
+%    \resizebox{\textwidth}{!}{
+%        \begin{postscript}
+%            \begin{msc}{Secure channel creation}
+%                \setlength{\envinstdist}{1.5\envinstdist}
+%                \setlength{\instdist}{5.1\instdist}
+%                \setlength{\labeldist}{1.5\labeldist}
+%
+%                \declinst{cli}{C}{}
+%                \declinst{intruder}{I}{}
+%                \declinst{sess}{S}{}
+%
+%                \mess{\gereq}{cli}{intruder}
+%                \nextlevel[1.5]
+%
+%                \mess{\geres, pk(I), \smname, SP, UP}{intruder}{cli}
+%                \nextlevel[1]
+%                
+%                \action*{Validates pk(I)}{cli}
+%                \nextlevel[2]
+%                
+%                \action*{Generates N$_{C}$}{cli}
+%                \nextlevel[3]
+%
+%                \mess{pk(C), \sm{\oscreq, pk(C), $g^{N_{C}}$}{pk(I)}{sk(C)}}{cli}{intruder}
+%                \nextlevel[2]
+%
+%                \mess{pk(C), \sm{\oscreq, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}{intruder}{sess}
+%                \nextlevel[1]
+%
+%                \action*{Validates pk(C) }{sess}
+%                \nextlevel[2]
+%
+%                \action*{Generates N$_{S}$ }{sess}
+%                \nextlevel[2]
+%
+%                \ifsmnotnone{%
+%                    \action*{$K_{srv}$ = $(g^{N_{C}})^{N_{S}}$ }{sess}
+%                    \nextlevel[3]
+%                }
+%
+%                \mess{\sm{\oscres, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{intruder}
+%                \nextlevel[1.5]
+%            \end{msc}
+%        \end{postscript}
+%    }
+%    \caption{\opcua Secure Conversation SignAndEncrypt}
+%\end{figure}
 
 \subsection{Fixed version}
 
