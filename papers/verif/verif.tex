@@ -1,4 +1,5 @@
-\documentclass{article}
+%\documentclass[a4paper]{article}
+\documentclass[a4paper, twocolumn]{article}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -29,6 +30,7 @@
 \newcommand{\smn}{None}
 \newcommand{\sms}{Sign}
 \newcommand{\smse}{SignAndEncrypt}
+\newcommand{\smseshort}{SignEnc}
 
 \newcommand{\sm}{\IfStrEq{\smname}{\smn}{\dosmnone}{\IfStrEq{\smname}{\sms}{\dosmsign}{\dosmsignandencrypt}}}
 
@@ -40,11 +42,33 @@
 \newcommand{\SAFE}{{\color{green!50!black} SAFE}\xspace}
 \newcommand{\TODO}{{\color{red}\bf TODO}\xspace}
 \newcommand{\proverif}{ProVerif\xspace}
+\newcommand{\ofmc}{OFMC\xspace}
+\newcommand{\spear}{SPEAR II\xspace}
 \newcommand{\opcua}{OPC-UA\xspace}
+\newcommand{\opc}{OPC\xspace}
+\newcommand{\dcom}{DCOM\xspace}
+\newcommand{\mms}{MMS\xspace}
+\newcommand{\iec}[1]{IEC\xspace#1\xspace}
+\newcommand{\iccp}{ICCP\xspace}
 \newcommand{\modbus}{MODBUS\xspace}
+\newcommand{\profinet}{PROFINET\xspace}
+\newcommand{\etherip}{EtherNet/IP\xspace}
+\newcommand{\dnp}{DNP3\xspace}
 \newcommand{\eg}{e.g.:\xspace}
 
+\title{\TODO title}
+\author{\TODO author}
+\date{}
+
 \begin{document}
+
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+
+\section{Introduction}
+\input{intro}
 
 %\section{Misc}
 %
@@ -69,18 +93,21 @@
 \section{\opcua CreateSession}
 \input{opcua_session}
 
-\section{Flow integrity}
-%TODO \input{flow}
-Idée: Modéliser l'envoie et la réception de messages jusqu'à fermeture du cannal.
-A la fin envoyer les messages envoyés et reçus à un oracle qui les compare.
+%\section{Flow integrity}
+%%TODO \input{flow}
+%Idée: Modéliser l'envoie et la réception de messages jusqu'à fermeture du cannal.
+%A la fin envoyer les messages envoyés et reçus à un oracle qui les compare.
+%
+%\section{TODO list}
+%
+%\begin{itemize}
+%    \item Comment s'articulent la signature et le chiffrement (signature d'un haché, d'un chiffré, ...) ?
+%    \item Logjam $\Rightarrow$ Oui, vulnérable si hypothèse de DH OK
+%    \item Quel type de chiffrement (CBC, ...) ?
+%    \item Est-ce que tout est réellement signé (constantes publiques) ?
+%\end{itemize}
 
-\section{TODO list}
-
-\begin{itemize}
-    \item Comment s'articulent la signature et le chiffrement (signature d'un haché, d'un chiffré, ...) ?
-    \item Logjam $\Rightarrow$ Oui, vulnérable si hypothèse de DH OK
-    \item Quel type de chiffrement (CBC, ...) ?
-    \item Est-ce que tout est réellement signé (constantes publiques) ?
-\end{itemize}
+\bibliographystyle{unsrt}
+\bibliography{phdBiblio}
 
 \end{document}

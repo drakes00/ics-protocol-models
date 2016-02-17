@@ -11,31 +11,31 @@
 
 The {\em OpenSecureConversation} sub-protocol, aims to authenticate a client and
 a server and allow them to generate a shared key for the later communications.
-\opcua can be used with three security modes, namely {\em None}, {\em Sign} and
-{\em SignAndEncrypt}.
+\opcua can be used with three security modes, namely {\em \smn}, {\em Sign} and
+{\em \smse}.
 
 \begin{itemize}
-    \item SignAndEncrypt: claims to provide secrecy using symetric and
+    \item \smse: claims to provide secrecy using symetric and
     assymetric encryption and both authentication and integrity through digital
     signatures.
     It is described in Figure \ref{fig:secure_conv_se}.
 
-    \item Sign: same as {\em SignAndEncrypt} but without any encryption.
+    \item Sign: same as {\em \smse} but without any encryption.
     Thus nonces are not used to generate a shared key but bring freshness to the
     messages.
 
-    \item None: does not provide any security.
+    \item \smn: does not provide any security.
     Using this security mode, the {\em OpenSecureConversation} sub-protocol does
     not serve much purpose but is used for compatibility.
 \end{itemize}
 
 \begin{figure}[htb]
-    \renewcommand{\smname}{\smse}
-    \resizebox{\textwidth}{!}{
+    \renewcommand{\smname}{\smseshort}
+    \resizebox{1.05\columnwidth}{!}{
         \begin{postscript}
             \begin{msc}{Secure channel creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{3\instdist}
+                \setlength{\instdist}{2.6\instdist}
                 \setlength{\labeldist}{1.5\labeldist}
 
                 \declinst{cli}{C}{}
@@ -65,7 +65,7 @@ a server and allow them to generate a shared key for the later communications.
 
                 \ifsmnotnone{%
                     \action*{$K_{srv}$ = $(g^{N_{C}})^{N_{S}}$ }{sess}
-                    \nextlevel[3]
+                    \nextlevel[3.5]
                 }
 
                 \mess{\sm{\oscres, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{cli}
@@ -82,19 +82,21 @@ a server and allow them to generate a shared key for the later communications.
     \label{fig:secure_conv_se}
 \end{figure}
 
-\subsection{Modelisation}
+\subsection{Modeling}
 
 Normaly, a {\em GetEnpointRequest} would be answered by a list of session
 endpoints with possibly different security modes.
 For simplicity, we suppose that only one endpoint is answered.
 Thus, to ensure completeness of our analysis, we verify all combinations of
-security modes (\eg a client configured in {\em None} speaking with a server
-configured in {\em SignAndEncrypt}, which would not be possible normaly).
+security modes (\eg a client configured in {\em \smn} speaking with a server
+configured in {\em \smse}, which would not be possible normaly).
 This way we can verify if an attacker can exploit the security of a peer as an
 oracle to mount an attack against another.
-Moreover, thanks to the perfect encryption hypothesis (\TODO expliquer qq part),
-we can abstract the security policy messages as we do not differentiate which
-cryptographic primitives are used.
+This also shows exactly what th security mode of a host gives him as protection
+independantly of the security mode of its peers.
+Moreover, thanks to the perfect encryption hypothesis, we can abstract the
+security policy messages as we do not differentiate which cryptographic
+primitives are used.
 
 Objectives:
 \begin{enumerate}
@@ -111,40 +113,42 @@ modes of \opcua for each objective proposed.
 Results are shown in Table \ref{tab:secure_conv_results}.
 
 \begin{table}[htb]
-    \centering
+    \hspace{-1em}
+    \resizebox{1.05\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{4}{|c|}{Objectives} \\
+        \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{4}{|c|}{Objectives} \\
         \hline
         C              & S              & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
         \hline                                                                                                 
-        None           & None           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
+        \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
         \hline                                                                                                 
-        None           & Sign           & \UNSAFE       & \SAFE         & \UNSAFE           & \SAFE             \\ 
+        \smn           & \sms           & \UNSAFE       & \SAFE         & \UNSAFE           & \SAFE             \\ 
         \hline                                                                                                 
-        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \UNSAFE           & \SAFE             \\ 
+        \smn           & \smseshort     & \UNSAFE       & \SAFE         & \UNSAFE           & \SAFE             \\ 
         \hline                                                                                                 
-        Sign           & None           & \SAFE         & \UNSAFE       & \SAFE             & \UNSAFE           \\ 
+        \sms           & \smn           & \SAFE         & \UNSAFE       & \SAFE             & \UNSAFE           \\ 
         \hline                                                                                                 
-        Sign           & Sign           & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
+        \sms           & \sms           & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
         \hline                                                                                                 
-        Sign           & SignAndEncrypt & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
+        \sms           & \smseshort     & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
         \hline                                                                                                 
-        SignAndEncrypt & None           & \SAFE         & \UNSAFE       & \SAFE             & \UNSAFE           \\ 
+        \smseshort     & \smn           & \SAFE         & \UNSAFE       & \SAFE             & \UNSAFE           \\ 
         \hline                                                                                                 
-        SignAndEncrypt & Sign           & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
+        \smseshort     & \sms           & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
         \hline                                                                                                 
-        SignAndEncrypt & SignAndEncrypt & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
+        \smseshort     & \smseshort     & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
         \hline
     \end{tabular}
-    \label{tab:secure_conv_results}
+    }
     \caption{Results for textbook {\em OpenSecureChannel} sub-protocol}
+    \label{tab:secure_conv_results}
 \end{table}
 
 %Exemple d'attaque :
 %\begin{figure}[htb]
 %    \renewcommand{\smname}{\smse}
-%    \resizebox{\textwidth}{!}{
+%    \resizebox{\columnwidth}{!}{
 %        \begin{postscript}
 %            \begin{msc}{Secure channel creation}
 %                \setlength{\envinstdist}{1.5\envinstdist}
@@ -189,7 +193,7 @@ Results are shown in Table \ref{tab:secure_conv_results}.
 %            \end{msc}
 %        \end{postscript}
 %    }
-%    \caption{\opcua Secure Conversation SignAndEncrypt}
+%    \caption{\opcua Secure Conversation \smse}
 %\end{figure}
 
 \subsection{Fixed version}
@@ -200,12 +204,13 @@ It consists in adding in a message the identity of its reciever.
 This avoids an intruder replaying signed messages.
 
 \begin{figure}[htb]
-    \renewcommand{\smname}{\smse}
-    \resizebox{\textwidth}{!}{
+    \hspace{-1em}
+    \renewcommand{\smname}{\smseshort}
+    \resizebox{1.05\columnwidth}{!}{
         \begin{postscript}
             \begin{msc}{Secure channel creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{3\instdist}
+                \setlength{\instdist}{2.8\instdist}
                 \setlength{\labeldist}{1.5\labeldist}
 
                 \declinst{cli}{C}{}
@@ -235,7 +240,7 @@ This avoids an intruder replaying signed messages.
 
                 \ifsmnotnone{%
                     \action*{$K_{srv}$ = $(g^{N_{C}})^{N_{S}}$ }{sess}
-                    \nextlevel[3]
+                    \nextlevel[3.5]
                 }
 
                 \mess{\sm{\oscres, {\bf C}, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{cli}
@@ -257,32 +262,34 @@ version.
 Results are presented in Table \ref{tab:secure_conv_fix_results}.
 
 \begin{table}[htb]
-    \centering
+    \hspace{-1em}
+    \resizebox{1.05\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|c|}
         \hline
-        \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{4}{|c|}{Objectives} \\
+        \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{4}{|c|}{Objectives} \\
         \hline
         C              & S              & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
         \hline                                                                                                  
-        None           & None           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
+        \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
         \hline                                                                                                  
-        None           & Sign           & \UNSAFE       & \SAFE         & \UNSAFE           & \SAFE             \\ 
+        \smn           & \sms           & \UNSAFE       & \SAFE         & \UNSAFE           & \SAFE             \\ 
         \hline                                                                                                  
-        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \UNSAFE           & \SAFE             \\ 
+        \smn           & \smseshort     & \UNSAFE       & \SAFE         & \UNSAFE           & \SAFE             \\ 
         \hline                                                                                                  
-        Sign           & None           & \SAFE         & \UNSAFE       & \SAFE             & \UNSAFE           \\ 
+        \sms           & \smn           & \SAFE         & \UNSAFE       & \SAFE             & \UNSAFE           \\ 
         \hline                                                                                                  
-        Sign           & Sign           & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
+        \sms           & \sms           & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
         \hline                                                                                                  
-        Sign           & SignAndEncrypt & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
+        \sms           & \smseshort     & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
         \hline                                                                                                  
-        SignAndEncrypt & None           & \SAFE         & \UNSAFE       & \SAFE             & \UNSAFE           \\ 
-        \hline                                                                                                  
-        SignAndEncrypt & Sign           & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
-        \hline                                                                                                  
-        SignAndEncrypt & SignAndEncrypt & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
+        \smseshort     & \smn           & \SAFE         & \UNSAFE       & \SAFE             & \UNSAFE           \\ 
+        \hline                                                                                                           
+        \smseshort     & \sms           & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
+        \hline                                                                                                           
+        \smseshort     & \smseshort     & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
         \hline
     \end{tabular}
-    \label{tab:secure_conv_fix_results}
+    }
     \caption{Results for fixed {\em OpenSecureChannel} sub-protocol}
+    \label{tab:secure_conv_fix_results}
 \end{table}

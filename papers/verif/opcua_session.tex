@@ -16,7 +16,7 @@ This sub-protocol is presented in Figure \ref{fig:session_se}.
 
 \begin{figure}[htb]
     \renewcommand{\smname}{\smse}
-    \resizebox{\textwidth}{!}{
+    \resizebox{\columnwidth}{!}{
         \begin{postscript}
             \begin{msc}{Session creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
@@ -52,8 +52,8 @@ This sub-protocol is presented in Figure \ref{fig:session_se}.
             \end{msc}
         \end{postscript}
     }
-    \label{fig:session_se}
     \caption{OPC-UA CreateSession sub-protocol}
+    \label{fig:session_se}
 \end{figure}
 
 For this protocol, a modeling choice appears.
@@ -69,33 +69,35 @@ Results under this assumption are presented in Table \ref{tab:session_results}.
 
 \begin{table}[htb]
     \centering
+    \resizebox{1.05\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{3}{|c|}{Objectives}   \\
+        \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{3}{|c|}{Objectives}   \\
         \hline
         C              & S              & Sec $Creds$   & Auth $Creds$  & Auth $N_S$    \\
         \hline                                                                          
-        None           & None           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
+        \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
         \hline
-        None           & Sign           & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
+        \smn           & \sms           & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
         \hline
-        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
+        \smn           & \smseshort     & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
         \hline
-        Sign           & None           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
+        \sms           & \smn           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
         \hline
-        Sign           & Sign           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
+        \sms           & \sms           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
         \hline
-        Sign           & SignAndEncrypt & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \sms           & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        SignAndEncrypt & None           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
-        \hline
-        SignAndEncrypt & Sign           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
-        \hline
-        SignAndEncrypt & SignAndEncrypt & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \smseshort     & \smn           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
+        \hline         
+        \smseshort     & \sms           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
+        \hline         
+        \smseshort     & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
-    \label{tab:session_results}
+    }
     \caption{Results for \opcua {\em CreateSession} sub-protocol}
+    \label{tab:session_results}
 \end{table}
 
 \subsection{Fixed version}
@@ -105,7 +107,7 @@ displayed in Figure \ref{fig:session_fix}
 
 \begin{figure}[htb]
     \renewcommand{\smname}{\smse}
-    \resizebox{\textwidth}{!}{
+    \resizebox{\columnwidth}{!}{
         \begin{postscript}
             \begin{msc}{Session creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
@@ -141,41 +143,43 @@ displayed in Figure \ref{fig:session_fix}
             \end{msc}
         \end{postscript}
     }
-    \label{fig:session_fix}
     \caption{OPC-UA fixed CreateSession sub-protocol}
+    \label{fig:session_fix}
 \end{figure}
 
 Then authentication becomes secure as shown in Table \ref{tab:session_fix_results}.
 
 \begin{table}[htb]
     \centering
+    \resizebox{1.05\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{3}{|c|}{Objectives}   \\
+        \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{3}{|c|}{Objectives}   \\
         \hline
         C              & S              & Sec $Creds$   & Auth $Creds$  & Auth $N_S$    \\
         \hline                                                                          
-        None           & None           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
+        \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
         \hline
-        None           & Sign           & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
+        \smn           & \sms           & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
         \hline
-        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
+        \smn           & \smseshort     & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
         \hline
-        Sign           & None           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
+        \sms           & \smn           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
         \hline
-        Sign           & Sign           & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \sms           & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        Sign           & SignAndEncrypt & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \sms           & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        SignAndEncrypt & None           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
-        \hline
-        SignAndEncrypt & Sign           & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        \hline
-        SignAndEncrypt & SignAndEncrypt & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \smseshort     & \smn           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
+        \hline         
+        \smseshort     & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \hline         
+        \smseshort     & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
-    \label{tab:session_fix_results}
+    }
     \caption{Results for fixed \opcua {\em CreateSession} sub-protocol}
+    \label{tab:session_fix_results}
 \end{table}
 
 In a second time, we suppose that C would use different credentials for each server.
@@ -183,31 +187,33 @@ Then both normal and fixed CreateSession results in Table \ref{tab:session_uniq_
 
 \begin{table}[htb]
     \centering
+    \resizebox{1.05\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{2}{|c}{\opcua Security modes} & \multicolumn{3}{|c|}{Objectives}   \\
+        \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{3}{|c|}{Objectives}   \\
         \hline
         C              & S              & Sec $Creds$   & Auth $Creds$  & Auth $N_S$    \\
         \hline                                                                          
-        None           & None           & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \smn           & \smn           & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        None           & Sign           & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \smn           & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        None           & SignAndEncrypt & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \smn           & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        Sign           & None           & \SAFE         & \SAFE         & \SAFE         \\ 
+        \sms           & \smn           & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline
-        Sign           & Sign           & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \sms           & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
-        Sign           & SignAndEncrypt & \SAFE         & \SAFE         & \SAFE         \\ 
+        \sms           & \smseshort     & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline
-        SignAndEncrypt & None           & \SAFE         & \SAFE         & \SAFE         \\ 
-        \hline
-        SignAndEncrypt & Sign           & \SAFE         & \SAFE         & \SAFE         \\ 
-        \hline
-        SignAndEncrypt & SignAndEncrypt & \SAFE         & \SAFE         & \SAFE         \\ 
+        \smseshort     & \smn           & \SAFE         & \SAFE         & \SAFE         \\ 
+        \hline         
+        \smseshort     & \sms           & \SAFE         & \SAFE         & \SAFE         \\ 
+        \hline         
+        \smseshort     & \smseshort     & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
+    }
     \label{tab:session_uniq_creds_results}
     \caption{Results for \opcua {\em CreateSession} sub-protocol with uniq credentials}
 \end{table}

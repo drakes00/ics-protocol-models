@@ -1,0 +1,123 @@
+%Contexte industriel, s'aider du discours des slides:
+%\begin{itemize}
+%    \item Attaques récentes (blackout Ukraine, smart-grid américain, ...)
+%    \item Publications lois, référentiels, normes, ...
+%    \item Safety vs. Security
+%    \item Differences avec informatique de gestion
+%\end{itemize}
+
+Industrial systems also called SCADA (Supervisory Control And Data Acquisition)
+have been known to be targetted by cyberattacks since Stuxnet~\cite{Lan11} in
+2010.
+Due to the criticity of their interaction with the physical world, these systems
+can potentially be really harmful for humans and environment.
+The frequence of such attacks is increasing recently according to medias and
+the security of industrial systems becomes a priority for government agencies
+(\eg~\cite{SFS11} from the US National Institute of Standards and Technology or
+\cite{ANSSI12_guide_securite_industrielle_en} from the French {\em Agence
+nationale de la sécurité des systèmes d'information}).
+Such attacks become feasible because these systems are recently spreading
+geographically and communicating more and more through unsafe mediums like
+Internet.
+As industrial systems historically have been physically isolated from the rest
+of the world, there cybersecurity does not meet the level of business IT which
+is has always the target of cyberattack.
+
+Given this isolation requiering the attacker to be physically present in the
+system, industry focused on the protection against natural deceases and human
+mistakes (also called {\em Safety}).
+{\em Cybersecurity} differs from {\em Safety} in the way that an adversary is
+willing to harm the target and will reflect and learn from his mistakes ; thus
+following the state-of-the-art.
+% Dire que les causes naturelles et les erreurs ne vont pas changer
+% contrairement au sota de la securite.
+Industrial systems also differ from business IT because of the really long
+lifetime of its devices.
+This makes them hard to patch in case of vulnerability and explain the number of
+legacy hosts.
+Most of industrial protocols are proprietary and provide a very low level of
+security if any (\eg \modbus~\cite{MODBUS}, \profinet~\cite{PROFINET}, \etherip~\cite{Bro01} or
+\dnp~\cite{CR04}).
+However, the {\em OPC Foundation} (an industry consortium) released in 2006 the
+first version of \opcua~\cite{MLD09}, which is presented as the new standard for
+industrial communications and whose security is quite closer to business IT's
+protocols such as TLS~\cite{DR08}.
+
+As it already appeared for business IT's protocols, automated verification is
+crucial in order to discover flows in the protocols' specifications before
+assessing implementations.
+This was emphasized in 2006 by Igure et al.~\cite{ILW06} and in 2009 by Patel et
+al.~\cite{PBG09}, saying that automated protocol verification allows to
+understand most of the vulnerabilities of a protocol before changing its
+standards which helps at minimizing the number of revisions which costs time and
+money.
+Moreover, due to the combinational explosion of the number of possible execution
+traces, only automated verification can ensure the security of a protocol in a
+given model.
+
+%\subsection{State-of-the-art}\label{sec:intro_sota}
+\paragraph{State-of-the-art}\label{sec:intro_sota}
+
+The security of industrial protocols becomes a hot topic and some works are
+present in the literature.
+On one hand, most of them analyze the security of existing industrial protocols.
+In 2004, Dzung et al. propose a detailed survey on the security in SCADA systems
+including analysis on the security properties offered by \opc (ancestor of
+\opcua), \mms~\cite{ISO_MMS}, \iec{61850}~\cite{IEC_61850}, \iccp
+\cite{IEC_60870} and \etherip).
+Still in 2004, Clarke et al.~\cite{CR04} discuss the security of \dnp and
+\iccp.
+In 2006, in the technical documentation of \opcua (specialy part 2
+\cite{opcua_part2}, 4~\cite{opcua_part4} and 6~\cite{opcua_part6}) the authors
+detail the security measures of the protocol and the contents of the messages.
+In 2015, Wanying et al. summarize the security offered by \modbus, \dnp and \opc
+and introduce industrial firewall from Tofino~\cite{TOFINO}
+
+On the other hand, some propose new versions of existing protocols to make them
+secure against malicious adversaries.
+In 2007, Patel et al.~\cite{PY07} study the security of \dnp and propose two
+ways of enhancing it through digital signatures and challenge-response models.
+In 2009, Fovino et al.~\cite{FCMT09} proposed a secure version of \modbus
+relying on well-known cryptographic primitives such as RSA~\cite{RSA78} or SHA2.
+This version of the protocol also need to introduce new components in the system
+to allow existing devices to use these cryptographic primitives.
+In 2013, Hayes et al.~\cite{HE13} designed another secure \modbus protocol using
+hash-based message authentication codes (HMACs) and built on the Stream
+Transmission Control Protocol~\cite{Ste07} (STCP).
+
+To the best of our knowledge, none of these works directly make use of formal
+methods to prove the security of industrial protocols or find attack against
+them.
+However in 2005, Graham et al.~\cite{GP05} proposed a formal verification of
+\dnp using \ofmc~\cite{BMV03} and \spear~\cite{SH01}.
+\TODO Sadly we were not able to access their modelings to discuss them with
+ours.
+In 2008, Dutertre~\cite{Dut08} detailed formal specifications of \modbus
+developed using PVS, a generic theorem prover in order to help proving the
+consistancy of an implementation with the standards.
+
+%\subsection{Contributions}
+\paragraph{Contributions}
+
+We propose a formal study of the security of the standard \modbus protocol and
+the correction proposed in~\cite{FCMT09}.%,HE13}.
+We also assess the sub-protocols involved in the \opcua handshake, namely \opcua
+OpenSecureChannel and \opcua CreateSession to either formaly prove their
+security or exhibit attacks against them.
+This work makes use of one of the best tools in the domain of cryptographic
+protocol verification according to \cite{LP15}: \proverif developed by Blanchet
+et al.~\cite{Bla01}.
+It analyzes a protocol written either in Horn clauses format or using a subset
+of the Pi-calculus for an unbounded number of sessions considering the
+classical Dolev-Yao intruder model~\cite{DY81}.
+This powerful intruder controls the network, listens, stops, forges, replays or
+modifies some messages according to its capabilities and knowledge.
+The perfect encryption hypothesis is often assumed, meaning that it is not
+possible to decrypt a ciphertext without its encryption key or to flaw
+the signature of a message.
+In this context, verification tools are able to verify security properties
+of a protocol such as secrecy and authentication.
+The first property ensures that a secret message cannot be discovered by an
+unauthorized agent (including the intruder).
+The authentication property means that one participant of the protocol is
+guaranteed to communicate with another one.

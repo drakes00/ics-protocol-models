@@ -5,11 +5,11 @@ Thus a modbus message can by seen represented as:
 \begin{figure}[htb]
     \centering
     \renewcommand{\smname}{\smn}
-    \resizebox{.75\textwidth}{!}{
+    \resizebox{\columnwidth}{!}{
         \begin{postscript}
             \begin{msc}{\modbus}
                 \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{4\instdist}
+                \setlength{\instdist}{3\instdist}
                 \setlength{\labeldist}{1.5\labeldist}
 
                 \declinst{cli}{C}{}
@@ -33,11 +33,11 @@ classical cryptographic primitives such as hash function and digital signatures.
 \begin{figure}[htb]
     \centering
     \renewcommand{\smname}{\sms}
-    \resizebox{.8\textwidth}{!}{
+    \resizebox{\columnwidth}{!}{
         \begin{postscript}
             \begin{msc}{\modbus}
                 \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{4.5\instdist}
+                \setlength{\instdist}{3\instdist}
                 \setlength{\labeldist}{1.5\labeldist}
 
                 \declinst{cli}{C}{}
@@ -64,7 +64,7 @@ attacks.
 As discrete time cannot be modelised using protocol verification tools (\TODO
 Pascal ok ?) we abstract this counter-measure.
 
-\subsection{Modelisation}
+\subsection{Modeling}
 
 \modbus has barely any interaction between the client and the server.
 The client only sends a request and the server answers a response which can
@@ -79,15 +79,17 @@ all messages can be accessed by the intruder.
 
 \begin{table}[htb]
     \centering
+    \resizebox{\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|}
         \hline
         Protocol        & Secrecy   & Integrity & Authentication    \\
         \hline
-        \modbus         & \UNSAFE   & \UNSAFE   & \UNSAFE           \\
+        Std. \modbus    & \UNSAFE   & \UNSAFE   & \UNSAFE           \\
         \hline
         \cite{FCMT09}   & \UNSAFE   & \SAFE     & \UNSAFE           \\
         \hline
     \end{tabular}
+    }
 \end{table}
 
 %Attack on integrity with secure modbus and model NonIdent:
@@ -95,7 +97,7 @@ all messages can be accessed by the intruder.
 %\begin{figure}[htb]
 %    \centering
 %    \renewcommand{\smname}{\sms}
-%    \resizebox{.8\textwidth}{!}{
+%    \resizebox{.8\columnwidth}{!}{
 %        \begin{postscript}
 %            \begin{msc}{\modbus}
 %                \setlength{\envinstdist}{1.5\envinstdist}
