@@ -41,6 +41,7 @@ let alice =
     let sk = if X = A then skA else if X = B then skB else sk(X) in
 
     (* Role starting *)
+    new m: bitstring;
     event sent(X, Y, m);
     event begin(X, Y, m);
     out(cAO, (X, Y, m));

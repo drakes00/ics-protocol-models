@@ -42,6 +42,7 @@ let alice =
     let pk = if Y = A then pub(skA) else if Y = B then pub(skB) else pub(sk(Y)) in
 
     (* Role starting *)
+    new m: bitstring;
     event sent(X, Y, m);
     event begin(X, Y, m);
     out(cAO, (X, Y, m));

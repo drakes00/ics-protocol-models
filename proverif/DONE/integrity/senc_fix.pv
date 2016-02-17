@@ -38,6 +38,7 @@ let alice =
     if X <> A && X <> B then 0 else
 
     (* Role starting *)
+    new m: bitstring;
     event sent(X, Y, m);
     event begin(X, Y, m);
     out(cAO, (X, Y, m));
