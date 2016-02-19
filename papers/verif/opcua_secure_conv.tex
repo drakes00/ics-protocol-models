@@ -16,22 +16,22 @@ a server and allow them to generate a shared key for the later communications.
 
 \begin{itemize}
     \item \smse: claims to provide secrecy using symetric and
-    assymetric encryption and both authentication and integrity through digital
-    signatures.
-    It is described in Figure \ref{fig:secure_conv_se}.
+      assymetric encryption and both authentication and integrity
+      through digital signatures.  It is described in
+      Figure~\ref{fig:secure_conv_se}.
 
-    \item Sign: same as {\em \smse} but without any encryption.
-    Thus nonces are not used to generate a shared key but bring freshness to the
-    messages.
+    \item Sign: same as {\em \smse} but without any encryption.  Thus
+      nonces are not used to generate a shared key but bring freshness
+      to the messages.
 
-    \item \smn: does not provide any security.
-    Using this security mode, the {\em OpenSecureConversation} sub-protocol does
-    not serve much purpose but is used for compatibility.
+    \item \smn: does not provide any security.  Using this security
+      mode, the {\em OpenSecureConversation} sub-protocol does not
+      serve much purpose but is used for compatibility.
 \end{itemize}
 
 \begin{figure}[htb]
     \renewcommand{\smname}{\smseshort}
-    \resizebox{1.05\columnwidth}{!}{
+    \resizebox{\linewidth}{!}{
         \begin{postscript}
             \begin{msc}{Secure channel creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
