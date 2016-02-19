@@ -58,11 +58,14 @@ given model.
 %\subsection{Contributions}
 \paragraph{Contributions:}
 
-We propose a formal study of the security of the standard \modbus protocol and
-the correction proposed in~\cite{FCMT09}.%,HE13}.
-We also assess the sub-protocols involved in the \opcua handshake, namely \opcua
-OpenSecureChannel and \opcua CreateSession to either formaly prove their
-security or exhibit attacks against them.
+We propose a formal study of the security of
+% standard \modbus protocol and
+%the correction proposed in~\cite{FCMT09}.%,HE13}.
+%We also assess the 
+the sub-protocols involved in the \opcua handshake, namely \opcua
+OpenSecureChannel and \opcua CreateSession.
+We are able to find attacks against both of them and provide countermeasure when
+needed.
 This work makes use of one of the best tools in the domain of cryptographic
 protocol verification according to \cite{LP15}: \proverif developed by Blanchet
 et al.~\cite{Bla01}.
@@ -123,4 +126,8 @@ In 2008, Dutertre~\cite{Dut08} detailed formal specifications of \modbus
 developed using PVS, a generic theorem prover in order to help proving the
 consistancy of an implementation with the standards.
 
-\paragraph{Outline:} In the next section we study the security of  MODBUS. In Section~\ref{sec:opcua}, we analyse the security of OPC-UA, before concluding in last section.
+\paragraph{Outline:} In the next section
+%we study the security of  MODBUS.
+%In Section~\ref{sec:opcua},
+we analyse the security of OPC-UA, before concluding
+in last section.
