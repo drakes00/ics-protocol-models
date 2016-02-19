@@ -23,25 +23,24 @@ was less considered. Recently, such attacks become feasible because
 these systems are recently spreading geographically and communicating
 more and more through unsafe mediums like Internet.
 
-Given the isolation of such systems requires the attacker to be
-physically present in the system, industry focused on the protection
-against natural deceases and human mistakes (also called {\em
-Safety}).  {\em Cybersecurity} differs from {\em Safety} in the way
-that an adversary is willing to harm the target and will reflect and
-learn from his mistakes ; thus following the state-of-the-art.
-% Dire que les causes naturelles et les erreurs ne vont pas changer
-% contrairement au sota de la securite.
-Industrial systems also differ from business IT because of the really long
-lifetime of its devices.
-This makes them hard to patch in case of vulnerability and explain the number of
-legacy hosts.
-Most of industrial protocols are proprietary and provide a very low level of
-security if any (\eg \modbus~\cite{MODBUS}, \profinet~\cite{PROFINET}, \etherip~\cite{Bro01} or
-\dnp~\cite{CR04}).
-However, the {\em OPC Foundation} (an industry consortium) released in 2006 the
-first version of \opcua~\cite{MLD09}, which is presented as the new standard for
-industrial communications and whose security is quite closer to business IT's
-protocols such as TLS~\cite{DR08}.
+
+Industrial systems have specificities. First the isolation of such
+systems requires the attacker to be physically present in the
+system. Then compagnies focused more on the protection against natural
+deceases and human mistakes than vybersecurity. In the context of
+cybersecurity there is an adversary willing to perform malicious
+actions.  Industrial systems also differ from other systems because of
+the really long lifetime of its devices.  This makes them hard to
+patch in case of vulnerabilities. It also explain the number of legacy
+hosts. Moreover, most of industrial protocols are proprietary and
+provide a very low level of security if
+any, \eg \modbus~\cite{MODBUS}, \profinet~\cite{PROFINET}, \etherip~\cite{Bro01}
+or
+\dnp~\cite{CR04}.
+However, in 2006, the {\em OPC Foundation} (an industry consortium)
+released the first version of \opcua~\cite{MLD09}, which is presented
+as the new standard for industrial communications. %% This standard  and whose security
+%% is quite closer to business IT's protocols such as TLS~\cite{DR08}.
 
 As it already appeared for business IT's protocols, automated
 verification is crucial in order to discover flaws in the protocols'
