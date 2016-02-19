@@ -54,6 +54,34 @@ combinational explosion of the number of possible execution traces,
 only automated verification can ensure the security of a protocol in a
 given model.
 
+
+%\subsection{Contributions}
+\paragraph{Contributions}
+
+We propose a formal study of the security of the standard \modbus protocol and
+the correction proposed in~\cite{FCMT09}.%,HE13}.
+We also assess the sub-protocols involved in the \opcua handshake, namely \opcua
+OpenSecureChannel and \opcua CreateSession to either formaly prove their
+security or exhibit attacks against them.
+This work makes use of one of the best tools in the domain of cryptographic
+protocol verification according to \cite{LP15}: \proverif developed by Blanchet
+et al.~\cite{Bla01}.
+It analyzes a protocol written either in Horn clauses format or using a subset
+of the Pi-calculus for an unbounded number of sessions considering the
+classical Dolev-Yao intruder model~\cite{DY81}.
+This powerful intruder controls the network, listens, stops, forges, replays or
+modifies some messages according to its capabilities and knowledge.
+The perfect encryption hypothesis is often assumed, meaning that it is not
+possible to decrypt a ciphertext without its encryption key or to flaw
+the signature of a message.
+In this context, verification tools are able to verify security properties
+of a protocol such as secrecy and authentication.
+The first property ensures that a secret message cannot be discovered by an
+unauthorized agent (including the intruder).
+The authentication property means that one participant of the protocol is
+guaranteed to communicate with another one.
+
+
 %\subsection{State-of-the-art}\label{sec:intro_sota}
 \paragraph{State-of-the-art}\label{sec:intro_sota}
 
@@ -94,29 +122,3 @@ ours.
 In 2008, Dutertre~\cite{Dut08} detailed formal specifications of \modbus
 developed using PVS, a generic theorem prover in order to help proving the
 consistancy of an implementation with the standards.
-
-%\subsection{Contributions}
-\paragraph{Contributions}
-
-We propose a formal study of the security of the standard \modbus protocol and
-the correction proposed in~\cite{FCMT09}.%,HE13}.
-We also assess the sub-protocols involved in the \opcua handshake, namely \opcua
-OpenSecureChannel and \opcua CreateSession to either formaly prove their
-security or exhibit attacks against them.
-This work makes use of one of the best tools in the domain of cryptographic
-protocol verification according to \cite{LP15}: \proverif developed by Blanchet
-et al.~\cite{Bla01}.
-It analyzes a protocol written either in Horn clauses format or using a subset
-of the Pi-calculus for an unbounded number of sessions considering the
-classical Dolev-Yao intruder model~\cite{DY81}.
-This powerful intruder controls the network, listens, stops, forges, replays or
-modifies some messages according to its capabilities and knowledge.
-The perfect encryption hypothesis is often assumed, meaning that it is not
-possible to decrypt a ciphertext without its encryption key or to flaw
-the signature of a message.
-In this context, verification tools are able to verify security properties
-of a protocol such as secrecy and authentication.
-The first property ensures that a secret message cannot be discovered by an
-unauthorized agent (including the intruder).
-The authentication property means that one participant of the protocol is
-guaranteed to communicate with another one.
