@@ -7,31 +7,33 @@
 \newcommand{\oscreq}{OSCReq}
 \newcommand{\oscres}{OSCRes}
 
-\TODO Possibilité d'enlever les tags pour cette section.
+\TODO Decrire modèle d'intrus qui est un peripherique connu et corrupt et qui
+peut passer les auths du client et du serveur via PKI.
+\medskip
 
-The {\em OpenSecureConversation} sub-protocol, aims to authenticate a client and
-a server and allow them to generate a shared key for the later communications.
-\opcua can be used with three security modes, namely {\em \smn}, {\em Sign} and
+
+The {\em OpenSecureConversation} sub-protocol described in
+Figure~\ref{fig:secure_conv_se} aims to authenticate a client and
+a server and allows them to generate a shared key for the later communications.
+\opcua can be used with three security modes, namely {\em \smn}, {\em \sms} and
 {\em \smse}.
 
 \begin{itemize}
     \item \smse: claims to provide secrecy using symetric and
       assymetric encryption and both authentication and integrity
-      through digital signatures.  It is described in
-      Figure~\ref{fig:secure_conv_se}.
-
-    \item Sign: same as {\em \smse} but without any encryption.  Thus
+      through digital signatures.
+    \item \sms: same as {\em \smse} but without any encryption.  Thus
       nonces are not used to generate a shared key but bring freshness
       to the messages.
-
     \item \smn: does not provide any security.  Using this security
       mode, the {\em OpenSecureConversation} sub-protocol does not
       serve much purpose but is used for compatibility.
 \end{itemize}
 
 \begin{figure}[htb]
+    \centering
     \renewcommand{\smname}{\smseshort}
-    \resizebox{\linewidth}{!}{
+    \resizebox{.8\linewidth}{!}{
         \begin{postscript}
             \begin{msc}{Secure channel creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
@@ -42,23 +44,26 @@ a server and allow them to generate a shared key for the later communications.
                 \declinst{intruder}{DiscoreryEndpoint}{}
                 \declinst{sess}{S}{}
 
+                \msccomment[-.5]{1.}{cli}
                 \mess{\gereq}{cli}{intruder}
                 \nextlevel[1.5]
 
+                \msccomment[-.5]{2.}{cli}
                 \mess{\geres, pk(S), \smname, SP, UP}{intruder}{cli}
                 \nextlevel[1]
                 
-                \action*{Validates pk(S)}{cli}
-                \nextlevel[2]
+                %\action*{Validates pk(S)}{cli}
+                %\nextlevel[2]
                 
                 \action*{Generates N$_{C}$}{cli}
                 \nextlevel[3]
 
+                \msccomment[-.5]{3.}{cli}
                 \mess{pk(C), \sm{\oscreq, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}{cli}{sess}
                 \nextlevel[1]
 
-                \action*{Validates pk(C) }{sess}
-                \nextlevel[2]
+                %\action*{Validates pk(C) }{sess}
+                %\nextlevel[2]
 
                 \action*{Generates N$_{S}$ }{sess}
                 \nextlevel[2]
@@ -68,6 +73,7 @@ a server and allow them to generate a shared key for the later communications.
                     \nextlevel[3.5]
                 }
 
+                \msccomment[-.5]{4.}{cli}
                 \mess{\sm{\oscres, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{cli}
                 \nextlevel[1]
 
@@ -84,12 +90,14 @@ a server and allow them to generate a shared key for the later communications.
 
 \subsection{Modeling}
 
+\TODO \DiH
+
 Normaly, a {\em GetEnpointRequest} would be answered by a list of session
 endpoints with possibly different security modes.
 For simplicity, we suppose that only one endpoint is answered.
 Thus, to ensure completeness of our analysis, we verify all combinations of
 security modes (\eg a client configured in {\em \smn} speaking with a server
-configured in {\em \smse}, which would not be possible normaly).
+configured in {\em \smse}, which would not be possible normaly). \TODO reprendre car très restraint now.
 This way we can verify if an attacker can exploit the security of a peer as an
 oracle to mount an attack against another.
 This also shows exactly what th security mode of a host gives him as protection
@@ -102,8 +110,8 @@ Objectives:
 \begin{enumerate}
     \item\label{item:sc_sec_cli} Secrecy of $K_{cli}$ obtained by C.
     \item\label{item:sc_sec_srv} Secrecy of $K_{src}$ obtained by S.
-    \item\label{item:sc_auth_cli} Authentication on $g^{Nc}$.
-    \item\label{item:sc_auth_srv} Authentication on $g^{Ns}$.
+    \item\label{item:sc_auth_cli} Authentication of C on $g^{Nc}$.
+    \item\label{item:sc_auth_srv} Authentication of S on $g^{Ns}$.
 \end{enumerate}
 
 \subsection{Results}
@@ -113,8 +121,9 @@ modes of \opcua for each objective proposed.
 Results are shown in Table \ref{tab:secure_conv_results}.
 
 \begin{table}[htb]
-    \hspace{-1em}
-    \resizebox{1.05\columnwidth}{!}{
+    \centering
+    %\hspace{-1em}
+    %\resizebox{1.05\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|c|}
         \hline
         \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{4}{|c|}{Objectives} \\
@@ -125,48 +134,111 @@ Results are shown in Table \ref{tab:secure_conv_results}.
         \hline                                                                                                 
         \sms           & \sms           & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
         \hline                                                                                                 
-        \sms           & \smseshort     & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
-        \hline                                                                                                 
-        \smseshort     & \sms           & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
-        \hline                                                                                                 
         \smseshort     & \smseshort     & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
         \hline
     \end{tabular}
-    }
+    %}
     \caption{Results for textbook {\em OpenSecureChannel} sub-protocol}
     \label{tab:secure_conv_results}
 \end{table}
 
-%Exemple d'attaque :
+\TODO dire none = aucune sec donc attack + attaques sur l'auth car rerouting de messages.
+
+\begin{figure}[htb]
+    \hspace{-2.25em}
+    \renewcommand{\smname}{\smse}
+    \resizebox{1.1\columnwidth}{!}{
+        \begin{postscript}
+            \begin{msc}{Secure channel creation}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{5.1\instdist}
+                \setlength{\labeldist}{1.5\labeldist}
+
+                \declinst{cli}{C}{}
+                \declinst{intruder}{I}{}
+                \declinst{sess}{S}{}
+
+                \mess{\gereq}{cli}{intruder}
+                \nextlevel[1.5]
+
+                \mess{\geres, pk(I), \smname, SP, UP}{intruder}{cli}
+                \nextlevel[1]
+                
+                %\action*{Validates pk(I)}{cli}
+                %\nextlevel[2]
+                
+                \action*{Generates N$_{C}$}{cli}
+                \nextlevel[3]
+
+                \mess{pk(C), \sm{\oscreq, pk(C), $g^{N_{C}}$}{pk(I)}{sk(C)}}{cli}{intruder}
+                \nextlevel[2]
+
+                \mess{pk(C), \sm{\oscreq, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}{intruder}{sess}
+                \nextlevel[1]
+
+                %\action*{Validates pk(C) }{sess}
+                %\nextlevel[2]
+
+                %\action*{Generates N$_{S}$ }{sess}
+                %\nextlevel[2]
+
+                %\ifsmnotnone{%
+                %    \action*{$K_{srv}$ = $(g^{N_{C}})^{N_{S}}$ }{sess}
+                %    \nextlevel[3]
+                %}
+
+                %\mess{\sm{\oscres, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{intruder}
+                %\nextlevel[1.5]
+            \end{msc}
+        \end{postscript}
+    }
+    \caption{Attack on $g^{N_{C}}$: I impersonnates C}
+\end{figure}
+
+\subsection{Fixed version}
+
+We propose a fixed version of the {\em OpenSecureConversation} sub-protocol.
+%in Figure \ref{fig:secure_conv_fix_se}.
+It consists in adding the identity of the reciever to the messages and avoids
+an intruder rerouting signed messages to impersonnate hosts.
+More formaly, message 3. and 4. of Figure~\ref{fig:secure_conv_se} are replaced
+by:
+
+\arraycolsep=1.4pt
+\begin{flushleft}
+    \[\begin{array}{lrllll}
+        3. & C & \rightarrow & S & : & \text{\small\sm{\oscreq, {\bf S}, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}\\
+        4. & S & \rightarrow & C & : & \text{\small\sm{\oscres, {\bf C}, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}\\
+    \end{array}\]
+\end{flushleft}
+
 %\begin{figure}[htb]
-%    \renewcommand{\smname}{\smse}
-%    \resizebox{\columnwidth}{!}{
+%    \hspace{-1em}
+%    \renewcommand{\smname}{\smseshort}
+%    \resizebox{1.05\columnwidth}{!}{
 %        \begin{postscript}
 %            \begin{msc}{Secure channel creation}
 %                \setlength{\envinstdist}{1.5\envinstdist}
-%                \setlength{\instdist}{5.1\instdist}
+%                \setlength{\instdist}{2.8\instdist}
 %                \setlength{\labeldist}{1.5\labeldist}
 %
 %                \declinst{cli}{C}{}
-%                \declinst{intruder}{I}{}
+%                \declinst{intruder}{DiscoreryEndpoint}{}
 %                \declinst{sess}{S}{}
 %
 %                \mess{\gereq}{cli}{intruder}
 %                \nextlevel[1.5]
 %
-%                \mess{\geres, pk(I), \smname, SP, UP}{intruder}{cli}
+%                \mess{\geres, pk(S), \smname, SP, UP}{intruder}{cli}
 %                \nextlevel[1]
 %                
-%                \action*{Validates pk(I)}{cli}
+%                \action*{Validates pk(S)}{cli}
 %                \nextlevel[2]
 %                
 %                \action*{Generates N$_{C}$}{cli}
 %                \nextlevel[3]
 %
-%                \mess{pk(C), \sm{\oscreq, pk(C), $g^{N_{C}}$}{pk(I)}{sk(C)}}{cli}{intruder}
-%                \nextlevel[2]
-%
-%                \mess{pk(C), \sm{\oscreq, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}{intruder}{sess}
+%                \mess{pk(C), \sm{\oscreq, {\bf S}, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}{cli}{sess}
 %                \nextlevel[1]
 %
 %                \action*{Validates pk(C) }{sess}
@@ -177,85 +249,31 @@ Results are shown in Table \ref{tab:secure_conv_results}.
 %
 %                \ifsmnotnone{%
 %                    \action*{$K_{srv}$ = $(g^{N_{C}})^{N_{S}}$ }{sess}
-%                    \nextlevel[3]
+%                    \nextlevel[3.5]
 %                }
 %
-%                \mess{\sm{\oscres, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{intruder}
-%                \nextlevel[1.5]
+%                \mess{\sm{\oscres, {\bf C}, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{cli}
+%                \nextlevel[1]
+%
+%                \ifsmnotnone{%
+%                    \action*{$K_{cli}$ = $(g^{N_{S}})^{N_{C}}$}{cli}
+%                    \nextlevel[2]
+%                }
 %            \end{msc}
 %        \end{postscript}
 %    }
-%    \caption{\opcua Secure Conversation \smse}
+%    \caption{\opcua OpenSecureConversation sub-protocol}
+%    \label{fig:secure_conv_fix_se}
 %\end{figure}
 
-\subsection{Fixed version}
-
-We propose a fixed version of the {\em OpenSecureConversation} sub-protocol in
-Figure \ref{fig:secure_conv_fix_se}.
-It consists in adding in a message the identity of its reciever.
-This avoids an intruder replaying signed messages.
-
-\begin{figure}[htb]
-    \hspace{-1em}
-    \renewcommand{\smname}{\smseshort}
-    \resizebox{1.05\columnwidth}{!}{
-        \begin{postscript}
-            \begin{msc}{Secure channel creation}
-                \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{2.8\instdist}
-                \setlength{\labeldist}{1.5\labeldist}
-
-                \declinst{cli}{C}{}
-                \declinst{intruder}{DiscoreryEndpoint}{}
-                \declinst{sess}{S}{}
-
-                \mess{\gereq}{cli}{intruder}
-                \nextlevel[1.5]
-
-                \mess{\geres, pk(S), \smname, SP, UP}{intruder}{cli}
-                \nextlevel[1]
-                
-                \action*{Validates pk(S)}{cli}
-                \nextlevel[2]
-                
-                \action*{Generates N$_{C}$}{cli}
-                \nextlevel[3]
-
-                \mess{pk(C), \sm{\oscreq, {\bf S}, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}{cli}{sess}
-                \nextlevel[1]
-
-                \action*{Validates pk(C) }{sess}
-                \nextlevel[2]
-
-                \action*{Generates N$_{S}$ }{sess}
-                \nextlevel[2]
-
-                \ifsmnotnone{%
-                    \action*{$K_{srv}$ = $(g^{N_{C}})^{N_{S}}$ }{sess}
-                    \nextlevel[3.5]
-                }
-
-                \mess{\sm{\oscres, {\bf C}, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{cli}
-                \nextlevel[1]
-
-                \ifsmnotnone{%
-                    \action*{$K_{cli}$ = $(g^{N_{S}})^{N_{C}}$}{cli}
-                    \nextlevel[2]
-                }
-            \end{msc}
-        \end{postscript}
-    }
-    \caption{\opcua OpenSecureConversation sub-protocol}
-    \label{fig:secure_conv_fix_se}
-\end{figure}
-
-We tested this fixed version under the same circumstances than the textbook
+We tested this fixed version under the same circumstances than the reference
 version.
 Results are presented in Table \ref{tab:secure_conv_fix_results}.
 
 \begin{table}[htb]
-    \hspace{-1em}
-    \resizebox{1.05\columnwidth}{!}{
+    \centering
+    %\hspace{-1em}
+    %\resizebox{1.05\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|c|}
         \hline
         \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{4}{|c|}{Objectives} \\
@@ -265,15 +283,13 @@ Results are presented in Table \ref{tab:secure_conv_fix_results}.
         \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
         \hline                                                                                                  
         \sms           & \sms           & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
-        \hline                                                                                                  
-        \sms           & \smseshort     & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
-        \hline                                                                                                           
-        \smseshort     & \sms           & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
         \hline                                                                                                           
         \smseshort     & \smseshort     & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
         \hline
     \end{tabular}
-    }
+    %}
     \caption{Results for fixed {\em OpenSecureChannel} sub-protocol}
     \label{tab:secure_conv_fix_results}
 \end{table}
+
+\TODO dire attacks sur auth = \SAFE car identité dest explicite dans message empeche rerouting.

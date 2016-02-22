@@ -7,8 +7,6 @@
 \newcommand{\asreq}{ASReq}
 \newcommand{\asres}{ASRes}
 
-\TODO Tags nécessaires pour cette section.
-
 
 The \opcua {\em CreateSession} sub-protocol allows a client to send credentials
 (e.g.: a login and a password) over an already created Secure Channel.
@@ -27,28 +25,28 @@ This sub-protocol is presented in Figure \ref{fig:session_se}.
                 \declinst{sess}{S}{}
 
                 \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}{cli}{sess}
-                \nextlevel[1]
+                \nextlevel[1.5]
                 
-                \action*{Validates pk(C)}{sess}
-                \nextlevel[2.5]
+                %\action*{Validates pk(C)}{sess}
+                %\nextlevel[2.5]
 
                 \mess{\sm{\csres, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}{sess}{cli}
-                \nextlevel[1]
+                \nextlevel[1.5]
                 
-                \action*{Validates pk(S)}{cli}
-                \nextlevel[3]
+                %\action*{Validates pk(S)}{cli}
+                %\nextlevel[3]
                 
                 \mess{\sm{\asreq, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}{cli}{sess}
-                \nextlevel[1]
+                \nextlevel[1.5]
                 
-                \action*{Validates pk(C)}{sess}
-                \nextlevel[2]
+                %\action*{Validates pk(C)}{sess}
+                %\nextlevel[2]
 
                 \action*{Validates (Login, Passwd) }{sess}
                 \nextlevel[2.5]
 
                 \mess{\sm{\asres, $N_{S2}$}{$K_{src}$}{sk(S)}}{sess}{cli}
-                \nextlevel[2]
+                \nextlevel[.5]
             \end{msc}
         \end{postscript}
     }
@@ -60,16 +58,15 @@ For this protocol, a modeling choice appears.
 We can either suppose that C respects security standards and would use different
 credentials for each server or suppose he will always send the same login and
 password for all servers.
-
 We first suppose that C always sends the same credentials including in a session
-with the intruder (possibly a rogue server).
+with the intruder (possibly a rogue server controled by the intruder).
 %Thus, once the intruder obtained C's Login/Passwd, he can mount an 
 %authentication attack in another session.
 Results under this assumption are presented in Table \ref{tab:session_results}.
 
 \begin{table}[htb]
     \centering
-    \resizebox{1.05\columnwidth}{!}{
+    %\resizebox{1.05\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|}
         \hline
         \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{3}{|c|}{Objectives}   \\
@@ -78,72 +75,80 @@ Results under this assumption are presented in Table \ref{tab:session_results}.
         \hline                                                                          
         \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
         \hline                                                          
+        \hline                                                          
         \sms           & \sms           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
         \hline                                                          
         \sms           & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \hline                                                          
         \hline                                                          
         \smseshort     & \sms           & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
         \hline                                                          
         \smseshort     & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
-    }
+    %}
     \caption{Results for \opcua {\em CreateSession} sub-protocol}
     \label{tab:session_results}
 \end{table}
 
+\TODO dire none = toujours atk 
+
+\TODO sec = toujours atk car intrus reconnu par le cli donc si tjs meme creds session legitime cli/intrus revele les creds du client
+
+\TODO auth atk similaire à OpenSecureConv en Section 2.2 (montrer ?). 
+
 \subsection{Fixed version}
 
-We apply the same fix than in OpenSecureConversation, the resulting protocol is
-displayed in Figure \ref{fig:session_fix}
-
-\begin{figure}[htb]
-    \renewcommand{\smname}{\smse}
-    \resizebox{\columnwidth}{!}{
-        \begin{postscript}
-            \begin{msc}{Session creation}
-                \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{6.25\instdist}
-                \setlength{\labeldist}{1.5\labeldist}
-
-                \declinst{cli}{C}{}
-                \declinst{sess}{S}{}
-
-                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}{cli}{sess}
-                \nextlevel[1]
-                
-                \action*{Validates pk(C)}{sess}
-                \nextlevel[2.5]
-
-                \mess{\sm{\csres, {\bf C}, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}{sess}{cli}
-                \nextlevel[1]
-                
-                \action*{Validates pk(S)}{cli}
-                \nextlevel[3]
-                
-                \mess{\sm{\asreq, {\bf S}, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}{cli}{sess}
-                \nextlevel[1]
-                
-                \action*{Validates pk(C)}{sess}
-                \nextlevel[2]
-
-                \action*{Validates (Login, Passwd) }{sess}
-                \nextlevel[2.5]
-
-                \mess{\sm{\asres, $N_{S2}$}{$K_{src}$}{sk(S)}}{sess}{cli}
-                \nextlevel[2]
-            \end{msc}
-        \end{postscript}
-    }
-    \caption{OPC-UA fixed CreateSession sub-protocol}
-    \label{fig:session_fix}
-\end{figure}
-
+We apply the same correction than in OpenSecureConversation (explicitly
+specifying the identities of recievers in messages).
+%, the resulting protocol is displayed in Figure \ref{fig:session_fix}
 Then authentication becomes secure as shown in Table \ref{tab:session_fix_results}.
+
+%\begin{figure}[htb]
+%    \renewcommand{\smname}{\smse}
+%    \resizebox{\columnwidth}{!}{
+%        \begin{postscript}
+%            \begin{msc}{Session creation}
+%                \setlength{\envinstdist}{1.5\envinstdist}
+%                \setlength{\instdist}{6.25\instdist}
+%                \setlength{\labeldist}{1.5\labeldist}
+%
+%                \declinst{cli}{C}{}
+%                \declinst{sess}{S}{}
+%
+%                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}{cli}{sess}
+%                \nextlevel[1]
+%                
+%                \action*{Validates pk(C)}{sess}
+%                \nextlevel[2.5]
+%
+%                \mess{\sm{\csres, {\bf C}, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}{sess}{cli}
+%                \nextlevel[1]
+%                
+%                \action*{Validates pk(S)}{cli}
+%                \nextlevel[3]
+%                
+%                \mess{\sm{\asreq, {\bf S}, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}{cli}{sess}
+%                \nextlevel[1]
+%                
+%                \action*{Validates pk(C)}{sess}
+%                \nextlevel[2]
+%
+%                \action*{Validates (Login, Passwd) }{sess}
+%                \nextlevel[2.5]
+%
+%                \mess{\sm{\asres, $N_{S2}$}{$K_{src}$}{sk(S)}}{sess}{cli}
+%                \nextlevel[2]
+%            \end{msc}
+%        \end{postscript}
+%    }
+%    \caption{OPC-UA fixed CreateSession sub-protocol}
+%    \label{fig:session_fix}
+%\end{figure}
 
 \begin{table}[htb]
     \centering
-    \resizebox{1.05\columnwidth}{!}{
+    %\resizebox{1.05\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|}
         \hline
         \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{3}{|c|}{Objectives}   \\
@@ -152,44 +157,52 @@ Then authentication becomes secure as shown in Table \ref{tab:session_fix_result
         \hline                                                                          
         \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
         \hline                                                          
+        \hline                                                          
         \sms           & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline                                                          
         \sms           & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \hline                                                          
         \hline                                                          
         \smseshort     & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline                                                          
         \smseshort     & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
-    }
+    %}
     \caption{Results for fixed \opcua {\em CreateSession} sub-protocol}
     \label{tab:session_fix_results}
 \end{table}
+
+\TODO auth = \SAFE now
 
 In a second time, we suppose that C would use different credentials for each server.
 Then both normal and fixed CreateSession results in Table \ref{tab:session_uniq_creds_results}
 
 \begin{table}[htb]
     \centering
-    \resizebox{1.05\columnwidth}{!}{
+    %\resizebox{1.05\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|}
         \hline
         \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{3}{|c|}{Objectives}   \\
         \hline
         C              & S              & Sec $Creds$   & Auth $N_S$    & Auth $Creds$  \\
         \hline                                                                          
-        \smn           & \smn           & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \smn           & \smn           & \UNSAFE       & \SAFE \TODO   & \SAFE         \\ 
+        \hline                                                          
         \hline                                                          
         \sms           & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline                                                          
         \sms           & \smseshort     & \SAFE         & \SAFE         & \SAFE         \\ 
+        \hline                                                          
         \hline                                                          
         \smseshort     & \sms           & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline                                                          
         \smseshort     & \smseshort     & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
-    }
+    %}
     \label{tab:session_uniq_creds_results}
     \caption{Results for \opcua {\em CreateSession} sub-protocol with uniq credentials}
 \end{table}
+
+\TODO dire que creds uniques pour chaque serveur se comportent comme un secret partagé permettant une auth.

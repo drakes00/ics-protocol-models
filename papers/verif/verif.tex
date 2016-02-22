@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{xstring}
 \usepackage{xspace}
+\usepackage{amstext}
 
 %\usepackage{times}
 
@@ -32,13 +33,14 @@
 \newcommand{\sm}{\IfStrEq{\smname}{\smn}{\dosmnone}{\IfStrEq{\smname}{\sms}{\dosmsign}{\dosmsignandencrypt}}}
 
 \newcommand{\ifsmnotnone}[1]{\IfStrEq{\smname}{\smn}{}{#1}}
-\newcommand{\smname}{\smn}
+\newcommand{\smname}{\smseshort}
 % ========== Don't touch ==========
 
 \newcommand{\UNSAFE}{{\color{red!50!black} UNSAFE}\xspace}
 \newcommand{\SAFE}{{\color{green!50!black} SAFE}\xspace}
 \newcommand{\NA}{{\color{blue!50!black} N/A}\xspace}
 \newcommand{\TODO}{{\color{red}\bf TODO}\xspace}
+\newcommand{\DiH}{Diffie-Hellman\xspace}
 \newcommand{\proverif}{ProVerif\xspace}
 \newcommand{\ofmc}{OFMC\xspace}
 \newcommand{\spear}{SPEAR II\xspace}
