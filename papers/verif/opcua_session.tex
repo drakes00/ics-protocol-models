@@ -74,24 +74,24 @@ Results under this assumption are presented in Table \ref{tab:session_results}.
         \hline
         \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{3}{|c|}{Objectives}   \\
         \hline
-        C              & S              & Sec $Creds$   & Auth $Creds$  & Auth $N_S$    \\
+        C              & S              & Sec $Creds$   & Auth $N_S$    & Auth $Creds$  \\
         \hline                                                                          
         \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
-        \hline
-        \smn           & \sms           & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
-        \hline
-        \smn           & \smseshort     & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
-        \hline
-        \sms           & \smn           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
-        \hline
+        \hline                                                          
+        \smn           & \sms           & \UNSAFE       & \UNSAFE       & \NA           \\ 
+        \hline                                                          
+        \smn           & \smseshort     & \UNSAFE       & \UNSAFE       & \NA           \\ 
+        \hline                                                          
+        \sms           & \smn           & \NA           & \NA           & \UNSAFE       \\ 
+        \hline                                                          
         \sms           & \sms           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
-        \hline
+        \hline                                                          
         \sms           & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        \hline
-        \smseshort     & \smn           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
-        \hline         
-        \smseshort     & \sms           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
-        \hline         
+        \hline                                                          
+        \smseshort     & \smn           & \NA           & \NA           & \UNSAFE       \\ 
+        \hline                                                          
+        \smseshort     & \sms           & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
+        \hline                                                          
         \smseshort     & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
@@ -156,24 +156,24 @@ Then authentication becomes secure as shown in Table \ref{tab:session_fix_result
         \hline
         \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{3}{|c|}{Objectives}   \\
         \hline
-        C              & S              & Sec $Creds$   & Auth $Creds$  & Auth $N_S$    \\
+        C              & S              & Sec $Creds$   & Auth $N_S$    & Auth $Creds$  \\
         \hline                                                                          
         \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
-        \hline
-        \smn           & \sms           & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
-        \hline
-        \smn           & \smseshort     & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
-        \hline
-        \sms           & \smn           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
-        \hline
+        \hline                                                          
+        \smn           & \sms           & \UNSAFE       & \UNSAFE       & \NA           \\ 
+        \hline                                                          
+        \smn           & \smseshort     & \UNSAFE       & \UNSAFE       & \NA           \\ 
+        \hline                                                          
+        \sms           & \smn           & \NA           & \NA           & \UNSAFE       \\ 
+        \hline                                                          
         \sms           & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        \hline
+        \hline                                                          
         \sms           & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        \hline
-        \smseshort     & \smn           & \UNSAFE       & \UNSAFE       & \SAFE         \\ 
-        \hline         
+        \hline                                                          
+        \smseshort     & \smn           & \NA           & \NA           & \UNSAFE       \\ 
+        \hline                                                          
         \smseshort     & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        \hline         
+        \hline                                                          
         \smseshort     & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
@@ -192,24 +192,24 @@ Then both normal and fixed CreateSession results in Table \ref{tab:session_uniq_
         \hline
         \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{3}{|c|}{Objectives}   \\
         \hline
-        C              & S              & Sec $Creds$   & Auth $Creds$  & Auth $N_S$    \\
+        C              & S              & Sec $Creds$   & Auth $N_S$    & Auth $Creds$  \\
         \hline                                                                          
         \smn           & \smn           & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        \hline
-        \smn           & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        \hline
-        \smn           & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        \hline
-        \sms           & \smn           & \SAFE         & \SAFE         & \SAFE         \\ 
-        \hline
+        \hline                                                          
+        \smn           & \sms           & \UNSAFE       & \SAFE         & \NA           \\ 
+        \hline                                                          
+        \smn           & \smseshort     & \UNSAFE       & \SAFE         & \NA           \\ 
+        \hline                                                          
+        \sms           & \smn           & \NA           & \NA           & \SAFE         \\ 
+        \hline                                                          
         \sms           & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        \hline
+        \hline                                                          
         \sms           & \smseshort     & \SAFE         & \SAFE         & \SAFE         \\ 
-        \hline
-        \smseshort     & \smn           & \SAFE         & \SAFE         & \SAFE         \\ 
-        \hline         
+        \hline                                                          
+        \smseshort     & \smn           & \NA           & \NA           & \SAFE         \\ 
+        \hline                                                          
         \smseshort     & \sms           & \SAFE         & \SAFE         & \SAFE         \\ 
-        \hline         
+        \hline                                                          
         \smseshort     & \smseshort     & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
