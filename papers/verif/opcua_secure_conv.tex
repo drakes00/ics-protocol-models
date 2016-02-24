@@ -7,10 +7,6 @@
 \newcommand{\oscreq}{OSCReq}
 \newcommand{\oscres}{OSCRes}
 
-\TODO Decrire modèle d'intrus qui est un peripherique connu et corrupt et qui
-peut passer les auths du client et du serveur via PKI.
-\medskip
-
 
 The {\em OpenSecureConversation} sub-protocol described in
 Figure~\ref{fig:secure_conv_se} aims to authenticate a client and
@@ -90,23 +86,25 @@ a server and allows them to generate a shared key for the later communications.
 
 \subsection{Modeling}
 
-\TODO \DiH
-
 Normaly, a {\em GetEnpointRequest} would be answered by a list of session
 endpoints with possibly different security modes.
-For simplicity, we suppose that only one endpoint is answered.
-Thus, to ensure completeness of our analysis, we verify all combinations of
-security modes (\eg a client configured in {\em \smn} speaking with a server
-configured in {\em \smse}, which would not be possible normaly). \TODO reprendre car très restraint now.
-This way we can verify if an attacker can exploit the security of a peer as an
-oracle to mount an attack against another.
-This also shows exactly what th security mode of a host gives him as protection
-independantly of the security mode of its peers.
+For simplicity, we suppose that only one endpoint is answered and that the
+client will always accept the security mode proposed.
 Moreover, thanks to the perfect encryption hypothesis, we can abstract the
-security policy messages as we do not differentiate which cryptographic
-primitives are used.
-
-Objectives:
+cryptographic suite negociation.
+We consider an intruder whose public key would be accepted by a legitimate
+client or server.
+Such an intruder could for instance represent a legitimate device that has been
+corrupted through a virus or that is controlled by a malicious opperator.
+Finally, it is said in \cite{MLD09} that <<The establishement of the Secure
+Channel is mainly used for exchanging special secret information between clients
+and servers. This secret is used for deriving Symetric Keys $[...]$>>.
+To the best of our knowledge, no more precision is given in
+\cite{MLD09,opcua_part2,opcua_part4,opcua_part6} on which cryptographic
+primitives should be used for such purpose.
+Thus we chose to model this key derivation using the \DiH mecanisms which
+relies on the commutativity of the exponentiation: $(g^a)^b = (g^b)^a$.
+In this context, we consider the following security objectives:
 \begin{enumerate}
     \item\label{item:sc_sec_cli} Secrecy of $K_{cli}$ obtained by C.
     \item\label{item:sc_sec_srv} Secrecy of $K_{src}$ obtained by S.
@@ -114,7 +112,7 @@ Objectives:
     \item\label{item:sc_auth_srv} Authentication of S on $g^{Ns}$.
 \end{enumerate}
 
-\subsection{Results}
+\subsection{Results}\label{sec:secure_conv_res}
 
 We run \proverif on this protocol for each combination of the three security
 modes of \opcua for each objective proposed.
@@ -124,17 +122,17 @@ Results are shown in Table \ref{tab:secure_conv_results}.
     \centering
     %\hspace{-1em}
     %\resizebox{1.05\columnwidth}{!}{
-    \begin{tabular}{|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{4}{|c|}{Objectives} \\
+        \multirow{2}{*}{\opcua Security mode} & \multicolumn{4}{|c|}{Objectives} \\
+        \cline{2-5}
+                       & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
         \hline
-        C              & S              & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
-        \hline                                                                                                 
-        \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
-        \hline                                                                                                 
-        \sms           & \sms           & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
-        \hline                                                                                                 
-        \smseshort     & \smseshort     & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
+        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
+        \hline
+        \sms           & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
+        \hline
+        \smseshort     & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
         \hline
     \end{tabular}
     %}
@@ -142,7 +140,19 @@ Results are shown in Table \ref{tab:secure_conv_results}.
     \label{tab:secure_conv_results}
 \end{table}
 
-\TODO dire none = aucune sec donc attack + attaques sur l'auth car rerouting de messages.
+Obviously, as the security mode \smn~does not provide any security, all
+objectives can be attacked.
+Moreover, attacks on authentication in the case of \sms~and \smse~implies the
+intruder rerouting messages.
+Such manipulation differs from replaying a message as it does not delays the
+message more than what a legitimaete router would (thus avoiding replay
+protections such as timestamps).
+Figure \ref{fig:secure_conv_atk} shows an attack on the authentication of C
+using $g^{N_{C}}$.
+This attack is possible because the standard \opcua protocol does not requires
+explicitly specifying the identity of the receiver of a message.
+Thus allowing the intruder to send to S the signed message C sent to him
+similarily as the attack on the Needham-Schroeder protocol \cite{Low96}.
 
 \begin{figure}[htb]
     \hspace{-2.25em}
@@ -192,15 +202,17 @@ Results are shown in Table \ref{tab:secure_conv_results}.
             \end{msc}
         \end{postscript}
     }
-    \caption{Attack on $g^{N_{C}}$: I impersonnates C}
+    \caption{Attack on $g^{N_{C}}$: I impersonnates C when speaking to S}
+    \label{fig:secure_conv_atk}
 \end{figure}
 
 \subsection{Fixed version}
 
 We propose a fixed version of the {\em OpenSecureConversation} sub-protocol.
 %in Figure \ref{fig:secure_conv_fix_se}.
-It consists in adding the identity of the reciever to the messages and avoids
-an intruder rerouting signed messages to impersonnate hosts.
+It consists in adding the identity of the reciever to the messages and thus 
+avoids an intruder rerouting signed messages to impersonnate hosts as presented
+in Section \ref{sec:secure_conv_res}.
 More formaly, message 3. and 4. of Figure~\ref{fig:secure_conv_se} are replaced
 by:
 
@@ -266,30 +278,29 @@ by:
 %    \label{fig:secure_conv_fix_se}
 %\end{figure}
 
-We tested this fixed version under the same circumstances than the reference
+We tested this fixed version under the same circumstances than the standard
 version.
 Results are presented in Table \ref{tab:secure_conv_fix_results}.
+We can see that the attacks found on authentication are now fixed.
 
 \begin{table}[htb]
     \centering
     %\hspace{-1em}
     %\resizebox{1.05\columnwidth}{!}{
-    \begin{tabular}{|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{4}{|c|}{Objectives} \\
+        \multirow{2}{*}{\opcua Security mode} & \multicolumn{4}{|c|}{Objectives} \\
+        \cline{2-5}
+                       & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
         \hline
-        C              & S              & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
-        \hline                                                                                                  
-        \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
-        \hline                                                                                                  
-        \sms           & \sms           & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
-        \hline                                                                                                           
-        \smseshort     & \smseshort     & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
+        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
+        \hline
+        \sms           & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
+        \hline
+        \smseshort     & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
         \hline
     \end{tabular}
     %}
     \caption{Results for fixed {\em OpenSecureChannel} sub-protocol}
     \label{tab:secure_conv_fix_results}
 \end{table}
-
-\TODO dire attacks sur auth = \SAFE car identité dest explicite dans message empeche rerouting.
