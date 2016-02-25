@@ -63,7 +63,7 @@ with the intruder (possibly a rogue server controled by the intruder).
 Moreover in our modelings, we assume that the intruder can share a symmetric key
 with any other participant as a result of playing the {\em OpenSecureChannel}
 sub-protocol.
-However, as we said in Section \ref{sec:secure_conv_res}, he will not obtain
+However, as we said in Section \ref{sec:secure_channel_res}, he will not obtain
 the derived key if he usurps another participant.
 This means that if the intruder shares a symmetric key with another participant,
 then this key is attached to a session in which he is not usurping someone's
@@ -96,7 +96,7 @@ Results under this assumption are presented in Table \ref{tab:session_results}.
 
 Again obviously, all objectives are attacked in security mode \smn.
 Attacks on athentication are very similar to the attack presented in Figure
-\ref{fig:secure_conv_atk}.
+\ref{fig:secure_channel_atk}.
 The clients starts a session with the intruder who reroute the packets to the
 server.
 However, these kind of attacks are circumvented in security mode \smse~because

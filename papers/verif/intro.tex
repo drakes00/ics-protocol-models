@@ -1,52 +1,50 @@
-%Contexte industriel, s'aider du discours des slides:
-%\begin{itemize}
-%    \item Attaques récentes (blackout Ukraine, smart-grid américain, ...)
-%    \item Publications lois, référentiels, normes, ...
-%    \item Safety vs. Security
-%    \item Differences avec informatique de gestion
-%\end{itemize}
-
 Industrial systems also called SCADA (Supervisory Control And Data
 Acquisition) have been known to be targeted by cyberattacks since the
 famous Stuxnet case~\cite{Lan11} in 2010.  Due to the criticity of
 their interaction with the physical world, these systems can
 potentially be really harmful for humans and environment.  The
-frequence of such attacks is increasing.  The security of industrial
-systems is now one of the priorities for governmental agencies
-(\eg~\cite{SFS11} from the US National Institute of Standards and
-Technology (NIST) or
+frequence of such attacks is increasing to become one of the priorities for
+governmental agencies (\eg~\cite{SFS11} from the US National Institute of
+Standards and Technology (NIST) or
 \cite{ANSSI12_guide_securite_industrielle_en} from the French {\em Agence
-nationale de la sécurité des systèmes d'information} (ANSSI)).  As
-industrial systems historically have been physically isolated from the
-rest of the world, there were less exposed to cyber attacks and their
-security was less considered. Nowadays, such attacks become feasible
-because these systems are spreading geographically and communicating
-more and more through unsafe mediums like Internet.
+nationale de la sécurité des systèmes d'information} (ANSSI)).
+%As
+%industrial systems historically have been physically isolated from the
+%rest of the world, there were less exposed to cyber attacks and their
+%security was less considered. Nowadays, such attacks become feasible
+%because these systems are spreading geographically and communicating
+%more and more through unsafe mediums like Internet.
 
 
-Industrial systems have specificities. First the isolation of such
-systems requires the attacker to be physically present in the
-system. Then compagnies focused more on the protection against natural
-deceases and human mistakes than cybersecurity (often call security).
-In the context of security there is an adversary willing to perform malicious
-actions.  Industrial systems also differ from other systems because of
-the really long lifetime of its devices.  This makes them hard to
-patch in case of vulnerabilities. It also explain the number of legacy
-hosts. Moreover, most of industrial protocols are proprietary and
-provide a very low level of security if
-any, \eg \modbus~\cite{MODBUS}, \profinet~\cite{PROFINET}, \etherip~\cite{Bro01}
-or
-\dnp~\cite{CR04}.
-However, in 2006, the {\em OPC Foundation} (an industry consortium)
-released the first version of \opcua~\cite{MLD09}, which is presented
-as the new standard for industrial communications. %% This standard  and whose security
+%Industrial systems have specificities. First the isolation of such
+%systems requires the attacker to be physically present in the
+%system. Then compagnies focused more on the protection against natural
+%deceases and human mistakes than cybersecurity (often call security).
+%In the context of security there is an adversary willing to perform malicious
+%actions.
+Industrial systems differ from other systems because of
+the really long lifetime of there devices and their difficulty to
+patch in case of vulnerabilities.
+Such specificyties encourage to carefully check
+standards and applications before deploying them.
+%It also explain the number of legacy hosts.
+%Moreover, most of industrial protocols are proprietary and
+%provide a very low level of security if
+%any, \eg \modbus~\cite{MODBUS}, \profinet~\cite{PROFINET}, \etherip~\cite{Bro01}
+%or
+%\dnp~\cite{CR04}.
+%However, in 2006, the {\em OPC Foundation} (an industry consortium)
+%released the first version of \opcua~\cite{MLD09}, which is presented
+%as the new standard for industrial communications. %% This standard  and whose security
 %% is quite closer to business IT's protocols such as TLS~\cite{DR08}.
-
+This directly applies to communication protocols.
 As it already appeared for business IT's protocols for twenty years, automated
 verification is crucial in order to discover flaws in the protocols'
-specifications before assessing implementations.  This was emphasized
+specifications before assessing implementations. However, the lack of formal
+verification of industrial protocols has been emphasized
 in 2006 by Igure et al.~\cite{ILW06} and in 2009 by Patel \emph{et
-al.}~\cite{PBG09}, saying that automated protocol verification allows
+al.}~\cite{PBG09}.
+They particularly argued that automated protocol verification allows
 to understand most of the vulnerabilities of a protocol before
 changing its standards which helps at minimizing the number of
 revisions which costs time and money.  Moreover, due to the
@@ -54,60 +52,55 @@ combinational explosion of the number of possible execution traces,
 only automated verification can ensure the security of a protocol in a
 given model.
 
-
+\TODO Intruduire \opcua qq part
 
 
 %\subsection{State-of-the-art}\label{sec:intro_sota}
 \paragraph{State-of-the-art:}\label{sec:intro_sota}
 
-The security of industrial protocols becomes a hot topic and some works are
-present in the literature.
-On one hand, most of them analyze the security of existing industrial protocols.
-In 2004, Dzung et al. propose a detailed survey on the security in SCADA systems
-including analysis on the security properties offered by \opc (ancestor of
-\opcua), \mms~\cite{ISO_MMS}, \iec{61850}~\cite{IEC_61850}, \iccp
-\cite{IEC_60870} and \etherip).
-Still in 2004, Clarke et al.~\cite{CR04} discuss the security of \dnp and
-\iccp.
-In 2006, in the technical documentation of \opcua (specialy part 2
-\cite{opcua_part2}, 4~\cite{opcua_part4} and 6~\cite{opcua_part6}) the authors
-detail the security measures of the protocol and the contents of the messages.
-In 2015, Wanying et al. summarize the security offered by \modbus, \dnp and \opc
-and introduce industrial firewall from Tofino~\cite{TOFINO}
+%The security of industrial protocols becomes a hot topic and some works are
+%present in the literature.
+Most of the works on the security of industrial protocols only rely on
+specifications written in human language rather than using formal methods.
+In 2004, Dzung et al. proposed a detailed survey on the security in SCADA
+systems including analysis on the security properties offered by \opc (Open
+Platform Communications), \mms (Manufacturing Message Specification),
+\iec{61850}, \iccp (Inter-Control Center Communications Protocol) and \etherip).
+Still in 2004, Clarke et al.~\cite{CR04} discussed the security of \dnp
+(Distributed Network Protocol) and \iccp.
+In 2006, in the technical documentation of \opcua (OPC Unified Architecture) the
+authors detailled the security measures of the protocol (specialy in part 2, 4
+and 6).
+In 2015, Wanying et al. summarizeed the security offered by \modbus, \dnp and
+\opcua.
 
-On the other hand, some propose new versions of existing protocols to make them
-secure against malicious adversaries.
-In 2007, Patel et al.~\cite{PY07} study the security of \dnp and propose two
+On the other hand, some works propose new versions of existing protocols to make
+them secure against malicious adversaries.
+In 2007, Patel et al.~\cite{PY07} studied the security of \dnp and proposed two
 ways of enhancing it through digital signatures and challenge-response models.
 In 2009, Fovino et al.~\cite{FCMT09} proposed a secure version of \modbus
-relying on well-known cryptographic primitives such as RSA~\cite{RSA78} or SHA2.
-This version of the protocol also need to introduce new components in the system
-to allow existing devices to use these cryptographic primitives.
+relying on well-known cryptographic primitives such as RSA or SHA2.
+%This version of the protocol also need to introduce new components in the system
+%to allow existing devices to use these cryptographic primitives.
 In 2013, Hayes et al.~\cite{HE13} designed another secure \modbus protocol using
-hash-based message authentication codes (HMACs) and built on the Stream
-Transmission Control Protocol~\cite{Ste07} (STCP).
+hash-based message authentication codes (HMACs) and built on STCP (Stream
+Transmission Control Protocol).
 
-To the best of our knowledge, none of these works directly make use of formal
+To the best of our knowledge, the only work directly making use of formal
 methods to prove the security of industrial protocols or find attack against
-them.
-However in 2005, Graham et al.~\cite{GP05} proposed a formal verification of
-\dnp using \ofmc~\cite{BMV03} and \spear~\cite{SH01}.
+them is from Graham et al.~\cite{GP05} in 2005.
+They proposed a formal verification of \dnp using \ofmc~\cite{BMV03} and
+\spear~\cite{SH01}.
 \TODO Sadly we were not able to access their modelings to discuss them with
 ours.
-In 2008, Dutertre~\cite{Dut08} detailed formal specifications of \modbus
-developed using PVS, a generic theorem prover in order to help proving the
-consistancy of an implementation with the standards.
-
-%% \paragraph{Outline:} In the next section
-%% %we study the security of  MODBUS.
-%% %In Section~\ref{sec:opcua},
-%% we analyse the security of OPC-UA, before concluding
-%% in last section.
+%In 2008, Dutertre~\cite{Dut08} detailed formal specifications of \modbus
+%developed using PVS, a generic theorem prover in order to help proving the
+%consistancy of an implementation with the standards.
 
 %\subsection{Contributions}
 \paragraph{Contributions:}
 
-We propose a formal study of the security of
+We propose a formal analysis of the security of
 % standard \modbus protocol and
 %the correction proposed in~\cite{FCMT09}.%,HE13}.
 %We also assess the 
@@ -131,3 +124,7 @@ ensures that a secret message cannot be discovered by an unauthorized
 agent (including the intruder).  The authentication property means
 that one participant of the protocol is guaranteed to communicate with
 another one.
+
+\paragraph{Outline:} In the Section \ref{sec:secure_channel}, we analyse the
+security of \opcua OpenSecureChannel. In Section \ref{sec:session}, we study
+\opcua CreateSession. Finally we conclude in Section \ref{sec:conclusion}.

@@ -8,8 +8,8 @@
 \newcommand{\oscres}{OSCRes}
 
 
-The {\em OpenSecureConversation} sub-protocol described in
-Figure~\ref{fig:secure_conv_se} aims to authenticate a client and
+The {\em OpenSecureChannel} sub-protocol described in
+Figure~\ref{fig:secure_channel_se} aims to authenticate a client and
 a server and allows them to generate a shared key for the later communications.
 \opcua can be used with three security modes, namely {\em \smn}, {\em \sms} and
 {\em \smse}.
@@ -22,7 +22,7 @@ a server and allows them to generate a shared key for the later communications.
       nonces are not used to generate a shared key but bring freshness
       to the messages.
     \item \smn: does not provide any security.  Using this mode, the
-      {\em OpenSecureConversation} sub-protocol does not serve much
+      {\em OpenSecureChannel} sub-protocol does not serve much
       purpose but is used for compatibility.
 \end{itemize}
 
@@ -80,8 +80,8 @@ a server and allows them to generate a shared key for the later communications.
             \end{msc}
         \end{postscript}
     }
-    \caption{\opcua OpenSecureConversation sub-protocol}
-    \label{fig:secure_conv_se}
+    \caption{\opcua OpenSecureChannel sub-protocol}
+    \label{fig:secure_channel_se}
 \end{figure}
 
 \subsection{Modeling}
@@ -113,11 +113,11 @@ objectives:
     \item\label{item:sc_auth_srv} Authentication of S on $g^{Ns}$.
 \end{enumerate}
 
-\subsection{Results}\label{sec:secure_conv_res}
+\subsection{Results}\label{sec:secure_channel_res}
 
 We run \proverif on this protocol for each combination of the three security
 modes of \opcua for each objective proposed.
-Results are shown in Table \ref{tab:secure_conv_results}.
+Results are shown in Table \ref{tab:secure_channel_results}.
 
 \begin{table}[htb]
     \centering
@@ -138,7 +138,7 @@ Results are shown in Table \ref{tab:secure_conv_results}.
     \end{tabular}
     %}
     \caption{Results for textbook {\em OpenSecureChannel} sub-protocol}
-    \label{tab:secure_conv_results}
+    \label{tab:secure_channel_results}
 \end{table}
 
 Obviously, as the security mode \smn~does not provide any security, all
@@ -148,7 +148,7 @@ intruder rerouting messages.
 Such manipulation differs from replaying a message as it does not delays the
 message more than what a legitimaete router would (thus avoiding replay
 protections such as timestamps).
-Figure \ref{fig:secure_conv_atk} shows an attack on the authentication of C
+Figure \ref{fig:secure_channel_atk} shows an attack on the authentication of C
 using $g^{N_{C}}$.
 This attack is possible because the standard \opcua protocol does not requires
 explicitly specifying the identity of the receiver of a message.
@@ -208,17 +208,17 @@ server and vice-versa, he will not obtain the key derived by the protocol.
         \end{postscript}
     }
     \caption{Attack on $g^{N_{C}}$: I usurps C when speaking to S}
-    \label{fig:secure_conv_atk}
+    \label{fig:secure_channel_atk}
 \end{figure}
 
 \subsection{Fixed version}
 
-We propose a fixed version of the {\em OpenSecureConversation} sub-protocol.
-%in Figure \ref{fig:secure_conv_fix_se}.
+We propose a fixed version of the {\em OpenSecureChannel} sub-protocol.
+%in Figure \ref{fig:secure_channel_fix_se}.
 It consists in adding the identity of the reciever to the messages and thus 
 avoids an intruder rerouting signed messages to usurp hosts as presented
-in Section \ref{sec:secure_conv_res}.
-More formaly, message 3. and 4. of Figure~\ref{fig:secure_conv_se} are replaced
+in Section \ref{sec:secure_channel_res}.
+More formaly, message 3. and 4. of Figure~\ref{fig:secure_channel_se} are replaced
 by:
 
 \arraycolsep=1.4pt
@@ -279,12 +279,12 @@ by:
 %            \end{msc}
 %        \end{postscript}
 %    }
-%    \caption{\opcua OpenSecureConversation sub-protocol}
-%    \label{fig:secure_conv_fix_se}
+%    \caption{\opcua OpenSecureChannel sub-protocol}
+%    \label{fig:secure_channel_fix_se}
 %\end{figure}
 
 We also use \proverif to prove the security of this fixed version. The
-results are presented in Table \ref{tab:secure_conv_fix_results} and
+results are presented in Table \ref{tab:secure_channel_fix_results} and
 show that now there is no attack found on authentication.
 
 \begin{table}[htb]
@@ -306,5 +306,5 @@ show that now there is no attack found on authentication.
     \end{tabular}
     %}
     \caption{Results for fixed {\em OpenSecureChannel} sub-protocol}
-    \label{tab:secure_conv_fix_results}
+    \label{tab:secure_channel_fix_results}
 \end{table}
