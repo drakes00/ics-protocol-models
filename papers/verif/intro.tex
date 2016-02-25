@@ -16,11 +16,11 @@ systems is now one of the priorities for governmental agencies
 (\eg~\cite{SFS11} from the US National Institute of Standards and
 Technology (NIST) or
 \cite{ANSSI12_guide_securite_industrielle_en} from the French {\em Agence
-nationale de la sécurité des systèmes d'information} (ANSSI)).  As industrial
-systems historically have been physically isolated from the rest of
-the world, there were less exposed to cyber attacks and their security
-was less considered. Recently, such attacks become feasible because
-these systems are recently spreading geographically and communicating
+nationale de la sécurité des systèmes d'information} (ANSSI)).  As
+industrial systems historically have been physically isolated from the
+rest of the world, there were less exposed to cyber attacks and their
+security was less considered. Nowadays, such attacks become feasible
+because these systems are spreading geographically and communicating
 more and more through unsafe mediums like Internet.
 
 
@@ -55,34 +55,6 @@ only automated verification can ensure the security of a protocol in a
 given model.
 
 
-%\subsection{Contributions}
-\paragraph{Contributions:}
-
-We propose a formal study of the security of
-% standard \modbus protocol and
-%the correction proposed in~\cite{FCMT09}.%,HE13}.
-%We also assess the 
-the sub-protocols involved in the \opcua handshake, namely \opcua
-OpenSecureChannel and \opcua CreateSession.
-We are able to find attacks against both of them and provide countermeasure when
-needed.
-This work makes use of one of the best tools in the domain of cryptographic
-protocol verification according to \cite{LP15}: \proverif developed by Blanchet
-et al.~\cite{Bla01}.
-It analyzes a protocol written either in Horn clauses format or using a subset
-of the Pi-calculus for an unbounded number of sessions considering the
-classical Dolev-Yao intruder model~\cite{DY81}.
-This powerful intruder controls the network, listens, stops, forges, replays or
-modifies some messages according to its capabilities and knowledge.
-The perfect encryption hypothesis is often assumed, meaning that it is not
-possible to decrypt a ciphertext without its encryption key or to flaw
-the signature of a message.
-In this context, verification tools are able to verify security properties
-of a protocol such as secrecy and authentication.
-The first property ensures that a secret message cannot be discovered by an
-unauthorized agent (including the intruder).
-The authentication property means that one participant of the protocol is
-guaranteed to communicate with another one.
 
 
 %\subsection{State-of-the-art}\label{sec:intro_sota}
@@ -126,8 +98,36 @@ In 2008, Dutertre~\cite{Dut08} detailed formal specifications of \modbus
 developed using PVS, a generic theorem prover in order to help proving the
 consistancy of an implementation with the standards.
 
-\paragraph{Outline:} In the next section
-%we study the security of  MODBUS.
-%In Section~\ref{sec:opcua},
-we analyse the security of OPC-UA, before concluding
-in last section.
+%% \paragraph{Outline:} In the next section
+%% %we study the security of  MODBUS.
+%% %In Section~\ref{sec:opcua},
+%% we analyse the security of OPC-UA, before concluding
+%% in last section.
+
+%\subsection{Contributions}
+\paragraph{Contributions:}
+
+We propose a formal study of the security of
+% standard \modbus protocol and
+%the correction proposed in~\cite{FCMT09}.%,HE13}.
+%We also assess the 
+the sub-protocols involved in the \opcua handshake, namely \opcua
+OpenSecureChannel and \opcua CreateSession.  We are able to find
+attacks against both of them and provide some countermeasures when
+needed.  This work makes use of one of the best tools in the domain of
+cryptographic protocol verification according
+to \cite{LP15}: \proverif developed by Blanchet et al.~\cite{Bla01}.
+It analyzes a protocol written either in Horn clauses format or using
+a subset of the Pi-calculus for an unbounded number of sessions
+considering the classical Dolev-Yao intruder model~\cite{DY81}.  This
+powerful intruder controls the network, listens, stops, forges,
+replays or modifies some messages according to its capabilities and
+knowledge.  The perfect encryption hypothesis is assumed, meaning that
+it is not possible to decrypt a ciphertext without its encryption key
+or to forge a signature without knowing the secret key.  In this
+context, verification tools are able to verify security properties of
+a protocol such as secrecy and authentication.  The first property
+ensures that a secret message cannot be discovered by an unauthorized
+agent (including the intruder).  The authentication property means
+that one participant of the protocol is guaranteed to communicate with
+another one.
