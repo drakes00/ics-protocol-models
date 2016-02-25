@@ -149,9 +149,9 @@ avoiding replay protections such as timestamps).  Figure
 \ref{fig:secure_channel_atk} shows an attack on the authentication of
 C using $g^{N_{C}}$.  This attack is possible because the standard
 \opcua protocol does not require explicitly to specify the identity of
-the receiver of a message.  Thus allowing the intruder to send to S
+the receiver of a message.  Thus it allows the intruder to send to S
 the signed message C sent to him similarily as the attack on the
-Needham-Schroeder protocol \cite{Low96}.  However, these attacks are
+Needham-Schroeder protocol~\cite{Low96}.  However, these attacks are
 not exploitable in security mode \smse~since the secrecy of the keys
 is proven by the tool.  It means that even if an intruder can usurp a
 client when speaking to a server and vice-versa, he will not obtain
