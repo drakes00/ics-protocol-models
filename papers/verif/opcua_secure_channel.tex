@@ -140,23 +140,22 @@ Results are shown in Table \ref{tab:secure_channel_results}.
     \label{tab:secure_channel_results}
 \end{table}
 
-Obviously, as the security mode \smn~does not provide any security, all
-objectives can be attacked.
-Moreover, attacks on authentication in the case of \sms~and \smse~implies the
-intruder rerouting messages.
-Such manipulation differs from replaying a message as it does not delay the
-message more than what a legitimaete router would do (thus avoiding replay
-protections such as timestamps).
-Figure \ref{fig:secure_channel_atk} shows an attack on the authentication of C
-using $g^{N_{C}}$.
-This attack is possible because the standard \opcua protocol does not requires
-explicitly specifying the identity of the receiver of a message.
-Thus allowing the intruder to send to S the signed message C sent to him
-similarily as the attack on the Needham-Schroeder protocol \cite{Low96}.
-However, these attacks are not exploitable in security mode \smse~since the
-secrecy of the keys is proven by the tool.
-It means that even if an intruder can usurp a client when speaking to a
-server and vice-versa, he will not obtain the key derived by the protocol.
+Obviously, as the security mode \smn~does not provide any security,
+all objectives can be attacked.  Moreover, attacks on authentication
+in the case of \sms~and \smse~implies the intruder rerouting messages.
+Such manipulation differs from replaying a message as it does not
+delay the message more than what a legitimaete router would do (thus
+avoiding replay protections such as timestamps).  Figure
+\ref{fig:secure_channel_atk} shows an attack on the authentication of
+C using $g^{N_{C}}$.  This attack is possible because the standard
+\opcua protocol does not require explicitly to specify the identity of
+the receiver of a message.  Thus allowing the intruder to send to S
+the signed message C sent to him similarily as the attack on the
+Needham-Schroeder protocol \cite{Low96}.  However, these attacks are
+not exploitable in security mode \smse~since the secrecy of the keys
+is proven by the tool.  It means that even if an intruder can usurp a
+client when speaking to a server and vice-versa, he will not obtain
+the key derived by the protocol.
 
 \begin{figure}[htb]
     \hspace{-2.25em}
