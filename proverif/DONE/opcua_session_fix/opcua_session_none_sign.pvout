@@ -19,7 +19,7 @@ Process:
     {17}let m1: bitstring = (CreateSessionRequest,pkCli,Nc) in
     {18}out(c, m1);
     {19}in(c, m2: bitstring);
-    {20}let (=CreateSessionResponse,=Cli,=pkSess,Ns: bitstring) = m2 in
+    {20}let (=CreateSessionResponse,=Cli,=pkSess,=Nc,Ns: bitstring) = m2 in
     {21}event beginCli(Cli,Sess,(Login(skCli),Passwd(skCli)));
     {22}let m3: bitstring = (ActivateSessionRequest,Sess,pkCli,Login(skCli),Passwd(skCli)) in
     {23}out(c, m3);
@@ -40,7 +40,7 @@ Process:
         {35}let (=CreateSessionRequest,=pkCli_63,Nc_67: bitstring) = m1_66 in
         {36}new Ns_68: bitstring;
         {37}event beginSrv(Sess_60,Cli_59,Ns_68);
-        {38}let m2_69: bitstring = (CreateSessionResponse,Cli_59,pkSess_65,Ns_68) in
+        {38}let m2_69: bitstring = (CreateSessionResponse,Cli_59,pkSess_65,Nc_67,Ns_68) in
         {39}out(c, (m2_69,sign(h(m2_69),skSess_64)));
         {40}in(c, (m3_70: bitstring,sigM3: bitstring));
         {41}if (verify(h(m3_70),sigM3,pkCli_63) <> true) then
@@ -56,9 +56,12 @@ Process:
 
 -- Query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
 Completing...
-200 rules inserted. The rule base contains 110 rules. 36 rules in the queue.
+200 rules inserted. The rule base contains 100 rules. 40 rules in the queue.
+400 rules inserted. The rule base contains 150 rules. 3 rules in the queue.
 Starting query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
-goal reachable: attacker(N_6903) -> end(endCli(A[],B[],N_6903))
+goal reachable: attacker(N_6965) -> end(endCli(A[],B[],N_6965))
+Abbreviations:
+Nc_6993 = Nc[Sess = A[],Cli = B[],!1 = @sid_6988]
 
 1. The attacker initially knows A[].
 attacker(A[]).
@@ -72,37 +75,46 @@ Using the function 2-tuple the attacker may obtain (B[],A[]).
 attacker((B[],A[])).
 
 4. We assume as hypothesis that
-attacker(N_6923).
+attacker(N_6992).
 
-5. The message pub(skA[]) may be sent to the attacker at output {2}.
+5. The message (B[],A[]) that the attacker may have by 3 may be received at input {7}.
+So the message (CreateSessionRequest,pub(skB[]),Nc_6993) may be sent to the attacker at output {18}.
+attacker((CreateSessionRequest,pub(skB[]),Nc_6993)).
+
+6. By 5, the attacker may know (CreateSessionRequest,pub(skB[]),Nc_6993).
+Using the function 3-proj-3-tuple the attacker may obtain Nc_6993.
+attacker(Nc_6993).
+
+7. The message pub(skA[]) may be sent to the attacker at output {2}.
 attacker(pub(skA[])).
 
-6. Using the function CreateSessionResponse the attacker may obtain CreateSessionResponse.
+8. Using the function CreateSessionResponse the attacker may obtain CreateSessionResponse.
 attacker(CreateSessionResponse).
 
-7. By 6, the attacker may know CreateSessionResponse.
+9. By 8, the attacker may know CreateSessionResponse.
 By 2, the attacker may know B[].
-By 5, the attacker may know pub(skA[]).
-By 4, the attacker may know N_6923.
-Using the function 4-tuple the attacker may obtain (CreateSessionResponse,B[],pub(skA[]),N_6923).
-attacker((CreateSessionResponse,B[],pub(skA[]),N_6923)).
+By 7, the attacker may know pub(skA[]).
+By 6, the attacker may know Nc_6993.
+By 4, the attacker may know N_6992.
+Using the function 5-tuple the attacker may obtain (CreateSessionResponse,B[],pub(skA[]),Nc_6993,N_6992).
+attacker((CreateSessionResponse,B[],pub(skA[]),Nc_6993,N_6992)).
 
-8. The attacker has some term Ns2_6918.
-attacker(Ns2_6918).
+10. The attacker has some term Ns2_6987.
+attacker(Ns2_6987).
 
-9. Using the function ActivateSessionResponse the attacker may obtain ActivateSessionResponse.
+11. Using the function ActivateSessionResponse the attacker may obtain ActivateSessionResponse.
 attacker(ActivateSessionResponse).
 
-10. By 9, the attacker may know ActivateSessionResponse.
-By 8, the attacker may know Ns2_6918.
-Using the function 2-tuple the attacker may obtain (ActivateSessionResponse,Ns2_6918).
-attacker((ActivateSessionResponse,Ns2_6918)).
+12. By 11, the attacker may know ActivateSessionResponse.
+By 10, the attacker may know Ns2_6987.
+Using the function 2-tuple the attacker may obtain (ActivateSessionResponse,Ns2_6987).
+attacker((ActivateSessionResponse,Ns2_6987)).
 
-11. The message (B[],A[]) that the attacker may have by 3 may be received at input {7}.
-The message (CreateSessionResponse,B[],pub(skA[]),N_6923) that the attacker may have by 7 may be received at input {19}.
-The message (ActivateSessionResponse,Ns2_6918) that the attacker may have by 10 may be received at input {24}.
-So event endCli(A[],B[],N_6923) may be executed at {27}.
-end(endCli(A[],B[],N_6923)).
+13. The message (B[],A[]) that the attacker may have by 3 may be received at input {7}.
+The message (CreateSessionResponse,B[],pub(skA[]),Nc_6993,N_6992) that the attacker may have by 9 may be received at input {19}.
+The message (ActivateSessionResponse,Ns2_6987) that the attacker may have by 12 may be received at input {24}.
+So event endCli(A[],B[],N_6992) may be executed at {27}.
+end(endCli(A[],B[],N_6992)).
 
 
 A more detailed output of the traces is available with
@@ -112,45 +124,47 @@ out(c, pub(skA)) at {2}
 
 out(c, pub(skB)) at {4}
 
-new ch creating ch_7008 at {6} in copy a_6925
+new ch creating ch_7079 at {6} in copy a_6995
 
-in(c, (B,A)) at {7} in copy a_6925
+in(c, (B,A)) at {7} in copy a_6995
 
-new K creating K_7079 at {12} in copy a_6925
+new K creating K_7150 at {12} in copy a_6995
 
-out(ch_7008, (B,A,K_7079)) at {13} in copy a_6925 received at {28} in copy a_6925
+out(ch_7079, (B,A,K_7150)) at {13} in copy a_6995 received at {28} in copy a_6995
 
-out(c, CreateSessionRequest) at {15} in copy a_6925
+out(c, CreateSessionRequest) at {15} in copy a_6995
 
-new Nc creating Nc_7169 at {16} in copy a_6925
+new Nc creating Nc_6996 at {16} in copy a_6995
 
-out(c, (CreateSessionRequest,pub(skB),Nc_7169)) at {18} in copy a_6925
+out(c, (CreateSessionRequest,pub(skB),Nc_6996)) at {18} in copy a_6995
 
-in(c, (CreateSessionResponse,B,pub(skA),a)) at {19} in copy a_6925
+in(c, (CreateSessionResponse,B,pub(skA),Nc_6996,a)) at {19} in copy a_6995
 
-event(beginCli(B,A,(Login(skB),Passwd(skB)))) at {21} in copy a_6925
+event(beginCli(B,A,(Login(skB),Passwd(skB)))) at {21} in copy a_6995
 
-out(c, (ActivateSessionRequest,A,pub(skB),Login(skB),Passwd(skB))) at {23} in copy a_6925
+out(c, (ActivateSessionRequest,A,pub(skB),Login(skB),Passwd(skB))) at {23} in copy a_6995
 
-in(c, (ActivateSessionResponse,a_6924)) at {24} in copy a_6925
+in(c, (ActivateSessionResponse,a_6994)) at {24} in copy a_6995
 
-event(endCli(A,B,a)) at {27} in copy a_6925
+event(endCli(A,B,a)) at {27} in copy a_6995
 
 The event endCli(A,B,a) is executed.
 A trace has been found.
 RESULT event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N)) is false.
--- Query event(endSrv(X_7198,Y_7199,N_7200)) ==> event(beginCli(X_7198,Y_7199,N_7200))
+-- Query event(endSrv(X_7269,Y_7270,N_7271)) ==> event(beginCli(X_7269,Y_7270,N_7271))
 Completing...
-200 rules inserted. The rule base contains 116 rules. 50 rules in the queue.
-400 rules inserted. The rule base contains 168 rules. 62 rules in the queue.
-600 rules inserted. The rule base contains 176 rules. 54 rules in the queue.
-Starting query event(endSrv(X_7198,Y_7199,N_7200)) ==> event(beginCli(X_7198,Y_7199,N_7200))
-RESULT event(endSrv(X_7198,Y_7199,N_7200)) ==> event(beginCli(X_7198,Y_7199,N_7200)) is true.
+200 rules inserted. The rule base contains 113 rules. 48 rules in the queue.
+400 rules inserted. The rule base contains 165 rules. 60 rules in the queue.
+600 rules inserted. The rule base contains 177 rules. 48 rules in the queue.
+Starting query event(endSrv(X_7269,Y_7270,N_7271)) ==> event(beginCli(X_7269,Y_7270,N_7271))
+RESULT event(endSrv(X_7269,Y_7270,N_7271)) ==> event(beginCli(X_7269,Y_7270,N_7271)) is true.
 -- Query not attacker(Passwd(skA[]))
 Completing...
-200 rules inserted. The rule base contains 104 rules. 32 rules in the queue.
+200 rules inserted. The rule base contains 96 rules. 36 rules in the queue.
 Starting query not attacker(Passwd(skA[]))
 goal reachable: attacker(Passwd(skA[]))
+Abbreviations:
+Nc_21096 = Nc[Sess = A[],Cli = A[],!1 = @sid_21089]
 
 1. The attacker initially knows A[].
 attacker(A[]).
@@ -160,28 +174,37 @@ By 1, the attacker may know A[].
 Using the function 2-tuple the attacker may obtain (A[],A[]).
 attacker((A[],A[])).
 
-3. The attacker has some term Ns_20989.
-attacker(Ns_20989).
+3. The attacker has some term Ns_21090.
+attacker(Ns_21090).
 
-4. The message pub(skA[]) may be sent to the attacker at output {2}.
+4. The message (A[],A[]) that the attacker may have by 2 may be received at input {7}.
+So the message (CreateSessionRequest,pub(skA[]),Nc_21096) may be sent to the attacker at output {18}.
+attacker((CreateSessionRequest,pub(skA[]),Nc_21096)).
+
+5. By 4, the attacker may know (CreateSessionRequest,pub(skA[]),Nc_21096).
+Using the function 3-proj-3-tuple the attacker may obtain Nc_21096.
+attacker(Nc_21096).
+
+6. The message pub(skA[]) may be sent to the attacker at output {2}.
 attacker(pub(skA[])).
 
-5. Using the function CreateSessionResponse the attacker may obtain CreateSessionResponse.
+7. Using the function CreateSessionResponse the attacker may obtain CreateSessionResponse.
 attacker(CreateSessionResponse).
 
-6. By 5, the attacker may know CreateSessionResponse.
+8. By 7, the attacker may know CreateSessionResponse.
 By 1, the attacker may know A[].
-By 4, the attacker may know pub(skA[]).
-By 3, the attacker may know Ns_20989.
-Using the function 4-tuple the attacker may obtain (CreateSessionResponse,A[],pub(skA[]),Ns_20989).
-attacker((CreateSessionResponse,A[],pub(skA[]),Ns_20989)).
+By 6, the attacker may know pub(skA[]).
+By 5, the attacker may know Nc_21096.
+By 3, the attacker may know Ns_21090.
+Using the function 5-tuple the attacker may obtain (CreateSessionResponse,A[],pub(skA[]),Nc_21096,Ns_21090).
+attacker((CreateSessionResponse,A[],pub(skA[]),Nc_21096,Ns_21090)).
 
-7. The message (A[],A[]) that the attacker may have by 2 may be received at input {7}.
-The message (CreateSessionResponse,A[],pub(skA[]),Ns_20989) that the attacker may have by 6 may be received at input {19}.
+9. The message (A[],A[]) that the attacker may have by 2 may be received at input {7}.
+The message (CreateSessionResponse,A[],pub(skA[]),Nc_21096,Ns_21090) that the attacker may have by 8 may be received at input {19}.
 So the message (ActivateSessionRequest,A[],pub(skA[]),Login(skA[]),Passwd(skA[])) may be sent to the attacker at output {23}.
 attacker((ActivateSessionRequest,A[],pub(skA[]),Login(skA[]),Passwd(skA[]))).
 
-8. By 7, the attacker may know (ActivateSessionRequest,A[],pub(skA[]),Login(skA[]),Passwd(skA[])).
+10. By 9, the attacker may know (ActivateSessionRequest,A[],pub(skA[]),Login(skA[]),Passwd(skA[])).
 Using the function 5-proj-5-tuple the attacker may obtain Passwd(skA[]).
 attacker(Passwd(skA[])).
 
@@ -193,34 +216,36 @@ out(c, pub(skA)) at {2}
 
 out(c, pub(skB)) at {4}
 
-new ch creating ch_21081 at {6} in copy a_20997
+new ch creating ch_21183 at {6} in copy a_21097
 
-in(c, (A,A)) at {7} in copy a_20997
+in(c, (A,A)) at {7} in copy a_21097
 
-new K creating K_21152 at {12} in copy a_20997
+new K creating K_21254 at {12} in copy a_21097
 
-out(ch_21081, (A,A,K_21152)) at {13} in copy a_20997 received at {28} in copy a_20997
+out(ch_21183, (A,A,K_21254)) at {13} in copy a_21097 received at {28} in copy a_21097
 
-out(c, CreateSessionRequest) at {15} in copy a_20997
+out(c, CreateSessionRequest) at {15} in copy a_21097
 
-new Nc creating Nc_21242 at {16} in copy a_20997
+new Nc creating Nc_21099 at {16} in copy a_21097
 
-out(c, (CreateSessionRequest,pub(skA),Nc_21242)) at {18} in copy a_20997
+out(c, (CreateSessionRequest,pub(skA),Nc_21099)) at {18} in copy a_21097
 
-in(c, (CreateSessionResponse,A,pub(skA),a_20996)) at {19} in copy a_20997
+in(c, (CreateSessionResponse,A,pub(skA),Nc_21099,a_21098)) at {19} in copy a_21097
 
-event(beginCli(A,A,(Login(skA),Passwd(skA)))) at {21} in copy a_20997
+event(beginCli(A,A,(Login(skA),Passwd(skA)))) at {21} in copy a_21097
 
-out(c, (ActivateSessionRequest,A,pub(skA),Login(skA),Passwd(skA))) at {23} in copy a_20997
+out(c, (ActivateSessionRequest,A,pub(skA),Login(skA),Passwd(skA))) at {23} in copy a_21097
 
 The attacker has the message Passwd(skA).
 A trace has been found.
 RESULT not attacker(Passwd(skA[])) is false.
 -- Query not attacker(Login(skA[]))
 Completing...
-200 rules inserted. The rule base contains 104 rules. 32 rules in the queue.
+200 rules inserted. The rule base contains 96 rules. 36 rules in the queue.
 Starting query not attacker(Login(skA[]))
 goal reachable: attacker(Login(skA[]))
+Abbreviations:
+Nc_27098 = Nc[Sess = A[],Cli = A[],!1 = @sid_27091]
 
 1. The attacker initially knows A[].
 attacker(A[]).
@@ -230,28 +255,37 @@ By 1, the attacker may know A[].
 Using the function 2-tuple the attacker may obtain (A[],A[]).
 attacker((A[],A[])).
 
-3. The attacker has some term Ns_26886.
-attacker(Ns_26886).
+3. The attacker has some term Ns_27092.
+attacker(Ns_27092).
 
-4. The message pub(skA[]) may be sent to the attacker at output {2}.
+4. The message (A[],A[]) that the attacker may have by 2 may be received at input {7}.
+So the message (CreateSessionRequest,pub(skA[]),Nc_27098) may be sent to the attacker at output {18}.
+attacker((CreateSessionRequest,pub(skA[]),Nc_27098)).
+
+5. By 4, the attacker may know (CreateSessionRequest,pub(skA[]),Nc_27098).
+Using the function 3-proj-3-tuple the attacker may obtain Nc_27098.
+attacker(Nc_27098).
+
+6. The message pub(skA[]) may be sent to the attacker at output {2}.
 attacker(pub(skA[])).
 
-5. Using the function CreateSessionResponse the attacker may obtain CreateSessionResponse.
+7. Using the function CreateSessionResponse the attacker may obtain CreateSessionResponse.
 attacker(CreateSessionResponse).
 
-6. By 5, the attacker may know CreateSessionResponse.
+8. By 7, the attacker may know CreateSessionResponse.
 By 1, the attacker may know A[].
-By 4, the attacker may know pub(skA[]).
-By 3, the attacker may know Ns_26886.
-Using the function 4-tuple the attacker may obtain (CreateSessionResponse,A[],pub(skA[]),Ns_26886).
-attacker((CreateSessionResponse,A[],pub(skA[]),Ns_26886)).
+By 6, the attacker may know pub(skA[]).
+By 5, the attacker may know Nc_27098.
+By 3, the attacker may know Ns_27092.
+Using the function 5-tuple the attacker may obtain (CreateSessionResponse,A[],pub(skA[]),Nc_27098,Ns_27092).
+attacker((CreateSessionResponse,A[],pub(skA[]),Nc_27098,Ns_27092)).
 
-7. The message (A[],A[]) that the attacker may have by 2 may be received at input {7}.
-The message (CreateSessionResponse,A[],pub(skA[]),Ns_26886) that the attacker may have by 6 may be received at input {19}.
+9. The message (A[],A[]) that the attacker may have by 2 may be received at input {7}.
+The message (CreateSessionResponse,A[],pub(skA[]),Nc_27098,Ns_27092) that the attacker may have by 8 may be received at input {19}.
 So the message (ActivateSessionRequest,A[],pub(skA[]),Login(skA[]),Passwd(skA[])) may be sent to the attacker at output {23}.
 attacker((ActivateSessionRequest,A[],pub(skA[]),Login(skA[]),Passwd(skA[]))).
 
-8. By 7, the attacker may know (ActivateSessionRequest,A[],pub(skA[]),Login(skA[]),Passwd(skA[])).
+10. By 9, the attacker may know (ActivateSessionRequest,A[],pub(skA[]),Login(skA[]),Passwd(skA[])).
 Using the function 4-proj-5-tuple the attacker may obtain Login(skA[]).
 attacker(Login(skA[])).
 
@@ -263,25 +297,25 @@ out(c, pub(skA)) at {2}
 
 out(c, pub(skB)) at {4}
 
-new ch creating ch_26978 at {6} in copy a_26894
+new ch creating ch_27185 at {6} in copy a_27099
 
-in(c, (A,A)) at {7} in copy a_26894
+in(c, (A,A)) at {7} in copy a_27099
 
-new K creating K_27049 at {12} in copy a_26894
+new K creating K_27256 at {12} in copy a_27099
 
-out(ch_26978, (A,A,K_27049)) at {13} in copy a_26894 received at {28} in copy a_26894
+out(ch_27185, (A,A,K_27256)) at {13} in copy a_27099 received at {28} in copy a_27099
 
-out(c, CreateSessionRequest) at {15} in copy a_26894
+out(c, CreateSessionRequest) at {15} in copy a_27099
 
-new Nc creating Nc_27139 at {16} in copy a_26894
+new Nc creating Nc_27101 at {16} in copy a_27099
 
-out(c, (CreateSessionRequest,pub(skA),Nc_27139)) at {18} in copy a_26894
+out(c, (CreateSessionRequest,pub(skA),Nc_27101)) at {18} in copy a_27099
 
-in(c, (CreateSessionResponse,A,pub(skA),a_26893)) at {19} in copy a_26894
+in(c, (CreateSessionResponse,A,pub(skA),Nc_27101,a_27100)) at {19} in copy a_27099
 
-event(beginCli(A,A,(Login(skA),Passwd(skA)))) at {21} in copy a_26894
+event(beginCli(A,A,(Login(skA),Passwd(skA)))) at {21} in copy a_27099
 
-out(c, (ActivateSessionRequest,A,pub(skA),Login(skA),Passwd(skA))) at {23} in copy a_26894
+out(c, (ActivateSessionRequest,A,pub(skA),Login(skA),Passwd(skA))) at {23} in copy a_27099
 
 The attacker has the message Login(skA).
 A trace has been found.

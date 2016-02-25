@@ -18,25 +18,25 @@ This sub-protocol is presented in Figure \ref{fig:session_se}.
         \begin{postscript}
             \begin{msc}{Session creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{6\instdist}
+                \setlength{\instdist}{5.5\instdist}
                 \setlength{\labeldist}{1.5\labeldist}
 
                 \declinst{cli}{C}{}
                 \declinst{sess}{S}{}
 
-                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}{cli}{sess}
+                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{CS}$}{sk(C)}}{cli}{sess}
                 \nextlevel[1.5]
                 
                 %\action*{Validates pk(C)}{sess}
                 %\nextlevel[2.5]
 
-                \mess{\sm{\csres, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}{sess}{cli}
+                \mess{\sm{\csres, pk(S), $N_{S}$}{$K_{CS}$}{sk(S)}}{sess}{cli}
                 \nextlevel[1.5]
                 
                 %\action*{Validates pk(S)}{cli}
                 %\nextlevel[3]
                 
-                \mess{\sm{\asreq, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}{cli}{sess}
+                \mess{\sm{\asreq, pk(C), Login, Passwd}{$K_{CS}$}{sk(C)}}{cli}{sess}
                 \nextlevel[1.5]
                 
                 %\action*{Validates pk(C)}{sess}
@@ -45,7 +45,7 @@ This sub-protocol is presented in Figure \ref{fig:session_se}.
                 \action*{Validates (Login, Passwd) }{sess}
                 \nextlevel[2.5]
 
-                \mess{\sm{\asres, $N_{S2}$}{$K_{src}$}{sk(S)}}{sess}{cli}
+                \mess{\sm{\asres, $N_{S2}$}{$K_{CS}$}{sk(S)}}{sess}{cli}
                 \nextlevel[.5]
             \end{msc}
         \end{postscript}
@@ -60,28 +60,33 @@ credentials for each server or suppose he will always send the same login and
 password for all servers.
 We first suppose that C always sends the same credentials including in a session
 with the intruder (possibly a rogue server controled by the intruder).
-%Thus, once the intruder obtained C's Login/Passwd, he can mount an 
-%authentication attack in another session.
+Moreover in our modelings, we assume that the intruder can share a symmetric key
+with any other participant as a result of playing the {\em OpenSecureChannel}
+sub-protocol.
+However, as we said in Section \ref{sec:secure_conv_res}, he will not obtain
+the derived key if he usurps another participant.
+This means that if the intruder shares a symmetric key with another participant,
+then this key is attached to a session in which he is not usurping someone's
+identity.
+We consider for security objectives: (i) the secrecy of the credentials, (ii)
+the authentication of C on his credentials and (iii) the authentication of S on
+$g^{N_{S}}$.
 Results under this assumption are presented in Table \ref{tab:session_results}.
 
 \begin{table}[htb]
     \centering
     %\resizebox{1.05\columnwidth}{!}{
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|}
         \hline
-        \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{3}{|c|}{Objectives}   \\
+        \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
+        \cline{2-4}
+                       & Sec $Creds$   & Auth $N_S$    & Auth $Creds$   \\
         \hline
-        C              & S              & Sec $Creds$   & Auth $N_S$    & Auth $Creds$  \\
-        \hline                                                                          
-        \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
-        \hline                                                          
-        \sms           & \sms           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
-        \hline                                                          
-        %\sms           & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        %\hline                                                          
-        %\smseshort     & \sms           & \UNSAFE       & \SAFE         & \UNSAFE       \\ 
-        %\hline                                                          
-        \smseshort     & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE        \\ 
+        \hline
+        \sms           & \UNSAFE       & \SAFE         & \UNSAFE        \\ 
+        \hline
+        \smseshort     & \UNSAFE       & \SAFE         & \SAFE          \\ 
         \hline
     \end{tabular}
     %}
@@ -89,15 +94,22 @@ Results under this assumption are presented in Table \ref{tab:session_results}.
     \label{tab:session_results}
 \end{table}
 
-\TODO dire none = toujours atk 
-
-\TODO sec = toujours atk car intrus reconnu par le cli donc si tjs meme creds session legitime cli/intrus revele les creds du client
-
-\TODO auth atk similaire à OpenSecureConv en Section 2.2 (montrer ?). 
+Again obviously, all objectives are attacked in security mode \smn.
+Attacks on athentication are very similar to the attack presented in Figure
+\ref{fig:secure_conv_atk}.
+The clients starts a session with the intruder who reroute the packets to the
+server.
+However, these kind of attacks are circumvented in security mode \smse~because
+as we previously said, the intruder does not possess the symmetric key of a
+session where he is usurping someone's identity preventing him to communicate.
+Attacks on the secrecy of the credentials occur because the client will accept
+the intruder's public key (and signatures) according to our intruder model.
+Thus as the client always use the same credentials, then he will reveal them to
+the intruder just by playing the sub-protocol.
 
 \subsection{Fixed version}
 
-We apply the same correction than in OpenSecureConversation (explicitly
+We apply the same correction than in {\em OpenSecureChannel} (explicitly
 specifying the identities of recievers in messages).
 %, the resulting protocol is displayed in Figure \ref{fig:session_fix}
 Then authentication becomes secure as shown in Table \ref{tab:session_fix_results}.
@@ -114,19 +126,19 @@ Then authentication becomes secure as shown in Table \ref{tab:session_fix_result
 %                \declinst{cli}{C}{}
 %                \declinst{sess}{S}{}
 %
-%                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{cli}$}{sk(C)}}{cli}{sess}
+%                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{CS}$}{sk(C)}}{cli}{sess}
 %                \nextlevel[1]
 %                
 %                \action*{Validates pk(C)}{sess}
 %                \nextlevel[2.5]
 %
-%                \mess{\sm{\csres, {\bf C}, pk(S) $N_{S}$}{$K_{srv}$}{sk(S)}}{sess}{cli}
+%                \mess{\sm{\csres, {\bf C}, pk(S) $N_{S}$}{$K_{CS}$}{sk(S)}}{sess}{cli}
 %                \nextlevel[1]
 %                
 %                \action*{Validates pk(S)}{cli}
 %                \nextlevel[3]
 %                
-%                \mess{\sm{\asreq, {\bf S}, pk(C), Login, Passwd}{$K_{cli}$}{sk(C)}}{cli}{sess}
+%                \mess{\sm{\asreq, {\bf S}, pk(C), Login, Passwd}{$K_{CS}$}{sk(C)}}{cli}{sess}
 %                \nextlevel[1]
 %                
 %                \action*{Validates pk(C)}{sess}
@@ -135,7 +147,7 @@ Then authentication becomes secure as shown in Table \ref{tab:session_fix_result
 %                \action*{Validates (Login, Passwd) }{sess}
 %                \nextlevel[2.5]
 %
-%                \mess{\sm{\asres, $N_{S2}$}{$K_{src}$}{sk(S)}}{sess}{cli}
+%                \mess{\sm{\asres, $N_{S2}$}{$K_{CS}$}{sk(S)}}{sess}{cli}
 %                \nextlevel[2]
 %            \end{msc}
 %        \end{postscript}
@@ -147,21 +159,17 @@ Then authentication becomes secure as shown in Table \ref{tab:session_fix_result
 \begin{table}[htb]
     \centering
     %\resizebox{1.05\columnwidth}{!}{
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|}
         \hline
-        \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{3}{|c|}{Objectives}   \\
-        \hline
-        C              & S              & Sec $Creds$   & Auth $N_S$    & Auth $Creds$  \\
+        \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
+        \cline{2-4}
+                       & Sec $Creds$   & Auth $N_S$    & Auth $Creds$   \\
         \hline                                                                          
-        \smn           & \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
-        \hline                                                          
-        \sms           & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        \hline                                                          
-        %\sms           & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        %\hline                                                          
-        %\smseshort     & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        %\hline                                                          
-        \smseshort     & \smseshort     & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE        \\ 
+        \hline                                         
+        \sms           & \UNSAFE       & \SAFE         & \SAFE          \\ 
+        \hline                                         
+        \smseshort     & \UNSAFE       & \SAFE         & \SAFE          \\ 
         \hline
     \end{tabular}
     %}
@@ -169,34 +177,84 @@ Then authentication becomes secure as shown in Table \ref{tab:session_fix_result
     \label{tab:session_fix_results}
 \end{table}
 
-\TODO auth = \SAFE now
-
-In a second time, we suppose that C would use different credentials for each server.
-Then both normal and fixed CreateSession results in Table \ref{tab:session_uniq_creds_results}
+In a second time, we suppose that C would use different credentials for each
+server.
+Then both normal and fixed {\em CreateSession} results in Table
+\ref{tab:session_uniq_creds_results}.
 
 \begin{table}[htb]
     \centering
     %\resizebox{1.05\columnwidth}{!}{
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|}
         \hline
-        \multicolumn{2}{|c}{\opcua Modes} & \multicolumn{3}{|c|}{Objectives}   \\
-        \hline
-        C              & S              & Sec $Creds$   & Auth $N_S$    & Auth $Creds$  \\
+        \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
+        \cline{2-4}
+                       & Sec $Creds$   & Auth $N_S$    & Auth $Creds$   \\
         \hline                                                                          
-        \smn           & \smn           & \UNSAFE       & \SAFE \TODO   & \SAFE         \\ 
-        \hline                                                          
-        \sms           & \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
-        \hline                                                          
-        %\sms           & \smseshort     & \SAFE         & \SAFE         & \SAFE         \\ 
-        %\hline                                                          
-        %\smseshort     & \sms           & \SAFE         & \SAFE         & \SAFE         \\ 
-        %\hline                                                          
-        \smseshort     & \smseshort     & \SAFE         & \SAFE         & \SAFE         \\ 
+        \smn           & \UNSAFE       & \SAFE \TODO   & \SAFE         \\ 
+        \hline                                         
+        \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \hline                                         
+        \smseshort     & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline
     \end{tabular}
     %}
-    \label{tab:session_uniq_creds_results}
     \caption{Results for \opcua {\em CreateSession} sub-protocol with uniq credentials}
+    \label{tab:session_uniq_creds_results}
 \end{table}
 
 \TODO dire que creds uniques pour chaque serveur se comportent comme un secret partagé permettant une auth.
+
+\begin{figure}[htb]
+    \renewcommand{\smname}{\smn}
+    \resizebox{\columnwidth}{!}{
+        \begin{postscript}
+            \begin{msc}{Session creation}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{3\instdist}
+                \setlength{\labeldist}{1.5\labeldist}
+
+                \declinst{cli}{C}{(C,S)}
+                \declinst{int}{I}{}
+                \declinst{sess}{S}{(C,S)}
+
+                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{CS}$}{sk(C)}}{cli}{int}
+                \nextlevel[1.5]
+                
+                %\action*{Validates pk(C)}{sess}
+                %\nextlevel[2.5]
+
+                \mess{\sm{\csres, pk(S), $N_{C}$, $N_{I}$}{$K_{CS}$}{sk(S)}}{int}{cli}
+                \nextlevel[1.5]
+                
+                %\action*{Validates pk(S)}{cli}
+                %\nextlevel[3]
+                
+                \msccomment{begin(C,S,Passwd(C,S))}{cli}
+                \mess{\sm{\asreq, pk(C), Login(C,S), Passwd(C,S)}{$K_{CS}$}{sk(C)}}{cli}{int}
+                \nextlevel[1.5]
+
+                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{CS}$}{sk(C)}}{int}{sess}
+                \nextlevel[1.5]
+
+                \mess{\sm{\csres, pk(S), $N_{C}$, $N_{S}$}{$K_{CS}$}{sk(S)}}{sess}{int}
+                \nextlevel[1.5]
+                
+                \msccomment[r]{end(C,S,Passwd(C,S))}{sess}
+                \mess{\sm{\asreq, pk(C), Login(C,S), Passwd(C,S)}{$K_{CS}$}{sk(C)}}{int}{sess}
+                \nextlevel[1.5]
+                
+                %\action*{Validates pk(C)}{sess}
+                %\nextlevel[2]
+
+                \action*{Validates (Login, Passwd) }{sess}
+                \nextlevel[2.5]
+
+                \mess{\sm{\asres, $N_{S2}$}{$K_{CS}$}{sk(S)}}{sess}{int}
+                \nextlevel[.5]
+            \end{msc}
+        \end{postscript}
+    }
+    \caption{OPC-UA CreateSession sub-protocol}
+    \label{fig:session_se}
+\end{figure}

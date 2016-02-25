@@ -78,7 +78,7 @@ let client(skA: bitstring, skB: bitstring, ch: channel) =
 
     in(c, (m2: bitstring, sigM2: bitstring));
     if verify(h(m2), sigM2, pkSess) <> true then 0 else
-    let (=CreateSessionResponse, =Cli, =pkSess, Ns: bitstring) = m2 in
+    let (=CreateSessionResponse, =Cli, =pkSess, =Nc, Ns: bitstring) = m2 in
 
     event beginCli(Cli, Sess, (Login(skCli), Passwd(skCli)));
     let m3 = (ActivateSessionRequest, Sess, pkCli, Login(skCli), Passwd(skCli)) in
@@ -104,7 +104,7 @@ let sess(skA: bitstring, skB: bitstring, ch: channel) =
 
     new Ns: bitstring;
     event beginSrv(Sess, Cli, Ns);
-    let m2 = (CreateSessionResponse, Cli, pkSess, Ns) in
+    let m2 = (CreateSessionResponse, Cli, pkSess, Nc, Ns) in
     out(c, m2);
 
     in(c, m3: bitstring);

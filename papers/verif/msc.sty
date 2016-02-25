@@ -2138,13 +2138,13 @@
        {% comment right from instance #3
         \setlength{\tmp@X}{\msc@instrxpos{#3}}
         \setlength{\tmp@Xa}{\tmp@X + \msc@commentdist}
-        \psline(\tmp@X,-\tmp@Y)(\tmp@Xa,-\tmp@Y)
-        \psline(\tmp@Xa,-\tmp@Ya)(\tmp@Xa,-\tmp@Yb)
+        %\psline(\tmp@X,-\tmp@Y)(\tmp@Xa,-\tmp@Y)
+        %\psline(\tmp@Xa,-\tmp@Ya)(\tmp@Xa,-\tmp@Yb)
         \setlength{\tmp@Xb}{\wd\tmp@box}
         \setlength{\tmp@Xb}{\tmp@Xa + \tmp@Xb}
         \addtolength{\tmp@Xb}{\labeldist}
-        \psline(\tmp@Xa,-\tmp@Ya)(\tmp@Xb,-\tmp@Ya)
-        \psline(\tmp@Xa,-\tmp@Yb)(\tmp@Xb,-\tmp@Yb)
+        %\psline(\tmp@Xa,-\tmp@Ya)(\tmp@Xb,-\tmp@Ya)
+        %\psline(\tmp@Xa,-\tmp@Yb)(\tmp@Xb,-\tmp@Yb)
         \addtolength{\tmp@Xa}{\labeldist}
         \rput[l](\tmp@Xa,-\tmp@Y){\usebox{\tmp@box}}
        }%

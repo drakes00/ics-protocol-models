@@ -24,7 +24,7 @@ Process:
     {20}if (verify(h(m2),sigM2,pkSess) <> true) then
         0
     else
-        {21}let (=CreateSessionResponse,=pkSess,Ns: bitstring) = m2 in
+        {21}let (=CreateSessionResponse,=pkSess,=Nc,Ns: bitstring) = m2 in
         {22}event beginCli(Cli,Sess,(Login(skCli,skSess),Passwd(skCli,skSess)));
         {23}let m3: bitstring = (ActivateSessionRequest,pkCli,Login(skCli,skSess),Passwd(skCli,skSess)) in
         {24}out(c, (m3,sign(h(m3),skCli)));
@@ -49,7 +49,7 @@ Process:
     else
         {39}let (=CreateSessionRequest,=pkCli_63,Nc_68: bitstring) = m1_67 in
         {40}new Ns_69: bitstring;
-        {41}let m2_70: bitstring = (CreateSessionResponse,pkSess_65,Ns_69) in
+        {41}let m2_70: bitstring = (CreateSessionResponse,pkSess_65,Nc_68,Ns_69) in
         {42}out(c, (senc(m2_70,K_61),sign(h(m2_70),skSess_64)));
         {43}in(c, (em3: bitstring,sigM3: bitstring));
         {44}let m3_71: bitstring = sdec(em3,K_61) in
@@ -67,30 +67,31 @@ Process:
 -- Query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
 Completing...
 200 rules inserted. The rule base contains 138 rules. 68 rules in the queue.
-400 rules inserted. The rule base contains 250 rules. 94 rules in the queue.
-600 rules inserted. The rule base contains 296 rules. 48 rules in the queue.
+400 rules inserted. The rule base contains 244 rules. 106 rules in the queue.
+600 rules inserted. The rule base contains 284 rules. 64 rules in the queue.
 Starting query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
 RESULT event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N)) is true.
--- Query event(endSrv(X_8073,Y_8074,N_8075)) ==> event(beginCli(X_8073,Y_8074,N_8075))
+-- Query event(endSrv(X_8217,Y_8218,N_8219)) ==> event(beginCli(X_8217,Y_8218,N_8219))
 Completing...
-200 rules inserted. The rule base contains 146 rules. 77 rules in the queue.
-400 rules inserted. The rule base contains 230 rules. 122 rules in the queue.
-600 rules inserted. The rule base contains 300 rules. 140 rules in the queue.
-Starting query event(endSrv(X_8073,Y_8074,N_8075)) ==> event(beginCli(X_8073,Y_8074,N_8075))
-goal reachable: Y_17007 <> B[] && Y_17007 <> A[] && begin(beginCli(B[],Y_17007,(Login(skB[],sk(Y_17007)),Passwd(skB[],sk(Y_17007))))) && attacker(Y_17007) -> end(endSrv(B[],Y_17007,(Login(skB[],sk(Y_17007)),Passwd(skB[],sk(Y_17007)))))
-goal reachable: Y_17008 <> B[] && Y_17008 <> A[] && begin(beginCli(A[],Y_17008,(Login(skA[],sk(Y_17008)),Passwd(skA[],sk(Y_17008))))) && attacker(Y_17008) -> end(endSrv(A[],Y_17008,(Login(skA[],sk(Y_17008)),Passwd(skA[],sk(Y_17008)))))
-RESULT event(endSrv(X_8073,Y_8074,N_8075)) ==> event(beginCli(X_8073,Y_8074,N_8075)) is true.
+200 rules inserted. The rule base contains 142 rules. 77 rules in the queue.
+400 rules inserted. The rule base contains 224 rules. 134 rules in the queue.
+600 rules inserted. The rule base contains 296 rules. 144 rules in the queue.
+800 rules inserted. The rule base contains 374 rules. 18 rules in the queue.
+Starting query event(endSrv(X_8217,Y_8218,N_8219)) ==> event(beginCli(X_8217,Y_8218,N_8219))
+goal reachable: Y_17421 <> B[] && Y_17421 <> A[] && begin(beginCli(B[],Y_17421,(Login(skB[],sk(Y_17421)),Passwd(skB[],sk(Y_17421))))) && attacker(Y_17421) -> end(endSrv(B[],Y_17421,(Login(skB[],sk(Y_17421)),Passwd(skB[],sk(Y_17421)))))
+goal reachable: Y_17422 <> B[] && Y_17422 <> A[] && begin(beginCli(A[],Y_17422,(Login(skA[],sk(Y_17422)),Passwd(skA[],sk(Y_17422))))) && attacker(Y_17422) -> end(endSrv(A[],Y_17422,(Login(skA[],sk(Y_17422)),Passwd(skA[],sk(Y_17422)))))
+RESULT event(endSrv(X_8217,Y_8218,N_8219)) ==> event(beginCli(X_8217,Y_8218,N_8219)) is true.
 -- Query not attacker(Passwd(skA[],skB[]))
 Completing...
 200 rules inserted. The rule base contains 138 rules. 68 rules in the queue.
-400 rules inserted. The rule base contains 250 rules. 94 rules in the queue.
-600 rules inserted. The rule base contains 296 rules. 48 rules in the queue.
+400 rules inserted. The rule base contains 244 rules. 106 rules in the queue.
+600 rules inserted. The rule base contains 284 rules. 64 rules in the queue.
 Starting query not attacker(Passwd(skA[],skB[]))
 RESULT not attacker(Passwd(skA[],skB[])) is true.
 -- Query not attacker(Login(skA[],skB[]))
 Completing...
 200 rules inserted. The rule base contains 138 rules. 68 rules in the queue.
-400 rules inserted. The rule base contains 250 rules. 94 rules in the queue.
-600 rules inserted. The rule base contains 296 rules. 48 rules in the queue.
+400 rules inserted. The rule base contains 244 rules. 106 rules in the queue.
+600 rules inserted. The rule base contains 284 rules. 64 rules in the queue.
 Starting query not attacker(Login(skA[],skB[]))
 RESULT not attacker(Login(skA[],skB[])) is true.

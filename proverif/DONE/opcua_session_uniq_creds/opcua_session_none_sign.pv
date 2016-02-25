@@ -77,7 +77,7 @@ let client(skA: bitstring, skB: bitstring, ch: channel) =
     out(c, m1);
 
     in(c, m2: bitstring);
-    let (=CreateSessionResponse, =pkSess, Ns: bitstring) = m2 in
+    let (=CreateSessionResponse, =pkSess, =Nc, Ns: bitstring) = m2 in
 
     event beginCli(Cli, Sess, (Login(skCli, skSess), Passwd(skCli, skSess)));
     let m3 = (ActivateSessionRequest, pkCli, Login(skCli, skSess), Passwd(skCli, skSess)) in
@@ -102,7 +102,7 @@ let sess(skA: bitstring, skB: bitstring, ch: channel) =
     let (=CreateSessionRequest, =pkCli, Nc: bitstring) = m1 in
 
     new Ns: bitstring;
-    let m2 = (CreateSessionResponse, pkSess, Ns) in
+    let m2 = (CreateSessionResponse, pkSess, Nc, Ns) in
     out(c, (m2, sign(h(m2), skSess)));
 
     in(c, (m3: bitstring, sigM3: bitstring));
