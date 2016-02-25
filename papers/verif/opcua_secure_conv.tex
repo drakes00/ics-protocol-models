@@ -86,25 +86,26 @@ a server and allows them to generate a shared key for the later communications.
 
 \subsection{Modeling}
 
-Normaly, a {\em GetEnpointRequest} would be answered by a list of session
-endpoints with possibly different security modes.
-For simplicity, we suppose that only one endpoint is answered and that the
-client will always accept the security mode proposed.
-Moreover, thanks to the perfect encryption hypothesis, we can abstract the
-cryptographic suite negociation.
-We consider an intruder whose public key would be accepted by a legitimate
-client or server.
-Such an intruder could for instance represent a legitimate device that has been
-corrupted through a virus or that is controlled by a malicious opperator.
-Finally, it is said in \cite{MLD09} that <<The establishement of the Secure
-Channel is mainly used for exchanging special secret information between clients
-and servers. This secret is used for deriving Symetric Keys $[...]$>>.
-To the best of our knowledge, no more precision is given in
-\cite{MLD09,opcua_part2,opcua_part4,opcua_part6} on which cryptographic
-primitives should be used for such purpose.
-Thus we chose to model this key derivation using the \DiH mecanisms which
-relies on the commutativity of the exponentiation: $(g^a)^b = (g^b)^a$.
-In this context, we consider the following security objectives:
+Normaly, a {\em GetEnpointRequest} would be answered by a list of
+session endpoints with possibly different security modes.  For
+simplicity, we suppose that only one endpoint is answered and that the
+client will always accept the security mode proposed.  Moreover,
+thanks to the perfect encryption hypothesis, we can abstract the
+cryptographic suite negociation.  We consider an intruder whose public
+key would be accepted by a legitimate client or server.  Such an
+intruder could for instance represent a legitimate device that has
+been corrupted through a virus or that is controlled by a malicious
+opperator.  Finally, it is said in \cite{MLD09} that <<The
+establishement of the Secure Channel is mainly used for exchanging
+special secret information between clients and servers. This secret is
+used for deriving Symetric Keys $[...]$>>.  To the best of our
+knowledge, no more precision is given in
+\cite{MLD09,opcua_part2,opcua_part4,opcua_part6} on which
+cryptographic primitives should be used for such purpose.  Thus we
+chose to model this key derivation using the \DiH mecanisms which
+relies on the commutativity of the exponentiation: $(g^a)^b =
+(g^b)^a$.  In this context, we consider the following four security
+objectives:
 \begin{enumerate}
     \item\label{item:sc_sec_cli} Secrecy of $K_{cli}$ obtained by C.
     \item\label{item:sc_sec_srv} Secrecy of $K_{src}$ obtained by S.
