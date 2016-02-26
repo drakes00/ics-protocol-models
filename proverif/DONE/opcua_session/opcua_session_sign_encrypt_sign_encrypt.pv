@@ -38,12 +38,11 @@ const ActivateSessionResponse: bitstring.
 (* Private keys *)
 free skA: bitstring [private].
 free skB: bitstring [private].
-fun Skey(bitstring, bitstring): bitstring [private].
 
 
 (* Secrets *)
-fun Login(bitstring): bitstring [private].
-fun Passwd(bitstring): bitstring [private].
+fun Login(bitstring): bitstring.
+fun Passwd(bitstring): bitstring.
 
 
 (* Events *)
@@ -54,7 +53,6 @@ event endCli(host, host, bitstring).
 
 
 (* Goals *)
-query attacker(Login(skA)).
 query attacker(Passwd(skA)).
 
 query X: host, Y: host, N: bitstring ; event(endSrv(X, Y, N)) ==> event(beginCli(X, Y, N)).
@@ -63,6 +61,8 @@ query X: host, Y: host, N: bitstring ; event(endCli(X, Y, N)) ==> event(beginSrv
 
 let client(skA: bitstring, skB: bitstring, ch: channel) = 
     in(c, (Cli: host, Sess: host));
+    new K: bitstring;
+    out(ch, (Cli, Sess, K));
     let skCli = if Cli = A then skA else if Cli = B then skB in
     let pkCli = pub(skCli) in
     let skSess = if Sess = A then skA else if Sess = B then skB else sk(Sess) in
@@ -81,8 +81,8 @@ let client(skA: bitstring, skB: bitstring, ch: channel) =
     if verify(h(m2), sigM2, pkSess) <> true then 0 else
     let (=CreateSessionResponse, =pkSess, =Nc, Ns: bitstring) = m2 in
 
-    event beginCli(Cli, Sess, (Login(skCli), Passwd(skCli)));
-    let m3 = (ActivateSessionRequest, pkCli, Login(skCli), Passwd(skCli)) in
+    event beginCli(Cli, Sess, (Login(pkCli), Passwd(skCli)));
+    let m3 = (ActivateSessionRequest, pkCli, Login(pkCli), Passwd(skCli)) in
     out(c, (senc(m3, K), sign(h(m3), skCli)));
 
     in(c, (em4: bitstring, sigM4: bitstring));
@@ -99,6 +99,7 @@ let sess(skA: bitstring, skB: bitstring, ch: channel) =
     let pkCli = pub(skCli) in
     let skSess = if Sess = A then skA else if Sess = B then skB in
     let pkSess = pub(skSess) in
+    let tmp = if Cli <> A && Cli <> B then K else CreateSessionRequest in out(c, tmp);
     
     (* Role starting *)
     in(c, (em1: bitstring, sigM1: bitstring));
@@ -115,13 +116,13 @@ let sess(skA: bitstring, skB: bitstring, ch: channel) =
     in(c, (em3: bitstring, sigM3: bitstring));
     let m3 = sdec(em3, K) in
     if verify(h(m3), sigM3, pkCli) <> true then 0 else
-    let (=ActivateSessionRequest, =pkCli, =Login(skCli), =Passwd(skCli)) = m3 in
+    let (=ActivateSessionRequest, =pkCli, =Login(pkCli), =Passwd(skCli)) = m3 in
     
     new Ns2: bitstring;
     let m4 = (ActivateSessionResponse, Ns2) in
     out(c, (senc(m4, K), sign(h(m4), skSess)));
     if Cli = A || Cli = B then
-    event endSrv(Cli, Sess, (Login(skCli), Passwd(skCli))).
+    event endSrv(Cli, Sess, (Login(pkCli), Passwd(skCli))).
 
 
 process
