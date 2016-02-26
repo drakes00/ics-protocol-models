@@ -15,13 +15,13 @@ a server and allows them to generate a shared key for the later communications.
 {\em \smse}.
 
 \begin{itemize}
-    \item \smse: claims to provide secrecy using symetric and
+    \item {\em \smse}: claims to provide secrecy using symetric and
       assymetric encryption and both authentication and integrity
       through digital signatures.
-    \item \sms: same as {\em \smse} but without any encryption.  Thus
+  \item {\em \sms}: same as {\em \smse} but without any encryption.  Thus
       nonces are not used to generate a shared key but bring freshness
       to the messages.
-    \item \smn: does not provide any security.  Using this mode, the
+  \item {\em \smn}: does not provide any security.  Using this mode, the
       {\em OpenSecureChannel} sub-protocol does not serve much
       purpose but is used for compatibility.
 \end{itemize}
@@ -80,7 +80,7 @@ a server and allows them to generate a shared key for the later communications.
             \end{msc}
         \end{postscript}
     }
-    \caption{\opcua OpenSecureChannel sub-protocol}
+    \caption{\opcua \securechan sub-protocol}
     \label{fig:secure_channel_se}
 \end{figure}
 

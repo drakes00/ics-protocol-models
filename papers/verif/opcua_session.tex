@@ -52,7 +52,7 @@ This sub-protocol is presented in Figure \ref{fig:session_se}.
             \end{msc}
         \end{postscript}
     }
-    \caption{OPC-UA CreateSession sub-protocol}
+    \caption{\opcua \session sub-protocol}
     \label{fig:session_se}
 \end{figure}
 
@@ -118,13 +118,13 @@ the intruder just by playing the sub-protocol.
         \hline
     \end{tabular}
     %}
-    \caption{Results for \opcua {\em CreateSession} sub-protocol}
+    \caption{Results for \opcua \session sub-protocol}
     \label{tab:session_results}
 \end{table}
 
 \subsection{Fixed version}
 
-We apply the same correction than in {\em OpenSecureChannel} (explicitly
+We apply the same correction than in \securechan (explicitly
 specifying the identities of recievers in messages).
 %, the resulting protocol is displayed in Figure \ref{fig:session_fix}
 Then authentication on $N_{S}$ becomes secure as shown in Table
@@ -189,7 +189,7 @@ Then authentication on $N_{S}$ becomes secure as shown in Table
         \hline
     \end{tabular}
     %}
-    \caption{Results for fixed \opcua {\em CreateSession} sub-protocol}
+    \caption{Results for fixed \opcua \session sub-protocol}
     \label{tab:session_fix_results}
 \end{table}
 
