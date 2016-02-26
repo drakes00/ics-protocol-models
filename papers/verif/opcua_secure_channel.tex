@@ -94,15 +94,15 @@ encryption hypothesis, we can abstract the cryptographic suite
 negociation.  We consider an intruder whose public key would be
 accepted by a legitimate client or server.  Such an intruder could for
 instance represent a legitimate device that has been corrupted through
-a virus or that is controlled by a malicious operator.  Finally, it
-is said in \cite{MLD09} that <<The establishement of the Secure
-Channel is mainly used for exchanging special secret information
-between clients and servers. This secret is used for deriving Symetric
-Keys $[...]$>>.  To the best of our knowledge, no more precision is
-given in \cite{MLD09,opcua_part2,opcua_part4,opcua_part6} on which
-cryptographic primitives should be used for such purpose.  Thus we
-chose to model this key derivation using the \DiH mecanisms which
-relies on the commutativity of the exponentiation: $(g^a)^b =
+a virus or that is controlled by a malicious operator.  Finally, it is
+said in \cite{MLD09} that ``\emph{The establishement of the Secure
+  Channel is mainly used for exchanging special secret information
+  between clients and servers. This secret is used for deriving
+  Symetric Keys $[...]$}''.  To the best of our knowledge, no more
+precision is given in \cite{MLD09,opcua_part2,opcua_part4,opcua_part6}
+on which cryptographic primitives should be used for such purpose.
+Thus we chose to model this key derivation using the \DiH mecanisms
+which relies on the commutativity of the exponentiation: $(g^a)^b =
 (g^b)^a$.  In this context, we consider the following four security
 objectives:
 \begin{enumerate}
