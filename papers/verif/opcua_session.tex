@@ -30,7 +30,7 @@ This sub-protocol is presented in Figure \ref{fig:session_se}.
                 %\action*{Validates pk(C)}{sess}
                 %\nextlevel[2.5]
 
-                \mess{\sm{\csres, pk(S), $N_{S}$}{$K_{CS}$}{sk(S)}}{sess}{cli}
+                \mess{\sm{\csres, pk(S), $N_{C}$, $N_{S}$}{$K_{CS}$}{sk(S)}}{sess}{cli}
                 \nextlevel[1.5]
                 
                 %\action*{Validates pk(S)}{cli}
@@ -84,7 +84,7 @@ Results under this assumption are presented in Table \ref{tab:session_results}.
         \hline
         \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE        \\ 
         \hline
-        \sms           & \UNSAFE       & \SAFE         & \UNSAFE        \\ 
+        \sms           & \UNSAFE       & \UNSAFE       & \UNSAFE        \\ 
         \hline
         \smseshort     & \UNSAFE       & \SAFE         & \SAFE          \\ 
         \hline
@@ -191,9 +191,9 @@ Then both normal and fixed {\em CreateSession} results in Table
         \cline{2-4}
                        & Sec $Creds$   & Auth $N_S$    & Auth $Creds$   \\
         \hline                                                                          
-        \smn           & \UNSAFE       & \SAFE \TODO   & \SAFE         \\ 
+        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
         \hline                                         
-        \sms           & \UNSAFE       & \SAFE         & \SAFE         \\ 
+        \sms           & \UNSAFE       & \UNSAFE/\SAFE & \SAFE         \\ 
         \hline                                         
         \smseshort     & \SAFE         & \SAFE         & \SAFE         \\ 
         \hline
