@@ -1,0 +1,191 @@
+Process:
+{1}let pkA: bitstring = pub(skA) in
+{2}out(c, pkA);
+{3}let pkB: bitstring = pub(skB) in
+{4}out(c, pkB);
+{5}!
+{6}new ch: channel;
+(
+    {7}in(c, (Cli: host,Sess: host));
+    {8}new K: bitstring;
+    {9}out(ch, (Cli,Sess,K));
+    {10}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else fail-any)) in
+    {11}let pkCli: bitstring = pub(skCli) in
+    {12}let skSess: bitstring = (if (Sess = A) then skA else (if (Sess = B) then skB else sk(Sess))) in
+    {13}let pkSess: bitstring = pub(skSess) in
+    {14}let tmp: bitstring = (if ((Sess <> A) && (Sess <> B)) then K else CreateSessionRequest) in
+    {15}out(c, tmp);
+    {16}new Nc: bitstring;
+    {17}let m1: bitstring = (CreateSessionRequest,Sess,pkCli,Nc) in
+    {18}out(c, (senc(m1,K),sign(h(m1),skCli)));
+    {19}in(c, (em2: bitstring,sigM2: bitstring));
+    {20}let m2: bitstring = sdec(em2,K) in
+    {21}if (verifySign(h(m2),sigM2,pkSess) <> true) then
+        0
+    else
+        {22}let (=CreateSessionResponse,=Cli,=pkSess,=Nc,Ns: bitstring) = m2 in
+        {23}event beginCli(Cli,Sess,(Login(pkCli),Passwd(skCli,pkSess)));
+        {24}let m3: bitstring = (ActivateSessionRequest,pkCli,Login(pkCli),Passwd(skCli,pkSess)) in
+        {25}out(c, (senc(m3,K),sign(h(m3),skCli)));
+        {26}in(c, (em4: bitstring,sigM4: bitstring));
+        {27}let m4: bitstring = sdec(em4,K) in
+        {28}if (verifySign(h(m4),sigM4,pkSess) <> true) then
+            0
+        else
+            {29}let (=ActivateSessionResponse,Ns2: bitstring) = m4 in
+            {30}if ((Sess = A) || (Sess = B)) then
+            {31}event endCli(Sess,Cli,Ns)
+) | (
+    {32}in(ch, (Cli_80: host,Sess_81: host,K_82: bitstring));
+    {33}let skCli_83: bitstring = (if (Cli_80 = A) then skA else (if (Cli_80 = B) then skB else sk(Cli_80))) in
+    {34}let pkCli_84: bitstring = pub(skCli_83) in
+    {35}let skSess_85: bitstring = (if (Sess_81 = A) then skA else (if (Sess_81 = B) then skB else fail-any)) in
+    {36}let pkSess_86: bitstring = pub(skSess_85) in
+    {37}let tmp_87: bitstring = (if ((Cli_80 <> A) && (Cli_80 <> B)) then K_82 else CreateSessionRequest) in
+    {38}out(c, tmp_87);
+    {39}in(c, m1_88: bitstring);
+    {40}let (=CreateSessionRequest,=Sess_81,=pkCli_84,Nc_89: bitstring) = m1_88 in
+    {41}new Ns_90: bitstring;
+    {42}event beginSrv(Sess_81,Cli_80,Ns_90);
+    {43}let m2_91: bitstring = (CreateSessionResponse,Cli_80,pkSess_86,Nc_89,Ns_90) in
+    {44}out(c, m2_91);
+    {45}in(c, m3_92: bitstring);
+    {46}let (=ActivateSessionRequest,=pkCli_84,login: bitstring,passwd: bitstring) = m3_92 in
+    {47}if (verifyCreds(skSess_85,login,passwd) <> true) then
+        0
+    else
+        {48}new Ns2_93: bitstring;
+        {49}let m4_94: bitstring = (ActivateSessionResponse,Ns2_93) in
+        {50}out(c, m4_94);
+        {51}if ((Cli_80 = A) || (Cli_80 = B)) then
+        {52}event endSrv(Cli_80,Sess_81,(login,passwd))
+)
+
+-- Query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
+Completing...
+200 rules inserted. The rule base contains 142 rules. 39 rules in the queue.
+Starting query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
+RESULT event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N)) is true.
+-- Query event(endSrv(X_7735,Y_7736,N_7737)) ==> event(beginCli(X_7735,Y_7736,N_7737))
+Completing...
+200 rules inserted. The rule base contains 144 rules. 38 rules in the queue.
+Starting query event(endSrv(X_7735,Y_7736,N_7737)) ==> event(beginCli(X_7735,Y_7736,N_7737))
+goal reachable: attacker(y_14612) -> end(endSrv(B[],A[],(Login(pub(y_14612)),Passwd(y_14612,pub(skA[])))))
+Abbreviations:
+ch_14643 = ch[!1 = @sid_14638]
+K_14644 = K[Sess = A[],Cli = B[],!1 = @sid_14638]
+
+1. The attacker initially knows A[].
+attacker(A[]).
+
+2. The attacker initially knows B[].
+attacker(B[]).
+
+3. By 2, the attacker may know B[].
+By 1, the attacker may know A[].
+Using the function 2-tuple the attacker may obtain (B[],A[]).
+attacker((B[],A[])).
+
+4. The message (B[],A[]) that the attacker may have by 3 may be received at input {7}.
+So the message (B[],A[],K_14644) may be sent on channel ch_14643 at output {9}.
+mess(ch_14643,(B[],A[],K_14644)).
+
+5. The attacker has some term Nc_14637.
+attacker(Nc_14637).
+
+6. The message pub(skB[]) may be sent to the attacker at output {4}.
+attacker(pub(skB[])).
+
+7. Using the function CreateSessionRequest the attacker may obtain CreateSessionRequest.
+attacker(CreateSessionRequest).
+
+8. By 7, the attacker may know CreateSessionRequest.
+By 1, the attacker may know A[].
+By 6, the attacker may know pub(skB[]).
+By 5, the attacker may know Nc_14637.
+Using the function 4-tuple the attacker may obtain (CreateSessionRequest,A[],pub(skB[]),Nc_14637).
+attacker((CreateSessionRequest,A[],pub(skB[]),Nc_14637)).
+
+9. The message pub(skA[]) may be sent to the attacker at output {2}.
+attacker(pub(skA[])).
+
+10. We assume as hypothesis that
+attacker(y_14636).
+
+11. By 10, the attacker may know y_14636.
+By 9, the attacker may know pub(skA[]).
+Using the function Passwd the attacker may obtain Passwd(y_14636,pub(skA[])).
+attacker(Passwd(y_14636,pub(skA[]))).
+
+12. By 10, the attacker may know y_14636.
+Using the function pub the attacker may obtain pub(y_14636).
+attacker(pub(y_14636)).
+
+13. By 12, the attacker may know pub(y_14636).
+Using the function Login the attacker may obtain Login(pub(y_14636)).
+attacker(Login(pub(y_14636))).
+
+14. Using the function ActivateSessionRequest the attacker may obtain ActivateSessionRequest.
+attacker(ActivateSessionRequest).
+
+15. By 14, the attacker may know ActivateSessionRequest.
+By 6, the attacker may know pub(skB[]).
+By 13, the attacker may know Login(pub(y_14636)).
+By 11, the attacker may know Passwd(y_14636,pub(skA[])).
+Using the function 4-tuple the attacker may obtain (ActivateSessionRequest,pub(skB[]),Login(pub(y_14636)),Passwd(y_14636,pub(skA[]))).
+attacker((ActivateSessionRequest,pub(skB[]),Login(pub(y_14636)),Passwd(y_14636,pub(skA[])))).
+
+16. The message (B[],A[],K_14644) that may be sent on channel ch_14643 by 4 may be received at input {32}.
+The message (CreateSessionRequest,A[],pub(skB[]),Nc_14637) that the attacker may have by 8 may be received at input {39}.
+The message (ActivateSessionRequest,pub(skB[]),Login(pub(y_14636)),Passwd(y_14636,pub(skA[]))) that the attacker may have by 15 may be received at input {45}.
+So event endSrv(B[],A[],(Login(pub(y_14636)),Passwd(y_14636,pub(skA[])))) may be executed at {52}.
+end(endSrv(B[],A[],(Login(pub(y_14636)),Passwd(y_14636,pub(skA[]))))).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(c, pub(skA)) at {2}
+
+out(c, pub(skB)) at {4}
+
+new ch creating ch_14647 at {6} in copy a_14646
+
+in(c, (B,A)) at {7} in copy a_14646
+
+new K creating K_14648 at {8} in copy a_14646
+
+out(ch_14647, (B,A,K_14648)) at {9} in copy a_14646 received at {32} in copy a_14646
+
+out(c, CreateSessionRequest) at {38} in copy a_14646
+
+out(c, CreateSessionRequest) at {15} in copy a_14646
+
+new Nc creating Nc_14951 at {16} in copy a_14646
+
+out(c, (senc((CreateSessionRequest,A,pub(skB),Nc_14951),K_14648),sign(h((CreateSessionRequest,A,pub(skB),Nc_14951)),skB))) at {18} in copy a_14646
+
+in(c, (CreateSessionRequest,A,pub(skB),a_14645)) at {39} in copy a_14646
+
+new Ns_90 creating Ns_14978 at {41} in copy a_14646
+
+event(beginSrv(A,B,Ns_14978)) at {42} in copy a_14646
+
+out(c, (CreateSessionResponse,B,pub(skA),a_14645,Ns_14978)) at {44} in copy a_14646
+
+in(c, (ActivateSessionRequest,pub(skB),Login(pub(a)),Passwd(a,pub(skA)))) at {45} in copy a_14646
+
+new Ns2_93 creating Ns2_14995 at {48} in copy a_14646
+
+out(c, (ActivateSessionResponse,Ns2_14995)) at {50} in copy a_14646
+
+event(endSrv(B,A,(Login(pub(a)),Passwd(a,pub(skA))))) at {52} in copy a_14646
+
+The event endSrv(B,A,(Login(pub(a)),Passwd(a,pub(skA)))) is executed.
+A trace has been found.
+RESULT event(endSrv(X_7735,Y_7736,N_7737)) ==> event(beginCli(X_7735,Y_7736,N_7737)) is false.
+-- Query not attacker(Passwd(skA[],pub(skB[])))
+Completing...
+200 rules inserted. The rule base contains 141 rules. 27 rules in the queue.
+Starting query not attacker(Passwd(skA[],pub(skB[])))
+RESULT not attacker(Passwd(skA[],pub(skB[]))) is true.

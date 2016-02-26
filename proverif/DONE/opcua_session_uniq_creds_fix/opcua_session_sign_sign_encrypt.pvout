@@ -1,0 +1,94 @@
+File "opcua_session_sign_sign_encrypt.pv", line 106, character 48 - line 106, character 50:
+Warning: identifier Nc rebound
+Process:
+{1}let pkA: bitstring = pub(skA) in
+{2}out(c, pkA);
+{3}let pkB: bitstring = pub(skB) in
+{4}out(c, pkB);
+{5}!
+{6}new ch: channel;
+(
+    {7}in(c, (Cli: host,Sess: host));
+    {8}new K: bitstring;
+    {9}out(ch, (Cli,Sess,K));
+    {10}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else fail-any)) in
+    {11}let pkCli: bitstring = pub(skCli) in
+    {12}let skSess: bitstring = (if (Sess = A) then skA else (if (Sess = B) then skB else sk(Sess))) in
+    {13}let pkSess: bitstring = pub(skSess) in
+    {14}let tmp: bitstring = (if ((Sess <> A) && (Sess <> B)) then K else CreateSessionRequest) in
+    {15}out(c, tmp);
+    {16}new Nc: bitstring;
+    {17}let m1: bitstring = (CreateSessionRequest,Sess,pkCli,Nc) in
+    {18}out(c, (m1,sign(h(m1),skCli)));
+    {19}in(c, (m2: bitstring,sigM2: bitstring));
+    {20}if (verifySign(h(m2),sigM2,pkSess) <> true) then
+        0
+    else
+        {21}let (=CreateSessionResponse,=Cli,=pkSess,=Nc,Ns: bitstring) = m2 in
+        {22}event beginCli(Cli,Sess,(Login(pkCli),Passwd(skCli,pkSess)));
+        {23}let m3: bitstring = (ActivateSessionRequest,pkCli,Login(pkCli),Passwd(skCli,pkSess)) in
+        {24}out(c, (m3,sign(h(m3),skCli)));
+        {25}in(c, (m4: bitstring,sigM4: bitstring));
+        {26}if (verifySign(h(m4),sigM4,pkSess) <> true) then
+            0
+        else
+            {27}let (=ActivateSessionResponse,Ns2: bitstring) = m4 in
+            {28}if ((Sess = A) || (Sess = B)) then
+            {29}event endCli(Sess,Cli,Ns)
+) | (
+    {30}in(ch, (Cli_80: host,Sess_81: host,K_82: bitstring));
+    {31}let skCli_83: bitstring = (if (Cli_80 = A) then skA else (if (Cli_80 = B) then skB else sk(Cli_80))) in
+    {32}let pkCli_84: bitstring = pub(skCli_83) in
+    {33}let skSess_85: bitstring = (if (Sess_81 = A) then skA else (if (Sess_81 = B) then skB else fail-any)) in
+    {34}let pkSess_86: bitstring = pub(skSess_85) in
+    {35}let tmp_87: bitstring = (if ((Cli_80 <> A) && (Cli_80 <> B)) then K_82 else CreateSessionRequest) in
+    {36}out(c, tmp_87);
+    {37}in(c, (em1: bitstring,sigM1: bitstring));
+    {38}new Nc_88: bitstring;
+    {39}let m1_89: bitstring = sdec(em1,K_82) in
+    {40}if (verifySign(h(m1_89),sigM1,pkCli_84) <> true) then
+        0
+    else
+        {41}let (=CreateSessionRequest,=Sess_81,=pkCli_84,Nc_90: bitstring) = m1_89 in
+        {42}new Ns_91: bitstring;
+        {43}event beginSrv(Sess_81,Cli_80,Ns_91);
+        {44}let m2_92: bitstring = (CreateSessionResponse,Cli_80,pkSess_86,Nc_90,Ns_91) in
+        {45}out(c, (senc(m2_92,K_82),sign(h(m2_92),skSess_85)));
+        {46}in(c, (em3: bitstring,sigM3: bitstring));
+        {47}let m3_93: bitstring = sdec(em3,K_82) in
+        {48}if (verifySign(h(m3_93),sigM3,pkCli_84) <> true) then
+            0
+        else
+            {49}let (=ActivateSessionRequest,=pkCli_84,login: bitstring,passwd: bitstring) = m3_93 in
+            {50}if (verifyCreds(skSess_85,login,passwd) <> true) then
+                0
+            else
+                {51}new Ns2_94: bitstring;
+                {52}let m4_95: bitstring = (ActivateSessionResponse,Ns2_94) in
+                {53}out(c, (senc(m4_95,K_82),sign(h(m4_95),skSess_85)));
+                {54}if ((Cli_80 = A) || (Cli_80 = B)) then
+                {55}event endSrv(Cli_80,Sess_81,(login,passwd))
+)
+
+-- Query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
+Completing...
+200 rules inserted. The rule base contains 136 rules. 52 rules in the queue.
+400 rules inserted. The rule base contains 200 rules. 66 rules in the queue.
+600 rules inserted. The rule base contains 304 rules. 28 rules in the queue.
+Starting query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
+RESULT event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N)) is true.
+-- Query event(endSrv(X_11872,Y_11873,N_11874)) ==> event(beginCli(X_11872,Y_11873,N_11874))
+Completing...
+200 rules inserted. The rule base contains 136 rules. 52 rules in the queue.
+400 rules inserted. The rule base contains 220 rules. 72 rules in the queue.
+600 rules inserted. The rule base contains 324 rules. 36 rules in the queue.
+800 rules inserted. The rule base contains 358 rules. 8 rules in the queue.
+Starting query event(endSrv(X_11872,Y_11873,N_11874)) ==> event(beginCli(X_11872,Y_11873,N_11874))
+RESULT event(endSrv(X_11872,Y_11873,N_11874)) ==> event(beginCli(X_11872,Y_11873,N_11874)) is true.
+-- Query not attacker(Passwd(skA[],pub(skB[])))
+Completing...
+200 rules inserted. The rule base contains 130 rules. 46 rules in the queue.
+400 rules inserted. The rule base contains 200 rules. 58 rules in the queue.
+600 rules inserted. The rule base contains 300 rules. 26 rules in the queue.
+Starting query not attacker(Passwd(skA[],pub(skB[])))
+RESULT not attacker(Passwd(skA[],pub(skB[]))) is true.
