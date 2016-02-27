@@ -44,7 +44,7 @@ protocols' specifications before assessing implementations. However,
 the lack of formal verification of industrial protocols has been
 emphasized in 2006 by Igure et al.~\cite{ILW06} and in 2009 by
 Patel \emph{et al.}~\cite{PBG09}.  They particularly argued that
-automated protocol verification allows to understand most of the
+automated protocol verification allows us to understand most of the
 vulnerabilities of a protocol before changing its standards which
 helps at minimizing the number of revisions which costs time and
 money.  Moreover, due to the combinational explosion of the number of
@@ -63,7 +63,7 @@ protocol in a given model.
 Most of the works on the security of industrial protocols only rely on
 specifications written in human language rather than using formal methods.
 In 2004, Dzung et al. proposed a detailed survey on the security in SCADA
-systems including analysis on the security properties offered by \opc (Open
+systems including unformal analysis on the security properties offered by \opc (Open
 Platform Communications), \mms (Manufacturing Message Specification),
 \iec{61850}, \iccp (Inter-Control Center Communications Protocol) and \etherip.
 Still in 2004, Clarke et al.~\cite{CR04} discussed the security of \dnp
@@ -89,8 +89,8 @@ Transmission Control Protocol).
 To the best of our knowledge, the only work directly making use of formal
 methods to prove the security of industrial protocols or find attack against
 them is from Graham et al.~\cite{GP05} in 2005.
-They proposed a formal verification of \dnp using \ofmc~\cite{BMV03} and
-\spear~\cite{SH01}.
+They proposed a formal verification of \dnp using \ofmc~\cite{BMV03} (Open-Source Fixed-Point Model-Checker) and
+\spear~\cite{SH01} (Security Protocol Engineering and Analysis Resource).
 %% \TODO Sadly we were not able to access their modelings to discuss them with
 %% ours.
 %In 2008, Dutertre~\cite{Dut08} detailed formal specifications of \modbus
@@ -106,19 +106,19 @@ We propose a formal analysis of the security of
 %We also assess the 
 the sub-protocols involved in the \opcua handshake, namely \opcua
 OpenSecureChannel and \opcua CreateSession.  We are able to find
-attacks against both of them and provide some countermeasures when
-needed.  This work makes use of one of the most efficient tools in the
-domain of cryptographic protocol verification according
-to \cite{LP15}, namely \proverif developed by Blanchet et al.~\cite{Bla01}.
-It analyzes a protocol written either in Horn clauses format or using
-a subset of the Pi-calculus for an unbounded number of sessions
+attacks against both of them and provide some countermeasures.  This
+work makes use of one of the most efficient tools in the domain of
+cryptographic protocol verification according to \cite{LP15},
+namely \proverif developed by Blanchet et al.~\cite{Bla01}.  It
+analyzes a protocol written either in Horn clauses format or using a
+subset of the Pi-calculus for an unbounded number of sessions
 considering the classical Dolev-Yao intruder model~\cite{DY81}.  This
 powerful intruder controls the network, listens, stops, forges,
 replays or modifies some messages according to its capabilities and
 knowledge.  The perfect encryption hypothesis is assumed, meaning that
 it is not possible to decrypt a ciphertext without its encryption key
 or to forge a signature without knowing the secret key.  In this
-context, verification tools are able to verify security properties of
+context, \proverif can verify security properties of
 a protocol such as secrecy and authentication.  The first property
 ensures that a secret message cannot be discovered by an unauthorized
 agent (including the intruder).  The authentication property means
