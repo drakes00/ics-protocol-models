@@ -9,8 +9,8 @@
 
 
 The \opcua {\em CreateSession} sub-protocol allows a client to send credentials
-(e.g.: a login and a password) over an already created Secure Channel.
-It will automatically follow the security mode that was chosen during the
+(\emph{e.g.}: a login and a password) over an already created Secure Channel.
+It  automatically follows the security mode that was chosen during the
 {\em OpenSecureChannel} sub-protocol.
 This sub-protocol is presented in Figure \ref{fig:session_se}.
 
@@ -69,7 +69,7 @@ Here we suppose that C uses a different password for each server he speaks with.
 %with the intruder (possibly a rogue server controled by the intruder).
 \TODO Explain modelization.
 
-Moreover in our modelings, we assume that the intruder can share a symmetric key
+Moreover in our modeling, we assume that the intruder can share a symmetric key
 with any other participant as a result of playing the {\em OpenSecureChannel}
 sub-protocol.
 However, as we said in Section \ref{sec:secure_channel_res}, he will not obtain
@@ -85,7 +85,7 @@ $g^{N_{S}}$.
 
 Results under this assumption are presented in Table \ref{tab:session_results}.
 Again obviously, all objectives are attacked in security mode \smn.
-Also the secrecy of the password can not hold evem in security mode \sms~since
+Also the secrecy of the password can not hold even in security mode \sms~since
 it will be revealed by the client to the server during a legitimate exchange.
 However, using a different password for each server ensures the authentication
 of the client with other security modes.
@@ -98,7 +98,7 @@ as we previously said, the intruder does not possess the symmetric key of a
 session where he is usurping someone's identity preventing him to communicate.
 Attacks on the secrecy of the credentials occur because the client will accept
 the intruder's public key (and signatures) according to our intruder model.
-Thus as the client always use the same credentials, then he will reveal them to
+Thus as the client always uses the same credentials, then he will reveal them to
 the intruder just by playing the sub-protocol.
 
 \begin{table}[htb]
