@@ -58,43 +58,34 @@ This sub-protocol is presented in Figure \ref{fig:session_se}.
 
 \subsection{Modeling}
 
-%For this protocol, a modeling choice appears.
-%We can either suppose that C respects security standards and would use different
-%credentials for each server or suppose he will always send the same login and
-%password for all servers.
-As this protocol involves login and passwords, we have to make modeling choices
-on how they are used.
-Here we suppose that C uses a different password for each server he speaks with.
-%the same credentials including in a session
-%with the intruder (possibly a rogue server controled by the intruder).
-In order to model credentials in \proverif with propose two hash functions:
-{\em Login} and {\em Passwd}.
-{\em Login} takes as parameter the public key of a host in order to associate
-his login with him. This also makes it public for everybody.
-{\em Passwd} takes as parameter the private key of its owner to make it secret
-but also the public key of the server to model a different password for each
-server.
-Then we provide the following oracle to the server:
-$verifyCreds(x, Login(pub(y)), Passwd(y, pub(x))) = true$ with $x$ the private
-key of the server and $y$ the private key of the client (not revealed to the
-server).
-It allows him to verify if a password and a login are matching and if the
-password is the one he knows (using his public key).
-Moreover in our modeling, we assume that the intruder can share a symmetric key
-with any other participant as a result of playing the {\em OpenSecureChannel}
-sub-protocol.
-However, as we said in Section \ref{sec:secure_channel_res}, he will not obtain
-the derived key if he usurps another participant.
-This means that if the intruder shares a symmetric key with another participant,
-then this key is attached to a session in which he is not usurping someone's
-identity.
-We consider for security objectives: (i) the secrecy of the password, (ii)
-the authentication of C on his password and (iii) the authentication of S on
-$g^{N_{S}}$.
+As this protocol involves login and passwords, we have to make
+modeling choices on how they are used.  Here we suppose that C uses a
+different password for each server he speaks with.  In order to model
+credentials in \proverif we use two functions: {\em Login} and {\em
+  Passwd}.  {\em Login} takes as parameter the public key of a host in
+order to associate his login with him. This function is public for
+everybody.  {\em Passwd} takes as parameter the private key of its
+owner to make it secret but also the public key of the server to model
+a different password for each server.  Then we provide the following
+equation: \texttt{verifyCreds(x, Login(pub(y)), Passwd(y, pub(x))) =
+  true} where \texttt{x} the private key of the server and \texttt{y}
+the private key of the client (not revealed to the server).  It allows
+the server to verify if a password and a login are matching and if the
+password is the one he knows (using his public key).  Moreover in our
+modeling, we assume that the intruder can share a symmetric key with
+any other participant as a result of playing the {\em
+  OpenSecureChannel} sub-protocol.  However, as we said in
+Section~\ref{sec:secure_channel_res}, the intruder will not obtain the
+derived key if he usurps another participant.  This means that if the
+intruder shares a symmetric key with another participant, then this
+key is attached to a session in which he is not usurping someone's
+identity.  We consider for security objectives: (i) the secrecy of the
+password, (ii) the authentication of C on his password and (iii) the
+authentication of S on $g^{N_{S}}$.
 
 \subsection{Results}
 
-Results under this assumption are presented in Table \ref{tab:session_results}.
+Results for this protocol are presented in Table~\ref{tab:session_results}.
 Again obviously, all objectives are attacked in security mode \smn.
 Also the secrecy of the password cannot hold even in security mode \sms~since
 it will be sent by the client in plaintext during a legitimate exchange.
