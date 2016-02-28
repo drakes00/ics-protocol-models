@@ -1,6 +1,16 @@
-\begin{itemize}
-    \item Formal verification of new industry standard protocol : opcua.
-    \item Attacks found on both secure channel and create session.
-    \item Fixes provided.
-    \item Perspectives: Real test of attacks on implementations + Integrity.
-\end{itemize}
+In conclusion, we provide a formal verification of the new industry standard
+communication protocol: \opcua, relying its official specifications
+\cite{MLD09,opcua_part2,opcua_part4,opcua_part6}.
+It is a tidious task since specifications are willingly elusive to allow
+interoperability.
+This work makes use of a famous tool in the domain of protocol verification:
+\proverif.
+We are able to find attacks on both \securechan and \session sub-protocols and
+provide counter-measures.
+In the future, we plan on testing the attacks we found on real implementations.
+This next work would analyze if those implementations are strictly following
+the specifications or if they adopt the prudent engineering practices advised in
+\cite{} that would circumvent the attacks we found.
+More generaly we are also interested in studying how to model integrity
+properties for messages and communication flows in \proverif since it is one of
+the biggest requirement for industrial protocols.
