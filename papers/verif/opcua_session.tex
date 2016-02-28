@@ -67,8 +67,19 @@ on how they are used.
 Here we suppose that C uses a different password for each server he speaks with.
 %the same credentials including in a session
 %with the intruder (possibly a rogue server controled by the intruder).
-\TODO Explain modelization.
-
+In order to model credentials in \proverif with propose two hash functions:
+{\em Login} and {\em Passwd}.
+{\em Login} takes as parameter the public key of a host in order to associate
+his login with him. This also makes it public for everybody.
+{\em Passwd} takes as parameter the private key of its owner to make it secret
+but also the public key of the server to model a different password for each
+server.
+Then we provide the following oracle to the server:
+$verifyCreds(x, Login(pub(y)), Passwd(y, pub(x))) = true$ with $x$ the private
+key of the server and $y$ the private key of the client (not revealed to the
+server).
+It allows him to verify if a password and a login are matching and if the
+password is the one he knows (using his public key).
 Moreover in our modeling, we assume that the intruder can share a symmetric key
 with any other participant as a result of playing the {\em OpenSecureChannel}
 sub-protocol.
