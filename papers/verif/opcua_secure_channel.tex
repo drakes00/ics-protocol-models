@@ -17,10 +17,10 @@ a server and allows them to generate a shared key for the later communications.
 \begin{itemize}
     \item {\em \smse}: claims to provide secrecy using symetric and
       assymetric encryption and both authentication and integrity
-      through digital signatures.
+      through digital signatures (\eg $enc_{pkB}(m)$, $sig_{skA}(h(m))$).
   \item {\em \sms}: same as {\em \smse} but without any encryption.  Thus
       nonces are not used to generate a shared key but bring freshness
-      to the messages.
+      to the messages (\eg m, $sig_{skA}(h(m))$).
   \item {\em \smn}: does not provide any security.  Using this mode, the
       {\em OpenSecureChannel} sub-protocol does not serve much
       purpose but is used for compatibility.
