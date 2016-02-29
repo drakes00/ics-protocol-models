@@ -42,8 +42,8 @@ As it already appeared for business IT's protocols for twenty years,
 automated verification is crucial in order to discover flaws in the
 protocols' specifications before assessing implementations. However,
 the lack of formal verification of industrial protocols has been
-emphasized in 2006 by Igure et al.~\cite{ILW06} and in 2009 by
-Patel \emph{et al.}~\cite{PBG09}.  They particularly argued that
+emphasized in 2006 by Igure \etal~\cite{ILW06} and in 2009 by
+Patel \emph{\etal}~\cite{PBG09}.  They particularly argued that
 automated protocol verification allows us to understand most of the
 vulnerabilities of a protocol before changing its standards which
 helps at minimizing the number of revisions which costs time and
@@ -59,34 +59,34 @@ protocol in a given model.
 %present in the literature.
 Most of the works on the security of industrial protocols only rely on
 specifications written in human language rather than using formal methods.
-In 2004, Dzung et al. proposed a detailed survey on the security in SCADA
+In 2004, Dzung \etal~\cite{} proposed a detailed survey on the security in SCADA
 systems including unformal analysis on the security properties offered by
 various industrial protocols: \opc (Open Platform Communications),
 \mms (Manufacturing Message Specification),
 \iec{61850}, \iccp (Inter-Control Center Communications Protocol) and \etherip.
-Still in 2004, Clarke et al.~\cite{CR04} discussed the security of \dnp
+Still in 2004, Clarke \etal~\cite{CR04} discussed the security of \dnp
 (Distributed Network Protocol) and \iccp.
 In 2006, in the technical documentation of \opcua (OPC Unified Architecture) the
 authors detailled the security measures of the protocol (specialy in part 2, 4
 and 6).
-In 2015, Wanying et al. summarizeed the security offered by \modbus, \dnp and
+In 2015, Wanying \etal summarizeed the security offered by \modbus, \dnp and
 \opcua.
 
 On the other hand, some works propose new versions of existing protocols to make
 them secure against malicious adversaries.
-In 2007, Patel et al.~\cite{PY07} studied the security of \dnp and proposed two
+In 2007, Patel \etal~\cite{PY07} studied the security of \dnp and proposed two
 ways of enhancing it through digital signatures and challenge-response models.
-In 2009, Fovino et al.~\cite{FCMT09} proposed a secure version of \modbus
+In 2009, Fovino \etal~\cite{FCMT09} proposed a secure version of \modbus
 relying on well-known cryptographic primitives such as RSA or SHA2.
 %This version of the protocol also need to introduce new components in the system
 %to allow existing devices to use these cryptographic primitives.
-In 2013, Hayes et al.~\cite{HE13} designed another secure \modbus protocol using
+In 2013, Hayes \etal~\cite{HE13} designed another secure \modbus protocol using
 hash-based message authentication codes (HMACs) and built on STCP (Stream
 Transmission Control Protocol).
 
 To the best of our knowledge, the only work directly making use of formal
 methods to prove the security of industrial protocols or find attack against
-them is from Graham et al.~\cite{GP05} in 2005.
+them is from Graham \etal~\cite{GP05} in 2005.
 They proposed a formal verification of \dnp using \ofmc~\cite{BMV03} (Open-Source Fixed-Point Model-Checker) and
 \spear~\cite{SH01} (Security Protocol Engineering and Analysis Resource).
 %% \TODO Sadly we were not able to access their modelings to discuss them with
@@ -107,7 +107,7 @@ the sub-protocols involved in the \opcua handshake, namely \opcua
 attacks against both of them and provide some countermeasures.  This
 work makes use of one of the most efficient tools in the domain of
 cryptographic protocol verification according to \cite{LP15},
-namely \proverif developed by Blanchet et al.~\cite{Bla01}.  It
+namely \proverif developed by Blanchet \etal~\cite{Bla01}.  It
 analyzes a protocol written either in Horn clauses format or using a
 subset of the Pi-calculus for an unbounded number of sessions
 considering the classical Dolev-Yao intruder model~\cite{DY81}.  This
