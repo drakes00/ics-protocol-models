@@ -81,7 +81,7 @@ intruder shares a symmetric key with another participant, then this
 key is attached to a session in which he is not usurping someone's
 identity.  We consider for security objectives: (i) the secrecy of the
 password, (ii) the authentication of C on his password and (iii) the
-authentication of S on $g^{N_{S}}$.
+authentication of S on $N_{C}$.
 
 \subsection{Results}
 
@@ -91,7 +91,7 @@ Also the secrecy of the password cannot hold even in security mode \sms~since
 it will be sent by the client in plaintext during a legitimate exchange.
 However, using a different password for each server ensures the authentication
 of the client.
-Attack on the athentication on $N_{S}$ is similar to the attack presented in
+Attack on the athentication on $N_{C}$ is similar to the attack presented in
 Figure \ref{fig:secure_channel_atk}.
 The intruder starts a session with the server and retoutes the packets to the
 client.
@@ -106,7 +106,7 @@ session where he is usurping someone's identity preventing him to communicate.
         \hline
         \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
         \cline{2-4}
-                       & Sec $Creds$   & Auth $N_S$    & Auth $Creds$   \\
+                       & Sec $Passwd$  & Auth $N_{C}$  & Auth $Passwd$  \\
         \hline
         \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE        \\ 
         \hline
@@ -125,7 +125,7 @@ session where he is usurping someone's identity preventing him to communicate.
 We apply the same correction than in \securechan (explicitly
 specifying the identities of recievers in messages).
 %, the resulting protocol is displayed in Figure \ref{fig:session_fix}
-Then authentication on $N_{S}$ becomes secure as shown in Table
+Then authentication on $N_{C}$ becomes secure as shown in Table
 \ref{tab:session_fix_results}.
 
 %\begin{figure}[htb]
@@ -177,7 +177,7 @@ Then authentication on $N_{S}$ becomes secure as shown in Table
         \hline
         \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
         \cline{2-4}
-                       & Sec $Creds$   & Auth $N_S$    & Auth $Creds$   \\
+                       & Sec $Passwd$  & Auth $N_{C}$  & Auth $Passwd$  \\
         \hline                                                                          
         \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE        \\ 
         \hline                                         
@@ -203,7 +203,7 @@ Then authentication on $N_{S}$ becomes secure as shown in Table
 %        \hline
 %        \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
 %        \cline{2-4}
-%                       & Sec $Creds$   & Auth $N_S$    & Auth $Creds$   \\
+%                       & Sec $Passwd$  & Auth $N_{C}$  & Auth $Passwd$  \\
 %        \hline                                                                          
 %        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
 %        \hline                                         
