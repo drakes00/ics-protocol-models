@@ -34,7 +34,7 @@ Process:
         else
             {29}let (=ActivateSessionResponse,Ns2: bitstring) = m4 in
             {30}if ((Sess = A) || (Sess = B)) then
-            {31}event endCli(Sess,Cli,Ns)
+            {31}event endCli(Sess,Cli,Nc)
 ) | (
     {32}in(ch, (Cli_80: host,Sess_81: host,K_82: bitstring));
     {33}let skCli_83: bitstring = (if (Cli_80 = A) then skA else (if (Cli_80 = B) then skB else sk(Cli_80))) in
@@ -49,7 +49,7 @@ Process:
     else
         {41}let (=CreateSessionRequest,=Sess_81,=pkCli_84,Nc_89: bitstring) = m1_88 in
         {42}new Ns_90: bitstring;
-        {43}event beginSrv(Sess_81,Cli_80,Ns_90);
+        {43}event beginSrv(Sess_81,Cli_80,Nc_89);
         {44}let m2_91: bitstring = (CreateSessionResponse,Cli_80,pkSess_86,Nc_89,Ns_90) in
         {45}out(c, (m2_91,sign(h(m2_91),skSess_85)));
         {46}in(c, (m3_92: bitstring,sigM3: bitstring));
@@ -74,13 +74,13 @@ Completing...
 600 rules inserted. The rule base contains 238 rules. 36 rules in the queue.
 Starting query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
 RESULT event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N)) is true.
--- Query event(endSrv(X_11147,Y_11148,N_11149)) ==> event(beginCli(X_11147,Y_11148,N_11149))
+-- Query event(endSrv(X_11125,Y_11126,N_11127)) ==> event(beginCli(X_11125,Y_11126,N_11127))
 Completing...
 200 rules inserted. The rule base contains 136 rules. 76 rules in the queue.
 400 rules inserted. The rule base contains 200 rules. 54 rules in the queue.
 600 rules inserted. The rule base contains 238 rules. 48 rules in the queue.
-Starting query event(endSrv(X_11147,Y_11148,N_11149)) ==> event(beginCli(X_11147,Y_11148,N_11149))
-RESULT event(endSrv(X_11147,Y_11148,N_11149)) ==> event(beginCli(X_11147,Y_11148,N_11149)) is true.
+Starting query event(endSrv(X_11125,Y_11126,N_11127)) ==> event(beginCli(X_11125,Y_11126,N_11127))
+RESULT event(endSrv(X_11125,Y_11126,N_11127)) ==> event(beginCli(X_11125,Y_11126,N_11127)) is true.
 -- Query not attacker(Passwd(skA[],pub(skB[])))
 Completing...
 200 rules inserted. The rule base contains 140 rules. 72 rules in the queue.

@@ -34,7 +34,7 @@ Process:
         else
             {27}let (=ActivateSessionResponse,Ns2: bitstring) = m4 in
             {28}if ((Sess = A) || (Sess = B)) then
-            {29}event endCli(Sess,Cli,Ns)
+            {29}event endCli(Sess,Cli,Nc)
 ) | (
     {30}in(ch, (Cli_80: host,Sess_81: host,K_82: bitstring));
     {31}let skCli_83: bitstring = (if (Cli_80 = A) then skA else (if (Cli_80 = B) then skB else sk(Cli_80))) in
@@ -51,7 +51,7 @@ Process:
     else
         {41}let (=CreateSessionRequest,=Sess_81,=pkCli_84,Nc_90: bitstring) = m1_89 in
         {42}new Ns_91: bitstring;
-        {43}event beginSrv(Sess_81,Cli_80,Ns_91);
+        {43}event beginSrv(Sess_81,Cli_80,Nc_90);
         {44}let m2_92: bitstring = (CreateSessionResponse,Cli_80,pkSess_86,Nc_90,Ns_91) in
         {45}out(c, (senc(m2_92,K_82),sign(h(m2_92),skSess_85)));
         {46}in(c, (em3: bitstring,sigM3: bitstring));
@@ -77,14 +77,14 @@ Completing...
 600 rules inserted. The rule base contains 304 rules. 28 rules in the queue.
 Starting query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
 RESULT event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N)) is true.
--- Query event(endSrv(X_11872,Y_11873,N_11874)) ==> event(beginCli(X_11872,Y_11873,N_11874))
+-- Query event(endSrv(X_11864,Y_11865,N_11866)) ==> event(beginCli(X_11864,Y_11865,N_11866))
 Completing...
 200 rules inserted. The rule base contains 136 rules. 52 rules in the queue.
 400 rules inserted. The rule base contains 220 rules. 72 rules in the queue.
 600 rules inserted. The rule base contains 324 rules. 36 rules in the queue.
 800 rules inserted. The rule base contains 358 rules. 8 rules in the queue.
-Starting query event(endSrv(X_11872,Y_11873,N_11874)) ==> event(beginCli(X_11872,Y_11873,N_11874))
-RESULT event(endSrv(X_11872,Y_11873,N_11874)) ==> event(beginCli(X_11872,Y_11873,N_11874)) is true.
+Starting query event(endSrv(X_11864,Y_11865,N_11866)) ==> event(beginCli(X_11864,Y_11865,N_11866))
+RESULT event(endSrv(X_11864,Y_11865,N_11866)) ==> event(beginCli(X_11864,Y_11865,N_11866)) is true.
 -- Query not attacker(Passwd(skA[],pub(skB[])))
 Completing...
 200 rules inserted. The rule base contains 130 rules. 46 rules in the queue.

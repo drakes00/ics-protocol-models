@@ -36,7 +36,7 @@ Process:
         else
             {29}let (=ActivateSessionResponse,Ns2: bitstring) = m4 in
             {30}if ((Sess = A) || (Sess = B)) then
-            {31}event endCli(Sess,Cli,Ns)
+            {31}event endCli(Sess,Cli,Nc)
 ) | (
     {32}in(ch, (Cli_80: host,Sess_81: host,K_82: bitstring));
     {33}let skCli_83: bitstring = (if (Cli_80 = A) then skA else (if (Cli_80 = B) then skB else sk(Cli_80))) in
@@ -53,7 +53,7 @@ Process:
     else
         {43}let (=CreateSessionRequest,=pkCli_84,Nc_90: bitstring) = m1_89 in
         {44}new Ns_91: bitstring;
-        {45}event beginSrv(Sess_81,Cli_80,Ns_91);
+        {45}event beginSrv(Sess_81,Cli_80,Nc_90);
         {46}let m2_92: bitstring = (CreateSessionResponse,pkSess_86,Nc_90,Ns_91) in
         {47}out(c, (senc(m2_92,K_82),sign(h(m2_92),skSess_85)));
         {48}in(c, (em3: bitstring,sigM3: bitstring));
@@ -79,16 +79,15 @@ Completing...
 600 rules inserted. The rule base contains 396 rules. 128 rules in the queue.
 800 rules inserted. The rule base contains 484 rules. 76 rules in the queue.
 1000 rules inserted. The rule base contains 564 rules. 70 rules in the queue.
-1200 rules inserted. The rule base contains 654 rules. 104 rules in the queue.
-1400 rules inserted. The rule base contains 786 rules. 85 rules in the queue.
-1600 rules inserted. The rule base contains 921 rules. 11 rules in the queue.
+1200 rules inserted. The rule base contains 653 rules. 97 rules in the queue.
+1400 rules inserted. The rule base contains 796 rules. 79 rules in the queue.
 Starting query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
-goal reachable: begin(beginSrv(A[],B[],Ns_91[sigM1 = sign(h((CreateSessionRequest,pub(skB[]),Nc[Sess = A[],Cli = B[],!1 = @sid_20268])),skB[]),em1 = senc((CreateSessionRequest,pub(skB[]),Nc[Sess = A[],Cli = B[],!1 = @sid_20268]),K[Sess = A[],Cli = B[],!1 = @sid_20268]),K_82 = K[Sess = A[],Cli = B[],!1 = @sid_20268],Sess_81 = A[],Cli_80 = B[],!1 = @sid_20268])) -> end(endCli(A[],B[],Ns_91[sigM1 = sign(h((CreateSessionRequest,pub(skB[]),Nc[Sess = A[],Cli = B[],!1 = @sid_20268])),skB[]),em1 = senc((CreateSessionRequest,pub(skB[]),Nc[Sess = A[],Cli = B[],!1 = @sid_20268]),K[Sess = A[],Cli = B[],!1 = @sid_20268]),K_82 = K[Sess = A[],Cli = B[],!1 = @sid_20268],Sess_81 = A[],Cli_80 = B[],!1 = @sid_20268]))
-goal reachable: begin(beginSrv(B[],A[],Ns_91[sigM1 = sign(h((CreateSessionRequest,pub(skA[]),Nc[Sess = B[],Cli = A[],!1 = @sid_20269])),skA[]),em1 = senc((CreateSessionRequest,pub(skA[]),Nc[Sess = B[],Cli = A[],!1 = @sid_20269]),K[Sess = B[],Cli = A[],!1 = @sid_20269]),K_82 = K[Sess = B[],Cli = A[],!1 = @sid_20269],Sess_81 = B[],Cli_80 = A[],!1 = @sid_20269])) -> end(endCli(B[],A[],Ns_91[sigM1 = sign(h((CreateSessionRequest,pub(skA[]),Nc[Sess = B[],Cli = A[],!1 = @sid_20269])),skA[]),em1 = senc((CreateSessionRequest,pub(skA[]),Nc[Sess = B[],Cli = A[],!1 = @sid_20269]),K[Sess = B[],Cli = A[],!1 = @sid_20269]),K_82 = K[Sess = B[],Cli = A[],!1 = @sid_20269],Sess_81 = B[],Cli_80 = A[],!1 = @sid_20269]))
-goal reachable: begin(beginSrv(B[],B[],Ns_91[sigM1 = sign(h((CreateSessionRequest,pub(skB[]),Nc[Sess = B[],Cli = B[],!1 = @sid_20270])),skB[]),em1 = senc((CreateSessionRequest,pub(skB[]),Nc[Sess = B[],Cli = B[],!1 = @sid_20270]),K[Sess = B[],Cli = B[],!1 = @sid_20270]),K_82 = K[Sess = B[],Cli = B[],!1 = @sid_20270],Sess_81 = B[],Cli_80 = B[],!1 = @sid_20270])) -> end(endCli(B[],B[],Ns_91[sigM1 = sign(h((CreateSessionRequest,pub(skB[]),Nc[Sess = B[],Cli = B[],!1 = @sid_20270])),skB[]),em1 = senc((CreateSessionRequest,pub(skB[]),Nc[Sess = B[],Cli = B[],!1 = @sid_20270]),K[Sess = B[],Cli = B[],!1 = @sid_20270]),K_82 = K[Sess = B[],Cli = B[],!1 = @sid_20270],Sess_81 = B[],Cli_80 = B[],!1 = @sid_20270]))
-goal reachable: begin(beginSrv(A[],A[],Ns_91[sigM1 = sign(h((CreateSessionRequest,pub(skA[]),Nc[Sess = A[],Cli = A[],!1 = @sid_20271])),skA[]),em1 = senc((CreateSessionRequest,pub(skA[]),Nc[Sess = A[],Cli = A[],!1 = @sid_20271]),K[Sess = A[],Cli = A[],!1 = @sid_20271]),K_82 = K[Sess = A[],Cli = A[],!1 = @sid_20271],Sess_81 = A[],Cli_80 = A[],!1 = @sid_20271])) -> end(endCli(A[],A[],Ns_91[sigM1 = sign(h((CreateSessionRequest,pub(skA[]),Nc[Sess = A[],Cli = A[],!1 = @sid_20271])),skA[]),em1 = senc((CreateSessionRequest,pub(skA[]),Nc[Sess = A[],Cli = A[],!1 = @sid_20271]),K[Sess = A[],Cli = A[],!1 = @sid_20271]),K_82 = K[Sess = A[],Cli = A[],!1 = @sid_20271],Sess_81 = A[],Cli_80 = A[],!1 = @sid_20271]))
+goal reachable: begin(beginSrv(A[],B[],Nc[Sess = A[],Cli = B[],!1 = @sid_19624])) -> end(endCli(A[],B[],Nc[Sess = A[],Cli = B[],!1 = @sid_19624]))
+goal reachable: begin(beginSrv(B[],A[],Nc[Sess = B[],Cli = A[],!1 = @sid_19625])) -> end(endCli(B[],A[],Nc[Sess = B[],Cli = A[],!1 = @sid_19625]))
+goal reachable: begin(beginSrv(B[],B[],Nc[Sess = B[],Cli = B[],!1 = @sid_19626])) -> end(endCli(B[],B[],Nc[Sess = B[],Cli = B[],!1 = @sid_19626]))
+goal reachable: begin(beginSrv(A[],A[],Nc[Sess = A[],Cli = A[],!1 = @sid_19627])) -> end(endCli(A[],A[],Nc[Sess = A[],Cli = A[],!1 = @sid_19627]))
 RESULT event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N)) is true.
--- Query event(endSrv(X_20275,Y_20276,N_20277)) ==> event(beginCli(X_20275,Y_20276,N_20277))
+-- Query event(endSrv(X_19631,Y_19632,N_19633)) ==> event(beginCli(X_19631,Y_19632,N_19633))
 Completing...
 200 rules inserted. The rule base contains 152 rules. 94 rules in the queue.
 400 rules inserted. The rule base contains 306 rules. 139 rules in the queue.
@@ -98,12 +97,12 @@ Completing...
 1200 rules inserted. The rule base contains 626 rules. 124 rules in the queue.
 1400 rules inserted. The rule base contains 732 rules. 60 rules in the queue.
 1600 rules inserted. The rule base contains 882 rules. 18 rules in the queue.
-Starting query event(endSrv(X_20275,Y_20276,N_20277)) ==> event(beginCli(X_20275,Y_20276,N_20277))
+Starting query event(endSrv(X_19631,Y_19632,N_19633)) ==> event(beginCli(X_19631,Y_19632,N_19633))
 goal reachable: begin(beginCli(B[],A[],(Login(pub(skB[])),Passwd(skB[],pub(skA[]))))) -> end(endSrv(B[],A[],(Login(pub(skB[])),Passwd(skB[],pub(skA[])))))
 goal reachable: begin(beginCli(A[],B[],(Login(pub(skA[])),Passwd(skA[],pub(skB[]))))) -> end(endSrv(A[],B[],(Login(pub(skA[])),Passwd(skA[],pub(skB[])))))
 goal reachable: begin(beginCli(B[],B[],(Login(pub(skB[])),Passwd(skB[],pub(skB[]))))) -> end(endSrv(B[],B[],(Login(pub(skB[])),Passwd(skB[],pub(skB[])))))
 goal reachable: begin(beginCli(A[],A[],(Login(pub(skA[])),Passwd(skA[],pub(skA[]))))) -> end(endSrv(A[],A[],(Login(pub(skA[])),Passwd(skA[],pub(skA[])))))
-RESULT event(endSrv(X_20275,Y_20276,N_20277)) ==> event(beginCli(X_20275,Y_20276,N_20277)) is true.
+RESULT event(endSrv(X_19631,Y_19632,N_19633)) ==> event(beginCli(X_19631,Y_19632,N_19633)) is true.
 -- Query not attacker(Passwd(skA[],pub(skB[])))
 Completing...
 200 rules inserted. The rule base contains 146 rules. 88 rules in the queue.

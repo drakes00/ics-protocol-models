@@ -87,7 +87,7 @@ let client(skA: bitstring, skB: bitstring, ch: channel) =
     if verifySign(h(m4), sigM4, pkSess) <> true then 0 else
     let (=ActivateSessionResponse, Ns2: bitstring) = m4 in
     if Sess = A || Sess = B then
-    event endCli(Sess, Cli, Ns).
+    event endCli(Sess, Cli, Nc).
 
 
 let sess(skA: bitstring, skB: bitstring, ch: channel) = 
@@ -103,7 +103,7 @@ let sess(skA: bitstring, skB: bitstring, ch: channel) =
     let (=CreateSessionRequest, =pkCli, Nc: bitstring) = m1 in
 
     new Ns: bitstring;
-    event beginSrv(Sess, Cli, Ns);
+    event beginSrv(Sess, Cli, Nc);
     let m2 = (CreateSessionResponse, pkSess, Nc, Ns) in
     out(c, m2);
 
