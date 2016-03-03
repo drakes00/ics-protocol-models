@@ -105,16 +105,16 @@ chose to model this key derivation using the \DiH mecanisms which
 relies on the commutativity of the exponentiation: $(g^a)^b =
 (g^b)^a$.  In this context, we consider the following four security
 objectives:
-\begin{enumerate}
+\begin{itemize}
     \item\label{item:sc_sec_cli} Secrecy of $K_{cli}$ obtained by C.
     \item\label{item:sc_sec_srv} Secrecy of $K_{src}$ obtained by S.
     \item\label{item:sc_auth_cli} Authentication of C on $g^{Nc}$.
     \item\label{item:sc_auth_srv} Authentication of S on $g^{Ns}$.
-\end{enumerate}
+\end{itemize}
 
 \subsection{Results}\label{sec:secure_channel_res}
 
-We run \proverif on this protocol for each combination of the three security
+We run \proverif on this protocol for of the three security
 modes of \opcua for each objective proposed.
 Results are shown in Table \ref{tab:secure_channel_results}.
 
@@ -152,10 +152,13 @@ C using $g^{N_{C}}$.  This attack is possible because the standard
 the receiver of a message.  Thus it allows the intruder to send to S
 the signed message C sent to him similarily as the attack on the
 Needham-Schroeder protocol~\cite{Low96}.  However, these attacks are
-not exploitable in security mode \smse~since the secrecy of the keys
+not exploitable in security modes \sms~and \smse~since the secrecy of the keys
 is proven by the tool.  It means that even if an intruder can usurp a
 client when speaking to a server and vice-versa, he will not obtain
 the key derived by the protocol.
+Such property holds thanks to the \DiH key derivation mechanism that allows
+to exchange the nonces without revealing them (sending $g^{N_{C}}$ instead of 
+$N_{C}$).
 
 \begin{figure}[htb]
     \hspace{-2.25em}
