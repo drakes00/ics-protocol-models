@@ -7,14 +7,22 @@
 \newcommand{\asreq}{ASReq}
 \newcommand{\asres}{ASRes}
 
-
 The \opcua {\em CreateSession} sub-protocol allows a client to send credentials
 (\emph{e.g.}: a login and a password) over an already created Secure Channel.
 It  automatically follows the security mode that was chosen during the
 {\em OpenSecureChannel} sub-protocol.
 This sub-protocol is presented in Figure \ref{fig:session_se}.
+In message 1, $C$ sends a challenge nonce to $S$ with {\em CSReq} meaning
+{\em CreateSessionRequest}.
+In message 2, $S$ answers with the client's challenge nonce with {\em CSRes} for
+{\em CreateSessionResponse}.
+In message 3, $C$ sends his credentials to $S$ with {\em ASReq} for 
+{\em ActivateSessionRequest}.
+Finally in message 4, $S$ confirms to $C$ that the sesstion is created with 
+{\em ASRes} for {\em ActivateSessionResponse}.
+Again, {\em CSReq, CSRes, ASReq} and {\em ASRes} indicate the purpose of each
+message of the protocol.
 
-\vspace{-1em}
 \begin{figure}[htb]
     \renewcommand{\smname}{\smse}
     \resizebox{\columnwidth}{!}{
@@ -56,12 +64,6 @@ This sub-protocol is presented in Figure \ref{fig:session_se}.
     \caption{\opcua \session sub-protocol}
     \label{fig:session_se}
 \end{figure}
-\vspace{-1em}
-
-In Figure \ref{fig:session_se}, {\em CSReq} means {\em CreateSessionRequest}
-while {\em CSRes} stands for {\em CreateSessionResponse}, {\em ASReq} for
-{\em ActivateSessionRequest} and {\em ASRes} for {\em ActivateSessionResponse}.
-Again, these four terms indicate the purpose of each message of the protocol.
 
 \subsection{Modeling}
 
@@ -127,15 +129,26 @@ session where he is usurping someone's identity preventing him to communicate.
     \caption{Results for \opcua \session sub-protocol}
     \label{tab:session_results}
 \end{table}
-\vspace{-4em}
+\vspace{-3em}
 
 \subsection{Fixed version}
 
 We apply the same correction than in \securechan (explicitly
 specifying the identities of receivers in messages).
-%, the resulting protocol is displayed in Figure \ref{fig:session_fix}
-Then authentication on $N_{C}$ becomes secure as shown in Table
-\ref{tab:session_fix_results}.
+This way, messages of Figure~\ref{fig:session_se} become:
+\vspace{-2em}
+\arraycolsep=1.4pt
+\begin{flushleft}
+    \[\begin{array}{lrllll}
+        1. & C & \rightarrow & S & : & \text{\small\sm{\csreq, {\bf S}, pk(C), $N_{C}$}{$K_{CS}$}{sk(C)}}\\
+        2. & S & \rightarrow & C & : & \text{\small\sm{\csres, {\bf C}, pk(S), $N_{C}, N_{S}$}{$K_{CS}$}{sk(S)}}\\
+        3. & C & \rightarrow & S & : & \text{\small\sm{\asreq, {\bf S}, pk(C), Login, Passwd}{$K_{CS}$}{sk(C)}}\\
+        4. & S & \rightarrow & C & : & \text{\small\sm{\asres, {\bf C}, $N_{S2}$}{$K_{CS}$}{sk(S)}}\\
+    \end{array}\]
+\end{flushleft}
+
+Then when we run \proverif on this fixed version, authentication of $S$ on
+$N_{C}$ becomes secure as shown in Table \ref{tab:session_fix_results}.
 
 %\begin{figure}[htb]
 %    \renewcommand{\smname}{\smse}

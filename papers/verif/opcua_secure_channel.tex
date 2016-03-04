@@ -99,6 +99,8 @@ Finally in message 4. $S$ answers a nonce to $C$ (here $g^{N_{S}}$) with
 {\em SecurityToken} (a unique identifier for the channel) and {\em TTL} for
 {\em TimeToLive} (its life-time).
 At the end of the protocol, both $C$ and $S$ can derive a key using the nonces.
+The four terms {\em GEReq, GERes, OSCReq} and {\em OSCRes} indicate the purpose
+of each message of the protocol.
 
 \subsection{Modeling}
 
@@ -122,16 +124,17 @@ given in \cite{MLD09,opcua_part2,opcua_part4,opcua_part6} on which
 cryptographic primitives should be used for such purpose.  Thus we
 chose to model this key derivation using the \DiH mechanisms which
 relies on the commutativity of the exponentiation: $(g^a)^b =
-(g^b)^a$.  In this context, we consider the following four security
-objectives:
-\vspace{-.5em}
-%TODO Retirer itemize, jsute le texte
-\begin{itemize}
-    \item\label{item:sc_sec_cli} Secrecy of $K_{cli}$ obtained by C.
-    \item\label{item:sc_sec_srv} Secrecy of $K_{src}$ obtained by S.
-    \item\label{item:sc_auth_cli} Authentication of C on $g^{Nc}$.
-    \item\label{item:sc_auth_srv} Authentication of S on $g^{Ns}$.
-\end{itemize}
+(g^b)^a$.  In this context, we consider the following security objectives: (i)
+the secrecy of $K_{cli}$ obtained by C, (ii) the secrecy of $K_{src}$ obtained
+by S, (iii) the authentication of C on $g^{Nc}$ and (iv) the authentication of S
+on $g^{Ns}$.
+%\vspace{-.5em}
+%\begin{itemize}
+%    \item\label{item:sc_sec_cli} Secrecy of $K_{cli}$ obtained by C.
+%    \item\label{item:sc_sec_srv} Secrecy of $K_{src}$ obtained by S.
+%    \item\label{item:sc_auth_cli} Authentication of C on $g^{Nc}$.
+%    \item\label{item:sc_auth_srv} Authentication of S on $g^{Ns}$.
+%\end{itemize}
 
 \subsection{Results}\label{sec:secure_channel_res}
 
@@ -246,14 +249,15 @@ avoids an intruder rerouting signed messages to usurp hosts as presented
 in Section \ref{sec:secure_channel_res}.
 More formally, message 3. and 4. of Figure~\ref{fig:secure_channel_se} are replaced
 by:
-
+\vspace{-1.5em}
 \arraycolsep=1.4pt
 \begin{flushleft}
     \[\begin{array}{lrllll}
-        3. & C & \rightarrow & S & : & \text{\small\sm{\oscreq, {\bf S}, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}\\
-        4. & S & \rightarrow & C & : & \text{\small\sm{\oscres, {\bf C}, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}\\
+        3. & C & \rightarrow & S & : & \text{\sm{\oscreq, {\bf S}, pk(C), $g^{N_{C}}$}{pk(S)}{sk(C)}}\\
+        4. & S & \rightarrow & C & : & \text{\sm{\oscres, {\bf C}, $g^{N_{S}}$, ST, TTL}{pk(C)}{sk(S)}}\\
     \end{array}\]
 \end{flushleft}
+\vspace{-1em}
 
 %\begin{figure}[htb]
 %    \hspace{-1em}
@@ -317,6 +321,7 @@ We also use \proverif to check the security of this fixed version. The
 results are presented in Table \ref{tab:secure_channel_fix_results} and
 show that now there is no attack found on authentication.
 
+\vspace{-1em}
 \begin{table}[htb]
     \centering
     %\hspace{-1em}
@@ -338,3 +343,4 @@ show that now there is no attack found on authentication.
     \caption{Results for fixed {\em OpenSecureChannel} sub-protocol}
     \label{tab:secure_channel_fix_results}
 \end{table}
+\vspace{-3em}
