@@ -13,10 +13,10 @@ Figure~\ref{fig:secure_channel_se} aims to authenticate a client and
 a server and allows them to generate a shared key for the later communications.
 \opcua can be used with three security modes, namely {\em \smn}, {\em \sms} and
 {\em \smse}.
-
+\vspace{-.5em}
 \begin{itemize}
-    \item {\em \smse}: claims to provide secrecy using symetric and
-      assymetric encryption and both authentication and integrity
+    \item {\em \smse}: claims to provide secrecy using symmetric and
+      asymmetric encryption and both authentication and integrity
       through digital signatures (\eg $enc_{pkB}(m)$, $sig_{skA}(h(m))$).
   \item {\em \sms}: same as {\em \smse} but without any encryption.  Thus
       nonces are not used to generate a shared key but bring freshness
@@ -26,6 +26,7 @@ a server and allows them to generate a shared key for the later communications.
       purpose but is used for compatibility.
 \end{itemize}
 
+\vspace{-1em}
 \begin{figure}[htb]
     \centering
     \renewcommand{\smname}{\smseshort}
@@ -83,10 +84,23 @@ a server and allows them to generate a shared key for the later communications.
     \caption{\opcua \securechan sub-protocol}
     \label{fig:secure_channel_se}
 \end{figure}
+\vspace{-1em}
+
+In Figure \ref{fig:secure_channel_se}, {\em GEReq} means
+{\em GetEndpointRequest} while {\em GERes} stands for {\em GetEndpointResponse},
+{\em OSReq} for {\em OpenSecureChannelRequest} and {\em OSCRes} for
+{\em OpenSecureChannelResponse}.
+These four terms indicate the purpose of each message of the protocol.
+Then, {\em SP} and {\em UP} respectively stand for {\em Security Policy} and
+{\em UserPolicy}.
+Both are used for cryptographic primitive negociations.
+Finally, {\em ST} and {\em TTL} mean {\em SecurityToken} and {\em TimeToLive}.
+The first is a unique identifier for the channel and the second represents its
+life-time.
 
 \subsection{Modeling}
 
-Normaly, a {\em GetEnpointRequest} would be answered by a list of
+Normally, a {\em GetEnpointRequest} would be answered by a list of
 session endpoints with possibly different security modes. We suppose
 that only one endpoint is answered and that the client will always
 accept the security mode proposed.  Moreover, thanks to the perfect
@@ -95,16 +109,17 @@ used.  We consider an intruder whose public key would be accepted by a
 legitimate client or server.  Such an intruder could for instance
 represent a legitimate device that has been corrupted through a virus
 or that is controlled by a malicious operator.  Finally, it is said in
-\cite{MLD09} that ``\emph{The establishement of the Secure Channel is
+\cite{MLD09} that ``\emph{The establishment of the Secure Channel is
   mainly used for exchanging special secret information between
-  clients and servers. This secret is used for deriving Symetric Keys
+  clients and servers. This secret is used for deriving Symmetric Keys
   $[...]$}''.  To the best of our knowledge, no more precision is
 given in \cite{MLD09,opcua_part2,opcua_part4,opcua_part6} on which
 cryptographic primitives should be used for such purpose.  Thus we
-chose to model this key derivation using the \DiH mecanisms which
+chose to model this key derivation using the \DiH mechanisms which
 relies on the commutativity of the exponentiation: $(g^a)^b =
 (g^b)^a$.  In this context, we consider the following four security
 objectives:
+\vspace{-.5em}
 \begin{itemize}
     \item\label{item:sc_sec_cli} Secrecy of $K_{cli}$ obtained by C.
     \item\label{item:sc_sec_srv} Secrecy of $K_{src}$ obtained by S.
@@ -118,6 +133,7 @@ We run \proverif on this protocol for of the three security
 modes of \opcua for each objective proposed.
 Results are shown in Table \ref{tab:secure_channel_results}.
 
+\vspace{-1em}
 \begin{table}[htb]
     \centering
     %\hspace{-1em}
@@ -139,6 +155,7 @@ Results are shown in Table \ref{tab:secure_channel_results}.
     \caption{Results for textbook {\em OpenSecureChannel} sub-protocol}
     \label{tab:secure_channel_results}
 \end{table}
+\vspace{-2em}
 
 Obviously, as the security mode \smn~does not provide any security,
 all objectives can be attacked.  Moreover, attacks on authentication
@@ -150,7 +167,7 @@ avoiding replay protections such as timestamps).  Figure
 C using $g^{N_{C}}$.  This attack is possible because the standard
 \opcua protocol does not require explicitly to specify the identity of
 the receiver of a message.  Thus it allows the intruder to send to S
-the signed message C sent to him similarily as the attack on the
+the signed message C sent to him similarly as the attack on the
 Needham-Schroeder protocol~\cite{Low96}.  However, these attacks are
 not exploitable in security modes \sms~and \smse~since the secrecy of the keys
 is proven by the tool.  It means that even if an intruder can usurp a
@@ -160,6 +177,7 @@ Such property holds thanks to the \DiH key derivation mechanism that allows
 to exchange the nonces without revealing them (sending $g^{N_{C}}$ instead of 
 $N_{C}$).
 
+\vspace{-1em}
 \begin{figure}[htb]
     \hspace{-2.25em}
     \renewcommand{\smname}{\smse}
@@ -211,15 +229,16 @@ $N_{C}$).
     \caption{Attack on $g^{N_{C}}$: I usurps C when speaking to S}
     \label{fig:secure_channel_atk}
 \end{figure}
+\vspace{-2.5em}
 
 \subsection{Fixed version}
 
 We propose a fixed version of the {\em OpenSecureChannel} sub-protocol.
 %in Figure \ref{fig:secure_channel_fix_se}.
-It consists in adding the identity of the reciever to the messages and thus 
+It consists in adding the identity of the receiver to the messages and thus 
 avoids an intruder rerouting signed messages to usurp hosts as presented
 in Section \ref{sec:secure_channel_res}.
-More formaly, message 3. and 4. of Figure~\ref{fig:secure_channel_se} are replaced
+More formally, message 3. and 4. of Figure~\ref{fig:secure_channel_se} are replaced
 by:
 
 \arraycolsep=1.4pt

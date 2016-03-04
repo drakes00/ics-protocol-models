@@ -14,6 +14,7 @@ It  automatically follows the security mode that was chosen during the
 {\em OpenSecureChannel} sub-protocol.
 This sub-protocol is presented in Figure \ref{fig:session_se}.
 
+\vspace{-1em}
 \begin{figure}[htb]
     \renewcommand{\smname}{\smse}
     \resizebox{\columnwidth}{!}{
@@ -55,6 +56,12 @@ This sub-protocol is presented in Figure \ref{fig:session_se}.
     \caption{\opcua \session sub-protocol}
     \label{fig:session_se}
 \end{figure}
+\vspace{-1em}
+
+In Figure \ref{fig:session_se}, {\em CSReq} means {\em CreateSessionRequest}
+while {\em CSRes} stands for {\em CreateSessionResponse}, {\em ASReq} for
+{\em ActivateSessionRequest} and {\em ASRes} for {\em ActivateSessionResponse}.
+Again, these four terms indicate the purpose of each message of the protocol.
 
 \subsection{Modeling}
 
@@ -91,7 +98,7 @@ Also the secrecy of the password cannot hold even in security mode \sms~since
 it will be sent by the client in plaintext during a legitimate exchange.
 However, using a different password for each server ensures the authentication
 of the client.
-Attack on the athentication on $N_{C}$ is similar to the attack presented in
+Attack on the authentication on $N_{C}$ is similar to the attack presented in
 Figure \ref{fig:secure_channel_atk}.
 The intruder starts a session with the server and retoutes the packets to the
 client.
@@ -99,6 +106,7 @@ However, such kind of attacks are circumvented in security mode \smse~because
 as we previously said, the intruder does not possess the symmetric key of a
 session where he is usurping someone's identity preventing him to communicate.
 
+\vspace{-1em}
 \begin{table}[htb]
     \centering
     %\resizebox{1.05\columnwidth}{!}{
@@ -119,11 +127,12 @@ session where he is usurping someone's identity preventing him to communicate.
     \caption{Results for \opcua \session sub-protocol}
     \label{tab:session_results}
 \end{table}
+\vspace{-4em}
 
 \subsection{Fixed version}
 
 We apply the same correction than in \securechan (explicitly
-specifying the identities of recievers in messages).
+specifying the identities of receivers in messages).
 %, the resulting protocol is displayed in Figure \ref{fig:session_fix}
 Then authentication on $N_{C}$ becomes secure as shown in Table
 \ref{tab:session_fix_results}.
@@ -170,6 +179,7 @@ Then authentication on $N_{C}$ becomes secure as shown in Table
 %    \label{fig:session_fix}
 %\end{figure}
 
+\vspace{-1em}
 \begin{table}[htb]
     \centering
     %\resizebox{1.05\columnwidth}{!}{
@@ -190,6 +200,7 @@ Then authentication on $N_{C}$ becomes secure as shown in Table
     \caption{Results for fixed \opcua \session sub-protocol}
     \label{tab:session_fix_results}
 \end{table}
+\vspace{-4em}
 
 %In a second time, we suppose that C would use different credentials for each
 %server.
