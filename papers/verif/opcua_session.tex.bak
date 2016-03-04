@@ -100,7 +100,7 @@ However, using a different password for each server ensures the authentication
 of the client.
 Attack on the authentication on $N_{C}$ is similar to the attack presented in
 Figure \ref{fig:secure_channel_atk}.
-The intruder starts a session with the server and reroutes the packets to the
+The intruder starts a session with the server and retoutes the packets to the
 client.
 However, such kind of attacks are circumvented in security mode \smse~because
 as we previously said, the intruder does not possess the symmetric key of a

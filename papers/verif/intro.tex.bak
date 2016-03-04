@@ -1,9 +1,9 @@
 Industrial systems also called SCADA (Supervisory Control And Data
 Acquisition) have been known to be targeted by cyberattacks since the
-famous Stuxnet case~\cite{Lan11} in 2010.  Due to the criticality of
+famous Stuxnet case~\cite{Lan11} in 2010.  Due to the criticity of
 their interaction with the physical world, these systems can
 potentially be really harmful for humans and environment.  The
-frequency of such attacks is increasing to become one of the priorities for
+frequence of such attacks is increasing to become one of the priorities for
 governmental agencies (\eg~\cite{SFS11} from the US National Institute of
 Standards and Technology (NIST) or
 \cite{ANSSI12_guide_securite_industrielle_en} from the French {\em Agence
@@ -63,14 +63,14 @@ In 2004, Clarke \etal~\cite{CR04} discussed the security of \dnp
 (Distributed Network Protocol) and \iccp (Inter-Control Center Communications
 Protocol).
 In 2005, Dzung \etal~\cite{DNHC05} proposed a detailed survey on the security in
-SCADA systems including informal analysis on the security properties offered by
+SCADA systems including unformal analysis on the security properties offered by
 various industrial protocols: \opc (Open Platform Communications),
 \mms (Manufacturing Message Specification),
 \iec{61850}, \iccp and \etherip.
 In 2006, in the technical documentation of \opcua (OPC Unified Architecture) the
-authors detailed the security measures of the protocol (specially in part 2, 4
+authors detailled the security measures of the protocol (specialy in part 2, 4
 and 6).
-In 2015, Wanying \etal summarized the security offered by \modbus, \dnp and
+In 2015, Wanying \etal summarizeed the security offered by \modbus, \dnp and
 \opcua.
 
 On the other hand, some works propose new versions of existing protocols to make
@@ -124,6 +124,6 @@ agent (including the intruder).  The authentication property means
 that one participant of the protocol is guaranteed to communicate with
 another one.
 
-\paragraph{Outline:} In the Section~\ref{sec:secure_channel}, we analyze the
+\paragraph{Outline:} In the Section~\ref{sec:secure_channel}, we analyse the
 security of \opcua \securechan and \opcua \session in Section~\ref{sec:session}.
 Finally, we conclude in Section~\ref{sec:conclusion}.
