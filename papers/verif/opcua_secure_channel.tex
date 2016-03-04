@@ -86,24 +86,29 @@ a server and allows them to generate a shared key for the later communications.
 \end{figure}
 \vspace{-1em}
 
-In Figure \ref{fig:secure_channel_se}, {\em GEReq} means
-{\em GetEndpointRequest} while {\em GERes} stands for {\em GetEndpointResponse},
-{\em OSReq} for {\em OpenSecureChannelRequest} and {\em OSCRes} for
-{\em OpenSecureChannelResponse}.
-These four terms indicate the purpose of each message of the protocol.
-Then, {\em SP} and {\em UP} respectively stand for {\em Security Policy} and
-{\em UserPolicy}.
-Both are used for cryptographic primitive negociations.
-Finally, {\em ST} and {\em TTL} mean {\em SecurityToken} and {\em TimeToLive}.
-The first is a unique identifier for the channel and the second represents its
-life-time.
+In message 1. $C$ requests information on $S$ with {\em GEReq} meaning
+{\em GetEndpointRequest}.
+In message 2. $DiscoveryEndpoint$ answers with these information with
+{\em GERes} standing for {\em GetEndpointResponse}, {\em SP} for
+{\em Security Policy} and {\em UP} for {\em UserPolicy}.
+Both {\em SP} and {\em UP} are used for cryptographic primitive negociations.
+In message 3. $C$ sends a nonce (here $g^{N_{C}}$) to $S$ with {\em OSReq}
+standing for {\em OpenSecureChannelRequest}.
+Finally in message 4. $S$ answers a nonce to $C$ (here $g^{N_{S}}$) with
+{\em OSCRes} for {\em OpenSecureChannelResponse}, {\em ST} for
+{\em SecurityToken} (a unique identifier for the channel) and {\em TTL} for
+{\em TimeToLive} (its life-time).
+At the end of the protocol, both $C$ and $S$ can derive a key using the nonces.
 
 \subsection{Modeling}
 
 Normally, a {\em GetEnpointRequest} would be answered by a list of
 session endpoints with possibly different security modes. We suppose
 that only one endpoint is answered and that the client will always
-accept the security mode proposed.  Moreover, thanks to the perfect
+accept the security mode proposed.
+Client's and server's certificates have been abstracted as their public
+keys (which explains why $pk(C)$ appears twice in message 3).
+Moreover, thanks to the perfect
 encryption hypothesis, we can abstract the cryptographic primitives
 used.  We consider an intruder whose public key would be accepted by a
 legitimate client or server.  Such an intruder could for instance
@@ -120,6 +125,7 @@ relies on the commutativity of the exponentiation: $(g^a)^b =
 (g^b)^a$.  In this context, we consider the following four security
 objectives:
 \vspace{-.5em}
+%TODO Retirer itemize, jsute le texte
 \begin{itemize}
     \item\label{item:sc_sec_cli} Secrecy of $K_{cli}$ obtained by C.
     \item\label{item:sc_sec_srv} Secrecy of $K_{src}$ obtained by S.
