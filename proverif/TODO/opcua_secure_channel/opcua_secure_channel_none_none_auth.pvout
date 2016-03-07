@@ -1,0 +1,243 @@
+Linear part:
+exp(exp(g,x_32),y) = exp(exp(g,y),x_32)
+Completing equations...
+Completed equations:
+exp(exp(g,x_32),y) = exp(exp(g,y),x_32)
+Convergent part:
+Completing equations...
+Completed equations:
+Process:
+{1}let pkA: bitstring = pub(skA) in
+{2}out(c, pkA);
+{3}let pkB: bitstring = pub(skB) in
+{4}out(c, pkB);
+{5}let pkC: bitstring = pub(skC) in
+{6}out(c, pkC);
+(
+    {7}!
+    {8}in(c, (Cli: host,Disco: host,Sess: host));
+    {9}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else (if (Cli = C) then skC else fail-any))) in
+    {10}let pkCli: bitstring = pub(skCli) in
+    {11}let pkDisco: bitstring = (if (Disco = A) then pub(skA) else (if (Disco = B) then pub(skB) else (if (Disco = C) then pub(skC) else pub(sk(Disco))))) in
+    {12}let pkSess: bitstring = (if (Sess = A) then pub(skA) else (if (Sess = B) then pub(skB) else (if (Sess = C) then pub(skC) else pub(sk(Sess))))) in
+    {13}out(c, GetEndpointRequest);
+    {14}in(c, (=GetEndpointResponse,=pkSess,=None,SP: bitstring,UP: bitstring));
+    {15}new Nc: bitstring;
+    {16}let m1: bitstring = (OpenSecureChannelRequest,pkCli,Nc) in
+    {17}event beginCli(Cli,Sess,Nc);
+    {18}out(c, (pkCli,m1));
+    {19}in(c, em2: bitstring);
+    {20}let m2: bitstring = em2 in
+    {21}let (=OpenSecureChannelResponse,Ns: bitstring,ST: bitstring,TTL: bitstring) = m2 in
+    {22}if ((Sess = A) || ((Sess = B) || (Sess = C))) then
+    {23}event endCli(Sess,Cli,Ns)
+) | (
+    {24}!
+    {25}in(c, (Cli_81: host,Disco_82: host,Sess_83: host));
+    {26}let skDisco: bitstring = (if (Disco_82 = A) then skA else (if (Disco_82 = B) then skB else (if (Disco_82 = C) then skC else fail-any))) in
+    {27}let pkDisco_84: bitstring = pub(skDisco) in
+    {28}let pkCli_85: bitstring = (if (Cli_81 = A) then pub(skA) else (if (Cli_81 = B) then pub(skB) else (if (Cli_81 = C) then pub(skC) else pub(sk(Cli_81))))) in
+    {29}let pkSess_86: bitstring = (if (Sess_83 = A) then pub(skA) else (if (Sess_83 = B) then pub(skB) else (if (Sess_83 = C) then pub(skC) else pub(sk(Sess_83))))) in
+    {30}in(c, =GetEndpointRequest);
+    {31}new SP_87: bitstring;
+    {32}new UP_88: bitstring;
+    {33}out(c, (GetEndpointResponse,pkSess_86,None,SP_87,UP_88))
+) | (
+    {34}!
+    {35}in(c, (Cli_89: host,Disco_90: host,Sess_91: host));
+    {36}let skSess: bitstring = (if (Sess_91 = A) then skA else (if (Sess_91 = B) then skB else (if (Sess_91 = C) then skC else fail-any))) in
+    {37}let pkSess_92: bitstring = pub(skSess) in
+    {38}let pkCli_93: bitstring = (if (Cli_89 = A) then pub(skA) else (if (Cli_89 = B) then pub(skB) else (if (Cli_89 = C) then pub(skC) else pub(sk(Cli_89))))) in
+    {39}let pkDisco_94: bitstring = (if (Disco_90 = A) then pub(skA) else (if (Disco_90 = B) then pub(skB) else (if (Disco_90 = C) then pub(skC) else pub(sk(Disco_90))))) in
+    {40}in(c, (=pkCli_93,em1: bitstring));
+    {41}let m1_95: bitstring = em1 in
+    {42}let (=OpenSecureChannelRequest,=pkCli_93,Nc_96: bitstring) = m1_95 in
+    {43}new Ns_97: bitstring;
+    {44}new ST_98: bitstring;
+    {45}new TTL_99: bitstring;
+    {46}let m2_100: bitstring = (OpenSecureChannelResponse,Ns_97,ST_98,TTL_99) in
+    {47}event beginSrv(Sess_91,Cli_89,Ns_97);
+    {48}out(c, m2_100);
+    {49}if ((Cli_89 = A) || ((Cli_89 = B) || (Cli_89 = C))) then
+    {50}event endSrv(Cli_89,Sess_91,Nc_96)
+)
+
+-- Query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
+Completing...
+200 rules inserted. The rule base contains 63 rules. 301 rules in the queue.
+400 rules inserted. The rule base contains 99 rules. 301 rules in the queue.
+600 rules inserted. The rule base contains 99 rules. 299 rules in the queue.
+800 rules inserted. The rule base contains 107 rules. 277 rules in the queue.
+1000 rules inserted. The rule base contains 75 rules. 273 rules in the queue.
+1200 rules inserted. The rule base contains 147 rules. 201 rules in the queue.
+1400 rules inserted. The rule base contains 250 rules. 98 rules in the queue.
+Starting query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
+goal reachable: attacker(N_42018) -> end(endCli(B[],C[],N_42018))
+
+1. The attacker initially knows B[].
+attacker(B[]).
+
+2. The attacker initially knows C[].
+attacker(C[]).
+
+3. By 2, the attacker may know C[].
+By 1, the attacker may know B[].
+By 1, the attacker may know B[].
+Using the function 3-tuple the attacker may obtain (C[],B[],B[]).
+attacker((C[],B[],B[])).
+
+4. The attacker has some term UP_42046.
+attacker(UP_42046).
+
+5. The attacker has some term SP_42045.
+attacker(SP_42045).
+
+6. Using the function None the attacker may obtain None.
+attacker(None).
+
+7. The message pub(skB[]) may be sent to the attacker at output {4}.
+attacker(pub(skB[])).
+
+8. Using the function GetEndpointResponse the attacker may obtain GetEndpointResponse.
+attacker(GetEndpointResponse).
+
+9. By 8, the attacker may know GetEndpointResponse.
+By 7, the attacker may know pub(skB[]).
+By 6, the attacker may know None.
+By 5, the attacker may know SP_42045.
+By 4, the attacker may know UP_42046.
+Using the function 5-tuple the attacker may obtain (GetEndpointResponse,pub(skB[]),None,SP_42045,UP_42046).
+attacker((GetEndpointResponse,pub(skB[]),None,SP_42045,UP_42046)).
+
+10. The attacker has some term TTL_42044.
+attacker(TTL_42044).
+
+11. The attacker has some term ST_42043.
+attacker(ST_42043).
+
+12. We assume as hypothesis that
+attacker(N_42050).
+
+13. Using the function OpenSecureChannelResponse the attacker may obtain OpenSecureChannelResponse.
+attacker(OpenSecureChannelResponse).
+
+14. By 13, the attacker may know OpenSecureChannelResponse.
+By 12, the attacker may know N_42050.
+By 11, the attacker may know ST_42043.
+By 10, the attacker may know TTL_42044.
+Using the function 4-tuple the attacker may obtain (OpenSecureChannelResponse,N_42050,ST_42043,TTL_42044).
+attacker((OpenSecureChannelResponse,N_42050,ST_42043,TTL_42044)).
+
+15. The message (C[],B[],B[]) that the attacker may have by 3 may be received at input {8}.
+The message (GetEndpointResponse,pub(skB[]),None,SP_42045,UP_42046) that the attacker may have by 9 may be received at input {14}.
+The message (OpenSecureChannelResponse,N_42050,ST_42043,TTL_42044) that the attacker may have by 14 may be received at input {19}.
+So event endCli(B[],C[],N_42050) may be executed at {23}.
+end(endCli(B[],C[],N_42050)).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(c, pub(skA)) at {2}
+
+out(c, pub(skB)) at {4}
+
+out(c, pub(skC)) at {6}
+
+in(c, (C,B,B)) at {8} in copy a_42055
+
+out(c, GetEndpointRequest) at {13} in copy a_42055
+
+in(c, (GetEndpointResponse,pub(skB),None,a_42053,a_42054)) at {14} in copy a_42055
+
+new Nc creating Nc_42298 at {15} in copy a_42055
+
+event(beginCli(C,B,Nc_42298)) at {17} in copy a_42055
+
+out(c, (pub(skC),(OpenSecureChannelRequest,pub(skC),Nc_42298))) at {18} in copy a_42055
+
+in(c, (OpenSecureChannelResponse,a,a_42051,a_42052)) at {19} in copy a_42055
+
+event(endCli(B,C,a)) at {23} in copy a_42055
+
+The event endCli(B,C,a) is executed.
+A trace has been found.
+RESULT event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N)) is false.
+-- Query event(endSrv(X_42327,Y_42328,N_42329)) ==> event(beginCli(X_42327,Y_42328,N_42329))
+Completing...
+200 rules inserted. The rule base contains 63 rules. 301 rules in the queue.
+400 rules inserted. The rule base contains 99 rules. 301 rules in the queue.
+600 rules inserted. The rule base contains 99 rules. 299 rules in the queue.
+800 rules inserted. The rule base contains 111 rules. 273 rules in the queue.
+1000 rules inserted. The rule base contains 78 rules. 270 rules in the queue.
+1200 rules inserted. The rule base contains 149 rules. 199 rules in the queue.
+1400 rules inserted. The rule base contains 262 rules. 86 rules in the queue.
+Starting query event(endSrv(X_42327,Y_42328,N_42329)) ==> event(beginCli(X_42327,Y_42328,N_42329))
+goal reachable: attacker(N_83410) -> end(endSrv(B[],C[],N_83410))
+
+1. The attacker initially knows C[].
+attacker(C[]).
+
+2. The attacker initially knows B[].
+attacker(B[]).
+
+3. By 2, the attacker may know B[].
+By 2, the attacker may know B[].
+By 1, the attacker may know C[].
+Using the function 3-tuple the attacker may obtain (B[],B[],C[]).
+attacker((B[],B[],C[])).
+
+4. We assume as hypothesis that
+attacker(N_83434).
+
+5. The message pub(skB[]) may be sent to the attacker at output {4}.
+attacker(pub(skB[])).
+
+6. Using the function OpenSecureChannelRequest the attacker may obtain OpenSecureChannelRequest.
+attacker(OpenSecureChannelRequest).
+
+7. By 6, the attacker may know OpenSecureChannelRequest.
+By 5, the attacker may know pub(skB[]).
+By 4, the attacker may know N_83434.
+Using the function 3-tuple the attacker may obtain (OpenSecureChannelRequest,pub(skB[]),N_83434).
+attacker((OpenSecureChannelRequest,pub(skB[]),N_83434)).
+
+8. By 5, the attacker may know pub(skB[]).
+By 7, the attacker may know (OpenSecureChannelRequest,pub(skB[]),N_83434).
+Using the function 2-tuple the attacker may obtain (pub(skB[]),(OpenSecureChannelRequest,pub(skB[]),N_83434)).
+attacker((pub(skB[]),(OpenSecureChannelRequest,pub(skB[]),N_83434))).
+
+9. The message (B[],B[],C[]) that the attacker may have by 3 may be received at input {35}.
+The message (pub(skB[]),(OpenSecureChannelRequest,pub(skB[]),N_83434)) that the attacker may have by 8 may be received at input {40}.
+So event endSrv(B[],C[],N_83434) may be executed at {50}.
+end(endSrv(B[],C[],N_83434)).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(c, pub(skA)) at {2}
+
+out(c, pub(skB)) at {4}
+
+out(c, pub(skC)) at {6}
+
+in(c, (B,B,C)) at {35} in copy a_83436
+
+in(c, (pub(skB),(OpenSecureChannelRequest,pub(skB),a_83435))) at {40} in copy a_83436
+
+new Ns_97 creating Ns_83656 at {43} in copy a_83436
+
+new ST_98 creating ST_83657 at {44} in copy a_83436
+
+new TTL_99 creating TTL_83658 at {45} in copy a_83436
+
+event(beginSrv(C,B,Ns_83656)) at {47} in copy a_83436
+
+out(c, (OpenSecureChannelResponse,Ns_83656,ST_83657,TTL_83658)) at {48} in copy a_83436
+
+event(endSrv(B,C,a_83435)) at {50} in copy a_83436
+
+The event endSrv(B,C,a_83435) is executed.
+A trace has been found.
+RESULT event(endSrv(X_42327,Y_42328,N_42329)) ==> event(beginCli(X_42327,Y_42328,N_42329)) is false.

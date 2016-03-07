@@ -1,0 +1,301 @@
+Linear part:
+exp(exp(g,x_32),y) = exp(exp(g,y),x_32)
+Completing equations...
+Completed equations:
+exp(exp(g,x_32),y) = exp(exp(g,y),x_32)
+Convergent part:
+Completing equations...
+Completed equations:
+Process:
+{1}let pkA: bitstring = pub(skA) in
+{2}out(c, pkA);
+{3}let pkB: bitstring = pub(skB) in
+{4}out(c, pkB);
+{5}let pkC: bitstring = pub(skC) in
+{6}out(c, pkC);
+(
+    {7}!
+    {8}in(c, (Cli: host,Disco: host,Sess: host));
+    {9}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else (if (Cli = C) then skC else fail-any))) in
+    {10}let pkCli: bitstring = pub(skCli) in
+    {11}let pkDisco: bitstring = (if (Disco = A) then pub(skA) else (if (Disco = B) then pub(skB) else (if (Disco = C) then pub(skC) else pub(sk(Disco))))) in
+    {12}let pkSess: bitstring = (if (Sess = A) then pub(skA) else (if (Sess = B) then pub(skB) else (if (Sess = C) then pub(skC) else pub(sk(Sess))))) in
+    {13}out(c, GetEndpointRequest);
+    {14}in(c, (=GetEndpointResponse,=pkSess,=None,SP: bitstring,UP: bitstring));
+    {15}new Nc: bitstring;
+    {16}let m1: bitstring = (OpenSecureChannelRequest,Sess,pkCli,Nc) in
+    {17}out(c, (pkCli,m1));
+    {18}in(c, em2: bitstring);
+    {19}let m2: bitstring = em2 in
+    {20}let (=OpenSecureChannelResponse,=Cli,Ns: bitstring,ST: bitstring,TTL: bitstring) = m2 in
+    {21}let Kcli: bitstring = h((Nc,Ns)) in
+    {22}out(c, senc(mCli(pkCli,pkSess),Kcli))
+) | (
+    {23}!
+    {24}in(c, (Cli_81: host,Disco_82: host,Sess_83: host));
+    {25}let skDisco: bitstring = (if (Disco_82 = A) then skA else (if (Disco_82 = B) then skB else (if (Disco_82 = C) then skC else fail-any))) in
+    {26}let pkDisco_84: bitstring = pub(skDisco) in
+    {27}let pkCli_85: bitstring = (if (Cli_81 = A) then pub(skA) else (if (Cli_81 = B) then pub(skB) else (if (Cli_81 = C) then pub(skC) else pub(sk(Cli_81))))) in
+    {28}let pkSess_86: bitstring = (if (Sess_83 = A) then pub(skA) else (if (Sess_83 = B) then pub(skB) else (if (Sess_83 = C) then pub(skC) else pub(sk(Sess_83))))) in
+    {29}in(c, =GetEndpointRequest);
+    {30}new SP_87: bitstring;
+    {31}new UP_88: bitstring;
+    {32}out(c, (GetEndpointResponse,pkSess_86,None,SP_87,UP_88))
+) | (
+    {33}!
+    {34}in(c, (Cli_89: host,Disco_90: host,Sess_91: host));
+    {35}let skSess: bitstring = (if (Sess_91 = A) then skA else (if (Sess_91 = B) then skB else (if (Sess_91 = C) then skC else fail-any))) in
+    {36}let pkSess_92: bitstring = pub(skSess) in
+    {37}let pkCli_93: bitstring = (if (Cli_89 = A) then pub(skA) else (if (Cli_89 = B) then pub(skB) else (if (Cli_89 = C) then pub(skC) else pub(sk(Cli_89))))) in
+    {38}let pkDisco_94: bitstring = (if (Disco_90 = A) then pub(skA) else (if (Disco_90 = B) then pub(skB) else (if (Disco_90 = C) then pub(skC) else pub(sk(Disco_90))))) in
+    {39}in(c, (=pkCli_93,em1: bitstring));
+    {40}let m1_95: bitstring = em1 in
+    {41}let (=OpenSecureChannelRequest,=Sess_91,=pkCli_93,Nc_96: bitstring) = m1_95 in
+    {42}new Ns_97: bitstring;
+    {43}new ST_98: bitstring;
+    {44}new TTL_99: bitstring;
+    {45}let m2_100: bitstring = (OpenSecureChannelResponse,Cli_89,Ns_97,ST_98,TTL_99) in
+    {46}out(c, m2_100);
+    {47}let Ksrv: bitstring = h((Nc_96,Ns_97)) in
+    {48}out(c, senc(mSrv(pkCli_93,pkSess_92),Ksrv))
+)
+
+-- Query not attacker(mSrv(pub(skA[]),pub(skC[])))
+Completing...
+200 rules inserted. The rule base contains 75 rules. 388 rules in the queue.
+400 rules inserted. The rule base contains 107 rules. 388 rules in the queue.
+600 rules inserted. The rule base contains 123 rules. 386 rules in the queue.
+800 rules inserted. The rule base contains 123 rules. 386 rules in the queue.
+1000 rules inserted. The rule base contains 127 rules. 368 rules in the queue.
+1200 rules inserted. The rule base contains 97 rules. 360 rules in the queue.
+1400 rules inserted. The rule base contains 143 rules. 294 rules in the queue.
+1600 rules inserted. The rule base contains 161 rules. 280 rules in the queue.
+1800 rules inserted. The rule base contains 265 rules. 201 rules in the queue.
+2000 rules inserted. The rule base contains 390 rules. 111 rules in the queue.
+Starting query not attacker(mSrv(pub(skA[]),pub(skC[])))
+goal reachable: attacker(mSrv(pub(skA[]),pub(skC[])))
+Abbreviations:
+Ns_42338 = Ns_97[em1 = (OpenSecureChannelRequest,C[],pub(skA[]),Nc_42334),Sess_91 = C[],Disco_90 = A[],Cli_89 = A[],!1 = @sid_42335]
+ST_42339 = ST_98[em1 = (OpenSecureChannelRequest,C[],pub(skA[]),Nc_42334),Sess_91 = C[],Disco_90 = A[],Cli_89 = A[],!1 = @sid_42335]
+TTL_42340 = TTL_99[em1 = (OpenSecureChannelRequest,C[],pub(skA[]),Nc_42334),Sess_91 = C[],Disco_90 = A[],Cli_89 = A[],!1 = @sid_42335]
+
+1. The attacker initially knows C[].
+attacker(C[]).
+
+2. The attacker initially knows A[].
+attacker(A[]).
+
+3. By 2, the attacker may know A[].
+By 2, the attacker may know A[].
+By 1, the attacker may know C[].
+Using the function 3-tuple the attacker may obtain (A[],A[],C[]).
+attacker((A[],A[],C[])).
+
+4. The attacker has some term Nc_42334.
+attacker(Nc_42334).
+
+5. The message pub(skA[]) may be sent to the attacker at output {2}.
+attacker(pub(skA[])).
+
+6. Using the function OpenSecureChannelRequest the attacker may obtain OpenSecureChannelRequest.
+attacker(OpenSecureChannelRequest).
+
+7. By 6, the attacker may know OpenSecureChannelRequest.
+By 1, the attacker may know C[].
+By 5, the attacker may know pub(skA[]).
+By 4, the attacker may know Nc_42334.
+Using the function 4-tuple the attacker may obtain (OpenSecureChannelRequest,C[],pub(skA[]),Nc_42334).
+attacker((OpenSecureChannelRequest,C[],pub(skA[]),Nc_42334)).
+
+8. By 5, the attacker may know pub(skA[]).
+By 7, the attacker may know (OpenSecureChannelRequest,C[],pub(skA[]),Nc_42334).
+Using the function 2-tuple the attacker may obtain (pub(skA[]),(OpenSecureChannelRequest,C[],pub(skA[]),Nc_42334)).
+attacker((pub(skA[]),(OpenSecureChannelRequest,C[],pub(skA[]),Nc_42334))).
+
+9. The message (A[],A[],C[]) that the attacker may have by 3 may be received at input {34}.
+The message (pub(skA[]),(OpenSecureChannelRequest,C[],pub(skA[]),Nc_42334)) that the attacker may have by 8 may be received at input {39}.
+So the message (OpenSecureChannelResponse,A[],Ns_42338,ST_42339,TTL_42340) may be sent to the attacker at output {46}.
+attacker((OpenSecureChannelResponse,A[],Ns_42338,ST_42339,TTL_42340)).
+
+10. By 9, the attacker may know (OpenSecureChannelResponse,A[],Ns_42338,ST_42339,TTL_42340).
+Using the function 3-proj-5-tuple the attacker may obtain Ns_42338.
+attacker(Ns_42338).
+
+11. By 4, the attacker may know Nc_42334.
+By 10, the attacker may know Ns_42338.
+Using the function 2-tuple the attacker may obtain (Nc_42334,Ns_42338).
+attacker((Nc_42334,Ns_42338)).
+
+12. By 11, the attacker may know (Nc_42334,Ns_42338).
+Using the function h the attacker may obtain h((Nc_42334,Ns_42338)).
+attacker(h((Nc_42334,Ns_42338))).
+
+13. The message (A[],A[],C[]) that the attacker may have by 3 may be received at input {34}.
+The message (pub(skA[]),(OpenSecureChannelRequest,C[],pub(skA[]),Nc_42334)) that the attacker may have by 8 may be received at input {39}.
+So the message senc(mSrv(pub(skA[]),pub(skC[])),h((Nc_42334,Ns_42338))) may be sent to the attacker at output {48}.
+attacker(senc(mSrv(pub(skA[]),pub(skC[])),h((Nc_42334,Ns_42338)))).
+
+14. By 13, the attacker may know senc(mSrv(pub(skA[]),pub(skC[])),h((Nc_42334,Ns_42338))).
+By 12, the attacker may know h((Nc_42334,Ns_42338)).
+Using the function sdec the attacker may obtain mSrv(pub(skA[]),pub(skC[])).
+attacker(mSrv(pub(skA[]),pub(skC[]))).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(c, pub(skA)) at {2}
+
+out(c, pub(skB)) at {4}
+
+out(c, pub(skC)) at {6}
+
+in(c, (A,A,C)) at {34} in copy a_42341
+
+in(c, (pub(skA),(OpenSecureChannelRequest,C,pub(skA),a))) at {39} in copy a_42341
+
+new Ns_97 creating Ns_42342 at {42} in copy a_42341
+
+new ST_98 creating ST_42343 at {43} in copy a_42341
+
+new TTL_99 creating TTL_42344 at {44} in copy a_42341
+
+out(c, (OpenSecureChannelResponse,A,Ns_42342,ST_42343,TTL_42344)) at {46} in copy a_42341
+
+out(c, senc(mSrv(pub(skA),pub(skC)),h((a,Ns_42342)))) at {48} in copy a_42341
+
+The attacker has the message mSrv(pub(skA),pub(skC)).
+A trace has been found.
+RESULT not attacker(mSrv(pub(skA[]),pub(skC[]))) is false.
+-- Query not attacker(mCli(pub(skA[]),pub(skC[])))
+Completing...
+200 rules inserted. The rule base contains 75 rules. 388 rules in the queue.
+400 rules inserted. The rule base contains 107 rules. 388 rules in the queue.
+600 rules inserted. The rule base contains 123 rules. 386 rules in the queue.
+800 rules inserted. The rule base contains 123 rules. 386 rules in the queue.
+1000 rules inserted. The rule base contains 127 rules. 368 rules in the queue.
+1200 rules inserted. The rule base contains 97 rules. 360 rules in the queue.
+1400 rules inserted. The rule base contains 143 rules. 294 rules in the queue.
+1600 rules inserted. The rule base contains 161 rules. 280 rules in the queue.
+1800 rules inserted. The rule base contains 265 rules. 201 rules in the queue.
+2000 rules inserted. The rule base contains 390 rules. 111 rules in the queue.
+Starting query not attacker(mCli(pub(skA[]),pub(skC[])))
+goal reachable: attacker(mCli(pub(skA[]),pub(skC[])))
+Abbreviations:
+Nc_84700 = Nc[UP = UP_84696,SP = SP_84695,Sess = C[],Disco = A[],Cli = A[],!1 = @sid_84697]
+
+1. The attacker has some term Ns_84692.
+attacker(Ns_84692).
+
+2. The attacker initially knows C[].
+attacker(C[]).
+
+3. The attacker initially knows A[].
+attacker(A[]).
+
+4. By 3, the attacker may know A[].
+By 3, the attacker may know A[].
+By 2, the attacker may know C[].
+Using the function 3-tuple the attacker may obtain (A[],A[],C[]).
+attacker((A[],A[],C[])).
+
+5. The attacker has some term UP_84696.
+attacker(UP_84696).
+
+6. The attacker has some term SP_84695.
+attacker(SP_84695).
+
+7. Using the function None the attacker may obtain None.
+attacker(None).
+
+8. The message pub(skC[]) may be sent to the attacker at output {6}.
+attacker(pub(skC[])).
+
+9. Using the function GetEndpointResponse the attacker may obtain GetEndpointResponse.
+attacker(GetEndpointResponse).
+
+10. By 9, the attacker may know GetEndpointResponse.
+By 8, the attacker may know pub(skC[]).
+By 7, the attacker may know None.
+By 6, the attacker may know SP_84695.
+By 5, the attacker may know UP_84696.
+Using the function 5-tuple the attacker may obtain (GetEndpointResponse,pub(skC[]),None,SP_84695,UP_84696).
+attacker((GetEndpointResponse,pub(skC[]),None,SP_84695,UP_84696)).
+
+11. The message (A[],A[],C[]) that the attacker may have by 4 may be received at input {8}.
+The message (GetEndpointResponse,pub(skC[]),None,SP_84695,UP_84696) that the attacker may have by 10 may be received at input {14}.
+So the message (pub(skA[]),(OpenSecureChannelRequest,C[],pub(skA[]),Nc_84700)) may be sent to the attacker at output {17}.
+attacker((pub(skA[]),(OpenSecureChannelRequest,C[],pub(skA[]),Nc_84700))).
+
+12. By 11, the attacker may know (pub(skA[]),(OpenSecureChannelRequest,C[],pub(skA[]),Nc_84700)).
+Using the function 2-proj-2-tuple the attacker may obtain (OpenSecureChannelRequest,C[],pub(skA[]),Nc_84700).
+attacker((OpenSecureChannelRequest,C[],pub(skA[]),Nc_84700)).
+
+13. By 12, the attacker may know (OpenSecureChannelRequest,C[],pub(skA[]),Nc_84700).
+Using the function 4-proj-4-tuple the attacker may obtain Nc_84700.
+attacker(Nc_84700).
+
+14. By 13, the attacker may know Nc_84700.
+By 1, the attacker may know Ns_84692.
+Using the function 2-tuple the attacker may obtain (Nc_84700,Ns_84692).
+attacker((Nc_84700,Ns_84692)).
+
+15. By 14, the attacker may know (Nc_84700,Ns_84692).
+Using the function h the attacker may obtain h((Nc_84700,Ns_84692)).
+attacker(h((Nc_84700,Ns_84692))).
+
+16. The attacker has some term TTL_84694.
+attacker(TTL_84694).
+
+17. The attacker has some term ST_84693.
+attacker(ST_84693).
+
+18. Using the function OpenSecureChannelResponse the attacker may obtain OpenSecureChannelResponse.
+attacker(OpenSecureChannelResponse).
+
+19. By 18, the attacker may know OpenSecureChannelResponse.
+By 3, the attacker may know A[].
+By 1, the attacker may know Ns_84692.
+By 17, the attacker may know ST_84693.
+By 16, the attacker may know TTL_84694.
+Using the function 5-tuple the attacker may obtain (OpenSecureChannelResponse,A[],Ns_84692,ST_84693,TTL_84694).
+attacker((OpenSecureChannelResponse,A[],Ns_84692,ST_84693,TTL_84694)).
+
+20. The message (A[],A[],C[]) that the attacker may have by 4 may be received at input {8}.
+The message (GetEndpointResponse,pub(skC[]),None,SP_84695,UP_84696) that the attacker may have by 10 may be received at input {14}.
+The message (OpenSecureChannelResponse,A[],Ns_84692,ST_84693,TTL_84694) that the attacker may have by 19 may be received at input {18}.
+So the message senc(mCli(pub(skA[]),pub(skC[])),h((Nc_84700,Ns_84692))) may be sent to the attacker at output {22}.
+attacker(senc(mCli(pub(skA[]),pub(skC[])),h((Nc_84700,Ns_84692)))).
+
+21. By 20, the attacker may know senc(mCli(pub(skA[]),pub(skC[])),h((Nc_84700,Ns_84692))).
+By 15, the attacker may know h((Nc_84700,Ns_84692)).
+Using the function sdec the attacker may obtain mCli(pub(skA[]),pub(skC[])).
+attacker(mCli(pub(skA[]),pub(skC[]))).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(c, pub(skA)) at {2}
+
+out(c, pub(skB)) at {4}
+
+out(c, pub(skC)) at {6}
+
+in(c, (A,A,C)) at {8} in copy a_84703
+
+out(c, GetEndpointRequest) at {13} in copy a_84703
+
+in(c, (GetEndpointResponse,pub(skC),None,a_84702,a_84701)) at {14} in copy a_84703
+
+new Nc creating Nc_84707 at {15} in copy a_84703
+
+out(c, (pub(skA),(OpenSecureChannelRequest,C,pub(skA),Nc_84707))) at {17} in copy a_84703
+
+in(c, (OpenSecureChannelResponse,A,a_84704,a_84705,a_84706)) at {18} in copy a_84703
+
+out(c, senc(mCli(pub(skA),pub(skC)),h((Nc_84707,a_84704)))) at {22} in copy a_84703
+
+The attacker has the message mCli(pub(skA),pub(skC)).
+A trace has been found.
+RESULT not attacker(mCli(pub(skA[]),pub(skC[]))) is false.
