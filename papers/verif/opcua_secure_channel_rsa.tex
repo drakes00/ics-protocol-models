@@ -1,0 +1,104 @@
+\begin{figure}[htb]
+    \centering
+    \renewcommand{\smname}{\smseshort}
+    \resizebox{.8\linewidth}{!}{
+        \begin{postscript}
+            \begin{msc}{Secure channel creation}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{2.6\instdist}
+                \setlength{\labeldist}{1.5\labeldist}
+
+                \declinst{cli}{C}{}
+                \declinst{intruder}{DiscoreryEndpoint}{}
+                \declinst{sess}{S}{}
+
+                \msccomment[-.5]{1.}{cli}
+                \mess{\gereq}{cli}{intruder}
+                \nextlevel[1.5]
+
+                \msccomment[-.5]{2.}{cli}
+                \mess{\geres, pk(S), \smname, SP, UP}{intruder}{cli}
+                \nextlevel[1]
+                
+                %\action*{Validates pk(S)}{cli}
+                %\nextlevel[2]
+                
+                \action*{Generates N$_{C}$}{cli}
+                \nextlevel[3]
+
+                \msccomment[-.5]{3.}{cli}
+                \mess{pk(C), \sm{\oscreq, pk(C), $N_{C}$}{pk(S)}{sk(C)}}{cli}{sess}
+                \nextlevel[1]
+
+                %\action*{Validates pk(C) }{sess}
+                %\nextlevel[2]
+
+                \action*{Generates N$_{S}$ }{sess}
+                \nextlevel[2]
+
+                \ifsmnotnone{%
+                    \action*{$K_{srv}$ = $h(N_{C}, N_{S})$ }{sess}
+                    \nextlevel[3.5]
+                }
+
+                \msccomment[-.5]{4.}{cli}
+                \mess{\sm{\oscres, $N_{S}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{cli}
+                \nextlevel[1]
+
+                \ifsmnotnone{%
+                    \action*{$K_{cli}$ = $h(N_{S}, N_{C})$}{cli}
+                    \nextlevel[2]
+                }
+            \end{msc}
+        \end{postscript}
+    }
+    \caption{\opcua \securechan sub-protocol}
+    \label{fig:secure_channel_se}
+\end{figure}
+
+\begin{table}[htb]
+    \centering
+    %\hspace{-1em}
+    %\resizebox{1.05\columnwidth}{!}{
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{\opcua Security mode} & \multicolumn{4}{|c|}{Objectives} \\
+        \cline{2-5}
+                       & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
+        \hline
+        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
+        \hline
+        \sms           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
+        \hline
+        \smseshort     & \SAFE         & \SAFE         & \UNSAFE           & \UNSAFE           \\ 
+        \hline
+    \end{tabular}
+    %}
+    \caption{Results for textbook {\em OpenSecureChannel} sub-protocol}
+    \label{tab:secure_channel_results}
+\end{table}
+
+\subsection{Fixed version}
+
+\begin{table}[htb]
+    \centering
+    %\hspace{-1em}
+    %\resizebox{1.05\columnwidth}{!}{
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{\opcua Security mode} & \multicolumn{4}{|c|}{Objectives} \\
+        \cline{2-5}
+                       & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
+        \hline
+        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
+        \hline
+        \sms           & \UNSAFE       & \UNSAFE       & \SAFE             & \SAFE             \\ 
+        \hline
+        \smseshort     & \SAFE         & \SAFE         & \SAFE             & \SAFE             \\ 
+        \hline
+    \end{tabular}
+    %}
+    \caption{Results for fixed {\em OpenSecureChannel} sub-protocol}
+    \label{tab:secure_channel_fix_results}
+\end{table}
+\vspace{-3em}
