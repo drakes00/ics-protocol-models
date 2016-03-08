@@ -36,25 +36,31 @@
                 \action*{Generates N$_{S}$ }{sess}
                 \nextlevel[2]
 
-                \ifsmnotnone{%
-                    \action*{$K_{srv}$ = $h(N_{C}, N_{S})$ }{sess}
-                    \nextlevel[3.5]
-                }
+                %\ifsmnotnone{%
+                %    \action*{$(K_{SC}, KSig_{SC})$ = $P\_hash(N_{S}, N_{C})$ }{sess}
+                %    \nextlevel[3.5]
+                %}
 
                 \msccomment[-.5]{4.}{cli}
                 \mess{\sm{\oscres, $N_{S}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{cli}
                 \nextlevel[1]
 
-                \ifsmnotnone{%
-                    \action*{$K_{cli}$ = $h(N_{S}, N_{C})$}{cli}
-                    \nextlevel[2]
-                }
+                %\ifsmnotnone{%
+                %    \action*{$(K_{CS}, KSig_{CS})$ = $P\_hash(N_{C}, N_{S})$ }{cli}
+                %    \nextlevel[2]
+                %}
             \end{msc}
         \end{postscript}
     }
     \caption{\opcua \securechan sub-protocol}
     \label{fig:secure_channel_se}
 \end{figure}
+
+C et S s'échangent les nonces Nc et Ns et dérivent chacun quatre clefs:
+\begin{itemize}
+    \item $(K_{CS}, KSig_{CS})$ = $P\_hash(N_{C}, N_{S})$
+    \item $(K_{SC}, KSig_{SC})$ = $P\_hash(N_{S}, N_{C})$
+\end{itemize}
 
 \begin{table}[htb]
     \centering
@@ -78,6 +84,10 @@
     \label{tab:secure_channel_results}
 \end{table}
 
+Attaques sur le secret en Sign car les nonces sont échangés en clair (pas besoin
+de figure).
+Attaque sur l'auth partout car besoin de préciser les destinataires dans les signs (figure).
+
 \begin{table}[htb]
     \centering
     %\hspace{-1em}
@@ -99,3 +109,5 @@
     \caption{Results for fixed {\em OpenSecureChannel} sub-protocol}
     \label{tab:secure_channel_fix_results}
 \end{table}
+
+Si précise les destinataires dans les signs, auth deviennent safe.

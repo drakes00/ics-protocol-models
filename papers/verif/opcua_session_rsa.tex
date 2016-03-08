@@ -40,20 +40,23 @@ $Sig_{N_{C}} = \left\{\mbox{pk(C), $N_{C}$}\right\}_{\mbox{sk(S)}}$
 
 $Sig_{N_{S}} = \left\{\mbox{pk(S), $N_{S}$}\right\}_{\mbox{sk(C)}}$
 
+Utilisation des clefs dérivées à la suite du protocole précédent pour crypto symétrique et des hmacs.
+Deux-challenges responses avec les clefs privées (et non des hmacs).
+
 \begin{table}[htb]
     \centering
     %\resizebox{1.05\columnwidth}{!}{
-    \begin{tabular}{|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
-        \cline{2-4}
-                       & Sec $Passwd$  & Auth $N_{C}$  & Auth $Passwd$  \\
-        \hline
-        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE        \\ 
-        \hline
-        \sms           & \UNSAFE       & \UNSAFE       & \SAFE          \\ 
-        \hline
-        \smseshort     & \SAFE         & \SAFE         & \SAFE          \\ 
+        \multirow{2}{*}{\opcua Security mode} & \multicolumn{4}{|c|}{Objectives} \\
+        \cline{2-5}
+                    & Sec $Passwd$  & Auth $Passwd$  & Auth $Sig_{N_{S}}$    & Auth $Sig_{N_{C}}$    \\
+        \hline                                       
+        \smn        & \UNSAFE       & \UNSAFE        & \UNSAFE               & \UNSAFE               \\ 
+        \hline                                       
+        \sms        & \UNSAFE       & \UNSAFE        & \SAFE                 & \SAFE                 \\ 
+        \hline                                       
+        \smseshort  & \SAFE         & \SAFE          & \SAFE                 & \SAFE                 \\ 
         \hline
     \end{tabular}
     %}
@@ -61,23 +64,27 @@ $Sig_{N_{S}} = \left\{\mbox{pk(S), $N_{S}$}\right\}_{\mbox{sk(C)}}$
     \label{tab:session_results}
 \end{table}
 
+Auth sur les nonces safe (car utilisation des clefs privées et dest précisé de base dans la signature).
+
 \begin{table}[htb]
     \centering
     %\resizebox{1.05\columnwidth}{!}{
-    \begin{tabular}{|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
-        \cline{2-4}
-                       & Sec $Passwd$  & Auth $N_{C}$  & Auth $Passwd$  \\
-        \hline                                                                          
-        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE        \\ 
-        \hline                                         
-        \sms           & \UNSAFE       & \SAFE         & \SAFE          \\ 
-        \hline                                         
-        \smseshort     & \SAFE         & \SAFE         & \SAFE          \\ 
+        \multirow{2}{*}{\opcua Security mode} & \multicolumn{4}{|c|}{Objectives} \\
+        \cline{2-5}
+                    & Sec $Passwd$  & Auth $Passwd$  & Auth $Sig_{N_{S}}$    & Auth $Sig_{N_{C}}$    \\
+        \hline                                       
+        \smn        & \UNSAFE       & \UNSAFE        & \UNSAFE               & \UNSAFE               \\ 
+        \hline                                       
+        \sms        & \UNSAFE       & \SAFE          & \SAFE                 & \SAFE                 \\ 
+        \hline                                       
+        \smseshort  & \SAFE         & \SAFE          & \SAFE                 & \SAFE                 \\ 
         \hline
     \end{tabular}
     %}
-    \caption{Results for fixed \opcua \session sub-protocol}
+    \caption{Results for \opcua \session sub-protocol with \DiH}
     \label{tab:session_fix_results}
 \end{table}
+
+Si \DiH, alors sécurité des clefs en mode sign et auth sur passwd devient safe.
