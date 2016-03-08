@@ -26,6 +26,7 @@
 \newcommand{\dosmnone}[3]{#1}
 \newcommand{\dosmsign}[3]{#1, $\left\{\mbox{h(#1)}\right\}_{\mbox{#3}}$}
 \newcommand{\dosmsignandencrypt}[3]{$\left\{\mbox{#1}\right\}_{\mbox{#2}}$, $\left\{\mbox{h(#1)}\right\}_{\mbox{#3}}$}
+\newcommand{\dosmhmacencrypt}[3]{$\left\{\mbox{#1}\right\}_{\mbox{#2}}$, HMAC(\mbox{#3}, (\mbox{#1}))}
 
 \newcommand{\smn}{None}
 \newcommand{\sms}{Sign}
@@ -136,7 +137,12 @@
 \bibliographystyle{unsrt}
 \bibliography{phdBiblio}
 
-\section{\opcua OpenSecureChannel RSA simple}\label{sec:secure_channel}
+\newpage
+\section{\opcua OpenSecureChannel RSA}\label{sec:secure_channel_rsa}
 \input{opcua_secure_channel_rsa}
+
+\newpage
+\section{\opcua CreateSession RSA}\label{sec:session_rsa}
+\input{opcua_session_rsa}
 
 \end{document}

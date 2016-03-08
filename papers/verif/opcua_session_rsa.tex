@@ -1,0 +1,83 @@
+\begin{figure}[htb]
+    \resizebox{1.1\textwidth}{!}{
+        \begin{postscript}
+            \begin{msc}{Session creation}
+                \setlength{\envinstdist}{1.5\envinstdist}
+                \setlength{\instdist}{6.25\instdist}
+                \setlength{\labeldist}{1.5\labeldist}
+
+                \declinst{cli}{C}{}
+                \declinst{sess}{S}{}
+
+                \mess{\dosmhmacencrypt{\csreq, pk(C), $N_{C}$}{$K_{CS}$}{$KSig_{CS}$}}{cli}{sess}
+                \nextlevel[1.5]
+                
+                \mess{\dosmhmacencrypt{\csres, pk(S), $Sig_{N_{C}}$, $N_{S}$}{$K_{SC}$}{$KSig_{SC}$}}{sess}{cli}
+                \nextlevel[1]
+
+                \action*{Validates $Sig_{N_{C}}$}{cli}
+                \nextlevel[3]
+                
+                \mess{\dosmhmacencrypt{\asreq, $Sig_{N_{S}}$, pk(C), Login, Passwd}{$K_{CS}$}{$KSig_{CS}$}}{cli}{sess}
+                \nextlevel[1]
+
+                \action*{Validates $Sig_{N_{S}}$}{sess}
+                \nextlevel[2]
+
+                \action*{Validates (Login, Passwd)}{sess}
+                \nextlevel[2.5]
+
+                \mess{\dosmhmacencrypt{\asres, $N_{S2}$}{$K_{SC}$}{$KSig_{SC}$}}{sess}{cli}
+                \nextlevel[.5]
+            \end{msc}
+        \end{postscript}
+    }
+    \caption{\opcua \session sub-protocol}
+    \label{fig:session_se}
+\end{figure}
+
+$Sig_{N_{C}} = \left\{\mbox{pk(C), $N_{C}$}\right\}_{\mbox{sk(S)}}$
+
+$Sig_{N_{S}} = \left\{\mbox{pk(S), $N_{S}$}\right\}_{\mbox{sk(C)}}$
+
+\begin{table}[htb]
+    \centering
+    %\resizebox{1.05\columnwidth}{!}{
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
+        \cline{2-4}
+                       & Sec $Passwd$  & Auth $N_{C}$  & Auth $Passwd$  \\
+        \hline
+        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE        \\ 
+        \hline
+        \sms           & \UNSAFE       & \UNSAFE       & \SAFE          \\ 
+        \hline
+        \smseshort     & \SAFE         & \SAFE         & \SAFE          \\ 
+        \hline
+    \end{tabular}
+    %}
+    \caption{Results for \opcua \session sub-protocol}
+    \label{tab:session_results}
+\end{table}
+
+\begin{table}[htb]
+    \centering
+    %\resizebox{1.05\columnwidth}{!}{
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
+        \cline{2-4}
+                       & Sec $Passwd$  & Auth $N_{C}$  & Auth $Passwd$  \\
+        \hline                                                                          
+        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE        \\ 
+        \hline                                         
+        \sms           & \UNSAFE       & \SAFE         & \SAFE          \\ 
+        \hline                                         
+        \smseshort     & \SAFE         & \SAFE         & \SAFE          \\ 
+        \hline
+    \end{tabular}
+    %}
+    \caption{Results for fixed \opcua \session sub-protocol}
+    \label{tab:session_fix_results}
+\end{table}
