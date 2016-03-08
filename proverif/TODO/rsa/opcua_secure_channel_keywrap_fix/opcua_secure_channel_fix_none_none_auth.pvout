@@ -1,0 +1,100 @@
+Linear part:
+exp(exp(g,x_32),y) = exp(exp(g,y),x_32)
+Completing equations...
+Completed equations:
+exp(exp(g,x_32),y) = exp(exp(g,y),x_32)
+Convergent part:
+Completing equations...
+Completed equations:
+Process:
+{1}let pkA: bitstring = pub(skA) in
+{2}out(c, pkA);
+{3}let pkB: bitstring = pub(skB) in
+{4}out(c, pkB);
+{5}let pkC: bitstring = pub(skC) in
+{6}out(c, pkC);
+(
+    {7}!
+    {8}in(c, (Cli: host,Disco: host,Sess: host));
+    {9}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else (if (Cli = C) then skC else fail-any))) in
+    {10}let pkCli: bitstring = pub(skCli) in
+    {11}let pkDisco: bitstring = (if (Disco = A) then pub(skA) else (if (Disco = B) then pub(skB) else (if (Disco = C) then pub(skC) else pub(sk(Disco))))) in
+    {12}let pkSess: bitstring = (if (Sess = A) then pub(skA) else (if (Sess = B) then pub(skB) else (if (Sess = C) then pub(skC) else pub(sk(Sess))))) in
+    {13}out(c, GetEndpointRequest);
+    {14}in(c, (=GetEndpointResponse,=pkSess,=None,SP: bitstring,UP: bitstring));
+    {15}new Nc: bitstring;
+    {16}let wNc: bitstring = enc(Nc,pkSess) in
+    {17}let m1: bitstring = (OpenSecureChannelRequest,pkCli,wNc) in
+    {18}event beginCli(Cli,Sess,Nc);
+    {19}out(c, (pkCli,m1));
+    {20}in(c, em2: bitstring);
+    {21}let m2: bitstring = em2 in
+    {22}let (=OpenSecureChannelResponse,wNs: bitstring,ST: bitstring,TTL: bitstring) = m2 in
+    {23}let Ns: bitstring = dec(wNs,skCli) in
+    {24}if ((Sess = A) || ((Sess = B) || (Sess = C))) then
+    {25}event endCli(Sess,Cli,Ns)
+) | (
+    {26}!
+    {27}in(c, (Cli_81: host,Disco_82: host,Sess_83: host));
+    {28}let skDisco: bitstring = (if (Disco_82 = A) then skA else (if (Disco_82 = B) then skB else (if (Disco_82 = C) then skC else fail-any))) in
+    {29}let pkDisco_84: bitstring = pub(skDisco) in
+    {30}let pkCli_85: bitstring = (if (Cli_81 = A) then pub(skA) else (if (Cli_81 = B) then pub(skB) else (if (Cli_81 = C) then pub(skC) else pub(sk(Cli_81))))) in
+    {31}let pkSess_86: bitstring = (if (Sess_83 = A) then pub(skA) else (if (Sess_83 = B) then pub(skB) else (if (Sess_83 = C) then pub(skC) else pub(sk(Sess_83))))) in
+    {32}in(c, =GetEndpointRequest);
+    {33}new SP_87: bitstring;
+    {34}new UP_88: bitstring;
+    {35}out(c, (GetEndpointResponse,pkSess_86,None,SP_87,UP_88))
+) | (
+    {36}!
+    {37}in(c, (Cli_89: host,Disco_90: host,Sess_91: host));
+    {38}let skSess: bitstring = (if (Sess_91 = A) then skA else (if (Sess_91 = B) then skB else (if (Sess_91 = C) then skC else fail-any))) in
+    {39}let pkSess_92: bitstring = pub(skSess) in
+    {40}let pkCli_93: bitstring = (if (Cli_89 = A) then pub(skA) else (if (Cli_89 = B) then pub(skB) else (if (Cli_89 = C) then pub(skC) else pub(sk(Cli_89))))) in
+    {41}let pkDisco_94: bitstring = (if (Disco_90 = A) then pub(skA) else (if (Disco_90 = B) then pub(skB) else (if (Disco_90 = C) then pub(skC) else pub(sk(Disco_90))))) in
+    {42}in(c, (=pkCli_93,em1: bitstring));
+    {43}let m1_95: bitstring = em1 in
+    {44}let (=OpenSecureChannelRequest,=pkCli_93,wNc_96: bitstring) = m1_95 in
+    {45}let Nc_97: bitstring = dec(wNc_96,skSess) in
+    {46}new Ns_98: bitstring;
+    {47}new ST_99: bitstring;
+    {48}new TTL_100: bitstring;
+    {49}let wNs_101: bitstring = enc(Ns_98,pkCli_93) in
+    {50}let m2_102: bitstring = (OpenSecureChannelResponse,wNs_101,ST_99,TTL_100) in
+    {51}event beginSrv(Sess_91,Cli_89,Ns_98);
+    {52}out(c, m2_102);
+    {53}if ((Cli_89 = A) || ((Cli_89 = B) || (Cli_89 = C))) then
+    {54}event endSrv(Cli_89,Sess_91,Nc_97)
+)
+
+-- Query event(endCli(X,Y,N)) ==> event(beginSrv(X,Y,N))
+Completing...
+200 rules inserted. The rule base contains 72 rules. 301 rules in the queue.
+400 rules inserted. The rule base contains 204 rules. 301 rules in the queue.
+600 rules inserted. The rule base contains 226 rules. 299 rules in the queue.
+800 rules inserted. The rule base contains 248 rules. 277 rules in the queue.
+1000 rules inserted. The rule base contains 252 rules. 273 rules in the queue.
+nounif attacker(enc(Nc_41869,pub(skA[])))/-5000
+nounif attacker(enc(Nc_42415,pub(skB[])))/-5000
+1200 rules inserted. The rule base contains 316 rules. 401 rules in the queue.
+nounif attacker(enc(Nc_42961,pub(skC[])))/-5000
+1400 rules inserted. The rule base contains 368 rules. 853 rules in the queue.
+1600 rules inserted. The rule base contains 376 rules. 941 rules in the queue.
+1800 rules inserted. The rule base contains 428 rules. 1310 rules in the queue.
+2000 rules inserted. The rule base contains 486 rules. 2059 rules in the queue.
+2200 rules inserted. The rule base contains 533 rules. 2146 rules in the queue.
+2400 rules inserted. The rule base contains 554 rules. 2140 rules in the queue.
+2600 rules inserted. The rule base contains 589 rules. 2134 rules in the queue.
+2800 rules inserted. The rule base contains 601 rules. 2132 rules in the queue.
+3000 rules inserted. The rule base contains 658 rules. 2175 rules in the queue.
+3200 rules inserted. The rule base contains 702 rules. 2219 rules in the queue.
+3400 rules inserted. The rule base contains 744 rules. 2262 rules in the queue.
+3600 rules inserted. The rule base contains 798 rules. 2305 rules in the queue.
+3800 rules inserted. The rule base contains 838 rules. 2349 rules in the queue.
+4000 rules inserted. The rule base contains 893 rules. 2392 rules in the queue.
+4200 rules inserted. The rule base contains 921 rules. 2388 rules in the queue.
+4400 rules inserted. The rule base contains 902 rules. 2431 rules in the queue.
+4600 rules inserted. The rule base contains 906 rules. 2789 rules in the queue.
+4800 rules inserted. The rule base contains 927 rules. 3190 rules in the queue.
+5000 rules inserted. The rule base contains 909 rules. 3186 rules in the queue.
+5200 rules inserted. The rule base contains 923 rules. 3184 rules in the queue.
+5400 rules inserted. The rule base contains 924 rules. 3183 rules in the queue.
