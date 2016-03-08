@@ -122,7 +122,7 @@ let sess(skA: bitstring, skB: bitstring, skC: bitstring) =
     let m2 = (OpenSecureChannelResponse, Cli, Ns, ST, TTL) in
     out(c, (m2));
 
-    let Ksrv = h((Nc, Ns)) in
+    let Ksrv = h((Ns, Nc)) in
     out(c, senc(mSrv(pkCli, pkSess), Ksrv)).
 
 

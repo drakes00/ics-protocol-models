@@ -73,16 +73,15 @@ let client(skA: bitstring, skB: bitstring, skC: bitstring) =
     (* Role starting *)
     out(c, GetEndpointRequest);
 
-    in(c, (=GetEndpointResponse, =pkSess, =SignAndEncrypt, SP: bitstring, UP: bitstring));
+    in(c, (=GetEndpointResponse, =pkSess, =None, SP: bitstring, UP: bitstring));
 
     new Nc: bitstring;
     (*let gNc = exp(g, Nc) in*)
     let m1 = (OpenSecureChannelRequest, pkCli, Nc) in
-    out(c, (pkCli, enc(m1, pkSess), sign(h(m1), skCli)));
+    out(c, (pkCli, m1));
 
-    in(c, (em2: bitstring, sigM2: bitstring));
-    let m2 = dec(em2, skCli) in
-    if verify(h(m2), sigM2, pkSess) <> true then 0 else
+    in(c, (em2: bitstring));
+    let m2 = em2 in
     let (=OpenSecureChannelResponse, Ns: bitstring, ST: bitstring, TTL: bitstring) = m2 in
 
     let Kcli = h((Nc, Ns)) in
@@ -101,7 +100,7 @@ let disco(skA: bitstring, skB: bitstring, skC: bitstring) =
 
     new SP: bitstring;
     new UP: bitstring;
-    out(c, (GetEndpointResponse, pkSess, SignAndEncrypt, SP, UP)).
+    out(c, (GetEndpointResponse, pkSess, None, SP, UP)).
 
 
 let sess(skA: bitstring, skB: bitstring, skC: bitstring) = 
@@ -112,9 +111,8 @@ let sess(skA: bitstring, skB: bitstring, skC: bitstring) =
     let pkDisco = if Disco = A then pub(skA) else if Disco = B then pub(skB) else if Disco = C then pub(skC) else pub(sk(Disco)) in
 
     (* Role starting *)
-    in(c, (=pkCli, em1: bitstring, sigM1: bitstring));
-    let m1 = dec(em1, skSess) in
-    if verify(h(m1), sigM1, pkCli) <> true then 0 else
+    in(c, (=pkCli, em1: bitstring));
+    let m1 = em1 in
     let (=OpenSecureChannelRequest, =pkCli, Nc: bitstring) = m1 in
     
     new Ns: bitstring;
@@ -122,9 +120,9 @@ let sess(skA: bitstring, skB: bitstring, skC: bitstring) =
     new TTL: bitstring;
     (*let gNs = exp(g, Ns) in*)
     let m2 = (OpenSecureChannelResponse, Ns, ST, TTL) in
-    out(c, (enc(m2, pkCli), sign(h(m2), skSess)));
+    out(c, (m2));
 
-    let Ksrv = h((Nc, Ns)) in
+    let Ksrv = h((Ns, Nc)) in
     out(c, senc(mSrv(pkCli, pkSess), Ksrv)).
 
 

@@ -77,13 +77,13 @@ let client(skA: bitstring, skB: bitstring, skC: bitstring) =
 
     new Nc: bitstring;
     (*let gNc = exp(g, Nc) in*)
-    let m1 = (OpenSecureChannelRequest, Sess, pkCli, Nc) in
+    let m1 = (OpenSecureChannelRequest, pkCli, Nc) in
     out(c, (pkCli, m1, sign(h(m1), skCli)));
 
     in(c, (em2: bitstring, sigM2: bitstring));
     let m2 = em2 in
     if verify(h(m2), sigM2, pkSess) <> true then 0 else
-    let (=OpenSecureChannelResponse, =Cli, Ns: bitstring, ST: bitstring, TTL: bitstring) = m2 in
+    let (=OpenSecureChannelResponse, Ns: bitstring, ST: bitstring, TTL: bitstring) = m2 in
 
     let Kcli = h((Nc, Ns)) in
     out(c, senc(mCli(pkCli, pkSess), Kcli)).
@@ -115,16 +115,16 @@ let sess(skA: bitstring, skB: bitstring, skC: bitstring) =
     in(c, (=pkCli, em1: bitstring, sigM1: bitstring));
     let m1 = em1 in
     if verify(h(m1), sigM1, pkCli) <> true then 0 else
-    let (=OpenSecureChannelRequest, =Sess, =pkCli, Nc: bitstring) = m1 in
+    let (=OpenSecureChannelRequest, =pkCli, Nc: bitstring) = m1 in
     
     new Ns: bitstring;
     new ST: bitstring;
     new TTL: bitstring;
     (*let gNs = exp(g, Ns) in*)
-    let m2 = (OpenSecureChannelResponse, Cli, Ns, ST, TTL) in
+    let m2 = (OpenSecureChannelResponse, Ns, ST, TTL) in
     out(c, (m2, sign(h(m2), skSess)));
 
-    let Ksrv = h((Nc, Ns)) in
+    let Ksrv = h((Ns, Nc)) in
     out(c, senc(mSrv(pkCli, pkSess), Ksrv)).
 
 
