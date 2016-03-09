@@ -25,7 +25,8 @@ reduc forall x: bitstring, k: bitstring ; sdec(senc(x, k), k) = x.
 fun sk(host): bitstring.
 fun pub(bitstring): bitstring.
 fun enc(bitstring, bitstring): bitstring.
-reduc forall x: bitstring, k: bitstring ; dec(enc(x, pub(k)), k) = x.
+fun dec(bitstring, bitstring): bitstring.
+equation forall x: bitstring, k: bitstring ; dec(enc(x, pub(k)), k) = x.
 
 
 (* Signatures *)
