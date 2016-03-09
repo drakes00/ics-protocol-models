@@ -26,7 +26,7 @@
 \newcommand{\dosmnone}[3]{#1}
 \newcommand{\dosmsign}[3]{#1, $\left\{\mbox{h(#1)}\right\}_{\mbox{#3}}$}
 \newcommand{\dosmsignandencrypt}[3]{$\left\{\mbox{#1}\right\}_{\mbox{#2}}$, $\left\{\mbox{h(#1)}\right\}_{\mbox{#3}}$}
-\newcommand{\dosmhmacencrypt}[3]{$\left\{\mbox{#1}\right\}_{\mbox{#2}}$, HMAC(\mbox{#3}, (\mbox{#1}))}
+\newcommand{\dosmhmacencrypt}[3]{$\left\{\mbox{#1}\right\}_{\mbox{#2}}$, MAC(\mbox{#3}, (\mbox{#1}))}
 
 \newcommand{\smn}{None}
 \newcommand{\sms}{Sign}
@@ -93,56 +93,16 @@
 \section{Introduction}
 \input{intro}
 
-%\section{Misc}
-%
-%\paragraph{NonIdent} Considering a powerful intruder, anybody could play the role of the client and
-%the role of the server, including the interder.
-%In such model, a legitimate client could communicate with a rogue server.
-%
-%
-%\paragraph{Ident} A more realistic model supposes that the client and the server know each other
-%and would only communicate together.
-%Obviously, these models are equivalent if the protocol does not provide any
-%authentication method.
-%Integrity only applies in this model since it abstracts hosts identity
-%(integrity can be seen as a mono-session authentication).
-
-%% \section{\modbus}
-%% \input{modbus}
-
-
 \section{\opcua OpenSecureChannel}\label{sec:secure_channel}
 \input{opcua_secure_channel}
 
 \section{\opcua CreateSession}\label{sec:session}
 \input{opcua_session}
 
-%\section{Flow integrity}
-%%TODO \input{flow}
-%Idée: Modéliser l'envoie et la réception de messages jusqu'à fermeture du cannal.
-%A la fin envoyer les messages envoyés et reçus à un oracle qui les compare.
-%
-%\section{TODO list}
-%
-%\begin{itemize}
-%    \item Comment s'articulent la signature et le chiffrement (signature d'un haché, d'un chiffré, ...) ?
-%    \item Logjam $\Rightarrow$ Oui, vulnérable si hypothèse de DH OK
-%    \item Quel type de chiffrement (CBC, ...) ?
-%    \item Est-ce que tout est réellement signé (constantes publiques) ?
-%\end{itemize}
-
 \section{Conclusion}\label{sec:conclusion}
 \input{conclusion}
 
 \bibliographystyle{unsrt}
 \bibliography{phdBiblio}
-
-\newpage
-\section{\opcua OpenSecureChannel RSA}\label{sec:secure_channel_rsa}
-\input{opcua_secure_channel_rsa}
-
-\newpage
-\section{\opcua CreateSession RSA}\label{sec:session_rsa}
-\input{opcua_session_rsa}
 
 \end{document}

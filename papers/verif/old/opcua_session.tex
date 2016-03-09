@@ -9,63 +9,54 @@
 
 The \opcua {\em CreateSession} sub-protocol allows a client to send credentials
 (\emph{e.g.}: a login and a password) over an already created Secure Channel.
-It automatically follows the security mode that was chosen during the
-{\em OpenSecureChannel} sub-protocol and use the symmetric keys derived thus
-encryption becomes symmetric and signature relies on Messages Authentication
-Codes (MAC).
-This way message sent by C are encrypted using $K_{CS}$ (resp. signed with
-$KSig_{CS}$) and messages sent by S are encrypted with $K_{SC}$ (resp. signed
-with $KSig_{SC}$).
+It  automatically follows the security mode that was chosen during the
+{\em OpenSecureChannel} sub-protocol.
 This sub-protocol is presented in Figure \ref{fig:session_se}.
 In message 1, $C$ sends a challenge nonce to $S$ with {\em CSReq} meaning
 {\em CreateSessionRequest}.
-In message 2, $S$ answers with $Sig_{N_{C}} = \left\{\mbox{pk(C),
-$N_{C}$}\right\}_{\mbox{sk(S)}}$ and {\em CSRes} for
+In message 2, $S$ answers with the client's challenge nonce with {\em CSRes} for
 {\em CreateSessionResponse}.
-$Sig_{N_{C}}$ is the response of C's challenge and requires S to sign with its
-private (asymmetric) key to prove that he is the sams as in the
-{\em OpenSecureChannel} sub-protocol.
-For this particular use, the \opcua standard explicitly asks to add C's public
-key to the signature (which confirms the counter-measure we used in Section
-\ref{sec:secure_channel_fix}).
-In message 3, $C$ answers S's challenge with $Sig_{N_{S}}$ and sends his
-credentials to $S$ with {\em ASReq} for {\em ActivateSessionRequest}.
+In message 3, $C$ sends his credentials to $S$ with {\em ASReq} for 
+{\em ActivateSessionRequest}.
 Finally in message 4, $S$ confirms to $C$ that the session is created with 
-{\em ASRes} for {\em ActivateSessionResponse} and $N_{S2}$ a fresh challenge
-nonce that C should use to refresh the session when it is timed-out.
+{\em ASRes} for {\em ActivateSessionResponse}.
 Again, {\em CSReq, CSRes, ASReq} and {\em ASRes} indicate the purpose of each
 message of the protocol.
 
 \begin{figure}[htb]
-    \resizebox{1.1\textwidth}{!}{
+    \renewcommand{\smname}{\smse}
+    \resizebox{\columnwidth}{!}{
         \begin{postscript}
             \begin{msc}{Session creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
-                \setlength{\instdist}{6.25\instdist}
+                \setlength{\instdist}{5.5\instdist}
                 \setlength{\labeldist}{1.5\labeldist}
 
                 \declinst{cli}{C}{}
                 \declinst{sess}{S}{}
 
-                \mess{\dosmhmacencrypt{\csreq, pk(C), $N_{C}$}{$K_{CS}$}{$KSig_{CS}$}}{cli}{sess}
+                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{CS}$}{sk(C)}}{cli}{sess}
                 \nextlevel[1.5]
                 
-                \mess{\dosmhmacencrypt{\csres, pk(S), $Sig_{N_{C}}$, $N_{S}$}{$K_{SC}$}{$KSig_{SC}$}}{sess}{cli}
-                \nextlevel[1]
+                %\action*{Validates pk(C)}{sess}
+                %\nextlevel[2.5]
 
-                \action*{Validates $Sig_{N_{C}}$}{cli}
-                \nextlevel[3]
+                \mess{\sm{\csres, pk(S), $N_{C}$, $N_{S}$}{$K_{CS}$}{sk(S)}}{sess}{cli}
+                \nextlevel[1.5]
                 
-                \mess{\dosmhmacencrypt{\asreq, $Sig_{N_{S}}$, pk(C), Login, Passwd}{$K_{CS}$}{$KSig_{CS}$}}{cli}{sess}
-                \nextlevel[1]
+                %\action*{Validates pk(S)}{cli}
+                %\nextlevel[3]
+                
+                \mess{\sm{\asreq, pk(C), Login, Passwd}{$K_{CS}$}{sk(C)}}{cli}{sess}
+                \nextlevel[1.5]
+                
+                %\action*{Validates pk(C)}{sess}
+                %\nextlevel[2]
 
-                \action*{Validates $Sig_{N_{S}}$}{sess}
-                \nextlevel[2]
-
-                \action*{Validates (Login, Passwd)}{sess}
+                \action*{Validates (Login, Passwd) }{sess}
                 \nextlevel[2.5]
 
-                \mess{\dosmhmacencrypt{\asres, $N_{S2}$}{$K_{SC}$}{$KSig_{SC}$}}{sess}{cli}
+                \mess{\sm{\asres, $N_{S2}$}{$K_{CS}$}{sk(S)}}{sess}{cli}
                 \nextlevel[.5]
             \end{msc}
         \end{postscript}
@@ -89,26 +80,17 @@ equation: \texttt{verifyCreds(x, Login(pub(y)), Passwd(y, pub(x))) =
   true} where \texttt{x} the private key of the server and \texttt{y}
 the private key of the client (not revealed to the server).  It allows
 the server to verify if a password and a login are matching and if the
-password is the one he knows (using his public key).
-%Moreover in our
-%modeling, we assume that the intruder can share a symmetric key with
-%any other participant as a result of playing the {\em
-%  OpenSecureChannel} sub-protocol.  However, as we said in
-%Section~\ref{sec:secure_channel_res}, the intruder will not obtain the
-%derived key if he usurps another participant.  This means that if the
-%intruder shares a symmetric key with another participant, then this
-%key is attached to a session in which he is not usurping someone's
-%identity.
-According to our results for the {\em OpenSecureChannel} sub-protocol, the
-secrecy of the symmetric keys in security mode \sms~depends on if the protocol
-uses key wrapping.
-Again, as the \opcua standard is not clear on how to use the mecanism in
-this mode, we check with and without this security.
-This means that is keys are compromised, then the intruder has access to it.
-We consider four security objectives: (i) the secrecy of the
-password, (ii) the authentication of C on his password, (iii) the
-authentication of C on $Sig_{N_{S}}$ and (iv) the authentication of S on
-$Sig_{N_{C}}$.
+password is the one he knows (using his public key).  Moreover in our
+modeling, we assume that the intruder can share a symmetric key with
+any other participant as a result of playing the {\em
+  OpenSecureChannel} sub-protocol.  However, as we said in
+Section~\ref{sec:secure_channel_res}, the intruder will not obtain the
+derived key if he usurps another participant.  This means that if the
+intruder shares a symmetric key with another participant, then this
+key is attached to a session in which he is not usurping someone's
+identity.  We consider for security objectives: (i) the secrecy of the
+password, (ii) the authentication of C on his password and (iii) the
+authentication of S on $N_{C}$.
 
 \subsection{Results}
 
@@ -130,17 +112,17 @@ session where he is usurping someone's identity preventing him to communicate.
 \begin{table}[htb]
     \centering
     %\resizebox{1.05\columnwidth}{!}{
-    \begin{tabular}{|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|}
         \hline
-        \multirow{2}{*}{\opcua Security mode} & \multicolumn{4}{|c|}{Objectives} \\
-        \cline{2-5}
-                    & Sec $Passwd$  & Auth $Passwd$  & Auth $Sig_{N_{S}}$    & Auth $Sig_{N_{C}}$    \\
-        \hline                                       
-        \smn        & \UNSAFE       & \UNSAFE        & \UNSAFE               & \UNSAFE               \\ 
-        \hline                                       
-        \sms        & \UNSAFE       & \UNSAFE        & \SAFE                 & \SAFE                 \\ 
-        \hline                                       
-        \smseshort  & \SAFE         & \SAFE          & \SAFE                 & \SAFE                 \\ 
+        \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
+        \cline{2-4}
+                       & Sec $Passwd$  & Auth $N_{C}$  & Auth $Passwd$  \\
+        \hline
+        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE        \\ 
+        \hline
+        \sms           & \UNSAFE       & \UNSAFE       & \SAFE          \\ 
+        \hline
+        \smseshort     & \SAFE         & \SAFE         & \SAFE          \\ 
         \hline
     \end{tabular}
     %}
