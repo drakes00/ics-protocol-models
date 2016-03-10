@@ -8,19 +8,21 @@
 \newcommand{\oscres}{OSCRes}
 
 
-The {\em OpenSecureChannel} sub-protocol described in
-Figure~\ref{fig:secure_channel_se} aims to authenticate a client and
+The {\em OpenSecureChannel} sub-protocol  aims to authenticate a client and
 a server and allows them to generate a shared key for the later communications.
-\opcua can be used with three security modes, namely {\em \smn}, {\em \sms} and
+\opcua{} can be used with three security modes, namely {\em \smn}, {\em \sms} and
 {\em \smse}.
 \vspace{-.5em}
 \begin{itemize}
-    \item {\em \smse}: claims to provide secrecy using symmetric and
-      asymmetric encryption and both authentication and integrity
-      through digital signatures (\eg $enc_{pkB}(m)$, $sig_{skA}(h(m))$).
-  \item {\em \sms}: same as {\em \smse} but without any encryption.  Thus
-      nonces are not used to generate a shared key but bring freshness
-      to the messages (\eg $m$, $sig_{skA}(h(m))$).
+    \item {\em \smse}: messages are signed $\{h(m)\}_{sk(X)}$ and
+      encrypted $\{m\}_{pk(X)}$, where $h$ is an hash function, $sk(X)$ the secret key associated to $X$ and $pk(X)$ the public key of $X$.
+      This mode claims to provide secrecy
+      using symmetric and asymmetric encryption, but also both
+      authentication and integrity through digital signatures.
+  \item {\em \sms}: messages are only signed $m$, $\{h(m)\}_{sk(x)}$,
+    it is the same as {\em \smse} but without any encryption.  Thus
+    nonces are not used to generate a shared key but bring freshness
+    to the messages.
   \item {\em \smn}: does not provide any security.  Using this mode, the
       {\em OpenSecureChannel} sub-protocol does not serve much
       purpose but is used for compatibility.
@@ -81,29 +83,29 @@ a server and allows them to generate a shared key for the later communications.
             \end{msc}
         \end{postscript}
     }
-    \caption{\opcua \securechan sub-protocol}
+    \caption{\opcua{} \securechan sub-protocol in mode \smse.}
     \label{fig:secure_channel_se}
 \end{figure}
 \vspace{-1em}
 
-In message 1. $C$ requests information on $S$ with {\em GEReq} meaning
-{\em GetEndpointRequest}.
-In message 2. $DiscoveryEndpoint$ answers with these information with
-{\em GERes} standing for {\em GetEndpointResponse}, {\em SP} for
-{\em Security Policy} and {\em UP} for {\em UserPolicy}.
-Both {\em SP} and {\em UP} are used for cryptographic primitive negociations.
-In message 3. $C$ sends a nonce (here $N_{C}$) to $S$ with {\em OSReq}
-standing for {\em OpenSecureChannelRequest}.
-Finally in message 4. $S$ answers a nonce to $C$ (here $N_{S}$) with
-{\em OSCRes} for {\em OpenSecureChannelResponse}, {\em ST} for
-{\em SecurityToken} (a unique identifier for the channel) and {\em TTL} for
-{\em TimeToLive} (its life-time).
-The four terms {\em GEReq, GERes, OSCReq} and {\em OSCRes} indicate the purpose
-of each message of the protocol.
-At the end of this protocol, both $C$ and $S$ derive four keys using the nonces
-using a function named $P\_hash$, similar to the one specified in
-TLS~\cite{DR08}: $(K_{CS}, KSig_{CS})$ = $P\_hash(N_{C}, N_{S})$ and
-$(K_{SC}, KSig_{SC})$ = $P\_hash(N_{S}, N_{C})$.
+This protocol is described in Figure~\ref{fig:secure_channel_se}.  In
+message 1. $C$ requests information on $S$ with {\em GEReq} meaning
+{\em GetEndpointRequest}.  In message 2. $DiscoveryEndpoint$ answers
+with the following  informations where {\em GERes} stands for {\em
+  GetEndpointResponse}, {\em SP} for {\em Security Policy} and {\em
+  UP} for {\em UserPolicy}.  Both {\em SP} and {\em UP} are used for
+cryptographic primitive negociations.  In message 3. $C$ sends a nonce
+ $N_{C}$ to $S$ with {\em OSReq} standing for {\em
+  OpenSecureChannelRequest}.  Finally in message 4. $S$ answers a
+nonce to $C$ (here $N_{S}$) with {\em OSCRes} for {\em
+  OpenSecureChannelResponse}, {\em ST} for {\em SecurityToken} (a
+unique identifier for the channel) and {\em TTL} for {\em TimeToLive}
+(its life-time).  The four terms {\em GEReq, GERes, OSCReq} and {\em
+  OSCRes} indicate the purpose of each message of the protocol.  At
+the end of this protocol, both $C$ and $S$ derive four keys using the
+nonces using a function named $P\_hash$, similar to the one specified
+in TLS~\cite{DR08}: $(K_{CS}, KSig_{CS})$ = $P\_hash(N_{C}, N_{S})$
+and $(K_{SC}, KSig_{SC})$ = $P\_hash(N_{S}, N_{C})$.
 
 \subsection{Modeling}
 
@@ -137,7 +139,7 @@ on $N_{S}$.
 \subsection{Results}\label{sec:secure_channel_res}
 
 We run \proverif on this protocol for of the three security
-modes of \opcua for each objective proposed.
+modes of \opcua{} for each objective proposed.
 Results are shown in Table \ref{tab:secure_channel_results}.
 
 \vspace{-1em}
@@ -147,7 +149,7 @@ Results are shown in Table \ref{tab:secure_channel_results}.
     %\resizebox{1.05\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multirow{2}{*}{\opcua Security mode} & \multicolumn{4}{|c|}{Objectives} \\
+        \multirow{2}{*}{\opcua{} Security mode} & \multicolumn{4}{|c|}{Objectives} \\
         \cline{2-5}
                        & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
         \hline
@@ -174,7 +176,7 @@ delay the message more than what a legitimate router would do (thus
 avoiding replay protections such as timestamps).  Figure
 \ref{fig:secure_channel_atk} shows an attack on the authentication of
 C using $N_{C}$.  This attack is possible because the standard
-\opcua protocol does not require explicitly to specify the identity of
+\opcua{} protocol does not require explicitly to specify the identity of
 the receiver of a message.  Thus it allows the intruder to send to S
 the signed message C sent to him similarly as the attack on the
 Needham-Schroeder protocol~\cite{Low96}.
@@ -266,7 +268,7 @@ Note that instead of adding identity in these messages, one could add the user's
 public keys (pk(C) instead of C for instance).
 This is one of the classical counter-measures for communication protocols
 proposed in \cite{AN96}.
-Moreover, the \opcua standards~\cite{MLD09,opcua_part2,opcua_part4,opcua_part6}
+Moreover, the \opcua{} standards~\cite{MLD09,opcua_part2,opcua_part4,opcua_part6}
 advise the use of key wrapping~\cite{FLS11}.
 Although the use of such mechanism in security mode \sms~remains unclear in the
 standard, we take advantage of it in this fixed version to ensure the secrecy of
@@ -291,7 +293,7 @@ security mode \sms~since the key is never sent in plaintext.
     %\resizebox{1.05\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multirow{2}{*}{\opcua Security mode} & \multicolumn{4}{|c|}{Objectives} \\
+        \multirow{2}{*}{\opcua{} Security mode} & \multicolumn{4}{|c|}{Objectives} \\
         \cline{2-5}
                        & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
         \hline
