@@ -2,21 +2,6 @@
 % Encoding: UTF-8
 
 
-@Article{Abadi1996,
-  Title                    = {Prudent engineering practice for cryptographic protocols},
-  Author                   = {Abadi, Mart{\'\i}n and Needham, Roger},
-  Journal                  = {IEEE transactions on Software Engineering},
-  Year                     = {1996},
-  Number                   = {1},
-  Pages                    = {6},
-  Volume                   = {22},
-
-  Abstract                 = {We present principles for designing cryptographic protocols. The principles are neither necessary nor sucient for correctness. They are however helpful, in that adherence to them would have prevented a number of published errors. Our principles are informal guidelines; they complement formal methods, but do not assume them. In order to demonstrate the actual applicability of these guidelines, we discuss some instructive examples from the literature.},
-  File                     = {Article:home/puys/verimag/general/doc/security/AB96.pdf:PDF},
-  Publisher                = {IEEE Computer Society},
-  Url                      = {https://users.ece.cmu.edu/~adrian/630-f04/readings/AbadiNeedham.pdf}
-}
-
 @Article{AN96,
   Title                    = {Prudent engineering practice for cryptographic protocols},
   Author                   = {Abadi, Mart{\'\i}n and Needham, Roger},
@@ -294,16 +279,12 @@
   Timestamp                = {2015.03.26}
 }
 
-@InBook{BMV03,
-  Title                    = {Computer Security -- ESORICS 2003: 8th European Symposium on Research in Computer Security, Gj{\o}vik, Norway, October 13-15, 2003. Proceedings},
+@InProceedings{BMV03,
+  Title                    = {An On-the-Fly Model-Checker for Security Protocol Analysis},
   Author                   = {Basin, David and M{\"o}dersheim, Sebastian and Vigan{\`o}, Luca},
-  Chapter                  = {An On-the-Fly Model-Checker for Security Protocol Analysis},
-  Editor                   = {Snekkenes, Einar and Gollmann, Dieter},
-  Pages                    = {253--270},
-  Publisher                = {Springer Berlin Heidelberg},
+  Booktitle                = {ESORICS'03},
   Year                     = {2003},
 
-  Address                  = {Berlin, Heidelberg},
 
   Abstract                 = {We introduce the on-the-fly model-checker OFMC, a tool that combines two methods for analyzing security protocols. The first is the use of lazy data-types as a simple way of building an efficient on-the-fly model checker for protocols with infinite state spaces. The second is the integration of symbolic techniques for modeling a Dolev-Yao intruder, whose actions are generated in a demand-driven way. We present experiments that demonstrate that our tool is state-of-the-art, both in terms of coverage and performance, and that it scales well to industrial-strength protocols.},
   Doi                      = {10.1007/978-3-540-39650-5_15},
@@ -361,13 +342,8 @@
 @InProceedings{Bla01,
   Title                    = {An Efficient Cryptographic Protocol Verifier Based on Prolog Rules},
   Author                   = {Blanchet, Bruno},
-  Booktitle                = {Proceedings of the 14th IEEE Workshop on Computer Security Foundations},
+  Booktitle                = {CSF'01},
   Year                     = {2001},
-
-  Address                  = {Washington, DC, USA},
-  Pages                    = {82--},
-  Publisher                = {IEEE Computer Society},
-  Series                   = {CSFW '01},
 
   Abstract                 = {We present a new automatic cryptographic protocol verifier based on a simple representation of the protocol by Prolog rules, and on a new efficient algorithm that determines whether a fact can be proved from these rules or not. This verifier proves secrecy properties of the protocols. Thanks to its use of unification, it avoids the problem of the state space explosion. Another advantage is that we do not need to limit the number of runs of the protocol to analyze it. We have proved the correctness of our algorithm, and have implemented it. The experimental results show that many examples of protocols of the literature, including Skeme [24], can be analyzed by our tool with very small resources: the analysis takes from less than 0.1 s for simple protocols to 23 s for the main mode of Skeme. It uses less than 2 Mb of memory in our tests.},
   Acmid                    = {873511},
@@ -756,13 +732,8 @@
 @InCollection{FCMT09,
   Title                    = {Design and Implementation of a Secure Modbus Protocol},
   Author                   = {Fovino, IgorNai and Carcano, Andrea and Masera, Marcelo and Trombetta, Alberto},
-  Booktitle                = {Critical Infrastructure Protection III},
-  Publisher                = {Springer Berlin Heidelberg},
+  Booktitle                = {IFIP AICT'09},
   Year                     = {2009},
-  Editor                   = {Palmer, Charles and Shenoi, Sujeet},
-  Pages                    = {83-96},
-  Series                   = {IFIP Advances in Information and Communication Technology},
-  Volume                   = {311},
 
   Abstract                 = {The interconnectivity of modern and legacy supervisory control and data acquisition (SCADA) systems with corporate networks and the Internet has significantly increased the threats to critical infrastructure assets. Meanwhile, traditional IT security solutions such as firewalls, intrusion detection systems and antivirus software are relatively ineffective against attacks that specifically target vulnerabilities in SCADA protocols. This paper describes a secure version of the Modbus SCADA protocol that incorporates integrity, authentication, non-repudiation and anti-replay mechanisms. Experimental results using a power plant testbed indicate that the augmented protocol provides good security functionality without significant overhead.},
   Doi                      = {10.1007/978-3-642-04798-5_6},
@@ -790,9 +761,8 @@
 @InProceedings{GP05,
   Title                    = {Correctness proofs for SCADA communication protocols},
   Author                   = {Graham, JH and Patel, SC},
-  Booktitle                = {Proceedings of the Ninth World Multi-Conference on Systemics, Cybernetics and Informatics},
+  Booktitle                = {WMSCI'05},
   Year                     = {2005},
-  Pages                    = {392--397}
 }
 
 @TechReport{GP04,
@@ -868,10 +838,9 @@
 @InProceedings{HE13,
   Title                    = {Securing modbus transactions using hash-based message authentication codes and stream transmission control protocol},
   Author                   = {Hayes, G. and El-Khatib, K.},
-  Booktitle                = {Communications and Information Technology (ICCIT), 2013 Third International Conference on},
+  Booktitle                = {ICCIT'13},
   Year                     = {2013},
   Month                    = {June},
-  Pages                    = {179-184},
 
   Abstract                 = {Traditionally supervisory control and data acquisition (SCADA) networks were physically isolated, providing some inherent level of security; yet, as these networks slowly converged with both corporate intranets and the Internet, their security continually eroded. The gradual evolution of SCADA systems has introduced many novel and previously unknown security risks. During the advent of SCADA technologies, a heavy focus was put on providing system robustness, safety, and reliability. Because of this, widely deployed SCADA protocols like Modbus and DNP3 provide no inherent security controls. In this paper, we will propose a novel Modbus alternative capable of providing secure, backward-compatible Modbus message transmission using stream control transmission protocol and hash-based message authentication code technologies. This proposed protocol improvement ensures the availability and integrity of Modbus messages while providing a robust and secure mutual authentication mechanism. Improvements upon the legacy Modbus protocol aim to mitigate common SCADA protocol attack vectors.},
   Doi                      = {10.1109/ICCITechnology.2013.6579545},
@@ -950,7 +919,7 @@
 }
 
 @Article{ILW06,
-  Title                    = {Security issues in \{SCADA\} networks },
+  Title                    = {Security issues in SCADA networks },
   Author                   = {Vinay M. Igure and Sean A. Laughter and Ronald D. Williams},
   Journal                  = {Computers \& Security },
   Year                     = {2006},
@@ -1217,13 +1186,8 @@ passwords.},
 @InProceedings{Low96,
   Title                    = {Breaking and Fixing the Needham-Schroeder Public-Key Protocol Using FDR},
   Author                   = {Lowe, Gavin},
-  Booktitle                = {Proceedings of the Second International Workshop on Tools and Algorithms for Construction and Analysis of Systems},
+  Booktitle                = {TACAs'96},
   Year                     = {1996},
-
-  Address                  = {London, UK, UK},
-  Pages                    = {147--166},
-  Publisher                = {Springer-Verlag},
-  Series                   = {TACAs '96},
 
   Abstract                 = {In this paper we analyse the well known Needham-Schroeder Public-Key Protocol using FDR, a refinement checker for CSP. We use FDR to discover an attack upon the protocol, which allows an intruder to impersonate another agent. We adapt the protocol, and then use FDR to show that the new protocol is secure, at least for a small system. Finally we prove a result which tells us that if this small system is secure, then so is a system of arbitrary size.},
   Acmid                    = {693776},
@@ -1559,7 +1523,7 @@ passwords.},
 @InProceedings{SMCB12,
   Title                    = {Automated Analysis of Diffie-Hellman Protocols and Advanced Security Properties},
   Author                   = {Schmidt, B. and Meier, S. and Cremers, C. and Basin, D.},
-  Booktitle                = {Computer Security Foundations Symposium (CSF), 2012 IEEE 25th},
+  Booktitle                = {CSF'12},
   Year                     = {2012},
   Month                    = {June},
   Pages                    = {78-94},
