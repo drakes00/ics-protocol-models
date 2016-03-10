@@ -1,5 +1,5 @@
 all:
-	pdflatex -shell-escape verif
-	bibtex verif
-	pdflatex -shell-escape verif
-	pdflatex -shell-escape verif
+	pdflatex -shell-escape safecomp16
+	bibtex safecomp16
+	pdflatex -shell-escape safecomp16
+	pdflatex -shell-escape safecomp16

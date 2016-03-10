@@ -105,8 +105,11 @@ We propose a formal analysis of the security of
 %We also assess the 
 the sub-protocols involved in the \opcua handshake, namely \opcua
 \securechan and \opcua \session.  We are able to find
-attacks against both of them and provide some countermeasures.  This
-work makes use of one of the most efficient tools in the domain of
+attacks against both of them and provide some countermeasures.
+We modeled the protocols according to the official \opcua standards and
+checked it against a free implementation: {\em FreeOpcUa}
+\footnote{https://freeopcua.github.io/}.
+This work makes use of one of the most efficient tools in the domain of
 cryptographic protocol verification according to \cite{LP15},
 namely \proverif developed by Blanchet \etal~\cite{Bla01}.  It
 analyzes a protocol written either in Horn clauses format or using a
@@ -124,6 +127,6 @@ agent (including the intruder).  The authentication property means
 that one participant of the protocol is guaranteed to communicate with
 another one.
 
-\paragraph{Outline:} In the Section~\ref{sec:secure_channel}, we analyze the
+\paragraph{Outline:} In Section~\ref{sec:secure_channel}, we analyze the
 security of \opcua \securechan and \opcua \session in Section~\ref{sec:session}.
 Finally, we conclude in Section~\ref{sec:conclusion}.

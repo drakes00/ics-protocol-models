@@ -162,9 +162,10 @@ Results are shown in Table \ref{tab:secure_channel_results}.
     \caption{Results for textbook {\em OpenSecureChannel} sub-protocol}
     \label{tab:secure_channel_results}
 \end{table}
+\vspace{-2em}
 
 Obviously, as the security mode \smn~does not provide any security,
-all objectives can be attacked and as nonces are exchanged in plaintex in
+all objectives can be attacked and as nonces are exchanged in plaintext in
 security mode \sms, the keys are leaked.
 Moreover, attacks on authentication
 in the case of \sms~and \smse~implies the intruder rerouting messages.
@@ -238,8 +239,8 @@ Needham-Schroeder protocol~\cite{Low96}.
     \caption{Attack on $N_{C}$: I usurps C when speaking to S}
     \label{fig:secure_channel_atk}
 \end{figure}
-\vspace{-2.5em}
 
+\vspace{1em}
 \subsection{Fixed version}\label{sec:secure_channel_fix}
 
 We propose a fixed version of the {\em OpenSecureChannel} sub-protocol.
@@ -249,15 +250,17 @@ and thus  avoids an intruder rerouting signed messages to usurp hosts as
 presented in Section \ref{sec:secure_channel_res}.
 More formally, message 3. and 4. of Figure~\ref{fig:secure_channel_se} are replaced
 by:
-\vspace{-1em}
+%\vspace{-15pt}
 \arraycolsep=1.4pt
+{\small
 \begin{flushleft}
-    \[\begin{array}{lrllll}
+    $\begin{array}{lrllll}
         3. & C & \rightarrow & S & : & \text{\sm{\oscreq, {\bf S}, pk(C), $N_{C}$}{pk(S)}{sk(C)}}\\
         4. & S & \rightarrow & C & : & \text{\sm{\oscres, {\bf C}, $N_{S}$, ST, TTL}{pk(C)}{sk(S)}}\\
-    \end{array}\]
+    \end{array}$
 \end{flushleft}
-\vspace{-.5em}
+}
+%\vspace{-.5em}
 
 Note that instead of adding identity in these messages, one could add the user's
 public keys (pk(C) instead of C for instance).
@@ -265,16 +268,16 @@ This is one of the classical counter-measures for communication protocols
 proposed in \cite{AN96}.
 Moreover, the \opcua standards~\cite{MLD09,opcua_part2,opcua_part4,opcua_part6}
 advise the use of key wrapping~\cite{FLS11}.
-Although the use of such mecanism in security mode \sms~remains unclear in the
+Although the use of such mechanism in security mode \sms~remains unclear in the
 standard, we take advantage of it in this fixed version to ensure the secrecy of
 derived keys in security mode \sms.
-More formally, occurences of $N_{C}$ are replaced by
-$\left\{\mbox{$N_{C}$}\right\}_{pk(S)}$ in message 3 and all occurences of
+More formally, occurrences of $N_{C}$ are replaced by
+$\left\{\mbox{$N_{C}$}\right\}_{pk(S)}$ in message 3 and all occurrences of
 $N_{S}$ in message 4 by $\left\{\mbox{$N_{S}$}\right\}_{pk(C)}$.
 Thus all the messages is signed in security mode \sms but only the nonces are
 encrypted.
 We also use \proverif to check the security of this fixed version with each
-counter-measure separatly and together.
+counter-measure separately and together.
 The results are presented in Table \ref{tab:secure_channel_fix_results} and show
 that explicitly specifying the receiver of a message in its signature fixes
 attacks found on authentication for security modes \sms~and \smse.

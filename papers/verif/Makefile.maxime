@@ -1,2 +1,2 @@
 all:
-	latexmk -pdf -shell-escape verif
+	latexmk -pdf -shell-escape safecomp16

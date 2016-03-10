@@ -37,7 +37,7 @@ Again, {\em CSReq, CSRes, ASReq} and {\em ASRes} indicate the purpose of each
 message of the protocol.
 
 \begin{figure}[htb]
-    \resizebox{1.1\textwidth}{!}{
+    \resizebox{\textwidth}{!}{
         \begin{postscript}
             \begin{msc}{Session creation}
                 \setlength{\envinstdist}{1.5\envinstdist}
@@ -102,7 +102,7 @@ password is the one he knows (using his public key).
 According to our results for the {\em OpenSecureChannel} sub-protocol, the
 secrecy of the symmetric keys in security mode \sms~depends on if the protocol
 uses key wrapping.
-Again, as the \opcua standard is not clear on how to use the mecanism in
+Again, as the \opcua standard is not clear on how to use the mechanism in
 this mode, we check with and without this security.
 This means that is keys are compromised, then the intruder has access to it.
 We consider four security objectives: (i) the secrecy of the
@@ -152,11 +152,13 @@ valid credentials and recalculating the MAC of the message using the leaked keys
 \vspace{-2em}
 
 If we consider that key wrapping was used in the {\em OpenSecureChannel}
-sub-potocol (thus without keys leaked in security mode Sign) then the
+sub-protocol (thus without keys leaked in security mode Sign) then the
 authentication on C's password becomes secure.
 This analysis shows that the use of key wrapping is crucial in security mode
 \sms.
 Thus it should be clearly said in the \opcua standard since missing this feature
-completly breaks the security of \sms~mode.
+completely breaks the security of \sms~mode.
 Moreover, C's credential should also be encrypted when exchanged in \sms~mode
 to ensure their confidentiality.
+We were able to check the source code of the free implementation of \opcua:
+{\em FreeOpcUa} which forces encryption of secrets even in security mode \sms.
