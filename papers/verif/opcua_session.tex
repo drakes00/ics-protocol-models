@@ -112,19 +112,21 @@ $Sig_{N_{C}}$.
 
 \subsection{Results}
 
-Results for this protocol are presented in Table~\ref{tab:session_results}.
+Results without key wrapping (thus with keys leaked in security mode \sms) are
+presented in Table~\ref{tab:session_results}.
 Again obviously, all objectives are attacked in security mode \smn.
 Also the secrecy of the password cannot hold even in security mode \sms~since
 it will be sent by the client in plaintext during a legitimate exchange.
-However, using a different password for each server ensures the authentication
-of the client.
-Attack on the authentication on $N_{C}$ is similar to the attack presented in
-Figure \ref{fig:secure_channel_atk}.
-The intruder starts a session with the server and reroutes the packets to the
-client.
-However, such kind of attacks are circumvented in security mode \smse~because
-as we previously said, the intruder does not possess the symmetric key of a
-session where he is usurping someone's identity preventing him to communicate.
+However, both challenge-response nonces ensure authentication since the private
+keys are used instead of the symmetric keys.
+An attack on the authentication on $Passwd$ in security mode \sms~is found by
+the tool.
+This attacks results in the intruder replacing the credentials of C by other
+valid credentials and recalculating the MAC of the message using the leaked keys.
+%Such an attack means first, that the intruder can overtake the session of C
+%after having him answering S's challenge.
+%Moreover in our model, the intruder could also usurp someone else than C in this
+%session.
 
 \vspace{-1em}
 \begin{table}[htb]
@@ -147,170 +149,14 @@ session where he is usurping someone's identity preventing him to communicate.
     \caption{Results for \opcua \session sub-protocol}
     \label{tab:session_results}
 \end{table}
-\vspace{-3em}
-
-\subsection{Fixed version}
-
-We apply the same correction than in \securechan (explicitly
-specifying the identities of receivers in messages).
-This way, messages of Figure~\ref{fig:session_se} become:
 \vspace{-2em}
-\arraycolsep=1.4pt
-\begin{flushleft}
-    \[\begin{array}{lrllll}
-        1. & C & \rightarrow & S & : & \text{\small\sm{\csreq, {\bf S}, pk(C), $N_{C}$}{$K_{CS}$}{sk(C)}}\\
-        2. & S & \rightarrow & C & : & \text{\small\sm{\csres, {\bf C}, pk(S), $N_{C}, N_{S}$}{$K_{CS}$}{sk(S)}}\\
-        3. & C & \rightarrow & S & : & \text{\small\sm{\asreq, {\bf S}, pk(C), Login, Passwd}{$K_{CS}$}{sk(C)}}\\
-        4. & S & \rightarrow & C & : & \text{\small\sm{\asres, {\bf C}, $N_{S2}$}{$K_{CS}$}{sk(S)}}\\
-    \end{array}\]
-\end{flushleft}
 
-Then when we run \proverif on this fixed version, authentication of $S$ on
-$N_{C}$ becomes secure as shown in Table \ref{tab:session_fix_results}.
-
-%\begin{figure}[htb]
-%    \renewcommand{\smname}{\smse}
-%    \resizebox{\columnwidth}{!}{
-%        \begin{postscript}
-%            \begin{msc}{Session creation}
-%                \setlength{\envinstdist}{1.5\envinstdist}
-%                \setlength{\instdist}{6.25\instdist}
-%                \setlength{\labeldist}{1.5\labeldist}
-%
-%                \declinst{cli}{C}{}
-%                \declinst{sess}{S}{}
-%
-%                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{CS}$}{sk(C)}}{cli}{sess}
-%                \nextlevel[1]
-%                
-%                \action*{Validates pk(C)}{sess}
-%                \nextlevel[2.5]
-%
-%                \mess{\sm{\csres, {\bf C}, pk(S) $N_{S}$}{$K_{CS}$}{sk(S)}}{sess}{cli}
-%                \nextlevel[1]
-%                
-%                \action*{Validates pk(S)}{cli}
-%                \nextlevel[3]
-%                
-%                \mess{\sm{\asreq, {\bf S}, pk(C), Login, Passwd}{$K_{CS}$}{sk(C)}}{cli}{sess}
-%                \nextlevel[1]
-%                
-%                \action*{Validates pk(C)}{sess}
-%                \nextlevel[2]
-%
-%                \action*{Validates (Login, Passwd) }{sess}
-%                \nextlevel[2.5]
-%
-%                \mess{\sm{\asres, $N_{S2}$}{$K_{CS}$}{sk(S)}}{sess}{cli}
-%                \nextlevel[2]
-%            \end{msc}
-%        \end{postscript}
-%    }
-%    \caption{OPC-UA fixed CreateSession sub-protocol}
-%    \label{fig:session_fix}
-%\end{figure}
-
-\vspace{-1em}
-\begin{table}[htb]
-    \centering
-    %\resizebox{1.05\columnwidth}{!}{
-    \begin{tabular}{|c|c|c|c|}
-        \hline
-        \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
-        \cline{2-4}
-                       & Sec $Passwd$  & Auth $N_{C}$  & Auth $Passwd$  \\
-        \hline                                                                          
-        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE        \\ 
-        \hline                                         
-        \sms           & \UNSAFE       & \SAFE         & \SAFE          \\ 
-        \hline                                         
-        \smseshort     & \SAFE         & \SAFE         & \SAFE          \\ 
-        \hline
-    \end{tabular}
-    %}
-    \caption{Results for fixed \opcua \session sub-protocol}
-    \label{tab:session_fix_results}
-\end{table}
-\vspace{-4em}
-
-%In a second time, we suppose that C would use different credentials for each
-%server.
-%Then both normal and fixed {\em CreateSession} results in Table
-%\ref{tab:session_uniq_creds_results}.
-%
-%\begin{table}[htb]
-%    \centering
-%    %\resizebox{1.05\columnwidth}{!}{
-%    \begin{tabular}{|c|c|c|c|}
-%        \hline
-%        \multirow{2}{*}{\opcua Security mode} & \multicolumn{3}{|c|}{Objectives} \\
-%        \cline{2-4}
-%                       & Sec $Passwd$  & Auth $N_{C}$  & Auth $Passwd$  \\
-%        \hline                                                                          
-%        \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE       \\ 
-%        \hline                                         
-%        \sms           & \UNSAFE       & \UNSAFE/\SAFE & \SAFE         \\ 
-%        \hline                                         
-%        \smseshort     & \SAFE         & \SAFE         & \SAFE         \\ 
-%        \hline
-%    \end{tabular}
-%    %}
-%    \caption{Results for \opcua {\em CreateSession} sub-protocol with uniq credentials}
-%    \label{tab:session_uniq_creds_results}
-%\end{table}
-%
-%\TODO dire que creds uniques pour chaque serveur se comportent comme un secret partagé permettant une auth.
-%
-%\begin{figure}[htb]
-%    \renewcommand{\smname}{\smn}
-%    \resizebox{\columnwidth}{!}{
-%        \begin{postscript}
-%            \begin{msc}{Session creation}
-%                \setlength{\envinstdist}{1.5\envinstdist}
-%                \setlength{\instdist}{3\instdist}
-%                \setlength{\labeldist}{1.5\labeldist}
-%
-%                \declinst{cli}{C}{(C,S)}
-%                \declinst{int}{I}{}
-%                \declinst{sess}{S}{(C,S)}
-%
-%                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{CS}$}{sk(C)}}{cli}{int}
-%                \nextlevel[1.5]
-%                
-%                %\action*{Validates pk(C)}{sess}
-%                %\nextlevel[2.5]
-%
-%                \mess{\sm{\csres, pk(S), $N_{C}$, $N_{I}$}{$K_{CS}$}{sk(S)}}{int}{cli}
-%                \nextlevel[1.5]
-%                
-%                %\action*{Validates pk(S)}{cli}
-%                %\nextlevel[3]
-%                
-%                \msccomment{begin(C,S,Passwd(C,S))}{cli}
-%                \mess{\sm{\asreq, pk(C), Login(C,S), Passwd(C,S)}{$K_{CS}$}{sk(C)}}{cli}{int}
-%                \nextlevel[1.5]
-%
-%                \mess{\sm{\csreq, pk(C), $N_{C}$}{$K_{CS}$}{sk(C)}}{int}{sess}
-%                \nextlevel[1.5]
-%
-%                \mess{\sm{\csres, pk(S), $N_{C}$, $N_{S}$}{$K_{CS}$}{sk(S)}}{sess}{int}
-%                \nextlevel[1.5]
-%                
-%                \msccomment[r]{end(C,S,Passwd(C,S))}{sess}
-%                \mess{\sm{\asreq, pk(C), Login(C,S), Passwd(C,S)}{$K_{CS}$}{sk(C)}}{int}{sess}
-%                \nextlevel[1.5]
-%                
-%                %\action*{Validates pk(C)}{sess}
-%                %\nextlevel[2]
-%
-%                \action*{Validates (Login, Passwd) }{sess}
-%                \nextlevel[2.5]
-%
-%                \mess{\sm{\asres, $N_{S2}$}{$K_{CS}$}{sk(S)}}{sess}{int}
-%                \nextlevel[.5]
-%            \end{msc}
-%        \end{postscript}
-%    }
-%    \caption{OPC-UA CreateSession sub-protocol}
-%    \label{fig:session_se}
-%\end{figure}
+If we consider that key wrapping was used in the {\em OpenSecureChannel}
+sub-potocol (thus without keys leaked in security mode Sign) then the
+authentication on C's password becomes secure.
+This analysis shows that the use of key wrapping is crucial in security mode
+\sms.
+Thus it should be clearly said in the \opcua standard since missing this feature
+completly breaks the security of \sms~mode.
+Moreover, C's credential should also be encrypted when exchanged in \sms~mode
+to ensure their confidentiality.
