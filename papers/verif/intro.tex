@@ -104,13 +104,12 @@ We propose a formal analysis of the security of
 % standard \modbus protocol and
 %the correction proposed in~\cite{FCMT09}.%,HE13}.
 %We also assess the 
-the sub-protocols involved in the \opcua handshake, namely \opcua
-\securechan and \opcua \session.  We are able to find
-attacks against both of them and provide some countermeasures.
+the sub-protocols involved in the \opcua handshake, namely \opcua{}
+\securechan and \opcua{} \session.  
 We modeled the protocols according to the official \opcua standards and
 checked it against a free implementation: {\em FreeOpcUa}
 \footnote{https://freeopcua.github.io/}.
-This work makes use of one of the most efficient tools in the domain of
+We use of one of the most efficient tools in the domain of
 cryptographic protocol verification according to \cite{LP15},
 namely \proverif developed by Blanchet \etal~\cite{Bla01}.  It
 analyzes a protocol written either in Horn clauses format or using a
@@ -121,13 +120,16 @@ replays or modifies some messages according to its capabilities and
 knowledge.  The perfect encryption hypothesis is assumed, meaning that
 it is not possible to decrypt a ciphertext without its encryption key
 or to forge a signature without knowing the secret key.  In this
-context, \proverif can verify security properties of
-a protocol such as secrecy and authentication.  The first property
-ensures that a secret message cannot be discovered by an unauthorized
-agent (including the intruder).  The authentication property means
-that one participant of the protocol is guaranteed to communicate with
-another one.
+context, \proverif{} can verify security properties of a protocol such
+as secrecy and authentication.  The first property ensures that a
+secret message cannot be discovered by an unauthorized agent
+(including the intruder).  The authentication property means that one
+participant of the protocol is guaranteed to communicate with another
+one. Using this tool, we find attacks against both of them and provide
+some countermeasures.
 
 \paragraph{Outline:} In Section~\ref{sec:secure_channel}, we analyze the
-security of \opcua \securechan and \opcua \session in Section~\ref{sec:session}.
-Finally, we conclude in Section~\ref{sec:conclusion}.
+security of \opcua{} \securechan and \opcua{} \session in
+Section~\ref{sec:session}.  Finally, we conclude in
+Section~\ref{sec:conclusion}.
+
