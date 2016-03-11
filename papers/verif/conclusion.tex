@@ -1,14 +1,14 @@
-We provide a formal verification of the new industry standard
+We provide a formal verification of the industry standard
 communication protocol: \opcua, relying its official specifications
 \cite{MLD09,opcua_part2,opcua_part4,opcua_part6}.
-This work makes use of \proverif{} a tool for automatic cryptographic protocol
-verification. 
-Protocol modelings were tedious tasks since specifications are willingly elusive
-to allow interoperability.
-Particularly due to unclear statements on the use of cryptography with security
-mode \sms, we studied the protocol with and without counter-measures and proved
-the need of encryption for secrets to ensure messages integrity.
-We also found attacks on authentication and provided counter-measures.
+We use \proverif{} a tool for automatic cryptographic protocol
+verification.  Protocol modelings were tedious tasks since
+specifications are often elusive to allow interoperability.
+Particularly due to unclear statements on the use of cryptography with
+security mode \sms, we studied the protocol with and without
+counter-measures and proved the need of encryption for secrets to
+ensure messages security properties.  We also found attacks on
+authentication and provided counter-measures.
 
 In the future, we aim at testing the attacks we found on official
 implementations which are proprietary. This next work would analyze
