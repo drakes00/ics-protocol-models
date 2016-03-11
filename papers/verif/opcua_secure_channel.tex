@@ -97,12 +97,12 @@ with the following  informations where {\em GERes} stands for {\em
 cryptographic primitive negociations.  In message 3. $C$ sends a nonce
  $N_{C}$ to $S$ with {\em OSReq} standing for {\em
   OpenSecureChannelRequest}.  Finally in message 4. $S$ answers a
-nonce to $C$ (here $N_{S}$) with {\em OSCRes} for {\em
+nonce $N_{S}$ to $C$ with {\em OSCRes} for {\em
   OpenSecureChannelResponse}, {\em ST} for {\em SecurityToken} (a
 unique identifier for the channel) and {\em TTL} for {\em TimeToLive}
 (its life-time).  The four terms {\em GEReq, GERes, OSCReq} and {\em
   OSCRes} indicate the purpose of each message of the protocol.  At
-the end of this protocol, both $C$ and $S$ derive four keys using the
+the end of this protocol, both $C$ and $S$ derive four keys as follows using the
 nonces using a function named $P\_hash$, similar to the one specified
 in TLS~\cite{DR08}: $(K_{CS}, KSig_{CS})$ = $P\_hash(N_{C}, N_{S})$
 and $(K_{SC}, KSig_{SC})$ = $P\_hash(N_{S}, N_{C})$.
@@ -111,10 +111,10 @@ and $(K_{SC}, KSig_{SC})$ = $P\_hash(N_{S}, N_{C})$.
 
 Normally, a {\em GetEnpointRequest} would be answered by a list of
 session endpoints with possibly different security modes. We suppose
-that only one endpoint is answered and that the client will always
-accept the security mode proposed.
+that only one endpoint is answered and that the client  always
+accepts the security mode proposed.
 Client's and server's certificates have been abstracted as their public
-keys (which explains why $pk(C)$ appears twice in message 3.
+keys (which explains why $pk(C)$ appears twice in message 3.).
 Moreover, thanks to the perfect
 encryption hypothesis, we can abstract the cryptographic primitives
 used.  We consider an intruder whose public key would be accepted by a
@@ -178,7 +178,7 @@ avoiding replay protections such as timestamps).  Figure
 C using $N_{C}$.  This attack is possible because the standard
 \opcua{} protocol does not require explicitly to specify the identity of
 the receiver of a message.  Thus it allows the intruder to send to S
-the signed message C sent to him similarly as the attack on the
+the signed message C sent to him similarly as the \emph{man-in-the-middle} attack on the
 Needham-Schroeder protocol~\cite{Low96}.
 %However, these attacks are
 %not exploitable in security modes \sms~and \smse~since the secrecy of the keys
@@ -238,7 +238,7 @@ Needham-Schroeder protocol~\cite{Low96}.
             \end{msc}
         \end{postscript}
     }
-    \caption{Attack on $N_{C}$: I usurps C when speaking to S}
+    \caption{Attack on $N_{C}$: I usurps C when speaking to $S$.}
     \label{fig:secure_channel_atk}
 \end{figure}
 
@@ -249,7 +249,7 @@ We propose a fixed version of the {\em OpenSecureChannel} sub-protocol.
 %in Figure \ref{fig:secure_channel_fix_se}.
 It consists in explicitly adding the identity of the receiver to the messages
 and thus  avoids an intruder rerouting signed messages to usurp hosts as
-presented in Section \ref{sec:secure_channel_res}.
+presented in Section~\ref{sec:secure_channel_res}.
 More formally, message 3. and 4. of Figure~\ref{fig:secure_channel_se} are replaced
 by:
 %\vspace{-15pt}
@@ -276,15 +276,15 @@ derived keys in security mode \sms.
 More formally, occurrences of $N_{C}$ are replaced by
 $\left\{\mbox{$N_{C}$}\right\}_{pk(S)}$ in message 3 and all occurrences of
 $N_{S}$ in message 4 by $\left\{\mbox{$N_{S}$}\right\}_{pk(C)}$.
-Thus all the messages is signed in security mode \sms but only the nonces are
+Thus all the messages are signed in security mode \sms{} but only the nonces are
 encrypted.
 We also use \proverif to check the security of this fixed version with each
 counter-measure separately and together.
 The results are presented in Table \ref{tab:secure_channel_fix_results} and show
 that explicitly specifying the receiver of a message in its signature fixes
 attacks found on authentication for security modes \sms~and \smse.
-They also show that the use of key wrapping secure the secrecy of the keys for
-security mode \sms~since the key is never sent in plaintext.
+It also shows that the use of key wrapping ensures the secrecy of the keys for
+security mode \sms{} since the key is never sent in clear.
 
 \vspace{-1em}
 \begin{table}[htb]
