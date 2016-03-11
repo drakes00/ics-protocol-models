@@ -54,7 +54,7 @@ a server and allows them to generate a shared key for the later communications.
                 %\action*{Validates pk(S)}{cli}
                 %\nextlevel[2]
                 
-                \action*{Generates N$_{C}$}{cli}
+                \action*{Generates $N_{C}$}{cli}
                 \nextlevel[3]
 
                 \msccomment[-.5]{3.}{cli}
@@ -64,7 +64,7 @@ a server and allows them to generate a shared key for the later communications.
                 %\action*{Validates pk(C) }{sess}
                 %\nextlevel[2]
 
-                \action*{Generates N$_{S}$ }{sess}
+                \action*{Generates $N_{S}$ }{sess}
                 \nextlevel[2.5]
 
                 %\ifsmnotnone{%
@@ -132,8 +132,8 @@ or that is controlled by a malicious operator.
 %relies on the commutativity of the exponentiation: $(g^a)^b =
 %(g^b)^a$.
 In this context, we consider the following security objectives: (i)
-the secrecy of the keys obtained by C, (ii) the secrecy of the keys obtained
-by S, (iii) the authentication of C on $N_{C}$ and (iv) the authentication of S
+the secrecy of the keys obtained by $C$, (ii) the secrecy of the keys obtained
+by $S$, (iii) the authentication of $C$ on $N_{C}$ and (iv) the authentication of $S$
 on $N_{S}$.
 
 \subsection{Results}\label{sec:secure_channel_res}
@@ -151,7 +151,7 @@ Results are shown in Table \ref{tab:secure_channel_results}.
         \hline
         \multirow{2}{*}{\opcua{} Security mode} & \multicolumn{4}{|c|}{Objectives} \\
         \cline{2-5}
-                       & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
+                       & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $N_{S}$  & Auth $N_{C}$  \\
         \hline
         \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
         \hline
@@ -175,10 +175,10 @@ Such manipulation differs from replaying a message as it does not
 delay the message more than what a legitimate router would do (thus
 avoiding replay protections such as timestamps).  Figure
 \ref{fig:secure_channel_atk} shows an attack on the authentication of
-C using $N_{C}$.  This attack is possible because the standard
+$C$ using $N_{C}$.  This attack is possible because the standard
 \opcua{} protocol does not require explicitly to specify the identity of
-the receiver of a message.  Thus it allows the intruder to send to S
-the signed message C sent to him similarly as the \emph{man-in-the-middle} attack on the
+the receiver of a message.  Thus it allows the intruder to send to $S$
+the signed message $C$ sent to him similarly as the \emph{man-in-the-middle} attack on the
 Needham-Schroeder protocol~\cite{Low96}.
 %However, these attacks are
 %not exploitable in security modes \sms~and \smse~since the secrecy of the keys
@@ -213,7 +213,7 @@ Needham-Schroeder protocol~\cite{Low96}.
                 %\action*{Validates pk(I)}{cli}
                 %\nextlevel[2]
                 
-                \action*{Generates N$_{C}$}{cli}
+                \action*{Generates $N_{C}$}{cli}
                 \nextlevel[3]
 
                 \mess{pk(C), \sm{\oscreq, pk(C), $N_{C}$}{pk(I)}{sk(C)}}{cli}{intruder}
@@ -238,7 +238,7 @@ Needham-Schroeder protocol~\cite{Low96}.
             \end{msc}
         \end{postscript}
     }
-    \caption{Attack on $N_{C}$: I usurps C when speaking to $S$.}
+    \caption{Attack on $N_{C}$: I usurps $C$ when speaking to $S$.}
     \label{fig:secure_channel_atk}
 \end{figure}
 
@@ -265,7 +265,7 @@ by:
 %\vspace{-.5em}
 
 Note that instead of adding identity in these messages, one could add the user's
-public keys (pk(C) instead of C for instance).
+public keys ($pk(C)$ instead of $C$ for instance).
 This is one of the classical counter-measures for communication protocols
 proposed in \cite{AN96}.
 Moreover, the \opcua{} standards~\cite{MLD09,opcua_part2,opcua_part4,opcua_part6}
@@ -278,13 +278,14 @@ $\left\{\mbox{$N_{C}$}\right\}_{pk(S)}$ in message 3 and all occurrences of
 $N_{S}$ in message 4 by $\left\{\mbox{$N_{S}$}\right\}_{pk(C)}$.
 Thus all the messages are signed in security mode \sms{} but only the nonces are
 encrypted.
-We also use \proverif to check the security of this fixed version with each
-counter-measure separately and together.
-The results are presented in Table \ref{tab:secure_channel_fix_results} and show
-that explicitly specifying the receiver of a message in its signature fixes
-attacks found on authentication for security modes \sms~and \smse.
-It also shows that the use of key wrapping ensures the secrecy of the keys for
-security mode \sms{} since the key is never sent in clear.
+We also use \proverif to check the security of the protocol with both
+counter-measures.
+The results are presented in Table \ref{tab:secure_channel_fix_results} and
+show that both authentication and secrecy are now secure for security modes
+\sms~and \smse.
+We checked the counter-measures separately and to confirm that both are
+required (explicitly specifying the receiver of a message in its signature fixes
+attacks found on authentication and key wrapping ensures the secrecy of the keys).
 
 \vspace{-1em}
 \begin{table}[htb]
@@ -295,7 +296,7 @@ security mode \sms{} since the key is never sent in clear.
         \hline
         \multirow{2}{*}{\opcua{} Security mode} & \multicolumn{4}{|c|}{Objectives} \\
         \cline{2-5}
-                       & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $g^{N_{S}}$  & Auth $g^{N_{C}}$  \\
+                       & Sec $K_{cli}$ & Sec $K_{srv}$ & Auth $N_{S}$  & Auth $N_{C}$  \\
         \hline
         \smn           & \UNSAFE       & \UNSAFE       & \UNSAFE           & \UNSAFE           \\ 
         \hline
