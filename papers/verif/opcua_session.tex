@@ -75,9 +75,9 @@ indicate the purpose of each message of the protocol.
 \subsection{Modeling}
 
 As this protocol involves login and passwords, we have to make
-modeling choices on how they are used.  Here we suppose that C uses a
+modeling choices on how they are used.   We assume that C uses a
 different password for each server he speaks with.  In order to model
-credentials in \proverif we use two functions: {\em Login} and {\em
+credentials in \proverif, we use two functions: {\em Login} and {\em
   Passwd}.  {\em Login} takes as parameter the public key of a host in
 order to associate his login with him. This function is public for
 everybody.  {\em Passwd} takes as parameter the private key of its
@@ -100,9 +100,9 @@ password is the one he knows (using his public key).
 According to our results for the {\em OpenSecureChannel} sub-protocol, the
 secrecy of the symmetric keys in security mode \sms~depends on if the protocol
 uses key wrapping.
-Again, as the \opcua standard is not clear on how to use the mechanism in
+Again, as the \opcua{} standard is not clear on how to use the mechanism in
 this mode, we check with and without this security.
-This means that is keys are compromised, then the intruder has access to it.
+This means that if keys are compromised, then the intruder has access to it.
 We consider four security objectives: (i) the secrecy of the
 password, (ii) the authentication of C on his password, (iii) the
 authentication of C on $Sig_{N_{S}}$ and (iv) the authentication of S on
@@ -158,5 +158,5 @@ Thus it should be clearly said in the \opcua standard since missing this feature
 completely breaks the security of \sms~mode.
 Moreover, C's credential should also be encrypted when exchanged in \sms~mode
 to ensure their confidentiality.
-We were able to check the source code of the free implementation of \opcua:
-{\em FreeOpcUa} which forces encryption of secrets even in security mode \sms.
+We  check the source code of the free implementation of \opcua:
+{\em FreeOpcUa}  forces encryption of secrets even in security mode \sms.
