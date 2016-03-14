@@ -244,7 +244,9 @@ Needham-Schroeder protocol~\cite{Low96}.
 \vspace{1em}
 \subsection{Fixed version}\label{sec:secure_channel_fix}
 
-We propose a fixed version of the {\em OpenSecureChannel} sub-protocol.
+We propose a fixed version of the {\em OpenSecureChannel} sub-protocol using
+one of the classical counter-measures for communication protocols proposed in
+\cite{AN96}.
 %in Figure \ref{fig:secure_channel_fix_se}.
 It consists in explicitly adding the public key of the receiver to the messages
 and thus  avoids an intruder rerouting signed messages to usurp hosts as
@@ -263,8 +265,6 @@ by:
 }
 %\vspace{-.5em}
 
-This is one of the classical counter-measures for communication protocols
-proposed in \cite{AN96}.
 Moreover, the \opcua{} standards~\cite{MLD09,opcua_part2,opcua_part4,opcua_part6}
 advise the use of key wrapping~\cite{FLS11}.
 Although the use of such mechanism in security mode \sms~remains unclear in the
