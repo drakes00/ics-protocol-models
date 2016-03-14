@@ -9,30 +9,31 @@
 
 The \opcua {\em CreateSession} sub-protocol allows a client to send
 credentials (\emph{e.g.}: a login and a password) over an already
-created Secure Channel.  It automatically follows the security mode
-that was chosen during the {\em OpenSecureChannel} sub-protocol and
-uses the symmetric keys derived thus encryption becomes symmetric and
-signature relies on a \emph{Message Authentication Code} (MAC).  This
-way messages sent by $C$ are encrypted using $K_{CS}$ (resp. signed with
+created Secure Channel.  This protocol follows the security mode that
+was chosen during the {\em OpenSecureChannel} sub-protocol and uses
+the symmetric keys derived thus encryption becomes symmetric and
+signature relies on a \emph{Message Authentication Code} (MAC).  Then
+messages sent by $C$ are encrypted using $K_{CS}$ (resp. signed with
 $KSig_{CS}$) and messages sent by $S$ are encrypted with $K_{SC}$
 (resp. signed with $KSig_{SC}$).  This sub-protocol is presented in
 Figure \ref{fig:session_se}.  In message 1, $C$ sends a challenge
 nonce to $S$ with {\em CSReq} meaning {\em CreateSessionRequest}.  In
 message 2, $S$ answers with $Sig_{N_{C}} = \left\{\mbox{pk(C),
   $N_{C}$}\right\}_{\mbox{sk(S)}}$ and {\em CSRes} for {\em
-  CreateSessionResponse}.  $Sig_{N_{C}}$ is the response of $C$'s 
-challenge and requires $S$ to sign with its private (asymmetric) key to
-prove that he is the sams as in the {\em OpenSecureChannel}
+  CreateSessionResponse}. The message $Sig_{N_{C}}$ is the response of $C$'s
+challenge and requires $S$ to sign with its private (asymmetric) key
+to prove that he is the sams as in the {\em OpenSecureChannel}
 sub-protocol.  For this particular use, the \opcua standard explicitly
-asks to add $C$'s  public key to the signature (which confirms the
-counter-measure we give in Section~\ref{sec:secure_channel_fix}).  In
-message 3, $C$ answers $S$'s  challenge with $Sig_{N_{S}}$ and sends his
-credentials to $S$ with {\em ASReq} for {\em ActivateSessionRequest}.
-Finally in message 4, $S$ confirms to $C$ that the session is created
-with {\em ASRes} for {\em ActivateSessionResponse} and $N_{S2}$ a
-fresh challenge nonce that $C$ should use to refresh the session when it
-is timed-out.  Again, {\em CSReq, CSRes, ASReq} and {\em ASRes}
-indicate the purpose of each message of the protocol.
+asks to add $C$'s public key to the signature (which confirms the
+counter-measure given in Section~\ref{sec:secure_channel_fix}).  In
+message 3, $C$ answers $S$'s challenge with $Sig_{N_{S}}$ and sends
+his credentials to $S$ with {\em ASReq} for {\em
+  ActivateSessionRequest}.  Finally in message 4, $S$ confirms to $C$
+that the session is created with {\em ASRes} for {\em
+  ActivateSessionResponse} and $N_{S2}$ a fresh challenge nonce that
+$C$ should use to refresh the session when it is timed-out.  Again,
+{\em CSReq, CSRes, ASReq} and {\em ASRes} indicate the purpose of each
+message of the protocol.
 
 \begin{figure}[htb]
     \resizebox{\textwidth}{!}{
@@ -75,8 +76,7 @@ indicate the purpose of each message of the protocol.
 
 \subsection{Modeling}
 
-As this protocol involves login and passwords, we have to make
-modeling choices on how they are used.   We assume that $C$ uses a
+As this protocol involves login and passwords, we assume that $C$ uses a
 different password for each server he speaks with.
 Else as mentioned in Section \ref{sec:secure_channel_modeling}, we consider an
 intruder that can play a legitimate device that has been corrupted and would
@@ -117,7 +117,7 @@ $Sig_{N_{C}}$.
 
 Results without key wrapping (thus with keys leaked in security mode \sms) are
 presented in Table~\ref{tab:session_results}.
-Again obviously, all objectives are attacked in security mode \smn.
+Again, all objectives are attacked in security mode \smn.
 Also the secrecy of the password cannot hold even in security mode \sms~since
 it will be sent by the client in plaintext during a legitimate exchange.
 However, both challenge-response nonces ensure authentication since the private

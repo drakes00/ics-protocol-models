@@ -45,11 +45,11 @@ shared keys for the later communications.
                 \declinst{intruder}{DiscoreryEndpoint}{}
                 \declinst{sess}{S}{}
 
-                \msccomment[-.5]{1.}{cli}
+                \msccomment[-.5]{1}{cli}
                 \mess{\gereq}{cli}{intruder}
                 \nextlevel[1.5]
 
-                \msccomment[-.5]{2.}{cli}
+                \msccomment[-.5]{2}{cli}
                 \mess{\geres, pk(S), \smname, SP, UP}{intruder}{cli}
                 \nextlevel[1]
                 
@@ -59,7 +59,7 @@ shared keys for the later communications.
                 \action*{Generates $N_{C}$}{cli}
                 \nextlevel[3]
 
-                \msccomment[-.5]{3.}{cli}
+                \msccomment[-.5]{3}{cli}
                 \mess{pk(C), \sm{\oscreq, pk(C), $N_{C}$}{pk(S)}{sk(C)}}{cli}{sess}
                 \nextlevel[1]
 
@@ -74,7 +74,7 @@ shared keys for the later communications.
                 %    \nextlevel[3.5]
                 %}
 
-                \msccomment[-.5]{4.}{cli}
+                \msccomment[-.5]{4}{cli}
                 \mess{\sm{\oscres, $N_{S}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{cli}
                 %\nextlevel[1]
 
@@ -113,16 +113,14 @@ and $(K_{SC}, KSig_{SC})$ = $P\_hash(N_{S}, N_{C})$.
 
 Normally, a {\em GetEnpointRequest} would be answered by a list of
 session endpoints with possibly different security modes. We suppose
-that only one endpoint is answered and that the client  always
-accepts the security mode proposed.
-Client's and server's certificates have been abstracted as their public
-keys (which explains why $pk(C)$ appears twice in message 3).
-Moreover, thanks to the perfect
-encryption hypothesis, we can abstract the cryptographic primitives
-used.  We consider an intruder whose public key would be accepted by a
-legitimate client or server.  Such an intruder could for instance
-represent a legitimate device that has been corrupted through a virus
-or that is controlled by a malicious operator.
+that the client always accepts the security mode proposed.  Client's
+and server's certificates are abstracted by their public keys, which
+explains why $pk(C)$ appears twice in message 3.  Moreover, thanks to
+the perfect encryption hypothesis, we can abstract the cryptographic
+primitives used.  We consider an intruder whose public key would be
+accepted by a legitimate client or server.  Such an intruder could for
+instance represent a legitimate device that has been corrupted through
+a virus or that is controlled by a malicious operator.
 %Finally, it is said in
 %\cite{MLD09} that ``\emph{The establishment of the Secure Channel is
 %  mainly used for exchanging special secret information between
@@ -140,9 +138,10 @@ on $N_{S}$.
 
 \subsection{Results}\label{sec:secure_channel_res}
 
-We run \proverif on this protocol for the three security
-modes of \opcua{} for each objective proposed.
-Results are shown in Table \ref{tab:secure_channel_results}.
+We model in \proverif this protocol for the three security modes of
+\opcua{} for each objective proposed. Results of security analysis
+provided by \proverif{} are shown in
+Table~\ref{tab:secure_channel_results}.
 
 \vspace{-1em}
 \begin{table}[htb]
@@ -259,8 +258,8 @@ by:
 {\small
 \begin{flushleft}
     $\begin{array}{lrllll}
-        3. & C & \rightarrow & S & : & \text{\sm{\oscreq, {\bf S}, pk(C), $N_{C}$}{pk(S)}{sk(C)}}\\
-        4. & S & \rightarrow & C & : & \text{\sm{\oscres, {\bf C}, $N_{S}$, ST, TTL}{pk(C)}{sk(S)}}\\
+        3 & C & \rightarrow & S & : & \text{\sm{\oscreq, {\bf S}, pk(C), $N_{C}$}{pk(S)}{sk(C)}}\\
+        4 & S & \rightarrow & C & : & \text{\sm{\oscres, {\bf C}, $N_{S}$, ST, TTL}{pk(C)}{sk(S)}}\\
     \end{array}$
 \end{flushleft}
 }
