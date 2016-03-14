@@ -9,8 +9,8 @@
 
 
 The {\em OpenSecureChannel} sub-protocol  aims to authenticate a client and
-a server and allows them to exchange two secret nonces that will be use to derive
-shared keys for the later communications.
+a server and allows them to exchange two secret nonces (random numbers) that
+will be used to derive shared keys for the later communications.
 \opcua{} can be used with three security modes, namely {\em \smn}, {\em \sms} and
 {\em \smse}.
 \vspace{-.5em}
@@ -21,10 +21,8 @@ shared keys for the later communications.
       This mode claims to provide secrecy
       using symmetric and asymmetric encryption, but also both
       authentication and integrity through digital signatures.
-  \item {\em \sms}: messages are only signed $m$, $\{h(m)\}_{sk(x)}$,
-    it is the same as {\em \smse} but without any encryption.  Thus
-    nonces are not used to generate a shared key but bring freshness
-    to the messages.
+  \item {\em \sms}: it is the same as \smse~ but messages are only signed
+      $\{h(m)\}_{sk(x)}$, and not encrypted.
   \item {\em \smn}: does not provide any security.  Using this mode, the
       {\em OpenSecureChannel} sub-protocol does not serve much
       purpose but is used for compatibility.
@@ -104,8 +102,9 @@ nonce $N_{S}$ to $C$ with {\em OSCRes} for {\em
 unique identifier for the channel) and {\em TTL} for {\em TimeToLive}
 (its life-time).  The four terms {\em GEReq, GERes, OSCReq} and {\em
   OSCRes} indicate the purpose of each message of the protocol.  At
-the end of this protocol, both $C$ and $S$ derive four keys as follows using the
-nonces using a function named $P\_hash$, similar to the one specified
+  the end of this protocol, both $C$ and $S$ derive four keys ($K_{CS}$,
+  $KSig_{CS}$, $K_{SC}$ and $KSig_{SC}$) by hashing the
+nonces with a function named $P\_hash$, similar to the one specified
 in TLS~\cite{DR08}: $(K_{CS}, KSig_{CS})$ = $P\_hash(N_{C}, N_{S})$
 and $(K_{SC}, KSig_{SC})$ = $P\_hash(N_{S}, N_{C})$.
 
@@ -188,7 +187,6 @@ Needham-Schroeder protocol~\cite{Low96}.
 %to exchange the nonces without revealing them (sending $g^{N_{C}}$ instead of 
 %$N_{C}$).
 
-\vspace{-1em}
 \begin{figure}[htb]
     \hspace{-2.25em}
     \renewcommand{\smname}{\smse}
@@ -241,7 +239,6 @@ Needham-Schroeder protocol~\cite{Low96}.
     \label{fig:secure_channel_atk}
 \end{figure}
 
-\vspace{1em}
 \subsection{Fixed version}\label{sec:secure_channel_fix}
 
 We propose a fixed version of the {\em OpenSecureChannel} sub-protocol using
@@ -250,7 +247,7 @@ one of the classical counter-measures for communication protocols proposed in
 %in Figure \ref{fig:secure_channel_fix_se}.
 It consists in explicitly adding the public key of the receiver to the
 messages and thus avoids an intruder rerouting signed messages to
-usurp hosts as presented in Section~\ref{sec:secure_channel_res}. This
+usurp hosts, as presented in Section~\ref{sec:secure_channel_res}. This
 resolves the authentication problem but as \proverif{} confirms
 attacks on secrecy are still present. In order to solve the remaining
 secrecy attacks, we use the key wrapping~\cite{FLS11} mechanism
@@ -264,15 +261,15 @@ signed in security mode \sms{} but only the nonces are encrypted.
 More formally, message 3 and 4 of Figure~\ref{fig:secure_channel_se}
 are replaced by:
 %\vspace{-15pt}
+\begin{flushleft}
 \arraycolsep=1.4pt
 {\scriptsize
-\begin{flushleft}
     $\begin{array}{lrllll}
-        3, & C & \rightarrow & S & : & \text{\sm{\oscreq, pk(C), $\{N_{C}\}_{pk(S)}$, {\bf pk(S)}}{pk(S)}{sk(C)}}\\
-        4, & S & \rightarrow & C & : & \text{\sm{\oscres, $\{N_{S}\}_{pk(C)}$, ST, TTL, {\bf pk(C)}}{pk(C)}{sk(S)}}\\
+        3. & C & \rightarrow & S & : & \text{\sm{\oscreq, pk(C), $\{N_{C}\}_{pk(S)}$, {\bf pk(S)}}{pk(S)}{sk(C)}}\\
+        4. & S & \rightarrow & C & : & \text{\sm{\oscres, $\{N_{S}\}_{pk(C)}$, ST, TTL, {\bf pk(C)}}{pk(C)}{sk(S)}}\\
     \end{array}$
-\end{flushleft}
 }
+\end{flushleft}
 %\vspace{-.5em}
 
  We also use \proverif to check the security of the protocol with all
