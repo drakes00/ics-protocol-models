@@ -43,11 +43,11 @@ a server and allows them to generate a shared key for the later communications.
                 \declinst{intruder}{DiscoreryEndpoint}{}
                 \declinst{sess}{S}{}
 
-                \msccomment[-.5]{1.}{cli}
+                \msccomment[-.5]{1}{cli}
                 \mess{\gereq}{cli}{intruder}
                 \nextlevel[1.5]
 
-                \msccomment[-.5]{2.}{cli}
+                \msccomment[-.5]{2}{cli}
                 \mess{\geres, pk(S), \smname, SP, UP}{intruder}{cli}
                 \nextlevel[1]
                 
@@ -57,7 +57,7 @@ a server and allows them to generate a shared key for the later communications.
                 \action*{Generates $N_{C}$}{cli}
                 \nextlevel[3]
 
-                \msccomment[-.5]{3.}{cli}
+                \msccomment[-.5]{3}{cli}
                 \mess{pk(C), \sm{\oscreq, pk(C), $N_{C}$}{pk(S)}{sk(C)}}{cli}{sess}
                 \nextlevel[1]
 
@@ -72,7 +72,7 @@ a server and allows them to generate a shared key for the later communications.
                 %    \nextlevel[3.5]
                 %}
 
-                \msccomment[-.5]{4.}{cli}
+                \msccomment[-.5]{4}{cli}
                 \mess{\sm{\oscres, $N_{S}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{cli}
                 %\nextlevel[1]
 
@@ -89,12 +89,12 @@ a server and allows them to generate a shared key for the later communications.
 \vspace{-1em}
 
 This protocol is described in Figure~\ref{fig:secure_channel_se}.  In
-message 1. $C$ requests information on $S$ with {\em GEReq} meaning
-{\em GetEndpointRequest}.  In message 2. $DiscoveryEndpoint$ answers
+message 1 $C$ requests information on $S$ with {\em GEReq} meaning
+{\em GetEndpointRequest}.  In message 2 $DiscoveryEndpoint$ answers
 with the following  informations where {\em GERes} stands for {\em
   GetEndpointResponse}, {\em SP} for {\em Security Policy} and {\em
   UP} for {\em UserPolicy}.  Both {\em SP} and {\em UP} are used for
-cryptographic primitive negociations.  In message 3. $C$ sends a nonce
+cryptographic primitive negociations.  In message 3 $C$ sends a nonce
  $N_{C}$ to $S$ with {\em OSReq} standing for {\em
   OpenSecureChannelRequest}.  Finally in message 4. $S$ answers a
 nonce $N_{S}$ to $C$ with {\em OSCRes} for {\em
@@ -113,7 +113,9 @@ Normally, a {\em GetEnpointRequest} would be answered by a list of
 session endpoints with possibly different security modes. We suppose
 that the client always accepts the security mode proposed.  Client's
 and server's certificates have been abstracted as their public keys
-(which explains why $pk(C)$ appears twice in message 3.).  Moreover,
+(which explains why $pk(C)$ appears twice in message 3)
+
+.  Moreover,
 thanks to the perfect encryption hypothesis, we can abstract the
 cryptographic primitives used.  We consider an intruder whose public
 key would be accepted by a legitimate client or server.  Such an
@@ -249,15 +251,15 @@ We propose a fixed version of the {\em OpenSecureChannel} sub-protocol.
 It consists in explicitly adding the identity of the receiver to the messages
 and thus  avoids an intruder rerouting signed messages to usurp hosts as
 presented in Section~\ref{sec:secure_channel_res}.
-More formally, message 3. and 4. of Figure~\ref{fig:secure_channel_se} are replaced
+More formally, message 3 and 4 of Figure~\ref{fig:secure_channel_se} are replaced
 by:
 %\vspace{-15pt}
 \arraycolsep=1.4pt
 {\small
 \begin{flushleft}
     $\begin{array}{lrllll}
-        3. & C & \rightarrow & S & : & \text{\sm{\oscreq, {\bf S}, pk(C), $N_{C}$}{pk(S)}{sk(C)}}\\
-        4. & S & \rightarrow & C & : & \text{\sm{\oscres, {\bf C}, $N_{S}$, ST, TTL}{pk(C)}{sk(S)}}\\
+        3 & C & \rightarrow & S & : & \text{\sm{\oscreq, {\bf S}, pk(C), $N_{C}$}{pk(S)}{sk(C)}}\\
+        4 & S & \rightarrow & C & : & \text{\sm{\oscres, {\bf C}, $N_{S}$, ST, TTL}{pk(C)}{sk(S)}}\\
     \end{array}$
 \end{flushleft}
 }
