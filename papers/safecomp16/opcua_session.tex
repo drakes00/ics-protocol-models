@@ -154,14 +154,14 @@ valid credentials and recalculating the MAC of the message using the leaked keys
 \end{table}
 \vspace{-2em}
 
-If we consider that key wrapping was used in the {\em OpenSecureChannel}
-sub-protocol (thus without keys leaked in security mode Sign) then the
-authentication on $C$'s  password becomes secure.
-This analysis shows that the use of key wrapping is crucial in security mode
-\sms.
-Thus it should be clearly said in the \opcua standard since missing this feature
-completely breaks the security of \sms~mode.
-Moreover, $C$'s  credential should also be encrypted when exchanged in \sms~mode
-to ensure their confidentiality.
-We  check the source code of the free implementation of \opcua:
-{\em FreeOpcUa}  forces encryption of secrets even in security mode \sms.
+If we consider that key wrapping was used in the {\em
+  OpenSecureChannel} sub-protocol (thus without keys leaked in
+security mode Sign) then the authentication on $C$'s password becomes
+secure.  This analysis shows that the use of key wrapping is crucial
+in security mode \sms.  Thus it should be clearly said in the \opcua
+standard since missing this feature completely breaks the security of
+\sms~mode.  Moreover, $C$'s credential should also be encrypted when
+exchanged in \sms~mode to ensure their confidentiality.  Finally we
+check the source code of the free implementation of \opcua ({\em
+  FreeOpcUa}). This implementation is secure since it forces
+encryption of secrets even in security mode \sms.
