@@ -252,12 +252,13 @@ resolves the authentication problem but as \proverif{} confirms
 attacks on secrecy are still present. In order to solve the remaining
 secrecy attacks, we use the key wrapping~\cite{FLS11} mechanism
 present in the \opcua{}
-standards~\cite{MLD09,opcua_part2,opcua_part4,opcua_part6}, to ensure
-the secrecy of derived keys in security mode \sms.  All occurrences of
+standards~\cite{MLD09,opcua_part2,opcua_part4,opcua_part6}.
+%, to ensure the secrecy of derived keys in security mode \sms.
+All occurrences of
 $N_{C}$ are replaced by $\left\{\mbox{$N_{C}$}\right\}_{pk(S)}$ in
 message 3 and all occurrences of $N_{S}$ in message 4 by
-$\left\{\mbox{$N_{S}$}\right\}_{pk(C)}$.  Thus all the messages are
-signed in security mode \sms{} but only the nonces are encrypted.
+$\left\{\mbox{$N_{S}$}\right\}_{pk(C)}$.  Thus in security mode \sms, all the
+entire messages are signed but only the nonces are encrypted.
 More formally, message 3 and 4 of Figure~\ref{fig:secure_channel_se}
 are replaced by:
 %\vspace{-15pt}
@@ -272,7 +273,7 @@ are replaced by:
 \end{flushleft}
 %\vspace{-.5em}
 
- We also use \proverif to check the security of the protocol with all
+ We also use \proverif to confirm the security of the protocol with all
  our counter-measures.  The results are presented in Table
  \ref{tab:secure_channel_fix_results} and show that both
  authentication and secrecy are now secure for security modes \sms~and
