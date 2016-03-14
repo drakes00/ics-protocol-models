@@ -248,11 +248,21 @@ We propose a fixed version of the {\em OpenSecureChannel} sub-protocol using
 one of the classical counter-measures for communication protocols proposed in
 \cite{AN96}.
 %in Figure \ref{fig:secure_channel_fix_se}.
-It consists in explicitly adding the public key of the receiver to the messages
-and thus  avoids an intruder rerouting signed messages to usurp hosts as
-presented in Section~\ref{sec:secure_channel_res}.
-More formally, message 3 and 4 of Figure~\ref{fig:secure_channel_se} are replaced
-by:
+It consists in explicitly adding the public key of the receiver to the
+messages and thus avoids an intruder rerouting signed messages to
+usurp hosts as presented in Section~\ref{sec:secure_channel_res}. This
+resolves the authentication problem but as \proverif{} confirms
+attacks on secrecy are still present. In order to solve the remaining
+secrecy attacks, we use the key wrapping~\cite{FLS11} mechanism
+present in the \opcua{}
+standards~\cite{MLD09,opcua_part2,opcua_part4,opcua_part6}, to ensure
+the secrecy of derived keys in security mode \sms.  All occurrences of
+$N_{C}$ are replaced by $\left\{\mbox{$N_{C}$}\right\}_{pk(S)}$ in
+message 3 and all occurrences of $N_{S}$ in message 4 by
+$\left\{\mbox{$N_{S}$}\right\}_{pk(C)}$.  Thus all the messages are
+signed in security mode \sms{} but only the nonces are encrypted.
+More formally, message 3 and 4 of Figure~\ref{fig:secure_channel_se}
+are replaced by:
 %\vspace{-15pt}
 \arraycolsep=1.4pt
 {\small
@@ -265,24 +275,14 @@ by:
 }
 %\vspace{-.5em}
 
-Moreover, the \opcua{} standards~\cite{MLD09,opcua_part2,opcua_part4,opcua_part6}
-advise the use of key wrapping~\cite{FLS11}.
-Although the use of such mechanism in security mode \sms~remains unclear in the
-standard, we take advantage of it in this fixed version to ensure the secrecy of
-derived keys in security mode \sms.
-More formally, occurrences of $N_{C}$ are replaced by
-$\left\{\mbox{$N_{C}$}\right\}_{pk(S)}$ in message 3 and all occurrences of
-$N_{S}$ in message 4 by $\left\{\mbox{$N_{S}$}\right\}_{pk(C)}$.
-Thus all the messages are signed in security mode \sms{} but only the nonces are
-encrypted.
-We also use \proverif to check the security of the protocol with both
-counter-measures.
-The results are presented in Table \ref{tab:secure_channel_fix_results} and
-show that both authentication and secrecy are now secure for security modes
-\sms~and \smse.
-We checked the counter-measures separately and to confirm that both are
-required (explicitly specifying the receiver of a message in its signature fixes
-attacks found on authentication and key wrapping ensures the secrecy of the keys).
+ We also use \proverif to check the security of the protocol with all
+ our counter-measures.  The results are presented in Table
+ \ref{tab:secure_channel_fix_results} and show that both
+ authentication and secrecy are now secure for security modes \sms~and
+ \smse.  We checked the counter-measures separately and to confirm
+ that both are required (explicitly specifying the receiver of a
+ message in its signature fixes attacks found on authentication and
+ key wrapping ensures the secrecy of the keys).
 
 \vspace{-1em}
 \begin{table}[htb]
