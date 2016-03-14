@@ -16,8 +16,8 @@ signature relies on a \emph{Message Authentication Code} (MAC).  Then
 messages sent by $C$ are encrypted using $K_{CS}$ (resp. signed with
 $KSig_{CS}$) and messages sent by $S$ are encrypted with $K_{SC}$
 (resp. signed with $KSig_{SC}$).  This sub-protocol is presented in
-Figure \ref{fig:session_se}.  In message 1, $C$ sends a challenge
-nonce to $S$ with {\em CSReq} meaning {\em CreateSessionRequest}.  In
+Figure \ref{fig:session_se}.  In message 1, $C$ sends a nonce as a challenge
+to $S$ with {\em CSReq} meaning {\em CreateSessionRequest}.  In
 message 2, $S$ answers with $Sig_{N_{C}} = \left\{\mbox{pk(C),
   $N_{C}$}\right\}_{\mbox{sk(S)}}$ and {\em CSRes} for {\em
   CreateSessionResponse}. The message $Sig_{N_{C}}$ is the response of $C$'s
@@ -30,7 +30,7 @@ message 3, $C$ answers $S$'s challenge with $Sig_{N_{S}}$ and sends
 his credentials to $S$ with {\em ASReq} for {\em
   ActivateSessionRequest}.  Finally in message 4, $S$ confirms to $C$
 that the session is created with {\em ASRes} for {\em
-  ActivateSessionResponse} and $N_{S2}$ a fresh challenge nonce that
+  ActivateSessionResponse} and $N_{S2}$ a fresh nonce as a challenge that
 $C$ should use to refresh the session when it is timed-out.  Again,
 {\em CSReq, CSRes, ASReq} and {\em ASRes} indicate the purpose of each
 message of the protocol.
@@ -88,9 +88,11 @@ order to associate his login with him. This function is public for
 everybody.  {\em Passwd} takes as parameter the private key of its
 owner to make it secret but also the public key of the server to model
 a different password for each server.  Then we provide the following
-equation: \texttt{verifyCreds(x, Login(pub(y)), Passwd(y, pub(x))) =
-  true} where \texttt{x} the private key of the server and \texttt{y}
-the private key of the client (not revealed to the server).  It allows
+equation: \texttt{verifyCreds(pk(S), Login(pk(C)), Passwd(sk(C), pk(S))) =
+  true}.
+  %where \texttt{x} the private key of the server and \texttt{y}
+%the private key of the client (not revealed to the server).
+  It allows
 the server to verify if a password and a login are matching and if the
 password is the one he knows (using his public key).
 %Moreover in our
@@ -115,7 +117,8 @@ $Sig_{N_{C}}$.
 
 \subsection{Results}
 
-Results without key wrapping (thus with keys leaked in security mode \sms) are
+Results without key wrapping (thus with keys leaked in security mode \sms, cf.
+Table \ref{tab:secure_channel_results}) are
 presented in Table~\ref{tab:session_results}.
 Again, all objectives are attacked in security mode \smn.
 Also the secrecy of the password cannot hold even in security mode \sms~since
