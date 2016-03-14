@@ -70,14 +70,19 @@ indicate the purpose of each message of the protocol.
     }
     \caption{\opcua \session sub-protocol}
     \label{fig:session_se}
+    \vspace{-1em}
 \end{figure}
 
 \subsection{Modeling}
 
 As this protocol involves login and passwords, we have to make
 modeling choices on how they are used.   We assume that $C$ uses a
-different password for each server he speaks with.  In order to model
-credentials in \proverif, we use two functions: {\em Login} and {\em
+different password for each server he speaks with.
+Else as mentioned in Section \ref{sec:secure_channel_modeling}, we consider an
+intruder that can play a legitimate device that has been corrupted and would
+obtain the credentials of the client just by playing the protocol with him.
+Modeling of credentials is still not common in \proverif.
+We use two functions: {\em Login} and {\em
   Passwd}.  {\em Login} takes as parameter the public key of a host in
 order to associate his login with him. This function is public for
 everybody.  {\em Passwd} takes as parameter the private key of its

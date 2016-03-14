@@ -7,7 +7,7 @@ frequency of such attacks is increasing to become one of the priorities for
 governmental agencies (\eg~\cite{SFS11} from the US National Institute of
 Standards and Technology (NIST) or
 \cite{ANSSI12_guide_securite_industrielle_en} from the French {\em Agence
-nationale de la sécurité des systèmes d'information} (ANSSI)).
+Nationale de la Sécurité des Systèmes d'Information} (ANSSI)).
 %As
 %industrial systems historically have been physically isolated from the
 %rest of the world, there were less exposed to cyber attacks and their
@@ -24,7 +24,7 @@ nationale de la sécurité des systèmes d'information} (ANSSI)).
 %actions.
 Industrial systems differ from other systems because of
 the really long lifetime of there devices and their difficulty to
-patch in case of vulnerabilities.
+be patched in case of vulnerabilities.
 Such specificities encourage to carefully check
 standards and applications before deploying them.
 %It also explain the number of legacy hosts.
@@ -47,10 +47,11 @@ Patel \emph{\etal}~\cite{PBG09}.  They particularly argued that
 automated protocol verification allows us to understand most of the
 vulnerabilities of a protocol before changing its standards which
 helps at minimizing the number of revisions which costs time and
-money.  Moreover, due to the combinational explosion of the number of
-possible execution traces and the increasing complexity of the
-systems, only automated verification can ensure the security of a
-protocol in a given model.
+money. 
+%Moreover, due to the combinational explosion of the number of
+%possible execution traces and the increasing complexity of the
+%systems, only automated verification can ensure the security of a
+%protocol in a given model.
 
 %\subsection{State-of-the-art}\label{sec:intro_sota}
 \paragraph{State-of-the-art:}\label{sec:intro_sota}
@@ -105,17 +106,22 @@ We propose a formal analysis of the security of
 %the correction proposed in~\cite{FCMT09}.%,HE13}.
 %We also assess the 
 the sub-protocols involved in the \opcua handshake, namely \opcua{}
-\securechan and \opcua{} \session.  
+\securechan and \opcua{} \session. 
+These sub-protocols are curcial for the security since the first aims at
+authenticating a client and a server and deriving secret keys while the second
+allows the client to send his credentials to thye server.
+Moreover, modeling credential in \proverif is not common and and requires
+correct assumptions to be realistic.
 We modeled the protocols according to the official \opcua standards and
 checked it against a free implementation: {\em FreeOpcUa}
 \footnote{https://freeopcua.github.io/}.
 We use of one of the most efficient tools in the domain of
 cryptographic protocol verification according to \cite{LP15},
-namely \proverif developed by Blanchet \etal~\cite{Bla01}.  It
-analyzes a protocol written either in Horn clauses format or using a
-subset of the Pi-calculus for an unbounded number of sessions
-considering the classical Dolev-Yao intruder model~\cite{DY81}.  This
-powerful intruder controls the network, listens, stops, forges,
+namely \proverif developed by Blanchet \etal~\cite{Bla01}. 
+%It analyzes a protocol written either in Horn clauses format or using a
+%subset of the Pi-calculus for an unbounded number of sessions
+It considers the classical Dolev-Yao intruder model~\cite{DY81} who
+controls the network, listens, stops, forges,
 replays or modifies some messages according to its capabilities and
 knowledge.  The perfect encryption hypothesis is assumed, meaning that
 it is not possible to decrypt a ciphertext without its encryption key

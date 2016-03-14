@@ -9,13 +9,15 @@
 
 
 The {\em OpenSecureChannel} sub-protocol  aims to authenticate a client and
-a server and allows them to generate a shared key for the later communications.
+a server and allows them to exchange two secret nonces that will be use to derive
+shared keys for the later communications.
 \opcua{} can be used with three security modes, namely {\em \smn}, {\em \sms} and
 {\em \smse}.
 \vspace{-.5em}
 \begin{itemize}
     \item {\em \smse}: messages are signed $\{h(m)\}_{sk(X)}$ and
-      encrypted $\{m\}_{pk(X)}$, where $h$ is an hash function, $sk(X)$ the secret key associated to $X$ and $pk(X)$ the public key of $X$.
+      encrypted $\{m\}_{pk(X)}$, where $h$ is an hash function, $sk(X)$ the
+      secret key associated to $X$ and $pk(X)$ the public key of $X$.
       This mode claims to provide secrecy
       using symmetric and asymmetric encryption, but also both
       authentication and integrity through digital signatures.
@@ -89,14 +91,14 @@ a server and allows them to generate a shared key for the later communications.
 \vspace{-1em}
 
 This protocol is described in Figure~\ref{fig:secure_channel_se}.  In
-message 1. $C$ requests information on $S$ with {\em GEReq} meaning
-{\em GetEndpointRequest}.  In message 2. $DiscoveryEndpoint$ answers
+message 1, $C$ requests information on $S$ with {\em GEReq} meaning
+{\em GetEndpointRequest}.  In message 2, $DiscoveryEndpoint$ answers
 with the following  informations where {\em GERes} stands for {\em
   GetEndpointResponse}, {\em SP} for {\em Security Policy} and {\em
   UP} for {\em UserPolicy}.  Both {\em SP} and {\em UP} are used for
-cryptographic primitive negociations.  In message 3. $C$ sends a nonce
+cryptographic primitive negociations.  In message 3, $C$ sends a nonce
  $N_{C}$ to $S$ with {\em OSReq} standing for {\em
-  OpenSecureChannelRequest}.  Finally in message 4. $S$ answers a
+  OpenSecureChannelRequest}.  Finally in message 4, $S$ answers a
 nonce $N_{S}$ to $C$ with {\em OSCRes} for {\em
   OpenSecureChannelResponse}, {\em ST} for {\em SecurityToken} (a
 unique identifier for the channel) and {\em TTL} for {\em TimeToLive}
@@ -107,14 +109,14 @@ nonces using a function named $P\_hash$, similar to the one specified
 in TLS~\cite{DR08}: $(K_{CS}, KSig_{CS})$ = $P\_hash(N_{C}, N_{S})$
 and $(K_{SC}, KSig_{SC})$ = $P\_hash(N_{S}, N_{C})$.
 
-\subsection{Modeling}
+\subsection{Modeling}\label{sec:secure_channel_modeling}
 
 Normally, a {\em GetEnpointRequest} would be answered by a list of
 session endpoints with possibly different security modes. We suppose
 that only one endpoint is answered and that the client  always
 accepts the security mode proposed.
 Client's and server's certificates have been abstracted as their public
-keys (which explains why $pk(C)$ appears twice in message 3.).
+keys (which explains why $pk(C)$ appears twice in message 3).
 Moreover, thanks to the perfect
 encryption hypothesis, we can abstract the cryptographic primitives
 used.  We consider an intruder whose public key would be accepted by a
@@ -138,7 +140,7 @@ on $N_{S}$.
 
 \subsection{Results}\label{sec:secure_channel_res}
 
-We run \proverif on this protocol for of the three security
+We run \proverif on this protocol for the three security
 modes of \opcua{} for each objective proposed.
 Results are shown in Table \ref{tab:secure_channel_results}.
 
@@ -170,7 +172,7 @@ Obviously, as the security mode \smn~does not provide any security,
 all objectives can be attacked and as nonces are exchanged in plaintext in
 security mode \sms, the keys are leaked.
 Moreover, attacks on authentication
-in the case of \sms~and \smse~implies the intruder rerouting messages.
+in the case of \sms~and \smse~implies that the intruder can reroute messages.
 Such manipulation differs from replaying a message as it does not
 delay the message more than what a legitimate router would do (thus
 avoiding replay protections such as timestamps).  Figure
@@ -250,7 +252,7 @@ We propose a fixed version of the {\em OpenSecureChannel} sub-protocol.
 It consists in explicitly adding the identity of the receiver to the messages
 and thus  avoids an intruder rerouting signed messages to usurp hosts as
 presented in Section~\ref{sec:secure_channel_res}.
-More formally, message 3. and 4. of Figure~\ref{fig:secure_channel_se} are replaced
+More formally, message 3 and 4 of Figure~\ref{fig:secure_channel_se} are replaced
 by:
 %\vspace{-15pt}
 \arraycolsep=1.4pt
