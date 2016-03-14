@@ -45,11 +45,11 @@ shared keys for the later communications.
                 \declinst{intruder}{DiscoreryEndpoint}{}
                 \declinst{sess}{S}{}
 
-                \msccomment[-.5]{1}{cli}
+                \msccomment[-.5]{1.}{cli}
                 \mess{\gereq}{cli}{intruder}
                 \nextlevel[1.5]
 
-                \msccomment[-.5]{2}{cli}
+                \msccomment[-.5]{2.}{cli}
                 \mess{\geres, pk(S), \smname, SP, UP}{intruder}{cli}
                 \nextlevel[1]
                 
@@ -59,7 +59,7 @@ shared keys for the later communications.
                 \action*{Generates $N_{C}$}{cli}
                 \nextlevel[3]
 
-                \msccomment[-.5]{3}{cli}
+                \msccomment[-.5]{3.}{cli}
                 \mess{pk(C), \sm{\oscreq, pk(C), $N_{C}$}{pk(S)}{sk(C)}}{cli}{sess}
                 \nextlevel[1]
 
@@ -74,7 +74,7 @@ shared keys for the later communications.
                 %    \nextlevel[3.5]
                 %}
 
-                \msccomment[-.5]{4}{cli}
+                \msccomment[-.5]{4.}{cli}
                 \mess{\sm{\oscres, $N_{S}$, ST, TTL}{pk(C)}{sk(S)}}{sess}{cli}
                 %\nextlevel[1]
 
