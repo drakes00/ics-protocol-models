@@ -8,11 +8,11 @@
 \newcommand{\oscres}{OSCRes}
 
 
-The {\em OpenSecureChannel} sub-protocol  aims to authenticate a client and
-a server and allows them to exchange two secret nonces (random numbers) that
-will be used to derive shared keys for the later communications.
-\opcua{} can be used with three security modes, namely {\em \smn}, {\em \sms} and
-{\em \smse}.
+The {\em OpenSecureChannel} sub-protocol aims to authenticate a client
+and a server and allows them to exchange two secret nonces (random
+numbers) that will be used to derive shared keys for the later
+communications.  Moreover, \opcua{} can be used with three security
+modes, namely {\em \smn}, {\em \sms} and {\em \smse}.
 \vspace{-.5em}
 \begin{itemize}
     \item {\em \smse}: messages are signed $\{h(m)\}_{sk(X)}$ and
@@ -113,13 +113,13 @@ and $(K_{SC}, KSig_{SC})$ = $P\_hash(N_{S}, N_{C})$.
 Normally, a {\em GetEnpointRequest} would be answered by a list of
 session endpoints with possibly different security modes. We suppose
 that the client always accepts the security mode proposed.  Client's
-and server's certificates are replaced by their public keys, which
-explains why $pk(C)$ appears twice in message 3.  Moreover, thanks to
-the perfect encryption hypothesis, we can abstract the cryptographic
-primitives used.  We consider an intruder whose public key would be
-accepted by a legitimate client or server.  Such an intruder could for
-instance represent a legitimate device that has been corrupted through
-a virus or that is controlled by a malicious operator.
+and server's certificates are modeled by their public keys.  Moreover,
+thanks to the perfect encryption hypothesis, we can abstract the
+cryptographic primitives used.  We consider an intruder whose public
+key would be accepted by a legitimate client or server.  Such an
+intruder could for instance represent a legitimate device that has
+been corrupted through a virus or that is controlled by a malicious
+operator. 
 %Finally, it is said in
 %\cite{MLD09} that ``\emph{The establishment of the Secure Channel is
 %  mainly used for exchanging special secret information between
@@ -130,10 +130,11 @@ a virus or that is controlled by a malicious operator.
 %chose to model this key derivation using the \DiH mechanisms which
 %relies on the commutativity of the exponentiation: $(g^a)^b =
 %(g^b)^a$.
-In this context, we consider the following security objectives: (i)
-the secrecy of the keys obtained by $C$ (denominated by $K_{Cli}$), (ii) the
-secrecy of the keys obtained by $S$ (denominated by $K_{Srv}$), (iii) the
-authentication of $C$ on $N_{C}$ and (iv) the authentication of $S$ on $N_{S}$.
+We consider the following security objectives: (i) the secrecy of the
+keys obtained by $C$ (denominated by $K_{Cli}$), (ii) the secrecy of
+the keys obtained by $S$ (denominated by $K_{Srv}$), (iii) the
+authentication of $C$ on $N_{C}$ and (iv) the authentication of $S$ on
+$N_{S}$.
 
 \subsection{Results}\label{sec:secure_channel_res}
 
@@ -169,12 +170,12 @@ Table~\ref{tab:secure_channel_results}.
 Obviously, as the security mode \smn~does not provide any security,
 all objectives can be attacked and as nonces are exchanged in
 plaintext in security mode \sms, the keys are leaked.  Moreover, in
-the case of \sms~and \smse, the intruder reroute messages to
+the case of \sms~and \smse, the intruder reroutes messages to
 mount attacks on authentication in order to bypass replay protections
 such as timestamps.  Figure~\ref{fig:secure_channel_atk} shows an
 attack on the authentication of $C$ using $N_{C}$.  This attack is
 possible because the standard \opcua{} protocol does not require
-explicitly to specify the identity of the receiver of a message.  Thus
+explicitly to give  the identity of the receiver of a message.  Thus
 it allows the intruder to send to $S$ the signed message $C$ sent to
 him similarly as the \emph{man-in-the-middle} attack on the
 Needham-Schroeder protocol~\cite{Low96}.
@@ -246,7 +247,7 @@ one of the classical counter-measures for communication protocols proposed in
 \cite{AN96}.
 %in Figure \ref{fig:secure_channel_fix_se}.
 It consists in explicitly adding the public key of the receiver to the
-messages and thus avoids an intruder rerouting signed messages to
+messages and thus avoiding an intruder to reroute signed messages to
 usurp hosts, as presented in Section~\ref{sec:secure_channel_res}. This
 resolves the authentication problem but as \proverif{} confirms
 attacks on secrecy are still present. In order to solve the remaining
