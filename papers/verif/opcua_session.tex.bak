@@ -22,7 +22,7 @@ message 2, $S$ answers with $Sig_{N_{C}} = \left\{\mbox{pk(C),
   $N_{C}$}\right\}_{\mbox{sk(S)}}$ and {\em CSRes} for {\em
   CreateSessionResponse}. The message $Sig_{N_{C}}$ is the response of $C$'s
 challenge and requires $S$ to sign with its private (asymmetric) key
-to prove that he is the same as in the {\em OpenSecureChannel}
+to prove that he is the sams as in the {\em OpenSecureChannel}
 sub-protocol.  For this particular use, the \opcua standard explicitly
 asks to add $C$'s public key to the signature (which confirms the
 counter-measure given in Section~\ref{sec:secure_channel_fix}).  In

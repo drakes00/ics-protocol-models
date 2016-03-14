@@ -107,9 +107,9 @@ We propose a formal analysis of the security of
 %We also assess the 
 the sub-protocols involved in the \opcua handshake, namely \opcua{}
 \securechan and \opcua{} \session. 
-These sub-protocols are crucial for the security since the first aims at
+These sub-protocols are curcial for the security since the first aims at
 authenticating a client and a server and deriving secret keys while the second
-allows the client to send his credentials to the server.
+allows the client to send his credentials to thye server.
 Moreover, modeling credential in \proverif is not common and and requires
 correct assumptions to be realistic.
 We modeled the protocols according to the official \opcua standards and

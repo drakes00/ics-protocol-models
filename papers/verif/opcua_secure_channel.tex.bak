@@ -93,7 +93,7 @@ shared keys for the later communications.
 This protocol is described in Figure~\ref{fig:secure_channel_se}.  In
 message 1, $C$ requests information on $S$ with {\em GEReq} meaning
 {\em GetEndpointRequest}.  In message 2, $DiscoveryEndpoint$ answers
-with the following  information where {\em GERes} stands for {\em
+with the following  informations where {\em GERes} stands for {\em
   GetEndpointResponse}, {\em SP} for {\em Security Policy} and {\em
   UP} for {\em UserPolicy}.  Both {\em SP} and {\em UP} are used for
 cryptographic primitive negociations.  In message 3, $C$ sends a nonce
