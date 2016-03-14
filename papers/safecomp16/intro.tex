@@ -58,19 +58,20 @@ to minimize the number of revisions which costs time and money.
 %The security of industrial protocols becomes a hot topic and some works are
 %present in the literature.
 Most of the works on the security of industrial protocols only rely on
-specifications written in human language rather than using formal methods.
-In 2004, Clarke \etal~\cite{CR04} discussed the security of \dnp
-(Distributed Network Protocol) and \iccp (Inter-Control Center Communications
-Protocol).
-In 2005, Dzung \etal~\cite{DNHC05} proposed a detailed survey on the security in
-SCADA systems including informal analysis on the security properties offered by
-various industrial protocols: \opc (Open Platform Communications),
-\mms (Manufacturing Message Specification),
+specifications written in human language rather than using formal
+methods.  In 2004, Clarke \etal~\cite{CR04} discussed the security
+of \dnp (\emph{Distributed Network Protocol}) and \iccp
+(\emph{Inter-Control Center Communications Protocol}).  In 2005,
+Dzung \etal~\cite{DNHC05} proposed a detailed survey on the security
+in SCADA systems including informal analysis on the security
+properties offered by various industrial protocols: \opc (\emph{Open
+Platform Communications}),
+\mms (\emph{Manufacturing Message Specification}),
 \iec{61850}, \iccp and \etherip.
-In 2006, in the technical documentation of \opcua (OPC Unified Architecture) the
-authors detailed the security measures of the protocol (specially in part 2, 4
-and 6).
-In 2015, Wanying \etal summarized the security offered by \modbus, \dnp and
+In 2006, in the technical documentation of \opcua (\emph{OPC Unified
+Architecture}) the authors detailed the security measures of the
+protocol (specially in part 2, 4 and 6).  In 2015, Wanying \etal
+summarized the security offered by \modbus, \dnp and
 \opcua.
 
 On the other hand, some works propose new versions of existing protocols to make
@@ -81,15 +82,15 @@ In 2009, Fovino \etal~\cite{FCMT09} proposed a secure version of \modbus
 relying on well-known cryptographic primitives such as RSA or SHA2.
 %This version of the protocol also need to introduce new components in the system
 %to allow existing devices to use these cryptographic primitives.
-In 2013, Hayes \etal~\cite{HE13} designed another secure \modbus protocol using
-hash-based message authentication codes and built on STCP (Stream
-Transmission Control Protocol).
+In 2013, Hayes \etal~\cite{HE13} designed another secure \modbus
+protocol using hash-based message authentication codes and built on
+STCP (\emph{Stream Transmission Control Protocol}).
 %
-To the best of our knowledge, the only work directly using formal
-methods to prove the security of industrial protocols or find attack
-against them is from Graham \etal~\cite{GP05} in 2005.  They proposed
-a formal verification of \dnp using \ofmc~\cite{BMV03} (Open-Source
-Fixed-Point Model-Checker) and
+To the best of our knowledge, Graham \etal~\cite{GP05} is the only
+work directly using formal methods to prove the security of industrial
+protocols or find attack against them.  They proposed a formal
+verification of \dnp using \ofmc~\cite{BMV03} (Open-Source Fixed-Point
+Model-Checker) and
 \spear~\cite{SH01} (Security Protocol Engineering and Analysis Resource).
 %% \TODO Sadly we were not able to access their modelings to discuss them with
 %% ours.
@@ -100,38 +101,33 @@ Fixed-Point Model-Checker) and
 %\subsection{Contributions}
 \paragraph{Contributions:}
 
-We propose a formal analysis of the security of
-% standard \modbus protocol and
-%the correction proposed in~\cite{FCMT09}.%,HE13}.
-%We also assess the 
-the sub-protocols involved in the \opcua handshake, namely \opcua{}
+We propose a formal analysis of the security of the sub-protocols
+involved in the \opcua handshake, namely \opcua{}
 \securechan and \opcua{} \session. 
 These sub-protocols are crucial for the security since the first aims at
 authenticating a client and a server and deriving secret keys while the second
 allows the client to send his credentials to the server.
-Moreover, modeling credential in cryptographic verification tools is not common
-and requires correct assumptions to be realistic.
-We modeled the protocols according to the official \opcua standards and
-checked it against a free implementation: {\em FreeOpcUa}
-\footnote{https://freeopcua.github.io/}.
-To do that we use one of the most efficient tools in the domain of
-cryptographic protocol verification according to \cite{LP15},
-namely \proverif developed by Blanchet \etal~\cite{Bla01}. 
-%It analyzes a protocol written either in Horn clauses format or using a
-%subset of the Pi-calculus for an unbounded number of sessions
-It considers the classical Dolev-Yao intruder model~\cite{DY81} who
-controls the network, listens, stops, forges,
-replays or modifies some messages according to its capabilities and
-knowledge.  The perfect encryption hypothesis is assumed, meaning that
-it is not possible to decrypt a ciphertext without its encryption key
-or to forge a signature without knowing the secret key.  In this
-context, \proverif{} can verify security properties of a protocol such
-as secrecy and authentication.  The first property ensures that a
+
+To perform our security analysis, we use one of the most efficient
+tools in the domain of cryptographic protocol verification according
+to \cite{LP15}, namely \proverif developed by
+Blanchet \etal~\cite{Bla01}.  It considers the classical Dolev-Yao
+intruder model~\cite{DY81} who controls the network, listens, stops,
+forges, replays or modifies some messages according to its
+capabilities and knowledge.  The perfect encryption hypothesis is
+assumed, meaning that it is not possible to decrypt a ciphertext
+without its encryption key or to forge a signature without knowing the
+secret key.  \proverif{} can verify security properties of a protocol
+such as secrecy and authentication.  The first property ensures that a
 secret message cannot be discovered by an unauthorized agent
 (including the intruder).  The authentication property means that one
 participant of the protocol is guaranteed to communicate with another
-one. Using this tool, we find attacks against both of them and provide
-some countermeasures.
+one.  Modeling credential in \proverif{} is not common and requires to
+understand the assumptions made in the protocol in order to model it
+correctly.  We follow the official \opcua standards in our modellings
+and checked it against a free implementation: {\em FreeOpcUa}
+\footnote{https://freeopcua.github.io/}. Finally, using \proverif{}, we automatically find attacks against both of them and provide
+simple realistic countermeasures.
 
 \paragraph{Outline:} In Section~\ref{sec:secure_channel}, we analyze the
 security of \opcua{} \securechan and \opcua{} \session in
