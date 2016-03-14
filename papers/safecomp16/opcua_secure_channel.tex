@@ -246,7 +246,7 @@ Needham-Schroeder protocol~\cite{Low96}.
 
 We propose a fixed version of the {\em OpenSecureChannel} sub-protocol.
 %in Figure \ref{fig:secure_channel_fix_se}.
-It consists in explicitly adding the identity of the receiver to the messages
+It consists in explicitly adding the public key of the receiver to the messages
 and thus  avoids an intruder rerouting signed messages to usurp hosts as
 presented in Section~\ref{sec:secure_channel_res}.
 More formally, message 3 and 4 of Figure~\ref{fig:secure_channel_se} are replaced
@@ -256,15 +256,13 @@ by:
 {\small
 \begin{flushleft}
     $\begin{array}{lrllll}
-        3 & C & \rightarrow & S & : & \text{\sm{\oscreq, pk(C), $N_{C}$, {\bf S}}{pk(S)}{sk(C)}}\\
-        4 & S & \rightarrow & C & : & \text{\sm{\oscres, $N_{S}$, ST, TTL, {\bf C}}{pk(C)}{sk(S)}}\\
+        3 & C & \rightarrow & S & : & \text{\sm{\oscreq, pk(C), $N_{C}$, {\bf pk(S)}}{pk(S)}{sk(C)}}\\
+        4 & S & \rightarrow & C & : & \text{\sm{\oscres, $N_{S}$, ST, TTL, {\bf pk(C)}}{pk(C)}{sk(S)}}\\
     \end{array}$
 \end{flushleft}
 }
 %\vspace{-.5em}
 
-Note that instead of adding identity in these messages, one could add the user's
-public keys ($pk(C)$ instead of $C$ for instance).
 This is one of the classical counter-measures for communication protocols
 proposed in \cite{AN96}.
 Moreover, the \opcua{} standards~\cite{MLD09,opcua_part2,opcua_part4,opcua_part6}
