@@ -8,32 +8,32 @@
 \newcommand{\asres}{ASRes}
 
 The \opcua {\em CreateSession} sub-protocol allows a client to send
-credentials (\emph{e.g.}: a login and a password) over an already
-created Secure Channel.  This protocol follows the security mode that
+credentials (\emph{e.g.} a login and a password) over an already
+created Secure Channel.  This sub-protocol is presented in Figure
+\ref{fig:session_se}.  This protocol follows the security mode that
 was chosen during the {\em OpenSecureChannel} sub-protocol and uses
-the symmetric keys derived thus encryption becomes symmetric and
+the symmetric keys derived, thus encryption becomes symmetric and
 signature relies on a \emph{Message Authentication Code} (MAC).  Then
 messages sent by $C$ are encrypted using $K_{CS}$ (resp. signed with
 $KSig_{CS}$) and messages sent by $S$ are encrypted with $K_{SC}$
-(resp. signed with $KSig_{SC}$).  This sub-protocol is presented in
-Figure \ref{fig:session_se}.  In message 1, $C$ sends a nonce as a challenge
-to $S$ with {\em CSReq} meaning {\em CreateSessionRequest}.  In
-message 2, $S$ answers with $Sig_{N_{C}} = \left\{\mbox{pk(C),
-  $N_{C}$}\right\}_{\mbox{sk(S)}}$ and {\em CSRes} for {\em
-  CreateSessionResponse}. The message $Sig_{N_{C}}$ is the response of $C$'s
-challenge and requires $S$ to sign with its private (asymmetric) key
-to prove that he is the same as in the {\em OpenSecureChannel}
-sub-protocol.  For this particular use, the \opcua standard explicitly
-asks to add $C$'s public key to the signature (which confirms the
-counter-measure given in Section~\ref{sec:secure_channel_fix}).  In
-message 3, $C$ answers $S$'s challenge with $Sig_{N_{S}}$ and sends
-his credentials to $S$ with {\em ASReq} for {\em
-  ActivateSessionRequest}.  Finally in message 4, $S$ confirms to $C$
-that the session is created with {\em ASRes} for {\em
-  ActivateSessionResponse} and $N_{S2}$ a fresh nonce as a challenge that
-$C$ should use to refresh the session when it is timed-out.  Again,
-{\em CSReq, CSRes, ASReq} and {\em ASRes} indicate the purpose of each
-message of the protocol.
+(resp. signed with $KSig_{SC}$).  More formally, in message 1, $C$
+sends a nonce as a challenge to $S$ with {\em CSReq} meaning {\em
+  CreateSessionRequest}.  In message 2, $S$ answers with $Sig_{N_{C}}
+= \left\{\mbox{pk(C), $N_{C}$}\right\}_{\mbox{sk(S)}}$ and {\em CSRes}
+for {\em CreateSessionResponse}. The message $Sig_{N_{C}}$ is the
+response of $C$'s challenge and requires $S$ to sign with its private
+(asymmetric) key to prove that he is the same as in the {\em
+  OpenSecureChannel} sub-protocol.  For this particular use, the
+\opcua standard explicitly asks to add $C$'s public key to the
+signature (which confirms the counter-measure given in
+Section~\ref{sec:secure_channel_fix}).  In message 3, $C$ answers
+$S$'s challenge with $Sig_{N_{S}}$ and sends his credentials to $S$
+with {\em ASReq} for {\em ActivateSessionRequest}.  Finally, in message
+4, $S$ confirms to $C$ that the session is created with {\em ASRes}
+for {\em ActivateSessionResponse} and $N_{S2}$ a fresh nonce as a
+challenge that $C$ should use to refresh the session when it is
+timed-out.  Again, {\em CSReq, CSRes, ASReq} and {\em ASRes} indicate
+the purpose of each message of the protocol.
 
 \begin{figure}[htb]
     \resizebox{\textwidth}{!}{
@@ -76,20 +76,20 @@ message of the protocol.
 
 \subsection{Modeling}
 
-As this protocol involves login and passwords, we assume that $C$ uses a
-different password for each server he speaks with.
-Else as mentioned in Section \ref{sec:secure_channel_modeling}, we consider an
-intruder that can play a legitimate device that has been corrupted and would
-obtain the credentials of the client just by playing the protocol with him.
-Modeling of credentials is still not common in \proverif.
-We use two functions: {\em Login} and {\em
-  Passwd}.  {\em Login} takes as parameter the public key of a host in
-order to associate his login with him. This function is public for
-everybody.  {\em Passwd} takes as parameter the private key of its
-owner to make it secret but also the public key of the server to model
+As this protocol involves logins and passwords, we assume that $C$
+uses a different password for each server he speaks with.  Else as
+mentioned in Section \ref{sec:secure_channel_modeling}, we consider an
+intruder that can play a legitimate device that has been corrupted and
+would obtain the credentials of the client just by playing the
+protocol with him.  Modeling of credentials is still not common in
+\proverif.  We use two functions: {\em Login} and {\em Passwd}. The
+first one takes as parameter the public key of a host in order to
+associate his login with him. This function is public for everybody.
+The function {\em Passwd} takes as parameter the private key of its
+owner to make it secret, but also the public key of the server to model
 a different password for each server.  Then we provide the following
-equation: \texttt{verifyCreds(pk(S), Login(pk(C)), Passwd(sk(C), pk(S))) =
-  true}.
+equation: \texttt{verifyCreds(pk(S), Login(pk(C)), Passwd(sk(C),
+  pk(S))) = true}.
   %where \texttt{x} the private key of the server and \texttt{y}
 %the private key of the client (not revealed to the server).
   It allows
@@ -117,18 +117,18 @@ $Sig_{N_{C}}$.
 
 \subsection{Results}
 
-Results without key wrapping (thus with keys leaked in security mode \sms, cf.
-Table \ref{tab:secure_channel_results}) are
-presented in Table~\ref{tab:session_results}.
-Again, all objectives are attacked in security mode \smn.
-Also the secrecy of the password cannot hold even in security mode \sms~since
-it will be sent by the client in plaintext during a legitimate exchange.
-However, both challenge-response nonces ensure authentication since the private
-keys are used instead of the symmetric keys.
-An attack on the authentication on $Passwd$ in security mode \sms~is found by
-the tool.
-This attacks results in the intruder replacing the credentials of $C$ by other
-valid credentials and recalculating the MAC of the message using the leaked keys.
+Results without key wrapping (thus with keys leaked in security mode
+\sms, cf.  Table \ref{tab:secure_channel_results}) are presented in
+Table~\ref{tab:session_results}.  Again, all objectives are attacked
+in security mode \smn.  Also the secrecy of the password cannot hold
+even in security mode \sms~since it will be sent by the client in
+plaintext during a legitimate exchange.  However, both
+challenge-response nonces ensure authentication since the private keys
+are used instead of the symmetric keys.  An attack on the
+authentication on $Passwd$ in security mode \sms~is found by the tool.
+In this attacks  the intruder replaces the credentials of
+$C$ by other valid credentials and recalculates the MAC of the
+message using the leaked keys.
 %Such an attack means first, that the intruder can overtake the session of $C$
 %after having him answering $S$'s  challenge.
 %Moreover in our model, the intruder could also usurp someone else than $C$ in this
@@ -157,9 +157,9 @@ valid credentials and recalculating the MAC of the message using the leaked keys
 \end{table}
 \vspace{-2em}
 
-If we consider that key wrapping was used in the {\em
+If we consider that key wrapping is used in the {\em
   OpenSecureChannel} sub-protocol (thus without keys leaked in
-security mode Sign) then the authentication on $C$'s password becomes
+security mode Sign) then according to \proverif{} results the authentication on $C$'s password becomes
 secure.  This analysis shows that the use of key wrapping is crucial
 in security mode \sms.  Thus it should be clearly said in the \opcua
 standard since missing this feature completely breaks the security of
