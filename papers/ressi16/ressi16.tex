@@ -193,8 +193,13 @@ Ainsi, ce filtrage peut prendre plusieurs formes incluant :
         connaissance de l'état du système.
 \end{itemize}
 
-%Enfin, les systèmes industriels acceptant une latence maximale de l'ordre du
-%centième de seconde, le filtrage doit être pensé pour une efficacité maximale.
+Enfin, les systèmes industriels acceptant une latence maximale de l'ordre du
+centième de seconde, le filtrage doit être pensé pour une efficacité maximale.
+Cela passe par l'utilisation de structures de données possédant une faible 
+complexité d'accès ou de recherche tels que des tables de hashages ou des
+B-Arbres~\cite{Bay71}.
+De plus, des analyses de pire temps d'exécution pourraient assurer le respect
+des contraintes temporelles.
 
 %\begin{figure}
 %    \resizebox{\textwidth}{!}{
