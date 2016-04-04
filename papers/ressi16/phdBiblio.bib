@@ -2,16 +2,30 @@
 % Encoding: UTF-8
 
 
-@TechReport{IAEA96,
-  Title                    = {INSAG-10 defence in depth in nuclear safety},
-  Author                   = {IAEA International Nuclear Safety Group (INSAG)},
-  Institution              = {Report STI/PUB/1013},
-  Year                     = {1996},
+@Misc{Leg07_oiv,
+  Title                    = {Article R1332-2 - Protection des installations d'importance vitale},
 
-  Abstract                 = {The International Atomic Energy Agency's activities relating to nuclear safety are based upon a number of premises. First and foremost, each Member State bears full responsibility for the safety of its nuclear facilities. States can be advised, but they cannot be relieved of this responsibility. Secondly, much can be gained by exchang- ing experience; lessons learned can prevent accidents. Finally, the image of nuclear safety is international; a serious accident anywhere affects the public's view of nuclear power everywhere. With the intention of strengthening the IAEA's contribution to ensuring the safety of nuclear power plants, leading experts in nuclear safety were invited by the Agency to form the International Nuclear Safety Advisory Group (INSAG). This group serves as a forum for the exchange of information and for the provision of advice to the IAEA on nuclear safety issues of international significance. INSAG seeks not only to identify such issues, but also to draw conclusions on the basis of research on nuclear safety and operational experience. It advises on areas where addi- tional efforts are required. Where possible, it seeks to formulate common safety concepts. The present report deals with the concept of defence in depth in nuclear and radiation safety, discussing its objectives, strategy, implementation and future devel- opment. The report is intended for use by governmental authorities and by the nuclear industry and its supporting organizations. It is intended to stimulate discussion and to promote practical action at all levels to enhance safety. I am pleased to have received this report and am happy to release it to a wider audience.},
-  Comment                  = {TODO},
-  File                     = {Report:home/puys/verimag/general/doc/scada/IAEA96.pdf:PDF},
-  Timestamp                = {2015.11.17}
+  Author                   = {Code de la défense},
+  Month                    = Apr,
+  Year                     = {2007},
+
+  Timestamp                = {2016.04.04},
+  Url                      = {https://www.legifrance.gouv.fr/affichCodeArticle.do?cidTexte=LEGITEXT000006071307&idArticle=LEGIARTI000006574324&dateTexte=&categorieLien=cid}
+}
+
+@Article{AN96,
+  Title                    = {Prudent engineering practice for cryptographic protocols},
+  Author                   = {Abadi, Mart{\'\i}n and Needham, Roger},
+  Journal                  = {IEEE transactions on Software Engineering},
+  Year                     = {1996},
+  Number                   = {1},
+  Pages                    = {6},
+  Volume                   = {22},
+
+  Abstract                 = {We present principles for designing cryptographic protocols. The principles are neither necessary nor sucient for correctness. They are however helpful, in that adherence to them would have prevented a number of published errors. Our principles are informal guidelines; they complement formal methods, but do not assume them. In order to demonstrate the actual applicability of these guidelines, we discuss some instructive examples from the literature.},
+  File                     = {Article:home/puys/verimag/general/doc/security/AN96.pdf:PDF},
+  Publisher                = {IEEE Computer Society},
+  Url                      = {http://www.eis.mdx.ac.uk/staffpages/m_cheng/link/abadi95prudent.pdf}
 }
 
 @InCollection{ABCLMAR13,
@@ -26,7 +40,6 @@
   Volume                   = {5087},
 
   Abstract                 = {This paper surveys existing and new security issues affect- ing the EMV electronic payments protocol. We first introduce a new price/effort point for the cost of deploying eavesdropping and relay at- tacks – a microcontroller-based interceptor costing less than $100. We look next at EMV protocol failures in the back-end security API, where we describe two new attacks based on chosen-plaintext CBC weaknesses, and on key separation failues. We then consider future modes of attack, specifically looking at combining the phenomenon of phishing (sending unsolicited messages by email, post or phone to trick users into divulging their account details) with chip card sabotage. Our proposed attacks ex- ploit covert channels through the payments network to allow sabotaged cards to signal back their PINS. We hope these new recipes will enliven the debate about the pros and cons of Chip and PIN at both technical and commercial levels.},
-  Comment                  = {TODO},
   Doi                      = {10.1007/978-3-642-04904-0_7},
   File                     = {Article:home/puys/verimag/general/doc/scada/ABCLMAR13.pdf:PDF},
   ISBN                     = {978-3-642-04903-3},
@@ -41,7 +54,7 @@
   Journal                  = {Comput. Stand. Interfaces},
   Year                     = {2008},
 
-  Month                    = aug,
+  Month                    = Aug,
   Number                   = {6},
   Pages                    = {372--378},
   Volume                   = {30},
@@ -79,6 +92,17 @@
   Url                      = {http://dx.doi.org/10.1007/11424925_136}
 }
 
+@Misc{rWeb13,
+  Title                    = {rWeb4},
+
+  Author                   = {Deny All},
+  HowPublished             = {Agence nationale de la sécurité des systèmes d'information},
+  Month                    = Jun,
+  Year                     = {2013},
+
+  Timestamp                = {2016.04.04}
+}
+
 @Article{Ama11,
   Title                    = {Comparing a Pair of Security Analysis Tools: SATMC and ProVerif},
   Author                   = {Amara, Abdelbasset},
@@ -97,10 +121,32 @@
   File                     = {Book:home/puys/verimag/general/doc/security/Security_engineering.pdf:PDF}
 }
 
+@Booklet{ANSSI15_client_scada,
+  Title                    = {Profil de protection d’un client applicatif MES/SCADA},
+  Author                   = {ANSSI},
+  Month                    = Sep,
+  Year                     = {2015},
+
+  File                     = {Article:home/puys/verimag/general/doc/scada/ANSSI15_client_scada.pdf:PDF},
+  Timestamp                = {2016.01.29},
+  Url                      = {http://www.ssi.gouv.fr/uploads/2015/03/20151005_NP_ANSSI_SDE_4067_PJ9_client_scada_mes_moyen_terme_PJ9.vfp_.pdf}
+}
+
+@Booklet{ANSSI15_serveur_scada,
+  Title                    = {Profil de protection d’un progiciel serveur applicatif SCADA},
+  Author                   = {ANSSI},
+  Month                    = Jul,
+  Year                     = {2015},
+
+  File                     = {Article:home/puys/verimag/general/doc/scada/ANSSI15_serveur_scada.pdf:PDF},
+  Timestamp                = {2016.01.29},
+  Url                      = {http://www.ssi.gouv.fr/uploads/2015/03/20151005_NP_ANSSI_SDE_4067_PJ4_serveur_scada_moyen_terme_PJ4.vfp_.pdf}
+}
+
 @Booklet{ANSSI14_details_principales_mesures,
   Title                    = {Mesures d\'etaill\'ees},
   Author                   = {ANSSI},
-  Month                    = {Jan},
+  Month                    = Jan,
   Year                     = {2014},
 
   File                     = {Technical report:home/puys/verimag/general/doc/scada/ANSSI14_details_principales_mesures.pdf:PDF},
@@ -114,7 +160,7 @@
 @Booklet{ANSSI14_methode_classification-principales_mesures,
   Title                    = {M\'ethode de classification et mesures principales},
   Author                   = {ANSSI},
-  Month                    = {Jan},
+  Month                    = Jan,
   Year                     = {2014},
 
   File                     = {Technical report:home/puys/verimag/general/doc/scada/ANSSI14_methode_classification-principales_mesures.pdf:PDF},
@@ -128,7 +174,7 @@
 @Booklet{ANSSI12_cas_pratique,
   Title                    = {Cas pratique},
   Author                   = {ANSSI},
-  Month                    = {Jun},
+  Month                    = Jun,
   Year                     = {2012},
 
   File                     = {Technical report:home/puys/verimag/general/doc/scada/ANSSI12_cas_pratique.pdf:PDF},
@@ -142,7 +188,7 @@
 @Booklet{ANSSI12_guide_securite_industrielle,
   Title                    = {Ma\^itriser la SSI pour les syst\`emes industriels},
   Author                   = {ANSSI},
-  Month                    = {Jun},
+  Month                    = Jun,
   Year                     = {2012},
 
   File                     = {Technical report:home/puys/verimag/general/doc/scada/ANSSI12_guide_securite_industrielle.pdf:PDF},
@@ -151,6 +197,20 @@
   Timestamp                = {2015.03.05},
   Type                     = {Technical report},
   Url                      = {http://www.ssi.gouv.fr/uploads/IMG/pdf/Guide_securite_industrielle_Version_finale.pdf}
+}
+
+@Booklet{ANSSI12_guide_securite_industrielle_en,
+  Title                    = {Managing Cybersecurity for ICS},
+  Author                   = {ANSSI},
+  Month                    = Jun,
+  Year                     = {2012},
+
+  File                     = {Technical report:home/puys/verimag/general/doc/scada/ANSSI12_guide_securite_industrielle_en.pdf:PDF},
+  Institution              = {Agence nationale de la s\'ecurit\'e des syst\`emes d’information},
+  Keywords                 = {industrial systems,syst\^emes industriels,scada,recommandations,directives},
+  Timestamp                = {2015.03.05},
+  Type                     = {Technical report},
+  Url                      = {http://www.ssi.gouv.fr/uploads/2014/01/Managing_Cybe_for_ICS_EN.pdf}
 }
 
 @Misc{EBIOS,
@@ -169,7 +229,88 @@
   Author                   = {Projet ARAMIS},
   Note                     = {http://aramis.minalogic.net/},
 
-  Timestamp                = {2016.01.06}
+  Timestamp                = {2016.01.06},
+  Url                      = {http://aramis.minalogic.net/}
+}
+
+@Booklet{opcua_part2,
+  Title                    = {Part 2: Security Model},
+  Author                   = {OPC Unified Architecture},
+  Month                    = Apr,
+  Year                     = {2013},
+
+  File                     = {Article:home/puys/verimag/general/doc/scada/opcua_part2_security_model.pdf:PDF},
+  Timestamp                = {2016.01.29}
+}
+
+@Booklet{opcua_part4,
+  Title                    = {Part 4: Services},
+  Author                   = {OPC Unified Architecture},
+  Month                    = Aug,
+  Year                     = {2012},
+
+  File                     = {Article:home/puys/verimag/general/doc/scada/opcua_part4_services.pdf:PDF},
+  Timestamp                = {2016.01.29}
+}
+
+@Booklet{opcua_part6,
+  Title                    = {Part 6: Mappings},
+  Author                   = {OPC Unified Architecture},
+  Month                    = Aug,
+  Year                     = {2012},
+
+  File                     = {Article:home/puys/verimag/general/doc/scada/opcua_part6_mappings.pdf:PDF},
+  Timestamp                = {2016.01.29}
+}
+
+@InCollection{AVISPA05,
+  Title                    = {The {AVISPA} Tool for the Automated Validation of Internet Security Protocols and Applications},
+  Author                   = {A. Armando and D. Basin and Y. Boichut and Y. Chevalier and L. Compagna and J. Cuellar and Drielsma, P. H. and P.-C. He\'am and O. Kouchnarenko and J. Mantovani and S. M{\"o}dersheim and von Oheimb, D. and Michael R. and J. Santiago and M. Turuani and L. Vigan{\`o} and L. Vigneron},
+  Booktitle                = {Proc. of CAV'2005},
+  Publisher                = sv,
+  Year                     = {2005},
+  Pages                    = {281--285},
+  Series                   = {LNCS 3576},
+
+  Abstract                 = {AVISPA is a push-button tool for the automated validation
+of Internet security-sensitive protocols and applications. It provides a
+modular and expressive formal language for specifying protocols and
+their security properties, and integrates different back-ends that implement
+a variety of state-of-the-art automatic analysis techniques. To the
+best of our knowledge, no other tool exhibits the same level of scope and
+robustness while enjoying the same performance and scalability},
+  Copyright                = {#sv#},
+  File                     = {Article:home/puys/verimag/general/doc/verif/AVISPA05.pdf:PDF},
+  Pdf                      = {papers/2005/avispa-cav.pdf},
+  Url                      = {https://www.inf.ethz.ch/personal/basin/pubs/avispa05.pdf},
+  Xabstract                = {AVISPA is a push-button tool for the automated validation of Internet security-sensitive protocols and applications. It provides a modular and expressive formal language for specifying protocols and their security properties, and integrates different back-ends that implement a variety of state-of-the-art automatic analysis techniques. To the best of our knowledge, no other tool exhibits the same level of scope and robustness while enjoying the same performance and scalability.}
+}
+
+@InProceedings{AC04,
+  Title                    = {An Optimized Intruder Model for {SAT}-based Model-Checking of Security Protocols},
+  Author                   = {A. Armando and L. Compagna},
+  Booktitle                = entcs,
+  Year                     = {2005},
+  Editor                   = {Armando, A. and Vigan{\`o}, L.},
+  Month                    = Mar,
+  Pages                    = {91--108},
+  Publisher                = {Elsevier Science Publishers},
+  Volume                   = {125},
+
+  Abstract                 = {In previous work we showed that automatic SAT-based model-checking techniques
+based on a reduction of protocol (in)security problems to a sequence of propositional
+satisfiability problems can be used to effectively find attacks on protocols.
+In this paper we present an optimized intruder model that may lead in many cases
+to shorter attacks which can be detected in our framework by generating smaller
+propositional formulae. The key idea is to assume that some of the abilities of the
+intruder have instantaneous effect, whereas in the previously adopted approach all
+the abilities of the intruder were modeled as state transitions. This required non
+trivial extensions to the SAT-reduction techniques which are formally described in
+the paper. Experimental results indicate the advantages of the proposed optimization.},
+  File                     = {Article:home/puys/verimag/general/doc/verif/AC04.pdf:PDF},
+  Issue                    = {1},
+  Url                      = {http://www.ai-lab.it/compagna/papers/ARSPA-2004/paper.pdf},
+  Xnote                    = {Presented to the IJCAR04 Workshop ARSPA, available at \url{http://www.avispa-project.org}}
 }
 
 @InProceedings{ASW98,
@@ -177,7 +318,7 @@
   Author                   = {Asokan, N. and Shoup, V. and Waidner, M.},
   Booktitle                = {Security and Privacy, 1998. Proceedings. 1998 IEEE Symposium on},
   Year                     = {1998},
-  Month                    = {May},
+  Month                    = May,
   Pages                    = {86-99},
 
   Abstract                 = {The optimistic approach of involving a third party only in the case of exceptions is a useful technique to build secure, yet practical fair exchange protocols. Previous solutions using this approach implicitly assumed that players had reliable communication channels to the third party. We present a set of optimistic fair exchange protocols which tolerate temporary failures in the communication channels to the third party. A central feature of the protocols is that either player can asynchronously and unilaterally bring a protocol run to completion},
@@ -191,7 +332,7 @@
 @Booklet{AVISPA06_hlpsl_doc,
   Title                    = {A Beginner’s Guide to Modelling and Analysing Internet Security Protocols},
   Author                   = {AVISPA},
-  Month                    = {Jun},
+  Month                    = Jun,
   Year                     = {2006},
 
   File                     = {Technical report:home/puys/verimag/general/doc/verif/AVISPA06_hlpsl_doc.pdf:PDF},
@@ -203,11 +344,29 @@
 @Booklet{AVISPA06_manual,
   Title                    = {AVISPA v1.1 User Manual},
   Author                   = {AVISPA},
-  Month                    = {Jun},
+  Month                    = Jun,
   Year                     = {2006},
 
   File                     = {Manual:home/puys/verimag/general/doc/verif/AVISPA06_manual.pdf:PDF},
   Timestamp                = {2015.03.26}
+}
+
+@InBook{BMV03,
+  Title                    = {Computer Security -- ESORICS 2003: 8th European Symposium on Research in Computer Security, Gj{\o}vik, Norway, October 13-15, 2003. Proceedings},
+  Author                   = {Basin, David and M{\"o}dersheim, Sebastian and Vigan{\`o}, Luca},
+  Chapter                  = {An On-the-Fly Model-Checker for Security Protocol Analysis},
+  Editor                   = {Snekkenes, Einar and Gollmann, Dieter},
+  Pages                    = {253--270},
+  Publisher                = {Springer Berlin Heidelberg},
+  Year                     = {2003},
+
+  Address                  = {Berlin, Heidelberg},
+
+  Abstract                 = {We introduce the on-the-fly model-checker OFMC, a tool that combines two methods for analyzing security protocols. The first is the use of lazy data-types as a simple way of building an efficient on-the-fly model checker for protocols with infinite state spaces. The second is the integration of symbolic techniques for modeling a Dolev-Yao intruder, whose actions are generated in a demand-driven way. We present experiments that demonstrate that our tool is state-of-the-art, both in terms of coverage and performance, and that it scales well to industrial-strength protocols.},
+  Doi                      = {10.1007/978-3-540-39650-5_15},
+  File                     = {Article:home/puys/verimag/general/doc/verif/BMV03.pdf:PDF},
+  ISBN                     = {978-3-540-39650-5},
+  Url                      = {http://www.avispa-project.org/papers/ofmc-esorics03.pdf}
 }
 
 @InProceedings{BDPR98,
@@ -229,14 +388,27 @@
   Url                      = {http://dx.doi.org/10.1007/BFb0055718}
 }
 
+@InProceedings{Ben15,
+  Title                    = {Industrial Control Systems Dynamic Code Injection},
+  Author                   = {Ben Aloui, Nidhal},
+  Booktitle                = {GreHack'15},
+  Year                     = {2015},
+  Month                    = Nov,
+
+  Abstract                 = {Since the day of the virus Stuxnet, the world has discovered the im- portance of securing Industrial Control Systems, more commonly known as SCADA, and their potential impacts on Critical Infrastructure Protection (CIP). The Stuxnet Malware [14] uses a specific exploit (CVE-2012-3015) which con- sists of Step 7 Insecure Library Loading. In this paper, we propose to demon- strate how easy it is to make a dynamic code injection in a S7-300 PLC without shutting down or restarting the equipment. We developed a program in C lan- guage, using Snap7 library, to push a new Organization Bloc (OB) inside the CPU. We developed a small HMI to illustrate the dynamic modification on the execution flow. In conclusion, we suggest some countermeasures or protection strategies against the dynamic code injection.},
+  File                     = {Article:home/puys/verimag/general/doc/scada/Ben15.pdf:PDF},
+  Timestamp                = {2016.01.29}
+}
+
 @InProceedings{BFKPS13,
   Title                    = {Implementing TLS with Verified Cryptographic Security},
   Author                   = {Bhargavan, K. and Fournet, C. and Kohlweiss, M. and Pironti, A. and Strub, P.},
-  Booktitle                = {SP'13},
+  Booktitle                = {Security and Privacy (SP), 2013 IEEE Symposium on},
   Year                     = {2013},
+  Month                    = May,
+  Pages                    = {445-459},
 
   Abstract                 = {TLS is possibly the most used protocol for secure communications, with a 18-year history of flaws and fixes, ranging from its protocol logic to its cryptographic design, and from the Internet standard to its diverse implementations. We develop a verified reference implementation of TLS 1.2. Our code fully supports its wire formats, ciphersuites, sessions and connections, re-handshakes and resumptions, alerts and errors, and data fragmentation, as prescribed in the RFCs; it interoperates with mainstream web browsers and servers. At the same time, our code is carefully structured to enable its modular, automated verification, from its main API down to computational assumptions on its cryptographic algorithms. Our implementation is written in F# and specified in F7. We present security specifications for its main components, such as authenticated stream encryption for the record layer and key establishment for the handshake. We describe their verification using the F7 typechecker. To this end, we equip each cryptographic primitive and construction of TLS with a new typed interface that captures its security properties, and we gradually replace concrete implementations with ideal functionalities. We finally typecheck the protocol state machine, and obtain precise security theorems for TLS, as it is implemented and deployed. We also revisit classic attacks and report a few new ones.},
-  Comment                  = {TODO},
   Doi                      = {10.1109/SP.2013.37},
   File                     = {Article:home/puys/verimag/general/doc/verif/BFKPS13.pdf:PDF},
   ISSN                     = {1081-6011},
@@ -244,13 +416,31 @@
 }
 
 @InProceedings{Bla01,
+  Title                    = {An Efficient Cryptographic Protocol Verifier Based on Prolog Rules},
+  Author                   = {Blanchet, Bruno},
+  Booktitle                = {Proceedings of the 14th IEEE Workshop on Computer Security Foundations},
+  Year                     = {2001},
+
+  Address                  = {Washington, DC, USA},
+  Pages                    = {82--},
+  Publisher                = {IEEE Computer Society},
+  Series                   = {CSFW '01},
+
+  Abstract                 = {We present a new automatic cryptographic protocol verifier based on a simple representation of the protocol by Prolog rules, and on a new efficient algorithm that determines whether a fact can be proved from these rules or not. This verifier proves secrecy properties of the protocols. Thanks to its use of unification, it avoids the problem of the state space explosion. Another advantage is that we do not need to limit the number of runs of the protocol to analyze it. We have proved the correctness of our algorithm, and have implemented it. The experimental results show that many examples of protocols of the literature, including Skeme [24], can be analyzed by our tool with very small resources: the analysis takes from less than 0.1 s for simple protocols to 23 s for the main mode of Skeme. It uses less than 2 Mb of memory in our tests.},
+  Acmid                    = {873511},
+  Doi                      = {10.1109/CSFW.2001.930138},
+  File                     = {Article:home/puys/verimag/general/doc/verif/Bla01.pdf:PDF},
+  Url                      = {http://dl.acm.org/citation.cfm?id=872752.873511}
+}
+
+@InProceedings{Blanchet2001,
   Title                    = {An {E}fficient {C}ryptographic {P}rotocol {V}erifier {B}ased on {P}rolog {R}ules},
   Author                   = {Bruno Blanchet},
   Booktitle                = {14th IEEE Computer Security Foundations Workshop (CSFW-14)},
   Year                     = {2001},
 
   Address                  = {Cape Breton, Nova Scotia, Canada},
-  Month                    = JUN,
+  Month                    = Jun,
   Pages                    = {82--96},
   Publisher                = {IEEE Computer Society},
 
@@ -260,10 +450,24 @@
   Url                      = {http://dx.doi.org/10.1109/CSFW.2001.930138}
 }
 
+@InProceedings{BP03,
+  Title                    = {Verification of cryptographic protocols: Tagging enforces termination},
+  Author                   = {Blanchet, Bruno and Podelski, Andreas},
+  Booktitle                = {Foundations of Software Science and Computation Structures},
+  Year                     = {2003},
+  Organization             = {Springer},
+  Pages                    = {136--152},
+
+  Abstract                 = {In experiments with a resolution-based verification method for cryptographic protocols, we could enforce its termination by tagging, a syntactic transformation of messages that leaves attack-free executions invariant. In this paper, we generalize the experimental evidence: we prove that the verification method always terminates for tagged protocols.},
+  Doi                      = {10.1007/3-540-36576-1_9},
+  File                     = {Article:home/puys/verimag/general/doc/verif/BP03.pdf:PDF},
+  Url                      = {http://dx.doi.org/10.1007/3-540-36576-1_9}
+}
+
 @Booklet{PROVERIF14_manual,
   Title                    = {ProVerif 1.89: Automatic Cryptographic Protocol Verifier, User Manual and Tutorial},
   Author                   = {Blanchet, Bruno and Smyth, Ben and Cheval, Vincent},
-  Month                    = {Dec},
+  Month                    = Dec,
   Year                     = {2014},
 
   File                     = {Manual:home/puys/verimag/general/doc/verif/PROVERIF14_manual.pdf:PDF},
@@ -291,13 +495,23 @@
   Url                      = {http://dx.doi.org/10.1007/11805618_10}
 }
 
+@Misc{TA4SP,
+  Title                    = {{TA}4{SP}},
+
+  Author                   = {Boichut, Y. and H\'eam, P.-C. and Kouchnarenko, O.},
+  Note                     = {Produit logiciel. TA4SP est un outil de validation de protocoles de s\'ecurit\'e. Gr\^ace \`a une technique d'approximation appliqu\'ee sur le probl\`eme d'atteignabilit\'e en r\'e\'ecriture, TA4SP peut prouver qu'une propri\'et\'e de secret est inviol\'ee pour un nombre de sessions non-born\'e en sur-approximant la connaissance atteignable de l'intrus. L'outil peut \'egalement montrer qu'une propri\'et\'e est viol\'ee en sous-approximant la connaissance de l'intrus. Une d\'emo de l'outil est disponible \`a l'adresse~:{ t http://lifc.univ-fcomte.fr/~boichut/outil/ta4sp.php}},
+  Year                     = {2004},
+
+  Url                      = {http://lifc.univ-fcomte.fr/~boichut/TA4SP/TA4SP-fr.html}
+}
+
 @Article{BNHSLM04,
   Title                    = {A universal technique for fast and flexible instruction-set architecture simulation},
   Author                   = {Braun, G. and Nohl, A. and Hoffmann, A. and Schliebusch, O. and Leupers, R. and Meyr, H.},
   Journal                  = {Computer-Aided Design of Integrated Circuits and Systems, IEEE Transactions on},
   Year                     = {2004},
 
-  Month                    = {Dec},
+  Month                    = Dec,
   Number                   = {12},
   Pages                    = {1625-1639},
   Volume                   = {23},
@@ -307,6 +521,21 @@
   File                     = {Article:home/puys/verimag/general/doc/verif/BNHSLM04.pdf:PDF},
   ISSN                     = {0278-0070},
   Keywords                 = {circuit simulation;computer architecture;electronic design automation;embedded systems;hardware description languages;hardware-software codesign;microprocessor chips;programmable circuits;software prototyping;cache-compiled simulation;compiled simulators;computer architecture;design automation;design-space exploration;embedded processors;embedded software;hardware design languages;instruction-set architecture simulation;instruction-set simulators;interpretive simulation;just-in-time simulation;processor complexity;product verification;program processors;programmable architectures;retargetable simulation;simulation software;software development;software prototyping;static scheduling;Application software;Associate members;Computational modeling;Computer architecture;Digital signal processing;Discrete event simulation;Embedded software;Product design;Programming;Time to market;65;Computer architecture;design automation;hardware design languages;modeling;program processors;simulation software;software prototyping}
+}
+
+@InProceedings{Bro01,
+  Title                    = {Ethernet/IP-industrial protocol},
+  Author                   = {Brooks, P.},
+  Booktitle                = {Emerging Technologies and Factory Automation, 2001. Proceedings. 2001 8th IEEE International Conference on},
+  Year                     = {2001},
+  Month                    = Oct,
+  Pages                    = {505-514 vol.2},
+  Volume                   = {2},
+
+  Abstract                 = {DeviceNet and ControlNet are two well known industrial networks based on the CIP protocol (CIP = Control and Information Protocol). Both networks have been developed by Rockwell Automation, but are now owned and maintained by the two manufacturers organizations ODVA (Open DeviceNet Vendors Association) and ControlNet International. ODVA and ControlNet International have introduced the newest member of this family-Ethernet/IP ("IP" stands for "Industrial Protocol"). The paper describes the techniques and mechanisms that are used to implement a fully consistent set of services and data objects on a TCP/UDP/IP based Ethernet network.},
+  Doi                      = {10.1109/ETFA.2001.997725},
+  File                     = {Article:home/puys/verimag/general/doc/scada/Bro01.pdf:PDF},
+  Keywords                 = {electronic data interchange;industrial control;local area networks;transport protocols;ControlNet;DeviceNet;Ethernet/IP;ODVA;TCP/UDP/IP based Ethernet network;industrial networks;industrial protocol;Automatic control;Ethernet networks;Europe;Industrial control;Manufacturing automation;Manufacturing industries;Marketing management;Protocols;Technology management;Time factors}
 }
 
 @InProceedings{BCEH02,
@@ -334,6 +563,20 @@
   Timestamp                = {2015.09.25}
 }
 
+@InProceedings{BL04,
+  Title                    = {The myths and facts behind cyber security risks for industrial control systems},
+  Author                   = {Byres, Eric and Lowe, Justin},
+  Booktitle                = {Proceedings of the VDE Kongress},
+  Year                     = {2004},
+  Pages                    = {213--218},
+  Volume                   = {116},
+
+  Abstract                 = {Process control and SCADA systems, with their reliance on proprietary networks and hardware, have long been considered immune to the network attacks that have wreaked so much havoc on corporate information systems. Unfortunately, new research indicates this complacency is misplaced – the move to open standards such as Ethernet, TCP/IP and web technologies is letting hackers take advantage of the control industry’s ignorance. This paper summarizes the incident information collected in the BCIT Industrial Security Incident Database (ISID), describes a number of events that directly impacted process control systems and identifies the lessons that can be learned from these security events.},
+  Comment                  = {TODO},
+  File                     = {Article:home/puys/verimag/general/doc/scada/BL04.pdf:PDF},
+  Url                      = {http://web-post.www.controlglobal.com/assets/Media/MediaManager/The_Myths_and_Facts_behind_Cyber_Security_Risks.pdf}
+}
+
 @Article{BHK06,
   Title                    = {On shaky ground--A study of security vulnerabilities in control protocols},
   Author                   = {Byres, Eric J and Hoffman, Dan and Kube, Nate},
@@ -345,12 +588,25 @@
   File                     = {Article:home/puys/verimag/general/doc/scada/BHK06.pdf:PDF}
 }
 
+@InProceedings{CDNHBFCPR13,
+  Title                    = {SCALA : Surveillance Continue d’Activité et Localisation d’Agressions},
+  Author                   = {Campan, Francis and Do, Van Long and Nader, Patrick and Honeine, Paul and Fillatre, Lionel and Cornu, Philippe and Nikiforov, Igor and Prigent, Guillaume and Rouxel, J{\'e}r{\^o}me},
+  Booktitle                = {Workshop Interdisciplinaire sur la Sécurité Globale},
+  Year                     = {2013},
+  Note                     = {TODO},
+
+  Abstract                 = {–Les systèmes SCADA (Supervisory Control And Data Acquisition) interviennent dans de très nombreux secteurs d’activité : de la production industrielle à la signalisation ferroviaire en passant par les systèmes de traitement et de distribution d’eau. De nombreux opérateurs d'importance vitale (OIV) (si ce n’est tous) sont concernés. Que ce soit par malveillance ou dans une perspective terroriste, prendre la main sur un système SCADA est en général la garantie d’avoir une capacité de nuisance avec un impact maximal. Ce risque est accru par l’architecture distribuée du process et de son architecture associée avec de très nombreux sites dont certains sont contrôlés à distance. De très nombreuses solutions existent pour la protection des infrastructures informatiques des entreprises, mais ces solutions ne sont pas utilisables directement pour des systèmes industriels car ne prenant pas en compte les spécificités de ces systèmes. Ces systèmes industriels contrôlent des process physiques hors du champ des systèmes informatiques de l’entreprise, traditionnellement capables d’opérer de manière indépendante avec des équipements très spécifiques optimisés pour le process et des logiciels développés pour des matériels « contraints » (en terme de capacité de traitement ou de stockage). Dans ce contexte, les systèmes ne sont pas assez protégés et la conception de ces systèmes et des processus opérationnels associés sont encore peu concernés par la sécurité des systèmes d'information (SSI). Dans ce contexte global de protection des infrastructures et des réseaux, nous envisageons d’explorer des moyens de protection économiquement justifiable et d’améliorer la détection d’intrusions pour réduire et minimiser substantiellement le risque résiduel. SCADA (Supervisory Control And Data Acquisition) systems are used in many business sectors such as transportation, energy, telecom or water distribution. Most of these sectors are defined in Europe as mission critical sectors and, as a consequence, critical installations have to be protected. For malicious action or terrorism purpose, enter in a SCADA system allows capability to control the system with a wide impact on the process. This risk is increased by the distributed architecture of the process and the associated infrastructure: there are lot of sites and most of them are remotely controlled. There are plenty of solutions to protect a legacy infrastructure of an information system, but these solutions are not useful for industrial systems, because not taking into account the specificity of those systems. These industrial systems are controlling physical processes outside the IT systems, traditionally able to operate as autarkic systems with very dedicated equipment technology optimized to local process efficiency and software developed for constrained devices (in terms of capability of processing, storage or communication). In this context, the systems are not protected enough, and system design and operational processes were only marginally impacted by IT security concerns. In this global context of protection of the infrastructure and the networks, we plan to explore economically justifiable protection and improve the detection of intrusion to reduce and minimize remaining risks substantially},
+  File                     = {Article:home/puys/verimag/general/doc/scada/CDNHBFCPR13.pdf:PDF},
+  HowPublished             = {Agence Nationale de la Recherche},
+  Url                      = {http://www.agence-nationale-recherche.fr/Colloques/WISG2013/presentations/AAP11_SCALA.pdf}
+}
+
 @InProceedings{CBDSV07,
   Title                    = {Experimental Comparison of Automatic Tools for the Formal Analysis of Cryptographic Protocols},
   Author                   = {Cheminod, M. and Bertolotti, I.C. and Durante, L. and Sisto, R. and Valenzano, A.},
   Booktitle                = {Dependability of Computer Systems, 2007. DepCoS-RELCOMEX '07. 2nd International Conference on},
   Year                     = {2007},
-  Month                    = {June},
+  Month                    = Jun,
   Pages                    = {153-160},
 
   Abstract                 = {The tools for cryptographic protocols analysis based on state exploration are designed to be completely automatic and should carry out their job with a limited amount of computing and storage resources, even when run by users having a limited amount of expertise in the field. This paper compares four tools of this kind to highlight their features and ability to detect bugs under the same experimental conditions. To this purpose, the ability of each tool to detect known flaws in a uniform set of well-known cryptographic protocols has been checked.},
@@ -378,14 +634,49 @@
   Url                      = {http://dx.doi.org/10.1007/978-3-642-10373-5_6}
 }
 
+@Book{CRW04,
+  Title                    = {Practical modern SCADA protocols: DNP3, 60870.5 and related systems},
+  Author                   = {Clarke, Gordon R and Reynders, Deon and Wright, Edwin},
+  Publisher                = {Newnes},
+  Year                     = {2004},
+
+  File                     = {Book:home/puys/verimag/general/doc/scada/CRW04.pdf:PDF}
+}
+
 @Misc{MEHARI,
   Title                    = {Méthode harmonisée d'analyse des risques},
 
   Author                   = {CLUSIF},
-  Month                    = {2010},
+  Year                     = {2010},
 
   Timestamp                = {2016.01.06},
   Url                      = {http://www.clusif.asso.fr/fr/production/mehari/}
+}
+
+@Article{CC15,
+  Title                    = {Epression des besoins et identification des objectifs de résilience},
+  Author                   = {Conchon, Sylvain and Caire, Jean},
+  Journal                  = {C\&esar'15},
+  Year                     = {2015},
+
+  Abstract                 = {Aujourd’hui, les systèmes d’information industriels, notamment ceux des OIV, doivent non seulement garantir un haut niveau de fiabilité, mais aussi maintenir les capacités essentielles à la réalisation de leurs missions malgré des actes de malveillance. Cette communication présente une approche pour définir et mettre en œuvre la résilience sur des systèmes d’information. Elle est fondée sur la gestion des risques, en s’inspirant des principes reconnus de la méthode EBIOS. Cette démarche se décompose en quatre phases : définition des besoins de résilience, à partir de l’analyse des missions supportées par le système ; identification des scénarios de risque, pour tous modes d’agression ; détermination d’objectifs de résilience couvrant à la fois les exigences de sûreté de fonctionnement et de cybersécurité ; élaboration d’une stratégie globale permettant d’atteindre ces},
+  File                     = {Article:home/puys/verimag/general/doc/scada/CC15.pdf:PDF},
+  Timestamp                = {2016.03.01}
+}
+
+@InProceedings{Cre08,
+  Title                    = {The {S}cyther {T}ool: Verification, Falsification, and Analysis of Security Protocols},
+  Author                   = {C.J.F. Cremers},
+  Booktitle                = {Computer Aided Verification, 20th International Conference, CAV},
+  Year                     = {2008},
+  Pages                    = {414--418},
+  Publisher                = {Springer},
+  Series                   = {LNCS},
+  Volume                   = {5123/2008},
+
+  Doi                      = {10.1007/978-3-540-70545-1_38},
+  File                     = {Article:home/puys/verimag/general/doc/verif/Cre08.pdf:PDF},
+  Url                      = {https://www.cs.ox.ac.uk/people/cas.cremers/downloads/papers/Cr2008-Scyther_tool.pdf}
 }
 
 @InProceedings{DHK11,
@@ -393,11 +684,10 @@
   Author                   = {Dadeau, F. and Héam, P.-C. and Kheddam, R.},
   Booktitle                = {Software Testing, Verification and Validation (ICST), 2011 IEEE Fourth International Conference on},
   Year                     = {2011},
-  Month                    = {March},
+  Month                    = Mar,
   Pages                    = {240-248},
 
   Abstract                 = {In the recent years, important efforts have been made for offering a dedicated language for modelling and verifying security protocols. Outcome of the European project AVISPA, the High-Level Security Protocol Language (HLPSL) aims at providing a means for verifying usual security properties (such as data secrecy) in message exchanges between agents. Nevertheless, verifying the security protocol model does not guarantee that the actual implementation of the protocol will fulfil these properties. We propose in this paper a testing technique that makes it possible to validate an implementation of a security protocol, based on a HLPSL model. We introduce a set of mutation operators for HLPSL models that aim at introducing leaks in the security protocols. The mutated models are then analysed by the AVISPA tool set that will produce counter- example traces leading to the leaks, thus providing the test cases. We report an experiment of our mutation technique on a wide range of security protocols and discuss the relevance of the proposed mutation operators.},
-  Comment                  = {TODO},
   Doi                      = {10.1109/ICST.2011.42},
   File                     = {Article:home/puys/verimag/general/doc/verif/DHK11.pdf:PDF},
   Keywords                 = {cryptographic protocols;formal verification;program testing;specification languages;HLPSL;high-level security protocol language;message exchange;mutation operators;mutation-based test generation;security property verification;Encryption;Niobium;Protocols;Public key;Servers;AVISPA;HLPSL;mutation;security protocols;test generation}
@@ -434,8 +724,10 @@
 
   Author                   = {Dierks, T. and Rescorla, E.},
   HowPublished             = {IETF RFC 5246},
-  Month                    = {August},
-  Year                     = {2008}
+  Month                    = Aug,
+  Year                     = {2008},
+
+  Url                      = {https://www.ietf.org/rfc/rfc5246.txt}
 }
 
 @Article{DY81,
@@ -444,7 +736,7 @@
   Journal                  = {Information Theory, IEEE Transactions on},
   Year                     = {1981},
 
-  Month                    = {Mar},
+  Month                    = Mar,
   Number                   = {2},
   Pages                    = {198-208},
   Volume                   = {29},
@@ -457,17 +749,62 @@
   Url                      = {http://dx.doi.org/10.1109/TIT.1983.1056650}
 }
 
+@InCollection{Dut08,
+  Title                    = {Formal modeling and analysis of the Modbus protocol},
+  Author                   = {Dutertre, Bruno},
+  Booktitle                = {Critical Infrastructure Protection},
+  Publisher                = {Springer},
+  Year                     = {2007},
+  Pages                    = {189--204},
+
+  Abstract                 = {Modbus is a communication protocol that is widely used in SCADA systems and distributed control applications. This paper presents formal specifications of Modbus developed using PVS, a generic theorem prover; and SAL, a toolset for the automatic analysis of state-transition systems. Both formalizations are based on the Modbus Application Protocol, which specifies the format of Modbus request and response messages. This formal modeling effort is the first step in the development of automated methods for systematic and extensive testing of Modbus devices.},
+  Doi                      = {10.1007/978-0-387-75462-8_14},
+  File                     = {Article:home/puys/verimag/general/doc/scada/Dut08.pdf:PDF},
+  Keywords                 = {Modbus, formal methods, modeling, test-case generation}
+}
+
+@Article{DNHC05,
+  Title                    = {Security for Industrial Communication Systems},
+  Author                   = {Dzung, D. and Naedele, M. and von Hoff, T.P. and Crevatin, M.},
+  Journal                  = {Proceedings of the IEEE},
+  Year                     = {2005},
+
+  Month                    = Jun,
+  Number                   = {6},
+  Pages                    = {1152-1177},
+  Volume                   = {93},
+
+  Abstract                 = {Modern industrial communication networks are increasingly based on open protocols and platforms that are also used in the office IT and Internet environment. This reuse facilitates development and deployment of highly connected systems, but also makes the communication system vulnerable to electronic attacks. This paper gives an overview of IT security issues in industrial automation systems which are based on open communication systems. First, security objectives, electronic attack methods, and the available countermeasures for general IT systems are described. General security objectives and best practices are listed. Particularly for the TCP/IP protocol suite, a wide range of cryptography-based secure communication protocols is available. The paper describes their principles and scope of application. Next, we focus on industrial communication systems, which have a number of security-relevant characteristics distinct from the office IT systems. Confidentiality of transmitted data may not be required; however, data and user authentication, as well as access control are crucial for the mission critical and safety critical operation of the automation system. As a result, modern industrial automation systems, if they include security measures at all, emphasize various forms of access control. The paper describes the status of relevant specifications and implementations for a number of standardized automation protocols. Finally, we illustrate the application of security concepts and tools by brief case studies describing security issues in the configuration and operation of substations, plants, or for remote access.},
+  Doi                      = {10.1109/JPROC.2005.849714},
+  File                     = {Article:home/puys/verimag/general/doc/scada/DNHC05.pdf:PDF},
+  ISSN                     = {0018-9219},
+  Keywords                 = {Internet;cryptography;message authentication;telecommunication security;transport protocols;IT security;Internet;TCP-IP protocol;access control;cryptography;data authentication;electronic attacks;embedded system;industrial automation system;industrial communication network;industrial communication system;mission critical operation;open communication system;open protocols;remote access;safety critical operation;secure communication protocols;security protocol;security standard;standardized automation protocol;user authentication;Access control;Access protocols;Automation;Communication industry;Communication networks;Communication system security;Cryptographic protocols;Electrical equipment industry;Electronic countermeasures;IP networks;Cryptography;embedded systems;industrial automation;industrial communication systems;remote access;security objectives;security protocols;security standards},
+  Url                      = {ftp://ftp.unicauca.edu.co/Facultades/FIET/DEIC/Materias/Redes%20Industriales/Articulos/seguridad_en_comunicaciones_industriales.pdf}
+}
+
 @Misc{Clusir13,
   Title                    = {Evolution de la cybers\'ecurité industrielle : augmentation du risque, solutions},
 
   Author                   = {D’Anchald, Ludovic and Bock, Patrice and Houdy, Thomas},
   HowPublished             = {Clusir Rh\^one-Alpes Club SSI},
-  Month                    = {Jan},
+  Month                    = Jan,
   Year                     = {2013},
 
   File                     = {Slides:home/puys/verimag/general/doc/scada/Clusir13_securite_industrielle.pdf:PDF},
   Keywords                 = {industrial systems,syst\^emes industriels,scada},
   Timestamp                = {2015.03.05}
+}
+
+@InCollection{FLS11,
+  Title                    = {An introduction to security API analysis},
+  Author                   = {Focardi, Riccardo and Luccio, Flaminia L and Steel, Graham},
+  Booktitle                = {Foundations of security analysis and design VI},
+  Publisher                = {Springer},
+  Year                     = {2011},
+  Pages                    = {35--65},
+
+  File                     = {Article:home/puys/verimag/general/doc/security/FLS11.pdf:PDF},
+  Url                      = {http://www.lsv.ens-cachan.fr/Publis/PAPERS/PDF/FLS-fosad11.pdf}
 }
 
 @InProceedings{FKDL13,
@@ -483,7 +820,6 @@
 
   Abstract                 = {ZQL is a query language for expressing simple compu- tations on private data. Its compiler produces code to certify data, perform client-side computations, and verify the correctness of their results. Under the hood, it synthe- sizes zero-knowledge protocols that guarantee both in- tegrity of the query results and privacy for all other data. We present the ZQL language, its compilation scheme down to concrete cryptography, and the security guaran- tees it provides. We report on a prototype compiler that produces F# and C++. We evaluate its performance on queries for smart-meter billing, for pay-as-you-drive in- surance policies, and for location-based services.},
   Acmid                    = {2534781},
-  Comment                  = {TODO},
   File                     = {Article:home/puys/verimag/general/doc/verif/FKDL13.pdf:PDF},
   ISBN                     = {978-1-931971-03-4},
   Location                 = {Washington, D.C.},
@@ -512,12 +848,68 @@
   Url                      = {http://dx.doi.org/10.1007/978-3-642-04798-5_6}
 }
 
+@Misc{StoneGate13,
+  Title                    = {IPS Stonegate - Version 5.4.1},
+
+  Author                   = {STONESOFT France},
+  HowPublished             = {Agence nationale de la sécurité des systèmes d'information},
+  Month                    = Feb,
+  Year                     = {2013},
+
+  Timestamp                = {2016.04.04}
+}
+
+@Misc{StoneGate11,
+  Title                    = {Fonctionnalités de pare-feu de StoneGate Firewall/VPN 5.2.4 build 8069},
+
+  Author                   = {STONESOFT France},
+  HowPublished             = {Agence nationale de la sécurité des systèmes d'information},
+  Month                    = Dec,
+  Year                     = {2011},
+
+  Timestamp                = {2016.04.04}
+}
+
+@InCollection{GABR14,
+  Title                    = {FDR3—A modern refinement checker for CSP},
+  Author                   = {Gibson-Robinson, Thomas and Armstrong, Philip and Boulgakov, Alexandre and Roscoe, Andrew W},
+  Booktitle                = {Tools and Algorithms for the Construction and Analysis of Systems},
+  Publisher                = {Springer},
+  Year                     = {2014},
+  Pages                    = {187--201},
+
+  Abstract                 = {FDR3 is a complete rewrite of the CSP refinement checker FDR2, incorporating a significant number of enhancements. In this paper we describe the operation of FDR3 at a high level and then give a detailed description of several of its more important innovations. This includes the new multi-core refinement-checking algorithm that is able to achieve a near linear speed up as the number of cores increase. Further, we describe the new algorithm that FDR3 uses to construct its internal representation of CSP processes—this algorithm is more efficient than FDR2’s, and is able to compile a large class of CSP processes to more efficient internal representations. We also present experimental results that compare FDR3 to related tools, which show it is unique (as far as we know) in being able to scale beyond the bounds of main memory.},
+  File                     = {Article:home/puys/verimag/general/doc/verif/GABR14.pdf:PDF},
+  Url                      = {https://www.cs.ox.ac.uk/files/6001/Document.pdf}
+}
+
+@InProceedings{GP05,
+  Title                    = {Correctness proofs for SCADA communication protocols},
+  Author                   = {Graham, JH and Patel, SC},
+  Booktitle                = {Proceedings of the Ninth World Multi-Conference on Systemics, Cybernetics and Informatics},
+  Year                     = {2005},
+  Pages                    = {392--397}
+}
+
+@TechReport{GP04,
+  Title                    = {Security Considerations in SCADA Communication Protocols},
+  Author                   = {James H. Graham and Sandip C. Patel},
+  Institution              = {University of Louisville},
+  Year                     = {2004},
+  Month                    = Sep,
+
+  Abstract                 = {Supervisory Control and Data Acquisition (SCADA) networks control the critical utility and process control infrastructures in many countries. They perform vital functions for utility companies including electricity, natural gas, oil, water, sewage, and railroads. However, little attention was given to security considerations in the initial design and deployment of these systems, which has caused an urgent need to upgrade existing systems to withstand unauthorized intrusions potentially leading to terrorist attacks. This research identifies threats faced by SCADA and investigates effective methods to enhance its security by analyzing DNP3 protocols, which has become a de facto industry standard protocol for implementing the SCADA communications. We propose cost-effective implementation alternatives including SSL/TLS, IPsec, object security, encryption, and message authentication object. This report evaluates implementation details of these solutions, and analyzes and compares these approaches. We also suggest new research directions to more adequately secure SCADA communications over the long run.},
+  File                     = {Report:home/puys/verimag/general/doc/scada/GP04.pdf:PDF},
+  Keywords                 = {SCADA Networks, Computer Security, Communication Protocol Security, DNP3 Protocol},
+  Url                      = {http://www.cs.louisville.edu/facilities/ISLab/tech%20papers/ISRL-04-01.pdf}
+}
+
 @InProceedings{HSBT09,
   Title                    = {Leveraging determinism in industrial control systems for advanced anomaly detection and reliable security configuration},
   Author                   = {Hadeli, H. and Schierholz, R. and Braendle, M. and Tuduce, C.},
   Booktitle                = {Emerging Technologies Factory Automation, 2009. ETFA 2009. IEEE Conference on},
   Year                     = {2009},
-  Month                    = {Sept},
+  Month                    = Sep,
   Pages                    = {1-8},
 
   Abstract                 = {Industrial automation and control systems (IACS) today are often based on common IT technologies. However, they often lack security mechanisms and those available in enterprise IT environments are often not suitable for IACS. Other mechanisms require significant manual maintenance which is error prone. In this paper we present an approach that leverages the unique characteristics of IACS, in particular their deterministic behavior and often available formal system description, to reliably detect anomalies and reproducibly generate configurations for security mechanisms such as firewalls. In particular, we extend common IDS technology to also detect an IACS specific anomaly: the missing of required traffic.},
@@ -534,7 +926,7 @@
   Author                   = {Hadeli, H. and Schierholz, R. and Braendle, M. and Tuduce, C.},
   Booktitle                = {Technologies for Homeland Security, 2009. HST '09. IEEE Conference on},
   Year                     = {2009},
-  Month                    = {May},
+  Month                    = May,
   Pages                    = {503-510},
 
   Abstract                 = {Nowadays, industrial control systems operators are trying to fulfill requirements from upcoming standards and regulation regarding cyber security issues. However, addressing such security requirements by implementing security measures is not a trivial task. Moreover, the creation and maintenance of the configuration for the security measures is prone to error. This research shows that it is possible to derive configuration file(s) to setup different security measures based on the input from system description files. In addition, we highlight an important anomaly in industrial control systems, namely the missing/tardiness of expected traffic. In this paper, we show how the proposed system works by taking IEC 61850 SCD files and generating configuration files for security measures such as firewall and IDS/IPS. Additionally, current IDS/IPS only raise an alert when unexpected traffic appears in the system. They do not alert on the disappearance of the expected traffic. In fact, this type of anomaly is as critical as the other type of anomaly. Thus, we address this anomaly as well in our research.},
@@ -551,7 +943,7 @@
   Journal                  = {Electron. Notes Theor. Comput. Sci.},
   Year                     = {2005},
 
-  Month                    = mar,
+  Month                    = Mar,
   Number                   = {1},
   Pages                    = {145--161},
   Volume                   = {125},
@@ -567,6 +959,118 @@
   Publisher                = {Elsevier Science Publishers B. V.},
   Timestamp                = {2015-03-24},
   Url                      = {http://dx.doi.org/10.1016/j.entcs.2004.05.024}
+}
+
+@InProceedings{HE13,
+  Title                    = {Securing modbus transactions using hash-based message authentication codes and stream transmission control protocol},
+  Author                   = {Hayes, G. and El-Khatib, K.},
+  Booktitle                = {Communications and Information Technology (ICCIT), 2013 Third International Conference on},
+  Year                     = {2013},
+  Month                    = Jun,
+  Pages                    = {179-184},
+
+  Abstract                 = {Traditionally supervisory control and data acquisition (SCADA) networks were physically isolated, providing some inherent level of security; yet, as these networks slowly converged with both corporate intranets and the Internet, their security continually eroded. The gradual evolution of SCADA systems has introduced many novel and previously unknown security risks. During the advent of SCADA technologies, a heavy focus was put on providing system robustness, safety, and reliability. Because of this, widely deployed SCADA protocols like Modbus and DNP3 provide no inherent security controls. In this paper, we will propose a novel Modbus alternative capable of providing secure, backward-compatible Modbus message transmission using stream control transmission protocol and hash-based message authentication code technologies. This proposed protocol improvement ensures the availability and integrity of Modbus messages while providing a robust and secure mutual authentication mechanism. Improvements upon the legacy Modbus protocol aim to mitigate common SCADA protocol attack vectors.},
+  Doi                      = {10.1109/ICCITechnology.2013.6579545},
+  File                     = {Artcle:home/puys/verimag/general/doc/scada/HE13.pdf:PDF},
+  Keywords                 = {Internet;SCADA systems;computer network security;cryptographic protocols;intranets;message authentication;DNP3;Internet;Modbus message transmission;Modbus transaction security;SCADA protocol;corporate intranet;hash-based message authentication code;hash-based message authentication code technologies;legacy Modbus protocol;stream control transmission protocol;supervisory control and data acquisition network;Authentication;Availability;Computer crime;Protocols;Robustness;SCADA systems;Cryptography;Hash-Based Authentication Code;Industrial Control Security;Industrial Networks;Modbus;Network Security;Stream Transmission Control Protocol}
+}
+
+@TechReport{HRG07,
+  Title                    = {Testing of Security Enhanced DNP3 on Operational SCADA System},
+  Author                   = {Hieb, Jeffery L. and Ralston, Patricia A. and Graham, James H.},
+  Institution              = {University of Louisville},
+  Year                     = {2007},
+
+  Abstract                 = {This paper presents results of testing and evaluation of security enhancements for SCADA communications applied to the SCADA protocol DNP3 on an actual SCADA system. Through collaboration with the Chemical Engineering Department, a functioning SCADA system that is used by the Unit Operations Laboratory course (CHE486) was made available during the 2007 spring semester. The test plan was to replace the current SCADA communication used by part of Unit Operations SCADA system with software modules that use security enhanced DNP3 protocols and observe potential impacts on system operation that may result from the modified protocols. Testing was carried out in conjunction with three Unit Operation labs. As part of each test actual SCADA network traffic was captured for offline analysis and evaluation. An important outcome was the collection of real network data for process control operations, as well as validation of the developed security enhancements, and experience with actual SCADA hardware and software controlling and monitoring a real process. Initial results indicate only a 14% increase in the average bandwidth requirements using the challenge response mechanism, which would be acceptable for most SCADA installations. More importantly, no performance degradation was observed in the application, even at higher challenge frequencies.},
+  Comment                  = {TODO},
+  File                     = {Report:home/puys/verimag/general/doc/scada/HRG07.pdf:PDF},
+  Timestamp                = {2016.03.08},
+  Url                      = {http://www.cs.louisville.edu/facilities/ISLab/tech%20papers/ISRL-TR-07-01.pdf}
+}
+
+@Article{Hoare1978,
+  Title                    = {Communicating Sequential Processes},
+  Author                   = {Hoare, C. A. R.},
+  Journal                  = {Commun. ACM},
+  Year                     = {1978},
+
+  Month                    = Aug,
+  Number                   = {8},
+  Pages                    = {666--677},
+  Volume                   = {21},
+
+  Acmid                    = {359585},
+  Address                  = {New York, NY, USA},
+  Doi                      = {10.1145/359576.359585},
+  File                     = {Article:home/puys/verimag/general/doc/verif/Hoa78.pdf:PDF},
+  ISSN                     = {0001-0782},
+  Issue_date               = {Aug. 1978},
+  Keywords                 = {classes, concurrency, conditional critical regions, coroutines, data representations, guarded commands, input, iterative arrays, monitors, multiple entries, multiple exits, nondeterminacy, output, parallel programming, procedures, program structures, programming, programming languages, programming primitives, recursion},
+  Numpages                 = {12},
+  Publisher                = {ACM},
+  Url                      = {http://doi.acm.org/10.1145/359576.359585}
+}
+
+@Article{HCPS08,
+  Title                    = {Attack taxonomies for the Modbus protocols },
+  Author                   = {Peter Huitsing and Rodrigo Chandia and Mauricio Papa and Sujeet Shenoi},
+  Journal                  = {International Journal of Critical Infrastructure Protection },
+  Year                     = {2008},
+  Pages                    = {37 - 44},
+  Volume                   = {1},
+
+  Abstract                 = {The Modbus protocol and its variants are widely used in industrial control applications, especially for pipeline operations in the oil and gas sector. This paper describes the principal attacks on the Modbus Serial and Modbus \{TCP\} protocols and presents the corresponding attack taxonomies. The attacks are summarized according to their threat categories, targets and impact on control system assets. The attack taxonomies facilitate formal risk analysis efforts by clarifying the nature and scope of the security threats on Modbus control systems and networks. Also, they provide insights into potential mitigation strategies and the relative costs and benefits of implementing these strategies.},
+  Doi                      = {http://dx.doi.org/10.1016/j.ijcip.2008.08.003},
+  File                     = {Article:home/puys/verimag/general/doc/scada/HCPS08.pdf:PDF},
+  ISSN                     = {1874-5482},
+  Keywords                 = {Modbus serial},
+  Url                      = {http://www.sciencedirect.com/science/article/pii/S187454820800005X}
+}
+
+@Standard{IEC_61850,
+  Title                    = {61850 - Communication Networks and Systems in Substations},
+  Organization             = {Int. Std. IEC},
+  Author                   = {IEC},
+  Year                     = {2003},
+
+  Timestamp                = {2016.02.16}
+}
+
+@Standard{IEC_60870,
+  Title                    = {60870-6 TASE.2 - Inter Control Centre Protocol (ICCP)},
+  Organization             = {Std. IEC},
+  Author                   = {IEC},
+  Year                     = {1997},
+
+  Timestamp                = {2016.02.16}
+}
+
+@Article{ILW06,
+  Title                    = {Security issues in \{SCADA\} networks },
+  Author                   = {Vinay M. Igure and Sean A. Laughter and Ronald D. Williams},
+  Journal                  = {Computers \& Security },
+  Year                     = {2006},
+  Number                   = {7},
+  Pages                    = {498 - 506},
+  Volume                   = {25},
+
+  Abstract                 = {The increasing interconnectivity of \{SCADA\} (Supervisory Control and Data Acquisition) networks has exposed them to a wide range of network security problems. This paper provides an overview of all the crucial research issues that are involved in strengthening the cyber security of \{SCADA\} networks. The paper describes the general architecture of \{SCADA\} networks and the properties of some of the commonly used \{SCADA\} communication protocols. The general security threats and vulnerabilities in these networks are discussed followed by a survey of the research challenges facing \{SCADA\} networks. The paper discusses the ongoing work in several \{SCADA\} security areas such as improving access control, firewalls and intrusion detection systems, \{SCADA\} protocol analyses, cryptography and key management, device and operating system security. Many trade and research organizations are involved in trying to standardize \{SCADA\} security technologies. The paper concludes with an overview of these standardization efforts. },
+  Doi                      = {http://dx.doi.org/10.1016/j.cose.2006.03.001},
+  File                     = {Article:home/puys/verimag/general/doc/scada/ILW06.pdf:PDF},
+  ISSN                     = {0167-4048},
+  Keywords                 = {\{SCADA\} network security},
+  Url                      = {http://www.sciencedirect.com/science/article/pii/S0167404806000514}
+}
+
+@TechReport{IAEA96,
+  Title                    = {INSAG-10 defence in depth in nuclear safety},
+  Author                   = {IAEA International Nuclear Safety Group - INSAG},
+  Institution              = {Report STI/PUB/1013},
+  Year                     = {1996},
+
+  Abstract                 = {The International Atomic Energy Agency's activities relating to nuclear safety are based upon a number of premises. First and foremost, each Member State bears full responsibility for the safety of its nuclear facilities. States can be advised, but they cannot be relieved of this responsibility. Secondly, much can be gained by exchang- ing experience; lessons learned can prevent accidents. Finally, the image of nuclear safety is international; a serious accident anywhere affects the public's view of nuclear power everywhere. With the intention of strengthening the IAEA's contribution to ensuring the safety of nuclear power plants, leading experts in nuclear safety were invited by the Agency to form the International Nuclear Safety Advisory Group (INSAG). This group serves as a forum for the exchange of information and for the provision of advice to the IAEA on nuclear safety issues of international significance. INSAG seeks not only to identify such issues, but also to draw conclusions on the basis of research on nuclear safety and operational experience. It advises on areas where addi- tional efforts are required. Where possible, it seeks to formulate common safety concepts. The present report deals with the concept of defence in depth in nuclear and radiation safety, discussing its objectives, strategy, implementation and future devel- opment. The report is intended for use by governmental authorities and by the nuclear industry and its supporting organizations. It is intended to stimulate discussion and to promote practical action at all levels to enhance safety. I am pleased to have received this report and am happy to release it to a wider audience.},
+  File                     = {Report:home/puys/verimag/general/doc/scada/IAEA96.pdf:PDF},
+  Timestamp                = {2015.11.17}
 }
 
 @Booklet{ISA‐62443‐1‐1,
@@ -599,12 +1103,21 @@
   Timestamp                = {2015.03.05}
 }
 
+@Standard{ISO_MMS,
+  Title                    = {9506-1:2003, 9506-2:2003, 9506-5:1999, 9506-6:1994 - Industrial Automation Systems—Manufacturing Message Specification (MMS)},
+  Organization             = {ISO},
+  Author                   = {ISO},
+  Year                     = {2003},
+
+  Timestamp                = {2016.02.16}
+}
+
 @InProceedings{JNY11,
   Title                    = {An event buffer flooding attack in DNP3 controlled SCADA systems},
   Author                   = {Dong Jin and Nicol, D.M. and Guanhua Yan},
   Booktitle                = {Simulation Conference (WSC), Proceedings of the 2011 Winter},
   Year                     = {2011},
-  Month                    = {Dec},
+  Month                    = Dec,
   Pages                    = {2614-2626},
 
   Abstract                 = {The DNP3 protocol is widely used in SCADA systems (particularly electrical power) as a means of communicating observed sensor state information back to a control center. Typical architectures using DNP3 have a two level hierarchy, where a specialized data aggregator receives observed state from devices within a local region, and the control center collects the aggregated state from the data aggregator. The DNP3 communications are asynchronous across the two levels; this leads to the possibility of completely filling a data aggregator's buffer of pending events, when a compromised relay sends overly many (false) events to the data aggregator. This paper investigates the attack by implementing the attack using real SCADA system hardware and software. A Discrete-Time Markov Chain (DTMC) model is developed for understanding conditions under which the attack is successful and effective. The model is validated by a Möbius simulation model and data collected on a real SCADA testbed.},
@@ -614,6 +1127,19 @@
   Keywords                 = {Markov processes;SCADA systems;power system control;protocols;simulation;telecommunication security;DNP3 communications;DNP3 controlled SCADA system;DNP3 protocol;Mobius simulation model;control center;data aggregator;discrete-time Markov chain model;distributed network protocol;electrical power;event buffer flooding attack;sensor state information;supervisory control and data acquisition systems;Analytical models;Data models;Protocols;Radiation detectors;Relays;SCADA systems;Substations},
   Timestamp                = {2015.03.05},
   Url                      = {http://dx.doi.org/10.1109/WSC.2011.6147969}
+}
+
+@InCollection{KS12,
+  Title                    = {YubiSecure? Formal security analysis results for the Yubikey and YubiHSM},
+  Author                   = {K{\"u}nnemann, Robert and Steel, Graham},
+  Booktitle                = {Security and Trust Management},
+  Publisher                = {Springer},
+  Year                     = {2012},
+  Pages                    = {257--272},
+
+  Abstract                 = {The Yubikey is a small hardware device designed to authenticate a user against network-based services. Despite its widespread adoption (over a million devices have been shipped by Yubico to more than 20 000 customers including Google and Microsoft), the Yubikey protocols have received relatively little security analysis in the academic literature. In the first part of this paper, we give a formal model for the operation of the Yubikey one-time password (OTP) protocol. We prove security properties of the protocol for an unbounded number of fresh OTPs using a protocol analysis tool, tamarin. In the second part of the paper, we analyze the security of the protocol with respect to an adversary that has temporary access to the authentication server. To address this scenario, Yubico offers a small Hardware Security Module (HSM) called the YubiHSM, intended to protect keys even in the event of server compromise. We show if the same YubiHSM configuration is used both to set up Yubikeys and run the authentication protocol, then there is inevitably an attack that leaks all of the keys to the attacker. Our discovery of this attack lead to a Yubico security advisory in February 2012. For the case where separate servers are used for the two tasks, we give a configuration for which we can show using the same verification tool that if an adversary that can compromise the server running the Yubikey-protocol, but not the server used to set up new Yubikeys, then he cannot obtain the keys used to produce one-time passwords.},
+  File                     = {Article:home/puys/verimag/general/doc/security/KS12.pdf:PDF},
+  Url                      = {http://www.lsv.ens-cachan.fr/Publis/PAPERS/PDF/KS-stm12.pdf}
 }
 
 @InCollection{KV09,
@@ -643,7 +1169,7 @@
   Journal                  = {Comput. Commun.},
   Year                     = {2002},
 
-  Month                    = nov,
+  Month                    = Nov,
   Number                   = {17},
   Pages                    = {1606--1621},
   Volume                   = {25},
@@ -661,13 +1187,25 @@
   Url                      = {http://dx.doi.org/10.1016/S0140-3664(02)00049-X}
 }
 
+@InProceedings{KBL15,
+  Title                    = {A Model Based Approach For SCADA Safety And Security Joint Modelling: S-Cube},
+  Author                   = {Kriaa, S and Bouissou, M and Laarouchi, Y},
+  Booktitle                = {IET System Safety and Cyber Security},
+  Year                     = {2015},
+  Publisher                = {IET Digital Library},
+
+  Abstract                 = {Modern control systems are becoming complex and interconnected as they are increasingly integrating new information and communication technologies. Many industries like automobile, aeronautics and energy are facing great challenges as their systems are becoming less isolated and vulnerable to external malevolence. Indeed, cyber-attackstargeting industrial infrastructures can engender heavy impactson the safety of humans and environment. In this topical context, we propose a new model based approach: S-cube for SCADA Safety and Security joint modelling. This approach provides a risk analysis framework that enables to evaluate industrial information and control architectures. Starting from the system description, S-cube generates automaticallythe different attack and failure scenarios it is exposed to. This approach is illustrated on a use case for which qualitative and quantitative results are given.},
+  File                     = {Article:home/puys/verimag/general/doc/scada/KBL15.pdf:PDF},
+  Url                      = {https://www.researchgate.net/publication/283151376_A_Model_Based_Approach_For_SCADA_Safety_and_Security_Joint_Modelling_S-cube}
+}
+
 @Article{LLTV07,
   Title                    = {Intruder Deduction for the Equational Theory of Abelian Groups with Distributive Encryption},
   Author                   = {Lafourcade, Pascal and Lugiez, Denis and Treinen, Ralf},
   Journal                  = {Inf. Comput.},
   Year                     = {2007},
 
-  Month                    = {Apr},
+  Month                    = Apr,
   Note                     = {Special Issue: 16th International Conference on Rewriting Techniques and Applications},
   Number                   = {4},
   Pages                    = {581--623},
@@ -684,6 +1222,15 @@
   Publisher                = {Academic Press, Inc.},
   Timestamp                = {2015.03.05},
   Url                      = {http://dx.doi.org/10.1016/j.ic.2006.10.008}
+}
+
+@InProceedings{LP15,
+  Title                    = {Performance Evaluations of Cryptographic Protocols. Verification Tools Dealing with Algebraic Properties},
+  Author                   = {Pascal Lafourcade and Maxime Puys},
+  Booktitle                = {FPS 2015},
+  Year                     = {2015},
+
+  File                     = {Article:home/puys/verimag/papers/fps15/FPS15/main-fps.pdf:PDF}
 }
 
 @InCollection{LTV09,
@@ -717,6 +1264,7 @@
 
   Abstract                 = {Last year marked a turning point in the history of cybersecurity-the arrival of the first cyber warfare weapon ever, known as Stuxnet. Not only was Stuxnet much more complex than any other piece of malware seen before, it also followed a completely new approach that's no longer aligned with conven tional confidentiality, integrity, and availability thinking. Con trary to initial belief, Stuxnet wasn't about industrial espionage: it didn't steal, manipulate, or erase information. Rather, Stuxnet's goal was to physically destroy a military target-not just meta phorically, but literally. Let's see how this was done.},
   Doi                      = {http://dx.doi.org/10.1109/MSP.2011.67},
+  File                     = {Article:home/puys/verimag/general/doc/scada/Lan11.pdf:PDF},
   Publisher                = {IEEE},
   Url                      = {http://dx.doi.org/10.1109/MSP.2011.67}
 }
@@ -727,7 +1275,7 @@
   Journal                  = {Information Security, IET},
   Year                     = {2010},
 
-  Month                    = {March},
+  Month                    = Mar,
   Number                   = {1},
   Pages                    = {15-29},
   Volume                   = {4},
@@ -738,6 +1286,24 @@
   ISSN                     = {1751-8709},
   Keywords                 = {data privacy;formal verification;protocols;security of data;smart cards;telecommunication channels;telecommunication network reliability;telecommunication security;channel reliability;communication channel;fair exchange property;formal verification;meta-reasoning method;nonrepudiation protocol design;nonrepudiation protocol verification;receiver-side smart card;secrecy property;security protocol;time-sensitive data;trusted third party},
   Url                      = {http://dx.doi.org/10.1049/iet-ifs.2009.0086}
+}
+
+@Book{LivreBlanc13,
+  Title                    = {Livre blanc (Le)},
+  Author                   = {France. Commission du Livre blanc sur la d{\'e}fense et la s{\'e}curit{\'e} nationale},
+  Publisher                = {Documentation française},
+  Year                     = {2013},
+
+  File                     = {Livre:home/puys/verimag/general/doc/security/livre_blanc13.pdf:PDF}
+}
+
+@Book{LivreBlanc08,
+  Title                    = {Livre blanc (Le)},
+  Author                   = {France. Commission du Livre blanc sur la d{\'e}fense et la s{\'e}curit{\'e} nationale},
+  Publisher                = {Odile Jacob},
+  Year                     = {2008},
+
+  Timestamp                = {2016.04.04}
 }
 
 @InProceedings{Low96,
@@ -810,12 +1376,34 @@
   Url                      = {http://dx.doi.org/10.1007/978-3-642-39799-8_48}
 }
 
+@Standard{MODBUS,
+  Title                    = {Modbus IDA, MODBUS Messaging on TCP/IP Implementation Guide v1.0a},
+  Institution              = {http://www.modbus.org/specs.php},
+  Organization             = {North Grafton, Massachusetts},
+  Author                   = {MODBUS},
+  Url                      = {http://www.modbus.org/specs.php},
+  Year                     = {2004},
+
+  Timestamp                = {2016.02.16}
+}
+
+@Misc{PA2050_13,
+  Title                    = {Fonction de Filtrage du boîtier PA 2050 Version logicielle 5.0.4},
+
+  Author                   = {Palo Alto Networks},
+  HowPublished             = {Agence nationale de la sécurité des systèmes d'information},
+  Month                    = Dec,
+  Year                     = {2013},
+
+  Timestamp                = {2016.04.04}
+}
+
 @Misc{Off14,
   Title                    = {How to Get Your Paper Rejected, Plagiarism and Other Strategies},
 
   Author                   = {Offutt, Jeff},
   HowPublished             = {Seventh IEEE International Conference on Software Testing},
-  Month                    = {Mar},
+  Month                    = Mar,
   Year                     = {2014},
 
   File                     = {Slides:home/puys/verimag/general/doc/Off14_PaperRejected.pdf:PDF},
@@ -823,12 +1411,24 @@
   Timestamp                = {2015.03.05}
 }
 
+@Misc{Suricata,
+  Title                    = {Suricata: Open Source IDS / IPS / NSM engine},
+
+  Author                   = {OISF},
+  HowPublished             = {http://suricata-ids.org/},
+  Month                    = Apr,
+  Year                     = {2016},
+
+  Timestamp                = {2016.04.04},
+  Url                      = {http://suricata-ids.org/}
+}
+
 @InProceedings{PCN12,
   Title                    = {A transfer function based intrusion detection system for SCADA systems},
   Author                   = {Papa, S. and Casper, W. and Nair, S.},
   Booktitle                = {Homeland Security (HST), 2012 IEEE Conference on Technologies for},
   Year                     = {2012},
-  Month                    = {Nov},
+  Month                    = Nov,
   Pages                    = {93-98},
 
   Abstract                 = {Most SCADA and industrial control systems have a limited and deterministic set of behaviors that results with a relatively small amount of variability during normal system operation. Automatic controller commands, operator commands and sensor measurement data within the system may be modified by an attacker to cause system failures. To detect these intrusions a Transfer Function based Intrusion Detection System (TFIDS) is proposed in this paper. Normal operational behaviors can be modeled and integrated into the TFIDS with alarm filtering and reporting rules. Trust anchors within the system are required to collect some of the signals, ensure the signal integrity when delivered to the TFIDS, and to host the TFIDS if physical attacks are a concern. This paper provides an overview of the TFIDS and simulation results for attacks on a waste water treatment system with and without the TFIDS.},
@@ -839,13 +1439,92 @@
   Url                      = {http://dx.doi.org/10.1109/THS.2012.6459831}
 }
 
+@MastersThesis{Pas15,
+  Title                    = {Verification of security protocols with state in ProVerif: Avoiding false attacks when verifying freshness},
+  Author                   = {Pasi, Saarinen},
+  School                   = {KTH ROYAL INSTITUTE OF TECHNOLOGY},
+  Year                     = {2015},
+  Month                    = Jun,
+
+  Abstract                 = {One of the issues when attempting to verify security prop- erties of a protocol is how to model the protocol. We intro- duce a method for verifying event freshness in tools which use the applied π-calculus and are able to verify secrecy. Event freshness can be used to prove that a protocol never generates the same key twice. In this work we encode state in the applied π-calculus and perform bounded verification of freshness for MiniDC by using the ProVerif tool. MiniDC is a trivial protocol that for each iteration of a loop gener- ates a unique key and outputs it to a private channel. When verifying freshness, the abstractions of ProVerif cause false attacks. We describe methods which can be used to avoid false attacks that appear when verifying freshness. We show how to avoid some false attacks introduced by private chan- nels, state and protocols that disclose their secret. We con- clude that the method used to verify freshness in MiniDC is impractical to use in more complicated protocols with state.},
+  File                     = {Thesis:home/puys/verimag/general/doc/verif/Pas15.pdf:PDF},
+  Timestamp                = {2016.01.29},
+  Url                      = {http://www.diva-portal.org/smash/get/.../FULLTEXT01.pdf}
+}
+
+@Article{PBG09,
+  Title                    = {Improving the Cyber Security of SCADA Communication Networks},
+  Author                   = {Patel, Sandip C. and Bhatt, Ganesh D. and Graham, James H.},
+  Journal                  = {Commun. ACM},
+  Year                     = {2009},
+
+  Month                    = Jul,
+  Number                   = {7},
+  Pages                    = {139--142},
+  Volume                   = {52},
+
+  Acmid                    = {1538820},
+  Address                  = {New York, NY, USA},
+  Doi                      = {10.1145/1538788.1538820},
+  File                     = {Article:home/puys/verimag/general/doc/scada/PBG09.pdf:PDF},
+  ISSN                     = {0001-0782},
+  Issue_date               = {July 2009},
+  Numpages                 = {4},
+  Publisher                = {ACM},
+  Url                      = {http://doi.acm.org/10.1145/1538788.1538820}
+}
+
+@Article{PS08,
+  Title                    = {Securing SCADA systems},
+  Author                   = {Patel, Sandip C and Sanyal, Pritimoy},
+  Journal                  = {Information Management \& Computer Security},
+  Year                     = {2008},
+  Number                   = {4},
+  Pages                    = {398--414},
+  Volume                   = {16},
+
+  Abstract                 = {Purpose – Supervisory control and data acquisition (SCADA) systems are widely used by utility companies during the production and distribution of oil, gas, chemicals, electric power, and water to control and monitor these operations. A cyber attack on a SCADA system cannot only result in a major financial disaster but also in devastating damage to public safety and health. The purpose of this paper is to survey the literature on the cyber security of SCADA systems and then suggest two categories of security solutions. Design/methodology/approach – The paper proposes the use of secure socket layer/transport layer security (SSL/TLS) and IP security (IPsec) solutions, implemented on the test-bed at the University of Louisville, as the optimal choices when considering the level of security a solution can provide and the difficulty of implementing such a security measure. The paper analyzes these two solution choices, discuss their advantages and disadvantages, and present details on efficient ways of implementing these solutions. Findings – The SSL/TLS solution to the protocol security using public domain toolkits such as OpenSSL may provide a fast, effective, and economical solution. However, the SSL/TLS protocol and its implementation toolkits have their limitations so this approach may need another enhancement. Practical implications – IPsec can be used to provide IP-level security in addition to SSL/TLS. Originality/value – The use of these enhanced security approaches in SCADA systems should effectively reduce the vulnerability of these critical systems to malicious cyber attacks, and thereby potentially avoiding the serious consequences of such attacks.},
+  Comment                  = {TODO},
+  Doi                      = {10.1108/09685220810908804},
+  File                     = {Article:home/puys/verimag/general/doc/scada/PS08.pdf:PDF},
+  Publisher                = {Emerald Group Publishing Limited},
+  Url                      = {http://dx.doi.org/10.1108/09685220810908804}
+}
+
+@Article{PY07,
+  Title                    = {Analysis of SCADA Security models},
+  Author                   = {Patel, Sandip C and Yu, Yingbing},
+  Journal                  = {International Management Review},
+  Year                     = {2007},
+  Number                   = {2},
+  Pages                    = {68},
+  Volume                   = {3},
+
+  Abstract                 = {Supervisory control and data acquisition (SCADA) networks control the critical infrastructure of many countries. The lack of security in the SCADA networks has caused an urgency to upgrade existing systems to withstand hostile attacks. When new security models are proposed to enhance security of SCADA systems, the models have to be tested to verify that they provide the intended security. In this research, vulnerability and threat analyses are presented as effective methods for testing new SCADA security models. We illustrate the use of these methods on two security models for enhancing SCADA communication protocol.},
+  File                     = {Article:home/puys/verimag/general/doc/scada/PY07.pdf:PDF},
+  Keywords                 = {SCADA; security models; DNP 3; threat evaluation; vulnerability Analysis},
+  Publisher                = {American Scholars Press, Inc.},
+  Url                      = {http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.83.4461&rep=rep1&type=pdf}
+}
+
+@Article{Pax99,
+  Title                    = {Bro: a system for detecting network intruders in real-time},
+  Author                   = {Paxson, Vern},
+  Journal                  = {Computer networks},
+  Year                     = {1999},
+  Number                   = {23},
+  Pages                    = {2435--2463},
+  Volume                   = {31},
+
+  Publisher                = {Elsevier}
+}
+
 @TechReport{Pea02,
   Title                    = {How can you trust the computer in front of you?},
   Author                   = {Pearson, Siani},
   Institution              = {Technical Report Trusted E-Services Laboratory, HP Laboratories Bristol. HPL-2002-222},
   Year                     = {2002},
 
-  Comment                  = {TODO},
   File                     = {Article:home/puys/verimag/general/doc/security/Pea02.pdf:PDF}
 }
 
@@ -880,6 +1559,73 @@
   File                     = {Article:home/puys/verimag/general/doc/scada/PS09.pdf:PDF}
 }
 
+@Standard{PROFINET,
+  Title                    = {PROFINET Specification, PROFINET IO Application Layer Service Definition, Application Layer Protocol Specification, Version 1.0},
+  Author                   = {PROFINET},
+  Year                     = {2004},
+
+  Timestamp                = {2016.02.16}
+}
+
+@TechReport{RGP06,
+  Title                    = {Literature Review of Security and Risk Assessment of SCADA and DCS Systems},
+  Author                   = {Ralston, Patricia A. and Graham, James H. and Patel, Sandip C.},
+  Institution              = {University of Louisville},
+  Year                     = {2006},
+
+  Abstract                 = {The growing dependence of critical infrastructures and industrial automation on interconnected physical and cyber based control systems has resulted in a growing and previously unforeseen cyber security threat to SCADA and DCS systems. Industry organizations such as NERC and AGA as well as government organizations like NIST and SANDIA are responding to the cyber security threat faced by control systems and critical infrastructure through the development of guidelines, best practices, test beds, security tools and new technology. Published papers such as (Byres and Lowe, 2005; Miller, 2005; and Greer, 2006) describe the threats and vulnerabilities faced by SCADA and DCS systems and the challenges presented in attempting to secure these systems. Other papers, such as (Byres and Franz, 2006, Strickles, et al 2003) describe the application of existing security technologies and security practices. The articulation of risk is an important component of a comprehensive, realistic, and long term commitment to securing SCADA and DCS systems. Risk assessment methods such as HHM, IIM, and RFRM have been successfully applied to SCADA systems and have highlighted the need for quantifiable metrics. Quantifiable risk analysis falls under the general category of probability risk analysis (PRA) which includes methods like FTA, ETA, and FEMA. What is needed for SCADA and DCS cyber security risk analysis is to quantitatively determine the probability of an attack, the impact of the attack, and the reduction in risk associated with a particular countermeasure. Two recent methods, one based on compromise graphs and one on augmented vulnerability trees, have specifically targeted SCADA security.},
+  Comment                  = {TODO},
+  File                     = {Report:home/puys/verimag/general/doc/scada/RGP06.pdf:PDF},
+  Timestamp                = {2016.03.08},
+  Url                      = {http://www.cs.louisville.edu/facilities/ISLab/tech%20papers/ISRL-TR-06-01.pdf}
+}
+
+@Article{RR88,
+  Title                    = {A Timed Model for Communicating Sequential Processes},
+  Author                   = {Reed, G. M. and Roscoe, A. W.},
+  Journal                  = {Theor. Comput. Sci.},
+  Year                     = {1988},
+
+  Month                    = Jun,
+  Number                   = {1-3},
+  Pages                    = {249--261},
+  Volume                   = {58},
+
+  Acmid                    = {55111},
+  Address                  = {Essex, UK},
+  Doi                      = {10.1016/0304-3975(88)90030-8},
+  File                     = {Article:home/puys/verimag/general/doc/verif/RR88.pdf:PDF},
+  ISSN                     = {0304-3975},
+  Issue_date               = {June 1988},
+  Numpages                 = {13},
+  Publisher                = {Elsevier Science Publishers Ltd.},
+  Url                      = {http://dx.doi.org/10.1016/0304-3975(88)90030-8}
+}
+
+@Article{RSA78,
+  Title                    = {A Method for Obtaining Digital Signatures and Public-key Cryptosystems},
+  Author                   = {Rivest, R. L. and Shamir, A. and Adleman, L.},
+  Journal                  = {Commun. ACM},
+  Year                     = {1978},
+
+  Month                    = Feb,
+  Number                   = {2},
+  Pages                    = {120--126},
+  Volume                   = {21},
+
+  Abstract                 = {An encryption method is presented with the novel property that publicly revealing an encryption key does not thereby reveal the corresponding decryption key. This has two important consequences: (1) Couriers or other secure means are not needed to transmit keys, since a message can be enciphered using an encryption key publicly revealed by the intented recipient. Only he can decipher the message, since only he knows the corresponding decryption key. (2) A message can be “signed” using a privately held decryption key. Anyone can verify this signature using the corresponding publicly revealed encryption key. Signatures cannot be forged, and a signer cannot later deny the validity of his signature. This has obvious applications in “electronic mail” and “electronic funds transfer” systems. A message is encrypted by representing it as a number M, raising M to a publicly specified power e, and then taking the remainder when the result is divided by the publicly specified product, n, of two large secret primer numbers p and q. Decryption is similar; only a different, secret, power d is used, where e * d ≡ 1(mod (p - 1) * (q - 1)). The security of the system rests in part on the difficulty of factoring the published divisor, n.},
+  Acmid                    = {359342},
+  Address                  = {New York, NY, USA},
+  Doi                      = {10.1145/359340.359342},
+  File                     = {Article:home/puys/verimag/general/doc/security/RSA78.pdf:PDF},
+  ISSN                     = {0001-0782},
+  Issue_date               = {Feb. 1978},
+  Keywords                 = {authentication, cryptography, digital signatures, electronic funds transfer, electronic mail, factorization, message-passing, prime number, privacy, public-key cryptosystems, security},
+  Numpages                 = {7},
+  Publisher                = {ACM},
+  Url                      = {https://people.csail.mit.edu/rivest/Rsapaper.pdf}
+}
+
 @InCollection{SR08,
   Title                    = {Verification of Integrity and Secrecy Properties of a Biometric Authentication Protocol},
   Author                   = {Salaiwarakul, A. and Ryan, M.D.},
@@ -900,12 +1646,49 @@
   Url                      = {http://dx.doi.org/10.1007/978-3-540-79104-1_1}
 }
 
+@InCollection{SV07,
+  Title                    = {Optimistic non-repudiation protocol analysis},
+  Author                   = {Santiago, Judson and Vigneron, Laurent},
+  Booktitle                = {Information security Theory and practices. Smart cards, Mobile and ubiquitous computing systems},
+  Publisher                = {Springer},
+  Year                     = {2007},
+  Pages                    = {90--101},
+
+  Abstract                 = {Non-repudiation protocols with session labels have a number of vulnerabilities. Recently Cederquist, Corin and Dashti have proposed an optimistic non-repudiation protocol that avoids altogether the use of session labels. We have specified and analysed this protocol using an extended version of the AVISPA Tool and one important fault has been discovered. We describe the protocol, the analysis method, show two attack traces that exploit the fault and propose a correction to the protocol.},
+  Doi                      = {10.1007/978-3-540-72354-7_8},
+  File                     = {Article:home/puys/verimag/general/doc/non-repudiation/SV07.pdf:PDF},
+  Url                      = {http://dx.doi.org/10.1007/978-3-540-72354-7_8}
+}
+
+@InProceedings{SV05,
+  Title                    = {Study for Automatically Analysing Non-repudiation},
+  Author                   = {Santiago, Judson Santos and Vigneron, Laurent},
+  Booktitle                = {1er Colloque sur les Risques et la S{\'e}curit{\'e} d'Internet et des Syst{\`e}mes-CRiSIS 2005},
+  Year                     = {2005},
+  Pages                    = {157--171},
+
+  Abstract                 = {While security issues such as secrecy and authentication have been studied intensively, most interest in non-repudiation protocols has only come in recent years. Non-repudiation services must ensure that when two parties exchange informations over a network, neither one nor the other can deny having participated in this communication. Consequently a non-repudiation protocol has to generate evidences of participation to be used in the case of a dispute. In this paper, we present a description of non-repudiation services, and illustrate them on the Fair Zhou-Gollmann protocol. Then we show how to define non-repudiation properties with the AVISPA tool and explain how they can be automatically verified.},
+  File                     = {Article:home/puys/verimag/general/doc/non-repudiation/SV05.pdf:PDF},
+  Url                      = {https://hal.inria.fr/inria-00000607/}
+}
+
+@Article{SH01,
+  Title                    = {SPEAR II--The Security Protocol Engineering and Analysis Resource},
+  Author                   = {Saul, Elton and Hutchison, Andrew},
+  Year                     = {1999},
+
+  Abstract                 = {Multi-dimensional security protocol engineering is effective in creating cryptographic protocols since it encompasses a variety of analysis techniques, thereby providing a higher security confidence than individual approaches. SPEAR, the Security Protocol Engineering and Analysis Resource, was a protocol engineering tool which focused on cryptographic protocols, with the specific aims of enabling secure and efficient protocol designs and support for the production process of implementing security protocols. The SPEAR II tool is a continuation of the highly successful SPEAR project and aims to build on the foundation laid by SPEAR. SPEAR II provides more advanced multidimensional support than SPEAR, enabling protocol specification via a graphical user interface, automated security analysis that applies a number of well-known analysis methods, performance reporting and evaluation, meta-execution and automated code generation.},
+  File                     = {Article:home/puys/verimag/general/doc/verif/SH01.pdf:PDF},
+  Publisher                = {Citeseer},
+  Url                      = {http://pubs.cs.uct.ac.za/archive/00000128/01/saul1999_SPEAR_SATNAC.pdf}
+}
+
 @InProceedings{SMCB12,
   Title                    = {Automated Analysis of Diffie-Hellman Protocols and Advanced Security Properties},
   Author                   = {Schmidt, B. and Meier, S. and Cremers, C. and Basin, D.},
   Booktitle                = {Computer Security Foundations Symposium (CSF), 2012 IEEE 25th},
   Year                     = {2012},
-  Month                    = {June},
+  Month                    = Jun,
   Pages                    = {78-94},
 
   Doi                      = {10.1109/CSF.2012.25},
@@ -921,7 +1704,7 @@
   Journal                  = {Software Engineering, IEEE Transactions on},
   Year                     = {1998},
 
-  Month                    = {Sep},
+  Month                    = Sep,
   Number                   = {9},
   Pages                    = {741-758},
   Volume                   = {24},
@@ -933,6 +1716,111 @@
   Keywords                 = {communicating sequential processes;formal verification;message authentication;protocols;public key cryptography;CSP;Communicating Sequential Processes;Needham-Schroeder protocol;authentication protocol verification;public key protocol;semantic framework;Authentication;Computer Society;Digital signatures;IEC standards;ISO standards;Logic;Protocols;Public key;Security},
   Timestamp                = {2015.03.05},
   Url                      = {http://dx.doi.org/10.1109/32.713329}
+}
+
+@Misc{DZNetwork14,
+  Title                    = {DZ-NETWORK},
+
+  Author                   = {SECLAB-FR},
+  HowPublished             = {Agence nationale de la sécurité des systèmes d'information},
+  Month                    = Jun,
+  Year                     = {2014},
+
+  Timestamp                = {2016.04.04}
+}
+
+@Misc{DESIRE10,
+  Title                    = {Dispositif d'échange sécurisé d'informations sans interconnexion réseau (DESIIR) v1.0},
+
+  Author                   = {EDF R\&D - Département SINETICS},
+  HowPublished             = {Agence nationale de la sécurité des systèmes d'information},
+  Month                    = Apr,
+  Year                     = {2010},
+
+  Timestamp                = {2016.04.04}
+}
+
+@Misc{Ste07,
+  Title                    = {Stream Control Transmission Protocol},
+
+  Author                   = {Stewart, R.},
+  HowPublished             = {IETF RFC 4960},
+  Month                    = Sep,
+  Year                     = {2007},
+
+  Url                      = {https://www.ietf.org/rfc/rfc4960.txt}
+}
+
+@Article{SFS11,
+  Title                    = {Guide to industrial control systems (ICS) security},
+  Author                   = {Stouffer, Keith and Falco, Joe and Scarfone Karen},
+  Journal                  = {NIST special publication},
+  Year                     = {2011},
+
+  Month                    = Jun,
+  Number                   = {82},
+  Pages                    = {16--16},
+  Volume                   = {800},
+
+  File                     = {Guide:home/puys/verimag/general/doc/scada/SFS11.pdf:PDF},
+  Url                      = {http://csrc.nist.gov/publications/nistpubs/800-82/SP800-82-final.pdf}
+}
+
+@InProceedings{Tur06,
+  Title                    = {{T}he {CL}-{A}tse {P}rotocol {A}nalyser},
+  Author                   = {{T}uruani, {M}athieu},
+  Booktitle                = {17th {I}nternational {C}onference on {T}erm {R}ewriting and {A}pplications - {RTA} 2006 {L}ecture {N}otes in {C}omputer {S}cience },
+  Year                     = {2006},
+  Editor                   = {{F}rank {P}fenning },
+  Month                    = Aug,
+  Pages                    = {277--286 },
+  Publisher                = {{S}pringer },
+  Series                   = {LNCS},
+  Volume                   = {4098 },
+
+  Abstract                 = {This paper presents an overview of the CL-Atse tool, an efficient and
+versatile automatic analyser for the security of cryptographic protocols. CL-Atse
+takes as input a protocol specified as a set of rewriting rules (IF format, produced
+by the AVISPA compiler), and uses rewriting and constraint solving techniques
+to model all reachable states of the participants and decide if an attack exists w.r.t.
+the Dolev-Yao intruder. Any state-based security property can be modelled (like
+secrecy, authentication, fairness, etc...), and the algebraic properties of operators
+like xor or exponentiation are taken into account with much less limitations than
+other tools, thanks to a complete modular unification algorithm. Also, useful constraints
+like typing, inequalities, or shared sets of knowledge (with set operations
+like removes, negative tests, etc...) can also be analysed.},
+  Xaddress                 = {Seattle, USA}
+}
+
+@Misc{Snort,
+  Title                    = {Snort: Open Source Network Intrusion Prevention System},
+
+  Author                   = {Snort Team},
+  HowPublished             = {https://www.snort.org},
+  Month                    = Apr,
+  Year                     = {2016},
+
+  Timestamp                = {2016.04.04}
+}
+
+@Misc{TOFINO,
+  Author                   = {TOFINO-Security},
+  Note                     = {https://www.tofinosecurity.com/},
+
+  Timestamp                = {2016.02.16},
+  Url                      = {https://www.tofinosecurity.com/}
+}
+
+@Article{WWSY15,
+  Title                    = {The Study of Security Issues for the Industrial Control Systems Communication Protocols},
+  Author                   = {Wanying, Qu and Weimin, Wei and Surong, Zhu and Yan, Zhao},
+  Journal                  = {Joint International Mechanical, Electronic and Information Technology Conference (JIMET 2015)},
+  Year                     = {2015},
+
+  Abstract                 = {With the depth integration of informatization and industrialization and the rapid development of the Internet, the industrial control systems (ICS) communication protocols’ risks have become increasingly prominent. This paper firstly analyzes the security issues of the current mainstream industrial control systems communication protocols, such as Modbus, DNP3 and OPC. Then the security recommendations are raised against such issues. The safety of the whole industrial control network can be improved by improving the security of communication protocols.},
+  Doi                      = {10.2991/jimet-15.2015.129},
+  File                     = {Article:home/puys/verimag/general/doc/scada/WWSY15.pdf:PDF},
+  Url                      = {http://www.atlantis-press.com/php/download_paper.php?id=25843845}
 }
 
 @Book{Wil91,
@@ -948,7 +1836,7 @@
   Journal                  = {Computer},
   Year                     = {2004},
 
-  Month                    = {June},
+  Month                    = Jun,
   Number                   = {6},
   Pages                    = {62-67},
   Volume                   = {37},
@@ -968,7 +1856,7 @@
   Journal                  = {J. Netw. Comput. Appl.},
   Year                     = {1997},
 
-  Month                    = jul,
+  Month                    = Jul,
   Number                   = {3},
   Pages                    = {267--281},
   Volume                   = {20},
