@@ -94,7 +94,7 @@
     via des réseaux vulnérables tels qu’Internet.
     Régissant de nos jours des domaines tels que la production et la
     distribution d'énergie, l'assainissement des eaux ou le nucléaire, la
-    sécurité des systèmes industriel devient une priorité pour les gouvernements.
+    sécurité des systèmes industriels devient une priorité pour les gouvernements.
     L'une des difficultés de la sécurisation des infrastructures industrielles est
     la conciliation des propriétés de sécurité avec les attendus métiers en
     terme de flux.
@@ -112,12 +112,11 @@
 
 De plus en plus d'attaques informatiques contre les systèmes industriels sont
 présentées par les médias.
-Ces systèmes tendent à devenir géographiquement distribués et communiquer via
+Ces systèmes tendent à devenir géographiquement distribués et à communiquer via
 des réseaux vulnérables tels qu'Internet.
 Depuis son apparition, l'informatique industrielle a toujours été physiquement
 isolée du reste du monde.
-Les attaques nécessitaient donc d'être présent sur le site et étaient peu
-probables.
+Les attaques nécessitaient d'être présent sur le site et étaient peu probables.
 L'industrie a donc préféré se focaliser sur la protection contre les risques
 naturels et les erreurs de manipulation, appelée {\em sûreté}~\cite{Pie10,PS09,
 IAEA96}.
@@ -125,30 +124,30 @@ La particularité de la sécurité informatique face à la sûreté est la volon
 de nuire de l'attaquant, doublée de sa capacité à réfléchir et à apprendre de
 ses erreurs, suivant ainsi l'état de l'art de la sécurité informatique.
 Aujourd'hui, ces systèmes régissent aussi bien la production et la distribution
-d'énergie, l'assainissement des eaux ou le nucléaire et il apparaît que leur
-protection contre les attaques informatiques devient une priorité des agences
-gouvernementales avec notamment la sécurisation des opérateurs d'importance
-vitale~\cite{Leg07_oiv}, détaillée dans le Livre blanc sur la défense and la
-sécurité nationale (édition de 2008~\cite{LivreBlanc08} puis de
-2013~\cite{LivreBlanc13}).
+d'énergie, l'assainissement des eaux ou le nucléaire.
+Il apparaît que leur protection contre les attaques informatiques devient une
+priorité des agences gouvernementales avec notamment la sécurisation des
+opérateurs d'importance vitale~\cite{Leg07_oiv}, détaillée dans le Livre blanc
+sur la défense et la sécurité nationale (édition de 2008~\cite{LivreBlanc08}
+puis de 2013~\cite{LivreBlanc13}).
 
 L'une des difficultés de la sécurisation des infrastructures industrielles est la
 conciliation des propriétés de sécurité avec les attendus métiers en terme de
 flux, parfois en adéquation mais aussi parfois antagonistes~\cite{Pie10}.
 Pour ce faire, la section \ref{sec:contribs} détaille trois axes :
-(i) le filtrage des messages en tenant compte des aspects métiers, (ii) la
+(i) le filtrage des messages tenant compte des aspects métiers, (ii) la
 vérification formelle des propriétés des protocoles de communication industriels,
 (iii) un approche {\em Model-Based Testing} pour décrire les attaques
 informatiques contre les systèmes industriels en fonction de paramètres tels que
-les objectifs, les capacités des attaquants et leur positions dans une
+les objectifs, les capacités des attaquants et leur position dans une
 architecture réseau.
-Enfin la section \ref{sec:concl} conclue.
+Enfin la section \ref{sec:concl} conclut.
 
 \section{Contributions}\label{sec:contribs}
 
 Cette section propose trois axes pour la sécurisation des infrastructures
-industrielles, s'intéressant à différents niveaux d'abstraction afin de se
-rapprocher d'une sécurité de bout en bout.
+industrielles, s'intéressant à différents niveaux d'abstraction de sécurité
+et qui devraient être intégrés dans une approche de bout en bout.
 
 \subsection{Filtrage des communications}\label{sec:aramis}
 
@@ -166,20 +165,20 @@ système existant.
 %extérieur ou internes.
 %La figure \ref{fig:aramis} montre le placement du dispositif \aramis{} dans un
 %système industriel.
-La majeur partie des communications se résument à des requêtes envoyées par des
+La majeure partie des communications se résument à des requêtes envoyées par des
 clients vers des systèmes SCADA (système de contrôle et d'acquisition de données
 à grande échelle).
 Cependant, les protocoles plus récents proposent des services plus complexes
 tels que la découverte interactive des composants du serveur ou la demande
 d'historique des commandes.
-Afin de palier aux attaques portant sur la couche réseaux, tous les messages
+Afin de palier les attaques portant sur la couche réseaux, tous les messages
 sont interprétés puis transformés dans une langage intermédiaire.
 Cette conversion des protocoles de communication en un format commun permet
 d'effectuer un filtrage applicatif en prenant en compte les besoins liés au
 corps de métier du système industriel à protéger.
 Ainsi, ce filtrage peut prendre plusieurs formes incluant :
 \begin{itemize}
-    \item La vérification des identités des clients et serveurs communiquants
+    \item La vérification des identités des clients et serveurs communiquant
         entre eux,
     \item La vérification des permissions d'accès des clients aux différentes
         variables des serveurs,
@@ -189,16 +188,16 @@ Ainsi, ce filtrage peut prendre plusieurs formes incluant :
         messages précédents.
         Ce type de filtrage peut par exemple empêcher l'ouverture d'un
         disjoncteur déjà ouvert.
-        Cependant, il ne garantit qu'une décision locale dépendant de sa
-        connaissance de l'état du système.
 \end{itemize}
 
+Comme tout filtrage local, il ne garantit qu'une décision dépendant de sa
+connaissance de l'état du système.
 Enfin, les systèmes industriels acceptant une latence maximale de l'ordre du
 centième de seconde, le filtrage doit être pensé pour une efficacité maximale.
 Cela passe par l'utilisation de structures de données possédant une faible 
-complexité d'accès ou de recherche tels que des tables de hashages ou des
+complexité d'accès ou de recherche tels que des tables de hashage ou des
 B-Arbres~\cite{Bay71}.
-De plus, des analyses de pire temps d'exécution pourraient assurer le respect
+De plus, des analyses de pire temps d'exécution devraient assurer le respect
 des contraintes temporelles.
 
 %\begin{figure}
@@ -231,25 +230,24 @@ tester la sécurité tels que : \avispa~\cite{AVISPA05}%
 , \tamarin~\cite{MSCB13}, \scyther~\cite{Cre08}, \proverif~\cite{Bla01}.
 Ces outils considèrent un intrus dit de Dolev-Yao \cite{DY81} qui contrôle le
 réseau, espionne, stoppe, forge, modifie, entrelace ou rejoue des messages en
-utilisant la connaissance des messages qu'ils appris précédemment.
+utilisant la connaissance des messages qu'il a appris précédemment.
 Il est alors possible de spécifier des propriétés telles que l'{\em intégrité
 d'origine} (le plus souvent assurée par des mécanismes d'authentification) et la
 {\em confidentialité}.
 La première propriété signifie qu'un participant est convaincu qu'il parle avec
-un autre.
-Le secret assure qu'un agent non autorisé (y compris l'intrus) n'accède pas au
-message désigné.
+un participant bien identifié.
+La confidentialité assure qu'un agent (y compris l'intrus) n'accède qu'aux
+messages qui lui sont destinés.
 Enfin, les outils se basent sur l'hypothèse du chiffrement parfait, selon
 laquelle il n'est pas possible de déchiffrer un message sans la chef de
 chiffrement ou d'usurper une signature.
 
-Les protocoles de communication des systèmes industriels tels que \opcua (futur
-standard des communications industrielles) n'ont jamais été vérifiés de cette
-façon.
-Nous proposons donc tester formellement la sécurité de ces protocoles et
-travaillons notamment à la vérification des sous-protocoles {\em OpenSecureChannel}
-et {\em CreateSession}, intervenant dans le {\em handshake} d'\opcua à l'aide de
-l'outil \proverif.
+Les protocoles de communication des systèmes industriels tels que
+\opcua~\cite{MLD09} (futur standard des communications industrielles) n'ont
+jamais été vérifiés de cette façon.
+Nous proposons donc de tester formellement la sécurité de ces protocoles et
+notamment les sous-protocoles {\em OpenSecureChannel} et {\em CreateSession},
+intervenant dans le {\em handshake} d'\opcua, à l'aide de l'outil \proverif.
 % à l'aide
 %d'outils de vérification de protocoles.
 %En violant le secret, un intrus pourrait compromettre une clef de chiffrement,
@@ -259,12 +257,12 @@ l'outil \proverif.
 %pour un client aux yeux d'un serveur.
 %Ce scénario gravissime autoriserait l'intrus à lancer des commandes ayant un
 %réel impact sur le monde extérieur.
-Enfin, il est difficulté principale d'appliquer ce type d'approche aux protocoles
-industriels cars ils s'intéressent plus à la {\em disponibilité} et à 
+Enfin, la difficulté d'appliquer ce type d'approche aux protocoles industriels
+repose sur le fait qu'ils s'intéressent plus à la {\em disponibilité} et à 
 l'{\em intégrité des messages} qu'à l'{\em intégrité d'origine} et la
 {\em confidentialité}.
-Ainsi nous travaillons également à la spécification de l'intégrité des message
-à l'aide de l'outil \tamarin.
+L'expression de ces propriétés dans les langages des outils est donc un défi
+important.
 
 \subsection{Modèles d'attaques}\label{sec:models}
 
@@ -275,10 +273,10 @@ Ainsi nous travaillons également à la spécification de l'intégrité des mess
 
 Enfin, nous nous intéressons à la mise en place d'un modèle générique permettant
 de produire des scénarios d'attaques informatiques contre les systèmes industriels.
-Cette phase d'analyse vise à être inclue dans une approche globale allant de la
+Cette phase d'analyse vise à être incluse dans une approche globale allant de la
 modélisation du système à la production automatique des paquets réseau
 implémentant et testant les attaques identifiées.
-Cette approche {\em Model-Based Testing} a donc pour objectif de vérifier si les
+Cette approche {\em Model-Based Testing} aura pour objectif de vérifier si les
 attaques trouvées par l'analyse de la modélisation sont  effectivement jouables
 sur une plate-forme, voir de quantifier leur plausibilité.
 La figure \ref{fig:metho} illustre la méthodologie que nous voulons développer.
@@ -293,10 +291,10 @@ La figure \ref{fig:metho} illustre la méthodologie que nous voulons développer
 \end{figure}
 
 En partant d'une modélisation de l'infrastructure du système industriel et des
-sécurités pouvant être présentes sur celui-ci (\ex des protocoles de
+protections pouvant être présentes sur celui-ci (\ex des protocoles de
 communication sécurisés), nous sommes en mesure de produire des suites d'actions
 à réaliser par un attaquant pour atteindre un objectif.
-Ces actions sont ensuite concrétisés en paquets réseaux à l'aide d'une
+Ces actions sont ensuite concrétisées en paquets réseaux à l'aide d'une
 bibliothèque décrivant comment implémenter les vecteurs 
 pour chaque protocole (\ex comment modifier un paquet \opcua, ou comment
 outrepasser l'authentification d'un serveur SCADA).
@@ -306,17 +304,16 @@ de la logique applicative de la plate-forme.
 \section{Conclusion}\label{sec:concl}
 
 En conclusion, cet article explique le filtrage au sein du dispositif \aramis.
-Il aborde ensuite l'application d'outils de vérifications de protocoles
-cryptographiques aux protocoles de communications industriels.
+Il aborde ensuite l'application d'outils de vérification de protocoles
+cryptographiques aux protocoles de communication industriels.
 Enfin il propose une approche {\em Model-Based Testing} permettant de jouer
 des attaques obtenues à l'aide de l'analyse d'une modélisation du système.
 Ces trois axes, présentés dans la figure \ref{fig:thesis} sont complémentaires.
 En effet, l'approche modèles d'attaques est une approche globale dépendant de
-divers paramètres incluant notamment les propriétés de sécurité offertes par les
+différents paramètres incluant notamment les propriétés de sécurité offertes par les
 protocoles de communication.
-Or cette approche ne peut être pertinente si ces propriétés ne sont pas vérifiée
-à l'aide de méthodes formelles.
-Enfin, le dispositif \aramis étant développé dans le cadre d'un projet industriel,
+Or cette approche ne peut être pertinente que si ces propriétés sont prouvées.
+Enfin, le filtre \aramis étant développé dans le cadre d'un projet industriel,
 il est alors possible de tester sa capacité à bloquer des attaques à l'aide
 de notre approche de modélisation.
 
