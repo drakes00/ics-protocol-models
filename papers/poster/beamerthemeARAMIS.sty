@@ -1,0 +1,115 @@
+\RequirePackage{textcomp}
+
+\mode<presentation>
+\definecolor{sectionColor}{RGB}{153,204,255}
+\definecolor{subsectionColor}{RGB}{0,0,102}
+\definecolor{sectionTextColor}{RGB}{0,0,0}
+\definecolor{subsectionTextColor}{RGB}{255,255,255}
+\definecolor{leftFootlineColor}{RGB}{0,102,255}
+\definecolor{middleFootlineColor}{RGB}{51,153,255}
+\definecolor{rightFootlineColor}{RGB}{102,204,255}
+\definecolor{authorColor}{RGB}{0,0,0}
+\definecolor{footlineTitleColor}{RGB}{0,0,0}
+\definecolor{instituteColor}{RGB}{0,0,0}
+\definecolor{dateColor}{RGB}{0,0,0}
+\definecolor{pageColor}{RGB}{0,0,0}
+\definecolor{titleColor}{RGB}{102,153,255}
+\definecolor{titleTextColor}{RGB}{0,0,0}
+%\setbeamercolor{headline}{fg=titleTextColor,bg=titleColor}
+%\setbeamercolor{footline}{fg=titleTextColor,bg=titleColor}
+\definecolor{bodyColor}{RGB}{255,255,255}
+\definecolor{normalTextColor}{RGB}{0,0,0}
+\definecolor{exampleTextColor}{RGB}{51,153,51}
+\definecolor{alertTextColor}{RGB}{204,51,51}
+\definecolor{chipColor}{RGB}{0,102,153}
+\definecolor{chipTextColor}{RGB}{255,255,255}
+\definecolor{normalBlockColor}{RGB}{253,253,253}
+%\definecolor{normalTitleBlockColor}{RGB}{55,96,146}
+\colorlet{normalTitleBlockColor}{blue!20}
+\definecolor{normalBlockTextColor}{RGB}{0,0,0}
+%\definecolor{normalBlockTitleTextColor}{RGB}{255,255,255}
+\definecolor{normalBlockTitleTextColor}{RGB}{0,0,0}
+\definecolor{exampleBlockColor}{RGB}{204,255,204}
+\definecolor{exampleTitleBlockColor}{RGB}{0,153,0}
+\definecolor{exampleBlockTextColor}{RGB}{255,255,255}
+\definecolor{exampleBlockTitleTextColor}{RGB}{255,255,255}
+\definecolor{alertBlockColor}{RGB}{255,255,204}
+%\definecolor{alertTitleBlockColor}{RGB}{207,192,28}
+\colorlet{alertTitleBlockColor}{red!50}
+\definecolor{alertBlockTextColor}{RGB}{255,255,255}
+\definecolor{alertBlockTitleTextColor}{RGB}{255,255,255}
+\setbeamercolor{section in head/foot}{bg=sectionColor, fg=sectionTextColor}
+%\setbeamercolor{lower separation line head}{bg=normalTitleBlockColor}
+%\setbeamercolor{upper separation line foot}{bg=normalTitleBlockColor}
+\setbeamercolor{subsection in head/foot}{bg=subsectionColor, fg=subsectionTextColor}
+\setbeamercolor*{block title}{fg=normalBlockTitleTextColor,bg=normalTitleBlockColor}
+\setbeamercolor*{block body}{fg=normalBlockTextColor,bg=normalBlockColor}
+\setbeamercolor*{block title alerted}{fg=alertBlockTitleTextColor,bg=alertTitleBlockColor}
+\setbeamercolor*{block body alerted}{fg=alertBlockTextColor,bg=alertBlockColor}
+\setbeamercolor*{block title example}{fg=exampleBlockTitleTextColor,bg=exampleTitleBlockColor}
+\setbeamercolor*{block body example}{fg=exampleBlockTextColor,bg=exampleBlockColor}
+\setbeamerfont{block title}{size={}}
+\setbeamercolor{titlelike}{fg=titleTextColor,bg=titleColor}
+\setbeamercolor*{normal text}{fg=normalTextColor,bg=bodyColor}
+\setbeamercolor*{example text}{fg=exampleTextColor}
+\setbeamercolor*{alerted text}{fg=alertTextColor}
+\useinnertheme[shadow=true]{rounded}
+\setbeamercolor{item projected}{bg=chipColor,fg=chipTextColor}
+\setbeamertemplate{headline}{
+     \begin{beamercolorbox}[wd=\textwidth]{headline}
+        \vskip2em\centering
+
+         \usebeamercolor{title in headline}
+         {\color{fg}\bf\setlength{\lineskip}{30pt}
+    \protect\fontsize{72pt}{72pt}\protect\selectfont
+             \inserttitle\\[1ex]}
+
+             \usebeamercolor{author in headline}
+             {\color{fg}\Large\insertauthor\\[1ex]}
+             \usebeamercolor{institute in headline}
+	     {\color{fg}\setlength{\lineskip}{5pt}\normalsize\insertinstitute}
+  \end{beamercolorbox}
+  
+  \begin{beamercolorbox}[wd=\paperwidth]{lower separation line head}
+    \rule{0pt}{1em}
+  \end{beamercolorbox}
+ 
+    }
+\setbeamercolor{author in head/foot}{bg=leftFootlineColor, fg=authorColor}
+\setbeamercolor{title in head/foot}{bg=middleFootlineColor, fg=footlineTitleColor}
+\setbeamercolor{institute in head/foot}{fg=instituteColor}
+\setbeamercolor{date in head/foot}{bg=rightFootlineColor, fg=dateColor}
+\setbeamertemplate{footline}{
+    \begin{columns}[t]
+        \begin{column}{.3\paperwidth}
+            \begin{center}
+                \includegraphics[height=10em]{assets/logo_pia}
+            \end{center}
+        \end{column}
+        \begin{column}{.3\paperwidth}
+            \begin{center}
+                \includegraphics[height=10em]{assets/logo_verimag}
+            \end{center}
+        \end{column}
+        \begin{column}{.3\paperwidth}
+            \begin{center}
+                \includegraphics[height=10em]{assets/logo_uga}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \par\vskip2ex
+    \begin{beamercolorbox}[wd=\paperwidth]{upper separation line foot}
+        \rule{0pt}{.5em}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[wd=\paperwidth]{footline}
+        \hspace{5em}\usebeamercolor{author in footline}
+        {\vspace{1ex}\footnotesize
+        \begin{center}\textbf{ARAMIS}: PIA FSN AAP Sécurité Numérique \textnumero 3 Architecture Robuste pour les Automates et Mat\'eriels des Infrastructures Sensibles (P3342-146798).\end{center}
+        }
+     
+        \par\vskip1ex
+   \end{beamercolorbox}
+
+}
+\mode
+<all>

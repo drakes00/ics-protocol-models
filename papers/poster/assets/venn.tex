@@ -1,0 +1,17 @@
+\def\rectangle{(-1.5,-4.5) rectangle (12,5.25)}
+\def\secondcircle{(0:15.75) ellipse (6 and 4.5)}
+\def\thridcircle{(0:-5.25) ellipse (6 and 4.5)}
+\def\fourthcircle{(0:5.25) ellipse (6.75 and 3)}
+
+\begin{tikzpicture}
+    \draw \rectangle node at (5.25,4) {Industrial systems};
+    \draw \secondcircle node {\Cybersec};
+    \draw \thridcircle node {Safety};
+    \draw \fourthcircle node [align=center]{Industrial \\ systems \\ \cybersec};
+    \begin{scope}[fill opacity=0.25]
+        \fill[blue]   \rectangle;
+        \fill[red]    \secondcircle;
+        \fill[green]  \thridcircle;
+        \fill[yellow] \fourthcircle;
+    \end{scope}
+\end{tikzpicture}
