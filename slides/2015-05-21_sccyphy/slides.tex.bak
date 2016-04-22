@@ -1,0 +1,284 @@
+\documentclass{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage{inputenc}
+
+\usepackage{amsmath}
+\usepackage{listings}
+\lstset{
+  basicstyle=\footnotesize,
+  language=Caml,
+  showstringspaces=false,
+}
+
+
+\usetheme{Boadilla}
+\usecolortheme{dolphin}
+\useoutertheme{infolines}
+
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+
+\newcommand{\TODO}{{\color{red}\bf [TODO]}}
+\graphicspath{ {assets/} }
+
+
+\title[Certified filters for control systems]{Certified filters generation process for control systems}
+\author[Maxime Puys]{Maxime Puys\\Supervisors: Marie-Laure Potet, Jean-Louis Roch}
+\date{May 21, 2015}
+
+
+\begin{document}
+
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\begin{frame}
+    \frametitle{Short introduction}
+
+    \begin{itemize}
+        \item Master 2 SAFE:
+        \begin{itemize}
+            \item Aprenticeship in SAFRAN Morpho on faults attacks against smart cards.
+        \end{itemize}
+            \vfill
+        \item Magister in computer science:
+        \begin{itemize}
+            \item Internship in Verimag also on faults attacks against smart cards.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{ARAMIS Project 1/2}
+
+    \begin{itemize}
+        \item My PhD is funded through PIA S\'ecurit\'e Num\'erique ARAMIS (2014-2018) : Architecture Robuste pour les Automates et Mat\'eriels des Infrastructures Sensibles.
+            \vfill
+        \item Partners: ATOS World Grid, SecLab, CEA-leti, SCCyPhy.
+            \vfill
+        \item Objectives:
+        \begin{enumerate}
+            \item Define security requirements for industrial system's cyber-security.
+            \item Building a module providing protocol break and applicative filtering.
+        \end{enumerate}
+            \vfill
+        \item Other PhD students working on the project: Nicolas Kox, Jean-Baptiste Orfila and Emmanuel Perrier.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{ARAMIS Project 2/2}
+
+    \begin{figure}[htb]
+        \centering
+        \includegraphics[scale=.5]{model1} % remplacer machine par PLC, remplacer titre
+    \end{figure}
+    \vfill
+    \vspace{-3em}
+    \begin{itemize}
+        \item I will participate within three parts:
+        \begin{itemize}
+            \item Security requirements
+            \item Applicative filtering,
+            \item Certification process.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Industrial systems}
+
+    \begin{itemize}
+        \item Present differences with traditional systems:
+            \vfill
+        \begin{itemize}
+            \item Realy long-term installations, hard to patch, lot of legacy hosts.
+                \vfill
+            \item Almost always fixed network adressing (no DHCP).
+                \vfill
+            \item Insert a new component should not imply to modify existing devices.
+                \vfill
+            \item Industrial protocols, often proprietary.
+                \vfill
+            \item Security objectives are different from traditional systems:
+            \begin{itemize}
+                \item For audibility reasons and sometime performance, confidentiality is often avoided.
+                \item Disponibility, authentication, integrity and non-repudiation are however very important.
+            \end{itemize}
+                \vfill
+            \item Industrial systems usely implement safety be rarely security.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+%\begin{frame}
+%    \frametitle{Industrial systems 2/2}
+%
+%    \begin{itemize}
+%        \item Industrial protocols can be divided in two categories:
+%            \vfill
+%        \begin{itemize}
+%            \item {\em Low-level}: Hardly no security at all, used to READ/WRITE in registers (e.g.: MODBUS, FTP)
+%                \vfill
+%            \item {\em High-level}: Tend to web-services, object oriented, more complexe function such as remote calls (e.g.: OPC-UA)
+%        \end{itemize}
+%    \end{itemize}
+%\end{frame}
+
+\begin{frame}
+    \frametitle{Security requirements}
+
+    \begin{itemize}
+        \item Reflection on attack models:
+        \begin{itemize}
+            \item Where could an intruder be?
+            \item What is he able to do?
+            \item Propose mitigation solutions.
+        \end{itemize}
+    \end{itemize}
+    \vspace{-3em}
+    \begin{figure}[htb]
+        \centering
+        \includegraphics[scale=.7]{generic}
+        \caption{Generic architecture}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Applicative filtering}
+
+    \begin{itemize}
+        \item Three types of filters will appear within the module:
+        \begin{itemize}
+            \item Firewall (e.g.: 10.0.1 can speak with 1.0.0.2).
+            \item Protocol: with check for malformed frames.
+            \item {\bf Applicative: Semantic filtering}.
+        \end{itemize}
+    \end{itemize}
+    \vfill
+    \begin{itemize}
+        \item Industrial protocols: Mostly READ/WRITE of registers.
+        \begin{itemize}
+            \item Blacklist/Whitelist of registers: R5 on 10.0.0.1 is read-only.
+            \item Regular expressions: R5 on 10.0.0.1 and R1 on 1.0.0.2 should never be True at the same time.
+            \item Temporal expressions: 10.0.0.1 and 1.0.0.2 should can speak together only between 9AM and 9PM.
+            \item Security expressions: 10.0.0.1 and 10.0.0.2 should authenticate each other.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Protocol analysis}
+
+    \begin{itemize}
+        \item Objective: Establish a benchmark of all protocols analysers that we know about dealing with algebraic properties
+        \begin{itemize}
+            \item Obtain timings and memory usage on a variety of protocols (including well known such as SSH or IKEv2)
+            \item Be able to explain the results of each tool depending on the parameters of each protocols %(number of participants, transitions, exclusive-ors, Diffie-Hellman exponentiations, ...)
+        \end{itemize}
+            \vfill
+        \item Within my thesis: develop skills in modelization using various tools
+        \begin{itemize}
+            \item Helpful to provide and test attack scenarios on our model
+            \item Could prove the robustness of ad-hoc protocols if some are constructed within ARAMIS
+            \item Could help secure weak industrial protocols
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Non-repudiation}
+    
+    \begin{itemize}
+        \item In 2009, Vigneron et al. proposed a fair non-repudiation protocol using a smartcard on the receiver side.
+            \vfill
+        \begin{itemize}
+            \item Given the particularities of industrial systems, we have the intuition that it can be lightened
+                \vfill
+            \item More precisely, we propose to allow the protocol to authenticate the originator instead of the sender.
+                \vfill
+            \item As a trade of, it would drop the secrecy of the message.
+        \end{itemize}
+        %    \vfill
+        %\item Reflexions started quite lately
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Certification using formal methods}
+
+    \begin{columns}[c]
+        \begin{column}{.4\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[scale=.5]{levels}
+                \caption{Language levels}
+            \end{figure}
+        \end{column}
+        \begin{column}{.6\textwidth}
+            \begin{itemize}
+                \item Formalize security objectives:
+                    \vfill
+                \begin{itemize}
+                    \item Lot of works on secrecy, authentication, integrity of messages
+                        \vfill
+                    \item Lack of formalization with more general objectives (filtering policy, integrity of the configuration, flow analysis)
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Conclusion}
+
+    \begin{itemize}
+        \item Scientific challenges:
+        \begin{itemize}
+            \item Associate safety and security within industrial systems.
+            \item Acheive end-to-end security (verifying the system and its environment)
+        \end{itemize}
+            \vfill
+        \item Technical challenges: 
+        \begin{itemize}
+            \item Filtering language (should be usable by industry profesionals).
+            \item Performance constraints.
+            \item Secure coding.
+        \end{itemize}
+            \vfill
+        \item Industrial challenges: 
+        \begin{itemize}
+            \item No modification to existing devices.
+        \end{itemize}
+            \vfill
+        \item Attendance at meetings, contact with insiders.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Conclusion}
+
+    \begin{center}
+        Thank you for your attention
+    \end{center}
+\end{frame}
+
+\end{document}

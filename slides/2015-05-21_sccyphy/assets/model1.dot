@@ -1,0 +1,32 @@
+digraph {
+    node [shape="record"];
+    graph [label="ARAMIS",rankdir="LR"];
+    edge [color="red"];
+
+    op1 [label="Operator1"];
+    op2 [label="Operator2"];
+    op3 [label="Operator3"];
+
+    i [label="Intruder"];
+
+    aramis [label="Aramis module"];
+
+    m1 [label="PLC1"];
+    m2 [label="PLC2"];
+    m3 [label="PLC3"];
+
+    op1 -> i;
+    op2 -> i;
+    op3 -> i;
+
+    i -> aramis;
+
+    subgraph cluster_0 {
+        graph [color="grey",style="dashed",label="Safe zone"];
+        edge [color="green"];
+
+        aramis -> m1;
+        aramis -> m2;
+        aramis -> m3;
+    }
+}

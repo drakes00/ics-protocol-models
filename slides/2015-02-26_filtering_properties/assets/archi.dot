@@ -1,0 +1,18 @@
+digraph {
+    node [shape="box"];
+    rankdir="BT";
+
+    cpu1 [pos="0,70",label="CPU1"];
+    fpga [pos="120,70",label="FPGA"];
+    cpu2 [pos="240,70",label="CPU2"];
+    anchor [pos="120,0",label="Anchor"];
+
+    process [pos="120,140",label="Process"];
+    
+    cpu1 -> fpga [label="L_desc",dir="both"];
+    fpga -> cpu2 [label="L_desc",dir="both"];
+
+    anchor -> fpga [label="Signature"];
+
+    process -> fpga [label="L_rules"];
+}

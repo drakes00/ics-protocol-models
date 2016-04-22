@@ -1,0 +1,58 @@
+\begin{tikzpicture}[
+        typetag/.style={rectangle, draw}
+    ]
+    %\draw [help lines] (0,0) grid (10,10);
+
+    \node[draw, anchor=west] (SCADA2) at (0,0.5){SCADA$_{2}$}; 
+    \node[draw, anchor=west] (SCADA1) at (0,1.5){SCADA$_{1}$}; 
+    \node[draw, anchor=west] (SCADAc) at (0,2.5){SCADA$_{corrupt}$};
+    
+    \coordinate (bus0) at ($(1,0)+(SCADAc.east |- 42,0)$);
+    \draw (bus0) -- (bus0 |- 42,3);
+
+    \draw (SCADA2.east) -- (bus0 |- SCADA2.east);
+    \draw (SCADA1.east) -- (bus0 |- SCADA1.east);
+    \draw (SCADAc.east) -- (bus0 |- SCADAc.east);
+    
+    \node[draw, anchor=west] (I4) at ($(0.25,0)+(bus0 |- 42,1)$){I$_{4}$};
+
+    \node[anchor=west, typetag, text width=1.8cm] (GH1c) at ($(1.25,0)+(bus0 |- 42,1)$) {Guichet haut$_{1,corrupt}$};
+    \node[anchor=west] (ARAMIS1) at (GH1c.east){ARAMIS$_{1}$};
+    \node[anchor=west, typetag, text width=1.7cm] (GB1c) at (ARAMIS1.east) {Guichet bas$_{1,corrupt}$};
+    \node[draw, fit={(ARAMIS1) (GH1c) (GB1c)}] {};
+
+    \draw (bus0 |- I4.west) -- (I4.west);
+    \draw (I4.east) -- (GH1c.west);
+
+    \node[draw] (I3) at ($(I4.north)+(0,1)$){I$_{3}$};
+    \draw (I3.south) -- (I4.north);
+
+    \node[draw] (Iext) at ($(GB1c.east)+(1,0)$){I$_{ext}$};
+    \draw (Iext.west) -- (GB1c);
+
+    \node[anchor=west, typetag, text width=1.8cm] (GH2c) at ($(1,0)+(Iext |- 42,1)$) {Guichet haut$_{2,corrupt}$};
+    \node[anchor=west] (ARAMIS2) at (GH2c.east){ARAMIS$_{2}$};
+    \node[anchor=west, typetag, text width=1.7cm] (GB2c) at (ARAMIS2.east) {Guichet bas$_{2,corrupt}$};
+    \node[draw, fit={(ARAMIS2) (GH2c) (GB2c)}] {};
+
+    \draw (Iext.east |- GH2c.west) -- (GH2c.west);
+    
+    \node[draw, anchor=west] (I1) at ($(0.751,0)+(GB2c.east |- 42,1)$){I$_{1}$};
+    
+    \coordinate (bus2) at ($(0.25,0)+(I1.east |- 42,0)$);
+    \draw (bus2) -- (bus2 |- 42,4);
+
+    \draw (GB2c.east) -- (I1.west);
+
+    \node[draw] (I2) at ($(I1.north)+(0,1)$){I$_{2}$};
+    \draw (I2.south) -- (I1.north);
+
+    \node[draw, anchor=west, text width=1.4cm] (CLIENT2) at ($(1,0)+(bus2 |- 42,0.5)$){Client intranet$_{2}$};
+    \node[draw, anchor=west, text width=1.4cm] (CLIENT1) at ($(1,0)+(bus2 |- 42,2)$){Client intranet$_{1}$};
+    \node[draw, anchor=west, text width=2.2cm] (CLIENTc) at ($(1,0)+(bus2 |- 42,3.5)$){Client intranet$_{corrupt}$};
+    
+    \draw (I1.east) -- (bus2 |- I1.east);
+    \draw (CLIENT2.west) -- (bus2 |- CLIENT2.west);
+    \draw (CLIENT1.west) -- (bus2 |- CLIENT1.west);
+    \draw (CLIENTc.west) -- (bus2 |- CLIENTc.west);
+\end{tikzpicture}

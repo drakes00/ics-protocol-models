@@ -1,0 +1,429 @@
+\documentclass{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage{inputenc}
+
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{listings}
+\lstset{
+  basicstyle=\footnotesize,
+  language=Caml,
+  showstringspaces=false,
+}
+
+
+\usetheme{Boadilla}
+\usecolortheme{dolphin}
+\useoutertheme{infolines}
+
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\title{Filtering properties}
+\author[Maxime Puys]{Maxime Puys\\~\\Supervision: Marie-Laure Potet \and Jean-Louis Roch}
+\date{2015-03-17}
+
+\graphicspath{{assets/}}
+
+\begin{document}
+
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\section{Rules description language $L_{rules}$}
+\subsection{Properties}
+
+\begin{frame}
+    \tableofcontents
+\end{frame}
+
+\begin{frame}
+    \frametitle{To recall}
+
+    Idea: Different types of rules can be used:
+    \vfill
+    \begin{itemize}
+        \item Variable whitelist (readonly, writeonly)
+            \vfill
+        \item Regular expressions on commands
+            \vfill
+        \item Probabilistic (Emmanuel)
+            \vfill
+        \item ...
+    \end{itemize}
+    \vfill
+    Each rule is prefixed by its type.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Rules description language $L_{rules}$}
+
+    \[
+        \begin{array}{l r l}
+            \text{<Rule>} & ::= & \text{VAR {\color{red} <VariableRule>}} \\
+                          &   | & \text{REGEX <RegexRule>} \\
+                          &   | & \text{...} \\
+        \end{array}
+    \]
+    \pause
+    \vfill
+    \[
+        \begin{array}{l r l}
+            \text{{\color{red} <VariableRule>}} & ::= & \text{READONLY {\color{green} <VarName>}} \\
+                                                &   | & \text{WRITEONLY {\color{green} <VarName>}} \\
+        \end{array}
+    \]
+    \vfill
+    \[
+        \begin{array}{l r l}
+            \text{{\color{green} <VarName>}} & ::= & \text{IP\_ADDRESS [a-zA-Z0-9]+ ???} \\
+        \end{array}
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Regular expressions [Maz12]}
+
+    \[
+        \begin{array}{l r l}
+            \text{<RegexRule>} & ::= & \text{<Re>} \\
+                               &   | & \text{NOT ( <RegexRule> )} \\
+                               &   | & \text{( <RegexRule> AND <RegexRule> )} \\
+                               &   | & \text{( <RegexRule> OR <RegexRule> )} \\
+        \end{array}
+    \]
+    \pause
+    \vfill
+    \[
+        \begin{array}{l r l}
+            \text{<Re>} & ::= & \text{{\color{red} <Command>}} \\
+                        &   | & \text{( <Re> )} \\
+                        &   | & \text{<Re> . <Re>} \\
+                        &   | & \text{<Re> '|' <Re>} \\
+                        &   | & \text{<Re>*} \\
+        \end{array}
+    \]
+    %\pause
+    %\vfill
+    %{\scriptsize
+    %\[
+    %    \begin{array}{l r l}
+    %        \text{{\color{red} <Command>}} & ::= & \text{( <SrcAddress> <DestAddress> <NetParamNb> <OptNetParams>} \\
+    %                                       &     & \text{~~~~~~<ProtocolName> <ProtocolCommand> <ProtocolParamNb>} \\
+    %                                       &     & \text{~~~~~~<OptProtocolParams> )} \\
+    %                                       &   | & \text{c} \\
+    %    \end{array}
+    %\]
+
+    %~~~c represents any command.
+    %}
+\end{frame}
+
+\subsection{Precisions on commands}
+
+\begin{frame}
+    \tableofcontents[currentsection,currentsubsection]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Commands description}
+
+    Idea: Subset of protocol commands.\\
+    Each command is represented by:
+    \vfill
+    \begin{itemize}
+        \item Source ip address
+            \vfill
+        \item Destination ip address
+            \vfill
+        \item A number of optional network parameters N1
+            \vfill
+        \item N1 optional network parameters separated by a separator (e.g.: a value that can not be sent)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Commands description}
+
+    \begin{itemize}
+        \item Name of the protocol
+            \vfill
+        \item Protocol command
+            \vfill
+        \item A number of optional protocol parameters N2
+            \vfill
+        \item N2 optional protocol parameters separated by a separator (e.g.: a value that can not be sent)
+    \end{itemize}
+    \vfill
+    Possible workarounds for separator problems after.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Commands description}
+
+    {\scriptsize
+    \[
+        \begin{array}{l r l}
+            \text{<Command>} & ::= & \text{( {\color{red} <SrcAddress>}, {\color{green} <DestAddress>}, {\color{blue} <NetParamNb>}, {\color{orange} <OptNetParams>,}} \\
+                             &     & \text{~~~~~~<ProtocolName>, <ProtocolCommand>, <ProtocolParamNb>,} \\
+                             &     & \text{~~~~~~<OptProtocolParams> )} \\
+                             &   | & \text{c} \\
+        \end{array}
+    \]
+    }
+    \pause
+    \vfill
+    \[
+        \begin{array}{l r l}
+            \text{{\color{red} <SrcAddress>}}      & ::= & \text{IP\_ADDRESS} \\
+            \text{{\color{green} <DestAddress>}}   & ::= & \text{IP\_ADDRESS} \\
+                                                   &     & \\
+            \text{{\color{blue} <NetParamNb>}}     & ::= & \text{[0-9]+} \\
+            \text{{\color{orange} <OptNetParams>}} & ::= & \text{Epsylon | {\color{purple} <NetParam>}, {\color{orange} <OptNetParams>}} \\
+            \text{{\color{purple} <NetParam>}}     & ::= & \text{[a-zA-Z0-9]+ ???} \\
+        \end{array}
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Binary representation}
+    
+    \begin{example}
+        \begin{table}[htb]
+            \centering
+            \begin{tabular}{|c|c|c|c|}
+                \hline
+                10.0.0.1    & 10.0.0.2    & 0  & ... \\
+                \hline
+                0A 00 00 01 & 0A 00 00 02 & 00 & ... \\
+                \hline
+            \end{tabular}
+            \caption*{10.0.0.1 sends a command to 10.0.0.2 without any parameter.}
+            \vspace{-1.4em}
+        \end{table}
+    \end{example}
+    \vfill   
+    \begin{example}
+        \begin{table}[htb]
+            \centering
+            \begin{tabular}{|c|c|c|c|c|}
+                \hline
+                10.0.0.1    & 10.0.0.2    & 1  & 1024  & ... \\
+                \hline
+                0A 00 00 01 & 0A 00 00 02 & 01 & 04 00 & ... \\
+                \hline
+            \end{tabular}
+            \caption*{Same with for example port 1024 on 10.0.0.2.}
+            {\small NB: If two parameters and separator is 00, then the second byte of 1024 is a problem.}
+            \vspace{-1em}
+        \end{table}
+    \end{example}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Binary representation}
+
+    Other possibility: N stays the number of parameters, each parameter is prefixed by its length in byte: (on how many bytes is the size represented?)
+
+    {\footnotesize
+    \[
+        \begin{array}{l r l}
+            \text{<OptNetParams>}               & ::= & \text{Epsylon | {\color{red} <NetParamSize>}, <NetParam>, <OptNetParams>} \\
+            \text{{\color{red} <NetParamSize>}} & ::= & \text{[0-9]+} \\
+        \end{array}
+    \]
+    }
+    \vfill   
+    \begin{example}
+        \begin{table}[htb]
+            \centering
+            \begin{tabular}{|c|c|c|c|c|c|}
+                \hline
+                10.0.0.1    & 10.0.0.2    & {\color{green} 1}  & {\color{blue} 2}  & 1024  & ... \\
+                \hline
+                0A 00 00 01 & 0A 00 00 02 & 01                 & 02                & 04 00 & ... \\
+                \hline
+            \end{tabular}
+            \caption*{Same with {\color{green} one} parameter (1024) represented on {\color{blue} two} bytes.}
+            \vspace{-1em}
+        \end{table}
+    \end{example}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Binary representation}
+
+    Same as APDU: N is the total size of parameters, each parameter is prefixed by its length in byte: (a bit more complexe, on how many bytes is N represented?)
+    \vfill
+    \begin{example}
+        \begin{table}[htb]
+            \centering
+            \begin{tabular}{|c|c|c|c|c|c|}
+                \hline
+                10.0.0.1    & 10.0.0.2    & 3  & 2                  & 1024                  & ... \\
+                \hline
+                0A 00 00 01 & 0A 00 00 02 & 03 & {\color{green} 02} & {\color{green} 04 00} & ... \\
+                \hline
+            \end{tabular}
+            \caption*{Same, 1024 is represented on 2 bytes, 2 is represented on 1 byte (total is {\color{green} 3} bytes).}
+            \vspace{-1em}
+        \end{table}
+    \end{example}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Commands description}
+
+    This way, a command can be described as:
+
+    {\scriptsize
+    \[
+    \hspace{-1.6em}
+        \begin{array}{l r l}
+            \text{<Command>} & ::= & \text{( <SrcAddress>, <DestAddress>, <NetParamTotalSize>, <OptNetParams>,} \\
+                             &     & \text{~~~~~~{\color{red} <ProtocolName>}, {\color{green} <ProtocolCommand>}, <ProtocolParamTotalSize>,} \\
+                             &     & \text{~~~~~~<OptProtocolParams> )} \\
+                             &   | & \text{c} \\
+        \end{array}
+    \]
+    }
+    \pause
+    \vfill
+    {\scriptsize
+    \[
+        \begin{array}{l r l}
+            \text{{\color{red} <ProtocolName>}}      & ::= & \text{MODBUS} \\
+                                                     &   | & \text{FTP} \\
+                                                     &   | & \text{...} \\
+                                                     &     & \\
+            \text{{\color{green} <ProtocolCommand>}} & ::= & \text{READ} \\
+                                                     &   | & \text{WRITE} \\
+                                                     &   | & \text{GET} \\
+                                                     &   | & \text{PUT} \\
+                                                     &   | & \text{...} \\
+        \end{array}
+    \]
+    }
+    \vfill
+    {\scriptsize
+    NB: With this, protocols and commands can be mixed! (e.g.: MODBUS PUT or FTP READ)
+    }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Example}
+
+    \begin{example}
+        \begin{center}
+            c*({\color{red}10.0.0.1}, {\color{green} 10.0.0.2}, {\color{blue} 0}, {\color{orange} MODBUS}, {\color{purple} WRITE}, {\color{cyan} 4}, {\color{magenta} 1}, {\color{gray} 0}, {\color{brown} 1}, {\color{pink} 5})c*\\
+        \end{center}
+        
+        Matches a {\color{orange} MODBUS} {\color{purple} WRITE} command from {\color{red} 10.0.0.1} to {\color{green} 10.0.0.2} which is contains parameters on {\color{cyan} 4} bytes:
+        \begin{itemize}
+            \item The value {\color{gray} 0} represented on {\color{magenta} 1} byte
+            \item To be written in the register {\color{pink} 5} represented on {\color{brown} 1} byte.
+        \end{itemize}
+    \end{example}
+    \vfill
+    NB: Having network parameters in the rules allows to write different rules for different machines (or differents ports, ...).\\
+    \medskip
+    However, if such distinction is not needed, one can for instance write adress 0.0.0.0 which can act as a wildcard.
+\end{frame}
+
+\section{Internal information language $L_{desc}$}
+
+\begin{frame}
+    \tableofcontents[currentsection]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Internal information language $L_{desc}$}
+
+    {\scriptsize
+    \[
+        \hspace{-1em}
+        \begin{array}{l r l}
+            \text{<Desc>} & ::= & \text{( <SrcAddress>, <DestAddress>, <NetParamTotalSize>, <OptNetParams>,} \\
+                          &     & \text{~~~~~~{\color{red} <Protocol>} )} \\
+                          &   | & \text{c} \\
+        \end{array}
+    \]
+    }
+    \pause
+    \vfill
+    \[
+        \begin{array}{l r l}
+            \text{{\color{red} <Protocol>}} & ::= & \text{MODBUS, <ModbusCommand>} \\
+                                            &   | & \text{FTP, <FTPCommand>} \\
+        \end{array}
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Internal information language $L_{desc}$}
+
+    {\scriptsize
+    \[
+        \begin{array}{l r l}
+            \text{<ModbusCommand>} & ::= & \text{WRITE, <ModbusParamTotalSize>, {\color{red} 1}, <Value>, {\color{red} 1}, <RegId>} \\
+                                   &   | & \text{READ, <ModbusParamTotalSize>, {\color{red} 1}, <RegId>} \\
+        \end{array}
+    \]
+    ~~{\color{red} 1}: Size of Modbus parameters, to be discussed.
+    }
+    \pause
+    \vfill
+    {\scriptsize
+    \[
+        \begin{array}{l r l}
+            \text{<FTPCommand>} & ::= & \text{GET, <FTPParamTotalSize>, {\color{red} 1}, <FileName>} \\
+                                &     & \text{PUT, <FTPParamTotalSize>, {\color{red} 1}, <FileName>, {\color{red} 1}, <FileName>} \\
+        \end{array}
+    \]
+    ~~~{\color{red} 1}: Size of the FTP parameters, to be discussed.
+    }
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Internal information language $L_{desc}$}
+
+    ~~~~~~~~~$L_{desc}$ = L(<Desc>) = \{ \\
+    ~~~~~~~~~~~~~~~~~~(IP\_ADDRESS, IP\_ADDRESS, MODBUS, WRITE, {\color{red} ...}) \\
+    ~~~~~~~~~~~~~~~~~~(IP\_ADDRESS, IP\_ADDRESS, MODBUS, READ, {\color{red} ...}) \\
+    ~~~~~~~~~~~~~~~~~~(IP\_ADDRESS, IP\_ADDRESS, FTP, GET, {\color{red} ...}) \\
+    ~~~~~~~~~~~~~~~~~~(IP\_ADDRESS, IP\_ADDRESS, FTP, PUT, {\color{red} ...}) \\
+    \vfill
+    ~~~~~~~~~{\color{red} ...}: Parameters and sizes yet to formalize.
+    \vfill
+    \begin{center}
+        We need L(<Desc>) $\subseteq$ L(<Command>) to be able to verify any command.
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Conclusion}
+
+    We need a generic way to express commands (<Commands>) that the filters will be able to match.\\
+    \vfill
+    The internal description language defined by the operator will have to be included in this generic language so are sure to be able to verify any command.
+\end{frame}
+
+\end{document}

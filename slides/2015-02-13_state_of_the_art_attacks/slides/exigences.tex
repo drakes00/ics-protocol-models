@@ -1,0 +1,117 @@
+\section{ANSSI requirements}
+
+\begin{frame}
+    \frametitle{Objectives}
+
+    Extracted from {\em La cybers\'ecurit\'e des syst\`emes industriels -- Mesures d\'etaill\'ees}.
+    \vfill
+    \begin{block}{Objectives of the document}
+        Written by a work group piloted by ANSSI and composed of actors of the industry domain and IT security field.\\
+        \medskip
+        It aims at proposing a set of measures in order to improve the IT security level of industrial systems.
+    \end{block}
+    \vfill
+    \begin{block}{Objectives of the study}
+        Find which requirements could be applied to ARAMIS.\\
+        \medskip
+        Some can be applied directly to the module.\\
+        Some can be taken as hypothesis.
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Field of study}
+
+    The spreadsheet regroups measures for chapter 4. {\em Mesures de s\'ecurit\'e techniques}.
+    \vfill
+    \begin{block}{Composition}
+        This chapter is divided into 4 sections:
+        \begin{enumerate}
+            \item {\em Authentification des intervenants : contr\^ole d'acc\`es logique}.
+            \item {\em S\'ecurisation de l'architecture du syst\`eme industriel}.
+            \item {\em S\'ecurisation des \'equipements}.
+            \item {\em Surveillance du syst\`eme industriel}.
+        \end{enumerate}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{{\em Authentification des intervenants : contr\^ole d'acc\`es logique}}
+
+    This section deals with the repartition of users within the system and the way they authenticate.
+    \vfill
+    \begin{block}{Within ARAMIS}
+        This section can be related to either the user accounts on the CPUS of the module or the accounts that operators can use to connect for example to an OPC-UA server.\\
+        \medskip
+        The general idea is to disable unused accounts and strictly check for their priviledges.\\
+        It also gives recommendation on the use of passwords {\bf and raises the question of who is responsible to the generation and retrieval of passwords}.
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{{\em S\'ecurisation de l'architecture du syst\`eme industriel} 1/2}
+
+    This section deals with the security of the industrial system (not only IT).
+    \vfill
+    \begin{block}{Within ARAMIS}
+        This section is interesting because it will help refining the vision on what is outside the module.\\
+        \medskip
+        It emphasizes the need of unidirectional trafic depending on the zone classifications involved (1, 2 or 3).\\
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{{\em S\'ecurisation de l'architecture du syst\`eme industriel} 2/2}
+    
+    \begin{block}{Within ARAMIS}
+        It also raises questions of:
+        \begin{itemize}
+            \item Internet access {\bf from} the module and {\bf to} the module.
+            \item Remote maintenance.
+            \item Distributed industrial systems (out of the scope?).
+            \item Wireless connections (out of the scope?).
+            \item The possility to force secure protocol in the high zone (or opposite?).
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{{\em S\'ecurisation des \'equipements} 1/2}
+
+    This section deals with how to increase the robustness of applications and the devices that run them.
+    \vfill
+    \begin{block}{Within ARAMIS}
+        One of the key point would be the hardening of the UNIX configurations on the module.\\
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{{\em S\'ecurisation des \'equipements} 2/2}
+    
+    \begin{block}{Within ARAMIS}
+        It raises the questions of:
+        \begin{itemize}
+            \item Who is responsible of updating when a vulnerability is found in a thrid party software.
+            \item The presence of USB ports? If present, a decontamination phase?
+            \item On the presence of DHCP in the network.
+            \item On the securization of remote maintaining (e.g.: storage of SSH key to access the module).
+            \item To what extend the code we might produce has to be reviewed.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{{\em Surveillance du syst\`eme industriel}}
+
+    This section deals with the logging policy.
+    \vfill
+    \begin{block}{Within ARAMIS}
+        It mainly raises the questions of:
+        \begin{itemize}
+            \item What should be logged.
+            \item If the logs are automaticaly pushed on a remote server or fetched manualy.
+            \item On how to correlate information stored in (cf. Emmanuel).
+            \item How they should be protected (in case of use for legal purpose).
+        \end{itemize}
+    \end{block}
+\end{frame}

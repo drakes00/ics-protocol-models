@@ -1,0 +1,18 @@
+\begin{tikzpicture}[
+    arrow/.style={thick,<-,shorten >=2pt,shorten <=2pt,>=stealth},
+]
+    \draw (4,6) rectangle (7,7) node [pos=.5] {Environment};
+    \draw (0,4) rectangle (3,5) node [pos=.5,align=center] {Vulnerabilities};
+    \draw (8,4) rectangle (11,5) node [pos=.5] {Threats};
+    \draw (4,2) rectangle (7,3) node [pos=.5] {Risks};
+    \draw (4,0) rectangle (7,1) node [pos=.5,align=center] {Security\\requirements};
+
+    \draw[arrow] (1.5,5) -- (1.5,6.5) -- (4,6.5);
+    \draw[arrow] (9.5,5) -- (9.5,6.5) -- (7,6.5);
+
+    \draw[arrow] (4,2.5) -- (1.5,2.5) -- (1.5,4);
+    \draw[arrow] (7,2.5) -- (9.5,2.5) -- (9.5,4);
+
+    \draw[arrow,dashed] (5.5,3) -- (5.5,6);
+    \draw[arrow] (5.5,1) -- (5.5,2);
+\end{tikzpicture}

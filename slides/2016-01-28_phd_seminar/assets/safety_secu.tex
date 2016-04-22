@@ -1,0 +1,38 @@
+\begin{tikzpicture}[
+    myarrow/.style={
+        draw=black,solid,line width=2mm, postaction={-triangle 90,thin,draw,shorten >=-1mm}
+}]
+    %\draw[->, very thick] (0,0) -- (0,-1) -- (1,-1.5) -- (1,-2.5) -- (0,-3);
+    \path[myarrow, gray] (0,8) -- (0,1);
+    \path[myarrow] (1,8) -- (1,1);
+    \draw node [align=center,right=-13] {Historical\\Approach};
+
+    \draw[dashed] (2,-1) -- (2,9);
+
+    \fill[gray] (3.4,1) rectangle (3.5,8);
+    \fill[black] (3.5,1) rectangle (3.6,8);
+    \draw (3.35,1) -- (3.65,1) -- (3.5,.85) -- cycle;
+    \draw node [align=center] at (3.4,0) {Unified\\Approach};
+
+    \draw[red] (2,-1) -- (5,9);
+    \draw[red] (5,-1) -- (2,9);
+
+    \draw[dashed] (5,-1) -- (5,9);
+    
+    \path[myarrow, gray] (6,8) -- (6,1);
+    \path[myarrow] (7,8) -- (7,1);
+    \draw[->,thick] (6.15,8) -- (6.85,7.1);
+    \draw[->,thick] (6.85,7) -- (6.15,6.1);
+    \draw[->,thick] (6.15,6) -- (6.85,5.1);
+    \draw[->,thick] (6.85,5) -- (6.15,4.1);
+    \draw[->,thick] (6.15,4) -- (6.85,3.1);
+    \draw[->,thick] (6.85,3) -- (6.15,2.1);
+    \draw[->,thick] (6.15,2) -- (6.85,1.1);
+    \draw node [align=center] at (6.5,0) {Coordinated\\Approach};
+
+    \draw[dashed] (8,-1) -- (8,9);
+    
+    \path[myarrow, gray] (9,8) -- (9,7) -- (9.5,6.5) -- (9.5,5.5) -- (9,5) -- (9,4) -- (9.5,3.5) -- (9.5,2.5) -- (9,2) -- (9,1);
+    \path[myarrow] (10.2,8) -- (10.2,7) -- (9.7,6.5) -- (9.7,5.5) -- (10.2,5) -- (10.2,4) -- (9.7,3.5) -- (9.7,2.5) -- (10.2,2) -- (10.2,1);
+    \draw node [align=center] at (9.6,0) {Integrated\\Approach};
+\end{tikzpicture}

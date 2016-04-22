@@ -1,0 +1,26 @@
+digraph {
+    node [shape="box"];
+
+    core   [label="Core"];
+    aramis [label="Aramis"];
+    moneyS [label="Money-Sensor"];
+    drinkD [label="Drink selector"];
+
+    other1 [label="...",shape="none"];
+    other2 [label="...",shape="none"];
+
+    other3 [label="...",shape="none"];
+    other4 [label="...",shape="none"];
+
+    edge [dir="both"];
+
+    core -> aramis;
+    aramis -> moneyS;
+    aramis -> drinkD;
+
+    moneyS -> other1;
+    moneyS -> other2;
+
+    drinkD -> other3;
+    drinkD -> other4;
+}
