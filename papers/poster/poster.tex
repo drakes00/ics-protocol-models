@@ -7,9 +7,47 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 
+\usepackage{ragged2e}
 \usepackage{amsmath,amsthm, amssymb, latexsym}
 \usefonttheme[onlymath]{serif}
 \boldmath
+
+
+%%%%%%%%%%%%%%%%
+%%% LISTINGS %%%
+%%%%%%%%%%%%%%%%
+\usepackage{listings}
+\definecolor{colString}{rgb}{0.6,0.1,0.1} 
+\definecolor{Green}{rgb}{0.1,0.5,0.1}
+\lstset{%configuration de listings 
+	float=hbp,% 
+	language={C},%
+	morekeywords={assert, then},%
+	basicstyle=\ttfamily\protect\fontsize{26pt}{26pt}\protect\selectfont, % 
+	backgroundcolor=\color{white},%
+	identifierstyle=\color{black}, % 
+	keywordstyle=\color{blue}, % 
+	stringstyle=\color{colString}, % 
+	commentstyle=\color{Green}, % 
+	columns=flexible, % 
+	keepspaces=true,  % keeps spaces in text, useful for keeping indentation of code
+	escapeinside={\%*}{*)},%
+	tabsize=4, % 
+	frame=l, % 
+	frameround=tttt, % 
+	extendedchars=true, % 
+	showspaces=false, % 
+	showstringspaces=false, % 
+	%numbers=left, % 
+	numbersep=5pt,
+    numberstyle=\protect\fontsize{16pt}{16pt}\protect\selectfont\ttfamily\color{black}, % 
+	breaklines=true, % 
+	xleftmargin=40pt, %
+	breakautoindent=true, % 
+	captionpos=b,% 
+    framesep=10pt,
+} 
+
 
 \usepackage[orientation=portrait,size=a0,scale=1.4,debug]{beamerposter}           % e.g. for DIN-A0 poster
 %\usepackage[orientation=portrait,size=a1,scale=1.4,grid,debug]{beamerposter}     % e.g. for DIN-A1 poster, with optional grid and debug output
@@ -45,109 +83,282 @@
 \newcommand{\cybersec}{cybersecurity\xspace}
 \newcommand{\Cybersec}{Cybersecurity\xspace}
 \newcommand{\aramis}{Aramis\xspace}
+\newcommand{\proverif}{ProVerif\xspace}
 \newcommand{\DiH}{Diffie-Hellman\xspace}
 \newcommand{\XOR}{Exclusive-Or\xspace}
 \newcommand{\modbus}{MODBUS\xspace}
 \newcommand{\opcua}{OPC-UA\xspace}
+\newcommand{\eg}{e.g.:\xspace}
 
 \graphicspath{{assets/}}
 \makeatletter
     \def\input@path{{assets/}}
 \makeatother
 
-\title{Attack Traffic Generation Against SCADA Systems}
+\title{Formal Analysis and Smart-Fuzzing of SCADA Systems}
 \author{Maxime Puys, Marie-Laure Potet and Jean-Louis Roch}
-\institute{VERIMAG, University of Grenoble Alpes, France}
+\institute{VERIMAG, University of Grenoble Alpes, France\\{\texttt Firstname.Name@imag.fr}}
 \date{}
 
 \begin{document}
-\begin{frame}[t]
-        \begin{columns}[T]
-            \begin{column}{.49\textwidth}
-                \begin{tcolorbox}[adjusted title={\centering\large Industrial Systems}]
-                    \centering
-                    \vspace{1.1em}
-                    \begin{columns}
-                        \begin{column}{.3\textwidth}
-                            \resizebox{\textwidth}{!}{
-                                \includegraphics{scada}
-                            }
-                        \end{column}
-                        \begin{column}{.3\textwidth}
-                            \resizebox{\textwidth}{!}{
-                                \includegraphics{plc}
-                            }
-                        \end{column}
-                        \begin{column}{.3\textwidth}
-                            \resizebox{\textwidth}{!}{
-                                \includegraphics{plant}
-                            }
-                        \end{column}
-                    \end{columns}
-                    \vspace{1.1em}
+
+\begin{frame}[fragile]{}
+    \begin{columns}[T]
+        \begin{column}{.49\textwidth}
+            \begin{tcolorbox}[adjusted title={\centering\large Industrial Systems}]
+                \vspace{.25em}
+                \begin{itemize}
+                    \item Supervisory Control And Data Acquisition.
+                \end{itemize}
+                \centering
+                \vspace{.4em}
+                \begin{columns}
+                    \begin{column}{.3\textwidth}
+                        \resizebox{\textwidth}{!}{
+                            \includegraphics{scada}
+                        }
+                    \end{column}
+                    \begin{column}{.3\textwidth}
+                        \resizebox{\textwidth}{!}{
+                            \includegraphics{plc}
+                        }
+                    \end{column}
+                    \begin{column}{.3\textwidth}
+                        \resizebox{\textwidth}{!}{
+                            \includegraphics{plant}
+                        }
+                    \end{column}
+                \end{columns}
+                \vspace{.4em}
+                \begin{itemize}
+                    \item Increasing number of attacks showed in the medias since Stuxnet.
+                    \item Becoming a priority for government agencies.
                     \begin{itemize}
-                        \item Increasing number of attacks showed in the medias since Stuxnet \cite{Lan11}.
-                        \item Becoming a priority for government agencies.
-                        \begin{itemize}
-                            \item LPM to ensure the security of OIVs.
-                            \item Publications from ANSSI, DGA, ...
-                        \end{itemize}
+                        \item LPM to ensure the security of OIVs.
+                        \item Publications from ANSSI, DGA, ...
                     \end{itemize}
+                \end{itemize}
+            \end{tcolorbox}
+        \end{column}
+        %\hfill
+        \begin{column}{.49\textwidth}
+            \begin{tcolorbox}[adjusted title={\centering\large Security concepts}]
+                \begin{itemize}
+                    \item Safety = Protection against identified/natural difficulties.
+                    \begin{itemize}
+                        \item Historic industrial concern.
+                    \end{itemize}
+                    \item \Cybersec = Protection against malicious adversaries.
+                    \begin{itemize}
+                        \item Often called Security.
+                    \end{itemize}
+                \end{itemize}
+
+                \begin{figure}[htb]
+                    \resizebox{.85\columnwidth}{!}{
+                        \input{venn}
+                    }
+                    \vspace{-.2cm}
+                    \caption{Relations among security concepts}
+                \end{figure}
+                \vspace{-.5cm}
+                \begin{itemize}
+                    \item Ludovic Pietre-Cambacedes' thesis: On the relationships between safety and security, Telecom ParisTech and EDF, 2010.
+                \end{itemize}
+            \end{tcolorbox}
+        \end{column}
+    \end{columns}
+    \vfill
+    \begin{tcolorbox}[adjusted title={\centering\large Industrial Domain-Specific Filtering}]
+        \vspace{.5em}
+        \begin{columns}[T]
+            \begin{column}{.35\textwidth}
+                \begin{tcolorbox}[
+                colback=white, %background color of the box
+                colframe=normalTitleBlockColor, %color of frame and title background
+                colframe=gray!20, %color of frame and title background
+                boxrule=1mm,
+                coltext=black, %color of body text
+                coltitle=black, %color of title text
+                bottom=2mm,
+                equal height group=A,
+                valign = center,
+                adjusted title={\large Objectives}]
                 \end{tcolorbox}
             \end{column}
-            %\hfill
-            \begin{column}{.49\textwidth}
-                \begin{tcolorbox}[adjusted title={\centering\large Security concepts}]
-                    \begin{itemize}
-                        \item Safety = Protection against identified/natural difficulties.
-                        \begin{itemize}
-                            \item Historic industrial concern.
-                        \end{itemize}
-                        \item \Cybersec = Protection against malicious adversaries.
-                        \begin{itemize}
-                            \item Often called Security.
-                        \end{itemize}
-                    \end{itemize}
-
-                    \begin{figure}[htb]
-                        \resizebox{.85\columnwidth}{!}{
-                            \input{venn}
-                        }
-                        \vspace{-.2cm}
-                        \caption{Relations among security concepts}
-                    \end{figure}
-                    \vspace{-.5cm}
-                    \begin{itemize}
-                        \item Ludovic Pietre-Cambacedes' thesis: On the relationships between safety and security, Telecom ParisTech and EDF, 2010.
-                    \end{itemize}
+            \begin{column}{.65\textwidth}
+                \begin{tcolorbox}[
+                colback=white, %background color of the box
+                colframe=normalTitleBlockColor, %color of frame and title background
+                colframe=gray!20, %color of frame and title background
+                boxrule=1mm,
+                coltext=black, %color of body text
+                coltitle=black, %color of title text
+                bottom=2mm,
+                equal height group=A,
+                valign = center,
+                adjusted title={\large Approach}]
                 \end{tcolorbox}
             \end{column}
         \end{columns}
-        \vfill
-        \begin{tcolorbox}[adjusted title={\centering\large Objectives}]
-            \begin{itemize}
-                \item Modelize SCADA infrastructures (components, network links and communication protocols) and their threats (in terms of position, capacities and objectives),
-                \item From a modelling, automaticaly produce abstract attack scenarios that an adversary should follow to achieve one of his objective,
-                \item Convert them to real network packets able to launch the attack on a platform to verify and quantify their plausibility.
-            \end{itemize}
-        \end{tcolorbox}
-        \vfill
-        \begin{tcolorbox}[adjusted title={\centering\large Approach}]
-            \begin{columns}[T]
-                \begin{column}{.35\textwidth}
-                    \begin{figure}[htb]
-                        \resizebox{\columnwidth}{!}{
-                            \input{metho}
-                        }
-                        \vspace{-1.5cm}
-                        \caption{Our global approach}
-                    \end{figure}
-                \end{column}
-                \begin{column}{.64\textwidth}
-                \end{column}
-            \end{columns}
-        \end{tcolorbox}
-        \vfill
-    \end{frame}
+    \end{tcolorbox}
+    \vfill
+    \begin{tcolorbox}[adjusted title={\centering\large Formal Analysis of SCADA Protocols}]
+        \vspace{.5em}
+        \begin{columns}[T]
+            \begin{column}{.35\textwidth}
+                \begin{tcolorbox}[
+                colback=white, %background color of the box
+                colframe=normalTitleBlockColor, %color of frame and title background
+                colframe=gray!20, %color of frame and title background
+                boxrule=1mm,
+                coltext=black, %color of body text
+                coltitle=black, %color of title text
+                bottom=2mm,
+                equal height group=B,
+                valign = center,
+                adjusted title={\large Objectives}]
+                    \vspace{.5em}
+                    \begin{itemize}
+                        \item Modeling in the {\bf $\pi$-calculus language} of:
+                        \begin{itemize}
+                            \item Industrial protocols such as \modbus and \opcua.
+                            \item Security properties of secrecy and authentication.
+                        \end{itemize}
+                    \vspace{.5em}
+                        \item Analyze by the {\bf \proverif} prover:
+                        \begin{itemize}
+                            \item Intruder follows decisional {\bf Dolev-Yao} model.
+                            \item Results: either a formal proof of security or an attack trace.
+                        \end{itemize}
+                    \vspace{.5em}
+                        \item Literature involves analysis of e-voting, e-cash, e-reputation, e-exams, etc.
+                    \vspace{.5em}
+                    \item SCADA systems requires more complex properties: {\bf integrity} and {\bf availability}.
+                    \end{itemize}
+                \end{tcolorbox}
+            \end{column}
+            \begin{column}{.65\textwidth}
+                \begin{tcolorbox}[
+                colback=white, %background color of the box
+                colframe=normalTitleBlockColor, %color of frame and title background
+                colframe=gray!20, %color of frame and title background
+                boxrule=1mm,
+                coltext=black, %color of body text
+                coltitle=black, %color of title text
+                bottom=2mm,
+                equal height group=B,
+                valign = center,
+                adjusted title={\large Approach}]
+                    \begin{columns}[T]
+                        \begin{column}{.45\textwidth}
+\begin{lstlisting}
+Cli = cCE!0xcafe -> cCE?0xcafe -> OK
+E = cCE?M -> if M==0xcafe then cES!0xdead
+             else cES!M -> cES?M ->
+             if M==0xdead then cCE!0xcafe
+             else cCE!M
+Srv = c?M -> if M==0xdead then BAD -> c!M
+Sys = Cli [|c|] E [|c|] Srv
+assert Sys =\=> (BAD and OK)
+\end{lstlisting}
+                        \end{column}
+                        \begin{column}{.55\textwidth}
+                            \begin{figure}[htb]
+                                \resizebox{\textwidth}{!}{
+                                    \includegraphics{opcua}
+                                }
+                                \caption{\opcua OpenSecureChannel sub-protocol}
+                            \end{figure}
+                        \end{column}
+                    \end{columns}
+                \end{tcolorbox}
+            \end{column}
+        \end{columns}
+    \end{tcolorbox}
+    \vfill
+    \begin{tcolorbox}[adjusted title={\centering\large Smart-Fuzzing of SCADA Systems}]
+        \vspace{.5em}
+        \begin{columns}[T]
+            \begin{column}{.35\textwidth}
+                \begin{tcolorbox}[
+                colback=white, %background color of the box
+                colframe=normalTitleBlockColor, %color of frame and title background
+                colframe=gray!20, %color of frame and title background
+                boxrule=1mm,
+                coltext=black, %color of body text
+                coltitle=black, %color of title text
+                bottom=2mm,
+                equal height group=C,
+                valign = center,
+                adjusted title={\large Objectives}]
+                    \vspace{.5em}
+                    \begin{itemize}
+                        \item Modeling in the {\bf CSP language} of:
+                        \begin{itemize}
+                            \item SCADA infrastructures (components, network links and communication protocols),
+                            \item Threats (in terms of position, capacities and objectives),
+                            \item Security objectives (\eg "This services needs authentication.") and safety properties (\eg "Electricity consumption always remains lower than production").
+                        \end{itemize}
+                        \item Automaticaly produce abstract attack scenarios that an adversary should follow to achieve one of his objective using the {\bf FDR3 model-checker}.
+                        \item Convert attack scenarios to real network packets with the {\bf Scapy} python package to verify and quantify their plausibility.
+                    \end{itemize}
+                \end{tcolorbox}
+            \end{column}
+            \begin{column}{.65\textwidth}
+                \begin{tcolorbox}[
+                colback=white, %background color of the box
+                colframe=normalTitleBlockColor, %color of frame and title background
+                colframe=gray!20, %color of frame and title background
+                boxrule=1mm,
+                coltext=black, %color of body text
+                coltitle=black, %color of title text
+                bottom=2mm,
+                equal height group=C,
+                valign = center,
+                adjusted title={\large Approach}]
+                    \begin{columns}[T]
+                        \begin{column}{.5\textwidth}
+                            \begin{figure}[htb]
+                                \vspace{1.5em}
+                                \resizebox{.95\columnwidth}{!}{
+                                    \input{metho}
+                                }
+                                \vspace{-.25em}
+                                \caption{Our global approach}
+                            \end{figure}
+                        \end{column}
+                        \begin{column}{.5\textwidth}
+                            \vspace{.5em}
+                            \begin{figure}[htb]
+\begin{lstlisting}
+Cli = cCE!0xcafe -> cCE?0xcafe -> OK
+E = cCE?M -> if M==0xcafe then cES!0xdead
+             else cES!M -> cES?M ->
+             if M==0xdead then cCE!0xcafe
+             else cCE!M
+Srv = c?M -> if M==0xdead then BAD -> c!M
+Sys = Cli [|c|] E [|c|] Srv
+assert Sys =\=> (BAD and OK)
+\end{lstlisting}
+                                \caption{Modeling example (CSP-like)}
+                            \end{figure}
+                            \vspace{.5em}
+                            \begin{figure}[htb]
+                                \resizebox{.95\columnwidth}{!}{
+                                    \input{attack}
+                                }
+                                \vspace{-.5em}
+                                \caption{Attack example}
+                            \end{figure}
+                        \end{column}
+                    \end{columns}
+                \end{tcolorbox}
+            \end{column}
+        \end{columns}
+    \end{tcolorbox}
+    \vfill
+\end{frame}
+
 \end{document}
 
