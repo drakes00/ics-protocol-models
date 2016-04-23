@@ -1,9 +1,53 @@
-\begin{itemize}
-    \item La plus part des filtres sont stateless.
-    \item Problématique car exemple sectionneur (+exemple aurora ?)
-    \item Cependant stateful implique single point of passage == single point of failure
-\end{itemize}
+Industrial systems also called SCADA (\emph{Supervisory Control And
+Data Acquisition}) are the target of cyberattacks since the Stuxnet
+worm~\cite{Lan11} in 2010.
+Nowadays, these systems control nuclear power plants, water purification or
+power distribution.
+Due to the criticality of their interaction with the real world, they can
+potentially be really harmful for humans and environment.
+The frequency of attacks againt these systems is increasing to become one of the
+priorities for governmental agencies, \eg~\cite{SFS11} from the US
+National Institute of Standards and Technology (NIST) or
+\cite{ANSSI12_guide_securite_industrielle_en} from the French {\em Agence
+Nationale de la Sécurité des Systèmes d'Information} (ANSSI).
 
-\paragraph{Contributions:} Stateful filtering with worst-case bandwidth.
+To face such adversaries, industrial systems can be protected by intrusion
+detection systems~\cite{StoneGate13,Pax99,Suricata,Snort} or intrusion
+protection systems~\cite{DESIRE10,StoneGate11,rWeb13,DZNetwork14}.
+Those kind of filters are usualy {\em stateless}, meaning that judge the 
+legitimacy of a message based only on the message itself.
+However, a lot of attacks will occur because a sequence of messages is recieved
+in a certain order or in a certain amount of time, each message being legitimate
+on its own.
+Such attack has been demonstrated through the Aurora project~\cite{Aurora}, lead
+by the US National Idaho Laboratory in 2007 (and classified until 2014).
+In order to test a diesel generator against cyberattacks, researchers rapidly 
+sent openning and closing commands to circuit breakers.
+The frequency of orders being to high, it caused the generator to explode.
+Electrical disconectors also require to be manipulated by commands in a precise
+order.
+If any electric current runs through a disconector while it is manipulated, an
+eletric arc will appear harming humans around and damaging equipment.
 
-\paragraph{Outline:} 
+\paragraph{Contributions:} We propose a stateful type of domain specific
+filtering able to keep track of the value of predertemined variables.
+While filtering messages it will save the value of some variable when they go
+through.
+Such filtering process is tedious since the filter must be the single point of
+passage of all commands to not miss any.
+One could think of several filter at different positions in the architecture,
+synchronizing all together.
+However, this easily becomes an instance of the distributed consensus over an
+unreliable channel which has been proven impossible in the general
+case~\cite{FLP85}.
+Thus, having a single point of passage for commands also means a single point of
+failure.
+Thus we designed our filtering process to guarentee worst-case bandwidth to be
+resilient against malicious adversaries.
+
+
+\paragraph{Outline:} First, Section~\ref{sec:stateful} explains more deeply
+stateful filtering and its pros and cons.
+It also describes our filtering model.
+Then Section~\ref{sec:example} illustrates it on an example.
+Finaly, Section~\ref{sec:concl} concludes.
