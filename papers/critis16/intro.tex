@@ -37,17 +37,17 @@ Such filtering process is tedious since the filter must be the single point of
 passage of all commands to not miss any.
 One could think of several filter at different positions in the architecture,
 synchronizing all together.
-However, this easily becomes an instance of the distributed consensus over an
-unreliable channel which has been proven impossible in the general
+However, this easily becomes an instance of the distributed consensus problem
+over an unreliable channel which has been proven impossible in the general
 case~\cite{FLP85}.
 Thus, having a single point of passage for commands also means a single point of
 failure.
-Thus we designed our filtering process to guarentee worst-case bandwidth to be
-resilient against malicious adversaries.
+To be resilient against malicious adversaries, we designed our filtering process
+to guarentee worst-case bandwidth and memory.
 
 
 \paragraph{Outline:} First, Section~\ref{sec:stateful} explains more deeply
 stateful filtering and its pros and cons.
-It also describes our filtering model.
-Then Section~\ref{sec:example} illustrates it on an example.
+Then Section~\ref{sec:impl} describes our filtering model and illustrates it on
+an example.
 Finaly, Section~\ref{sec:concl} concludes.
