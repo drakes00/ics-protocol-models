@@ -1,11 +1,11 @@
-To illustrate our stateful filtering proccess, we propose the following simple
+To illustrate our stateful filtering process, we propose the following simple
 example.
-An electrical disconector $D$ separates three eletrical networks such as
+An electrical disconnector $D$ separates three electrical networks such as
 networks 2 and 3 are connected to the same input of $D$.
-As we told in Section~\ref{sec:intro}, a disconector cannot be manipulated while
+As we told in Section~\ref{sec:intro}, a disconnector cannot be manipulated while
 current is passing to avoid the creation of an electric arc.
 To ensure safety, three circuit breakers $B_1$, $B_2$ and $B_3$ are placed
-between $D$ and each eletrical network.
+between $D$ and each electrical network.
 Figure~\ref{fig:example} describes this setup.
 
 \begin{figure}[htb]
@@ -13,13 +13,13 @@ Figure~\ref{fig:example} describes this setup.
     \resizebox{.5\textwidth}{!}{
         \input{example}
     }
-    \caption{Example infrastrucure}
+    \caption{Example infrastructure}
     \label{fig:example}
 \end{figure}
 
 Within a \modbus server, $D$, $B_1$, $B_2$ and $B_3$ can be represented as coil
-(i.e.: read/write booleans) with openned state represented by {\em False}.
-In this example, $D$ can be manipulated if and only if either $B_1$ if openned
+(i.e.: read/write booleans) with opened state represented by {\em False}.
+In this example, $D$ can be manipulated if and only if either $B_1$ if opened
 or if both $B_2$ and $B_3$ are open.
 Thus the configuration presented in Listing~\ref{lst:example} is enough to
 describe this rule.
@@ -42,3 +42,6 @@ Declare Rule Variable 4 Assert    \
     Equal(LocalVal[1], False) OR \
     Equal(LocalVal[2], False) AND Equal(LocalVal[3], False)
 \end{lstlisting}
+
+Thus, any sequence of message violating the rule will be blocked ensuring the
+safety of the disconnector.

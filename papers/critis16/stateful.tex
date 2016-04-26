@@ -1,6 +1,6 @@
 In this Section, we discuss shortly what it stateful filtering and its
 shortcomings.
-Stateful filtering consists in keeping track of the value of predertemined
+Stateful filtering consists in keeping track of the value of predetermined
 variables of servers.
 The filter saves the value of the variable when they go through.
 As we said in Section~\ref{sec:intro} this implies the filter to be the single
@@ -13,12 +13,12 @@ Same applies to evaluation of arithmetic operations which uses a pushdown
 automaton which consumes memory depending on the size of the operation.
 Thus a long enough message could fill the memory of the filter.
 %
-Morover, no decision can be taken for a variable if it have not been seen once
+Moreover, no decision can be taken for a variable if it have not been seen once
 before.
 For this sake, one might want to use three values logic such as Kleene's
 logic~\cite{Kle52}.
 This also holds if the server can update variables on his own (such as
-temparature, pression, etc) and they are not read frequently enough.
+temperature, pressure, etc) and they are not read frequently enough.
 Three values logics introduce a value neither true or false, called
 {\em unknown} or {\em irrelevant} and extend classic logic operators to handle
 such value.
@@ -30,5 +30,5 @@ The intruder has access to the rules configured for the filter.
 We also consider the attacker having access to their implementations.
 This can be illustrated by an attacker purchasing a copy of the filter and
 reverse engineering it.
-Finaly we make the hypothesis that the attacker has no physical access to the
+Finally we make the hypothesis that the attacker has no physical access to the
 filter and cannot for instance power it off.

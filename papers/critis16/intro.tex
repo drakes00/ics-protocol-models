@@ -5,32 +5,34 @@ Nowadays, these systems control nuclear power plants, water purification or
 power distribution.
 Due to the criticality of their interaction with the real world, they can
 potentially be really harmful for humans and environment.
-The frequency of attacks againt these systems is increasing to become one of the
+The frequency of attacks against these systems is increasing to become one of the
 priorities for governmental agencies, \eg~\cite{SFS11} from the US
 National Institute of Standards and Technology (NIST) or
 \cite{ANSSI12_guide_securite_industrielle_en} from the French {\em Agence
 Nationale de la Sécurité des Systèmes d'Information} (ANSSI).
 
-To face such adversaries, industrial systems can be protected by intrusion
-detection systems~\cite{StoneGate13,Pax99,Suricata,Snort} or intrusion
-protection systems~\cite{DESIRE10,StoneGate11,rWeb13,DZNetwork14}.
-Those kind of filters are usualy {\em stateless}, meaning that judge the 
+\paragraph{State-of-the-art:} To face such adversaries, industrial systems can
+be protected by intrusion detection
+systems~\cite{StoneGate13,Pax99,Suricata,Snort} or intrusion protection
+systems~\cite{DESIRE10,StoneGate11,rWeb13,DZNetwork14}.
+Those kind of filters are usually {\em stateless}, meaning that judge the 
 legitimacy of a message based only on the message itself.
-However, a lot of attacks will occur because a sequence of messages is recieved
+However, a lot of attacks will occur because a sequence of messages is received
 in a certain order or in a certain amount of time, each message being legitimate
 on its own.
 Such attack has been demonstrated through the Aurora project~\cite{Aurora}, lead
 by the US National Idaho Laboratory in 2007 (and classified until 2014).
 In order to test a diesel generator against cyberattacks, researchers rapidly 
-sent openning and closing commands to circuit breakers.
+sent opening and closing commands to circuit breakers.
 The frequency of orders being to high, it caused the generator to explode.
-Electrical disconectors also require to be manipulated by commands in a precise
+Electrical disconnectors also require to be manipulated by commands in a precise
 order.
-If any electric current runs through a disconector while it is manipulated, an
-eletric arc will appear harming humans around and damaging equipment.
+If any electric current runs through a disconnector while it is manipulated, an
+electric arc will appear harming humans around and damaging equipment.
+To answer this problematic, stateful filtering mechanisms have been proposed. \TODO
 
 \paragraph{Contributions:} We propose a stateful type of domain specific
-filtering able to keep track of the value of predertemined variables.
+filtering able to keep track of the value of predetermined variables.
 While filtering messages it will save the value of some variable when they go
 through.
 Such filtering process is tedious since the filter must be the single point of
@@ -43,11 +45,11 @@ case~\cite{FLP85}.
 Thus, having a single point of passage for commands also means a single point of
 failure.
 To be resilient against malicious adversaries, we designed our filtering process
-to guarentee worst-case bandwidth and memory.
+to guarantee worst-case bandwidth and memory.
 
 
 \paragraph{Outline:} First, Section~\ref{sec:stateful} explains more deeply
 stateful filtering and its pros and cons.
 Then Section~\ref{sec:impl} describes our filtering model and illustrates it on
 an example.
-Finaly, Section~\ref{sec:concl} concludes.
+Finally, Section~\ref{sec:concl} concludes.
