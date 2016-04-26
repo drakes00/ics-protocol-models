@@ -10,7 +10,6 @@
 \usepackage{ragged2e}
 \usepackage{amsmath,amsthm, amssymb, latexsym}
 \usefonttheme[onlymath]{serif}
-\boldmath
 
 
 %%%%%%%%%%%%%%%%
@@ -76,6 +75,7 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows,snakes,backgrounds,patterns,matrix,shapes,fit,calc,shadows,plotmarks,intersections,shapes.geometric}
 
+
 \beamertemplatenavigationsymbolsempty
 
 \usepackage{xspace}
@@ -89,13 +89,20 @@
 \newcommand{\modbus}{MODBUS\xspace}
 \newcommand{\opcua}{OPC-UA\xspace}
 \newcommand{\eg}{e.g.:\xspace}
+\newcommand{\ftpauth}{FTP$_{Auth}$\xspace}
+\newcommand{\opcuasignenc}{OPC-UA$_{SignEnc}$\xspace}
+
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{{\color{green}\ding{51}}}%
+\newcommand{\xmark}{}%{\color{red}\ding{55}}}%
+\newcommand{\omark}{{\color{orange}$\mathcal{O}$}}%
 
 \graphicspath{{assets/}}
 \makeatletter
     \def\input@path{{assets/}}
 \makeatother
 
-\title{Formal Analysis and Smart-Fuzzing of SCADA Systems}
+\title{Formal Analysis and Smart-Fuzzing of Industrial Systems}
 \author{Maxime Puys, Marie-Laure Potet and Jean-Louis Roch}
 \institute{VERIMAG, University of Grenoble Alpes, France\\{\texttt Firstname.Name@imag.fr}}
 \date{}
@@ -111,30 +118,31 @@
                     \item Supervisory Control And Data Acquisition.
                 \end{itemize}
                 \centering
-                \vspace{.4em}
                 \begin{columns}
                     \begin{column}{.3\textwidth}
+                        \centering
                         \resizebox{\textwidth}{!}{
                             \includegraphics{scada}
                         }
                     \end{column}
                     \begin{column}{.3\textwidth}
-                        \resizebox{\textwidth}{!}{
+                        \centering
+                        \resizebox{.89\textwidth}{!}{
                             \includegraphics{plc}
                         }
                     \end{column}
                     \begin{column}{.3\textwidth}
+                        \centering
                         \resizebox{\textwidth}{!}{
                             \includegraphics{plant}
                         }
                     \end{column}
                 \end{columns}
-                \vspace{.4em}
                 \begin{itemize}
                     \item Increasing number of attacks showed in the medias since Stuxnet.
                     \item Becoming a priority for government agencies.
                     \begin{itemize}
-                        \item LPM to ensure the security of OIVs.
+                        \item Laws to ensure the security of OIVs ({\em Loi de Programmation Militaire, Livre blanc sur la défense et la sécurité nationale}).
                         \item Publications from ANSSI, DGA, ...
                     \end{itemize}
                 \end{itemize}
@@ -143,6 +151,7 @@
         %\hfill
         \begin{column}{.49\textwidth}
             \begin{tcolorbox}[adjusted title={\centering\large Security concepts}]
+                \vspace{.25em}
                 \begin{itemize}
                     \item Safety = Protection against identified/natural difficulties.
                     \begin{itemize}
@@ -154,22 +163,34 @@
                     \end{itemize}
                 \end{itemize}
 
-                \begin{figure}[htb]
-                    \resizebox{.85\columnwidth}{!}{
-                        \input{venn}
-                    }
-                    \vspace{-.2cm}
-                    \caption{Relations among security concepts}
-                \end{figure}
-                \vspace{-.5cm}
-                \begin{itemize}
-                    \item Ludovic Pietre-Cambacedes' thesis: On the relationships between safety and security, Telecom ParisTech and EDF, 2010.
-                \end{itemize}
+                \vspace{-.6em}
+                \begin{columns}[c]
+                    \begin{column}{.49\textwidth}
+                        \begin{figure}[htb]
+                            \resizebox{1.1\columnwidth}{!}{
+                                \input{venn}
+                            }
+                            \vspace{-1.7cm}
+                            \caption{Relations among security concepts}
+                        \end{figure}
+                    \end{column}
+                    \begin{column}{.49\textwidth}
+                        \begin{figure}[htb]
+                            \vspace{-1em}
+                            \resizebox{1.1\columnwidth}{!}{
+                                \input{safety_secu}
+                            }
+                            \vspace{-2.5cm}
+                            \caption{Relations among security concepts}
+                            \vspace{.75em}
+                        \end{figure}
+                    \end{column}
+                \end{columns}
             \end{tcolorbox}
         \end{column}
     \end{columns}
-    \vfill
-    \begin{tcolorbox}[adjusted title={\centering\large Formal Analysis of SCADA Protocols}]
+    \vspace{.25em}
+    \begin{tcolorbox}[adjusted title={\centering\large Formal Analysis of Industrial Protocols}]
         \vspace{.5em}
         \begin{columns}[T]
             \begin{column}{.35\textwidth}
@@ -200,7 +221,7 @@
                     \vspace{.5em}
                         \item Literature involves analysis of e-voting, e-cash, e-reputation, e-exams, etc.
                     \vspace{.5em}
-                    \item SCADA systems requires more complex properties: {\bf integrity} and {\bf availability}.
+                    \item Industrial systems requires more complex properties: {\bf integrity} and {\bf availability}.
                     \end{itemize}
                 \end{tcolorbox}
             \end{column}
@@ -216,24 +237,22 @@
                 equal height group=B,
                 valign = center,
                 adjusted title={\large Approach}]
-                    \begin{columns}[T]
+                    \begin{columns}[c]
                         \begin{column}{.45\textwidth}
-\begin{lstlisting}
-Cli = cCE!0xcafe -> cCE?0xcafe -> OK
-E = cCE?M -> if M==0xcafe then cES!0xdead
-             else cES!M -> cES?M ->
-             if M==0xdead then cCE!0xcafe
-             else cCE!M
-Srv = c?M -> if M==0xdead then BAD -> c!M
-Sys = Cli [|c|] E [|c|] Srv
-assert Sys =\=> (BAD and OK)
-\end{lstlisting}
+                            \begin{figure}[htb]
+                                \resizebox{\textwidth}{!}{
+                                    \includegraphics{scyther-linux}
+                                }
+                                \vspace{-1.25em}
+                                \caption{\opcua The Scyther tool}
+                            \end{figure}
                         \end{column}
                         \begin{column}{.55\textwidth}
                             \begin{figure}[htb]
                                 \resizebox{\textwidth}{!}{
                                     \includegraphics{opcua}
                                 }
+                                \vspace{-1.25em}
                                 \caption{\opcua OpenSecureChannel sub-protocol}
                             \end{figure}
                         \end{column}
@@ -242,8 +261,8 @@ assert Sys =\=> (BAD and OK)
             \end{column}
         \end{columns}
     \end{tcolorbox}
-    \vfill
-    \begin{tcolorbox}[adjusted title={\centering\large Smart-Fuzzing of SCADA Systems}]
+    \vspace{.25em}
+    \begin{tcolorbox}[adjusted title={\centering\large Smart-Fuzzing of Industrial Systems}]
         \vspace{.5em}
         \begin{columns}[T]
             \begin{column}{.35\textwidth}
@@ -262,7 +281,7 @@ assert Sys =\=> (BAD and OK)
                     \begin{itemize}
                         \item Modeling in the {\bf CSP language} of:
                         \begin{itemize}
-                            \item SCADA infrastructures (components, network links and communication protocols),
+                            \item Industrial infrastructures (components, network links and communication protocols),
                             \item Threats (in terms of position, capacities and objectives),
                             \item Security objectives (\eg "This services needs authentication.") and safety properties (\eg "Electricity consumption always remains lower than production").
                         \end{itemize}
@@ -303,8 +322,8 @@ E = cCE?M -> if M==0xcafe then cES!0xdead
              else cES!M -> cES?M ->
              if M==0xdead then cCE!0xcafe
              else cCE!M
-Srv = c?M -> if M==0xdead then BAD -> c!M
-Sys = Cli [|c|] E [|c|] Srv
+Srv = cES?M -> if M==0xdead then BAD -> cES!M
+Sys = Cli [|cCE|] E [|cES|] Srv
 assert Sys =\=> (BAD and OK)
 \end{lstlisting}
                                 \caption{Modeling example (CSP-like)}
@@ -322,18 +341,120 @@ assert Sys =\=> (BAD and OK)
                 \end{tcolorbox}
             \end{column}
         \end{columns}
-        \begin{tcolorbox}[
-        colback=white, %background color of the box
-        colframe=normalTitleBlockColor, %color of frame and title background
-        colframe=gray!20, %color of frame and title background
-        boxrule=1mm,
-        coltext=black, %color of body text
-        coltitle=black, %color of title text
-        bottom=2mm,
-        equal height group=C,
-        valign = center,
-        adjusted title={\large Attack Models}]
-        \end{tcolorbox}
+    \end{tcolorbox}
+    \vspace{.25em}
+    \begin{tcolorbox}[adjusted title={\centering\large Attack models}]
+        \vspace{.5em}
+        \begin{columns}[T]
+            \begin{column}{.35\textwidth}
+                \begin{tcolorbox}[
+                colback=white, %background color of the box
+                colframe=normalTitleBlockColor, %color of frame and title background
+                colframe=gray!20, %color of frame and title background
+                boxrule=1mm,
+                coltext=black, %color of body text
+                coltitle=black, %color of title text
+                bottom=2mm,
+                equal height group=D,
+                valign = center,
+                adjusted title={\large Objectives}]
+                    \vspace{.5em}
+                    \begin{itemize}
+                        \item Twofold attacker modeling:
+                        \begin{itemize}
+                            \item Top down: Study attacker's objectives and how they can reach them.
+                            \item Bottom up: Confront attackers with security brought by communication protocols.
+                        \end{itemize}
+                        \vspace{.5em}
+                        \item Mix both approaches to obtain attack scenarios an attacker is able to reach one of his objectives using a given protocol.
+                    \end{itemize}
+                \end{tcolorbox}
+            \end{column}
+            \begin{column}{.65\textwidth}
+                \begin{tcolorbox}[
+                colback=white, %background color of the box
+                colframe=normalTitleBlockColor, %color of frame and title background
+                colframe=gray!20, %color of frame and title background
+                boxrule=1mm,
+                coltext=black, %color of body text
+                coltitle=black, %color of title text
+                bottom=2mm,
+                equal height group=D,
+                valign = center,
+                adjusted title={\large Approach}]
+                    \vspace{-1.25em}
+                    \begin{columns}[c]
+                        \begin{column}{.5\textwidth}
+                            \begin{figure}[htb]
+                                \centering
+                                \resizebox{\textwidth}{!}{
+                                    \input{example}
+                                }
+                                \vspace{-1.8em}
+                                \caption{Infrastructure example}
+                                \label{fig:ex_archi}
+                            \end{figure}
+                        \end{column}
+                        \begin{column}{.5\textwidth}
+                            \begin{itemize}
+                                \item $IdTh$ = Identity theft,
+                                \item $AuthBP$ = Authentification by-pass,
+                                \item $Real(IdTh) = \{ \{ Spy \} \}$
+                                \item $Real(AuthBP) = \{ \{ Usurp \}, \{ Rep \} \}$
+                            \end{itemize}
+                        \end{column}
+                    \end{columns}
+                    \vspace{-.75em}
+                    \begin{columns}[c]
+                        \hspace{.1cm}
+                        \begin{column}{.3\textwidth}
+                            \begin{table}[htb]
+                                \vspace{1.15em}
+                                \centering
+                                \begin{tabular}{|c|c|c|}
+                                    \hline
+                                    $\mathcal{R}_{Obj}$ & $IdTh$   & $AuthBP$    \\
+                                    \hline
+                                    $Client_{A}$        & \xmark    & \cmark     \\
+                                    \hline
+                                    $Routeur_{A}$       & \cmark    & \xmark     \\
+                                    \hline
+                                \end{tabular}
+                                \caption{Objectives for each attacker}
+                                \label{tab:ex_robj}
+                            \end{table}
+                        \end{column}
+                        \begin{column}{.3\textwidth}
+                            \begin{table}[htb]
+                                \centering
+                                \vspace{-.25em}
+                                \begin{tabular}{|c|c|c|c|}
+                                    \hline
+                                    $Vect$          & $Lire$    & $Usurp$   & $Rej$     \\
+                                    \hline
+                                    \ftpauth        & \cmark    & \xmark    & \cmark    \\
+                                    \hline
+                                    \opcuasignenc   & \xmark    & \xmark    & \xmark    \\
+                                    \hline
+                                \end{tabular}
+                                \vspace{-.75em}
+                                \caption{Capacities for each protocol}
+                                \label{tab:ex_cap}
+                            \end{table}
+                        \end{column}
+                        \hspace{.7cm}
+                        \begin{column}{.4\textwidth}
+                            \begin{itemize}
+                                \item $\mathcal{S}_{Client_{A},\text{\ftpauth}} = \{ (AuthBP, Rep) \}$
+                                \item $\mathcal{S}_{Client_{A},\text{\opcuasignenc}} = \emptyset$
+                                \item $\mathcal{S}_{Router_{A},\text{\ftpauth}} = \{ (IdTh, Spy) \}$
+                                \item $\mathcal{S}_{Router_{A},\text{\opcuasignenc}} = \emptyset$
+                            \end{itemize}
+                        \end{column}
+                    \end{columns}
+               \end{tcolorbox}
+            \end{column}
+        \end{columns}
     \end{tcolorbox}
     \vfill
 \end{frame}
