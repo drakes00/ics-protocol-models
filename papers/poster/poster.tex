@@ -104,18 +104,18 @@
 
 \title{Formal Analysis and Smart-Fuzzing of Industrial Systems}
 \author{Maxime Puys, Marie-Laure Potet and Jean-Louis Roch}
-\institute{VERIMAG, University of Grenoble Alpes, France\\{\texttt Firstname.Name@imag.fr}}
+\institute{VERIMAG, University of Grenoble Alpes / Grenoble-INP, France\\{\texttt Firstname.Name@imag.fr}}
 \date{}
 
 \begin{document}
 
 \begin{frame}[fragile]{}
     \begin{columns}[T]
-        \begin{column}{.49\textwidth}
-            \begin{tcolorbox}[adjusted title={\centering\large Industrial Systems}]
+        \begin{column}{.495\textwidth}
+            \begin{tcolorbox}[adjusted title={\centering\large Industrial Systems}, equal height group=K]
                 \vspace{.25em}
                 \begin{itemize}
-                    \item Supervisory Control And Data Acquisition.
+                    \item Supervisory Control And Data Acquisition (SCADA).
                 \end{itemize}
                 \centering
                 \begin{columns}
@@ -127,7 +127,7 @@
                     \end{column}
                     \begin{column}{.3\textwidth}
                         \centering
-                        \resizebox{.89\textwidth}{!}{
+                        \resizebox{.8\textwidth}{!}{
                             \includegraphics{plc}
                         }
                     \end{column}
@@ -142,15 +142,15 @@
                     \item Increasing number of attacks showed in the medias since Stuxnet.
                     \item Becoming a priority for government agencies.
                     \begin{itemize}
-                        \item Laws to ensure the security of OIVs ({\em Loi de Programmation Militaire, Livre blanc sur la défense et la sécurité nationale}).
-                        \item Publications from ANSSI, DGA, ...
+                        \item Laws to ensure the security of OIVs {\em (Loi de Programmation Militaire, Livre blanc sur la défense et la sécurité nationale, 2013)}.
+                        \item Publications from ANSSI {\em (Managing Cybersecurity for ICS, Protection Profils, 2012-now)}.
                     \end{itemize}
                 \end{itemize}
             \end{tcolorbox}
         \end{column}
         %\hfill
-        \begin{column}{.49\textwidth}
-            \begin{tcolorbox}[adjusted title={\centering\large Security concepts}]
+        \begin{column}{.495\textwidth}
+            \begin{tcolorbox}[adjusted title={\centering\large Security concepts}, equal height group=K]
                 \vspace{.25em}
                 \begin{itemize}
                     \item Safety = Protection against identified/natural difficulties.
@@ -161,16 +161,17 @@
                     \begin{itemize}
                         \item Often called Security.
                     \end{itemize}
+                    \item Sometimes aligned, sometimes antagonistic.
                 \end{itemize}
 
-                \vspace{-.6em}
+                \vspace{-1.8em}
                 \begin{columns}[c]
                     \begin{column}{.49\textwidth}
                         \begin{figure}[htb]
                             \resizebox{1.1\columnwidth}{!}{
                                 \input{venn}
                             }
-                            \vspace{-1.7cm}
+                            \vspace{-1.4cm}
                             \caption{Relations among security concepts}
                         \end{figure}
                     \end{column}
@@ -182,7 +183,6 @@
                             }
                             \vspace{-2.5cm}
                             \caption{Relations among security concepts}
-                            \vspace{.75em}
                         \end{figure}
                     \end{column}
                 \end{columns}
@@ -206,22 +206,21 @@
                 valign = center,
                 adjusted title={\large Objectives}]
                     \vspace{.5em}
+                    {\bf $\Rightarrow$ Security analysis of domain-specific protocols and configurations}
                     \begin{itemize}
-                        \item Modeling in the {\bf $\pi$-calculus language} of:
+                        \item Industrial protocols (\eg \modbus and \opcua).
+                        \vspace{.5em}
+                        \vspace{-1.3em}
+                        \item Security properties of secrecy and authentication.
+                        \vspace{.7em}
+                        \item Attacks found on \opcua handshake:
                         \begin{itemize}
-                            \item Industrial protocols such as \modbus and \opcua.
-                            \item Security properties of secrecy and authentication.
+                            \item Replay of signature not associated to the reciever.
                         \end{itemize}
-                    \vspace{.5em}
-                        \item Analyze by the {\bf \proverif} prover:
-                        \begin{itemize}
-                            \item Intruder follows decisional {\bf Dolev-Yao} model.
-                            \item Results: either a formal proof of security or an attack trace.
-                        \end{itemize}
-                    \vspace{.5em}
-                        \item Literature involves analysis of e-voting, e-cash, e-reputation, e-exams, etc.
-                    \vspace{.5em}
-                    \item Industrial systems requires more complex properties: {\bf integrity} and {\bf availability}.
+                        \vspace{.7em}
+                        \item Analyze by tools such as {\bf \proverif} against{\bf Dolev-Yao} model.
+                        \vspace{.7em}
+                        \item Industrial systems requires more complex properties: {\bf integrity} and {\bf availability}.
                     \end{itemize}
                 \end{tcolorbox}
             \end{column}
@@ -244,7 +243,7 @@
                                     \includegraphics{scyther-linux}
                                 }
                                 \vspace{-1.25em}
-                                \caption{The Scyther tool}
+                                \caption{An attack found by a tool}
                             \end{figure}
                         \end{column}
                         \begin{column}{.55\textwidth}
@@ -254,87 +253,6 @@
                                 }
                                 \vspace{-1.25em}
                                 \caption{\opcua OpenSecureChannel sub-protocol}
-                            \end{figure}
-                        \end{column}
-                    \end{columns}
-                \end{tcolorbox}
-            \end{column}
-        \end{columns}
-    \end{tcolorbox}
-    \vspace{.25em}
-    \begin{tcolorbox}[adjusted title={\centering\large Smart-Fuzzing of Industrial Systems}]
-        \vspace{.5em}
-        \begin{columns}[T]
-            \begin{column}{.35\textwidth}
-                \begin{tcolorbox}[
-                colback=white, %background color of the box
-                colframe=normalTitleBlockColor, %color of frame and title background
-                colframe=gray!20, %color of frame and title background
-                boxrule=1mm,
-                coltext=black, %color of body text
-                coltitle=black, %color of title text
-                bottom=2mm,
-                equal height group=C,
-                valign = center,
-                adjusted title={\large Objectives}]
-                    \vspace{.5em}
-                    \begin{itemize}
-                        \item Modeling in the {\bf CSP language} of:
-                        \begin{itemize}
-                            \item Industrial infrastructures (components, network links and communication protocols),
-                            \item Threats (in terms of position, capacities and objectives),
-                            \item Security objectives (\eg "This services needs authentication.") and safety properties (\eg "Electricity consumption always remains lower than production").
-                        \end{itemize}
-                        \item Automaticaly produce abstract attack scenarios that an adversary should follow to achieve one of his objective using the {\bf FDR3 model-checker}.
-                        \item Convert attack scenarios to real network packets with the {\bf Scapy} python package to verify and quantify their plausibility.
-                    \end{itemize}
-                \end{tcolorbox}
-            \end{column}
-            \begin{column}{.65\textwidth}
-                \begin{tcolorbox}[
-                colback=white, %background color of the box
-                colframe=normalTitleBlockColor, %color of frame and title background
-                colframe=gray!20, %color of frame and title background
-                boxrule=1mm,
-                coltext=black, %color of body text
-                coltitle=black, %color of title text
-                bottom=2mm,
-                equal height group=C,
-                valign = center,
-                adjusted title={\large Approach}]
-                    \begin{columns}[T]
-                        \begin{column}{.5\textwidth}
-                            \begin{figure}[htb]
-                                \vspace{1.5em}
-                                \resizebox{.95\columnwidth}{!}{
-                                    \input{metho}
-                                }
-                                \vspace{-.25em}
-                                \caption{Our global approach}
-                            \end{figure}
-                        \end{column}
-                        \begin{column}{.5\textwidth}
-                            \vspace{.5em}
-                            \begin{figure}[htb]
-\begin{lstlisting}
-Cli = cCE!0xcafe -> cCE?0xcafe -> OK
-E = cCE?M -> if M==0xcafe then cES!0xdead
-             else cES!M -> cES?M ->
-             if M==0xdead then cCE!0xcafe
-             else cCE!M
-Srv = cES?M -> if M==0xdead then BAD -> cES!M
-Sys = Cli [|cCE|] E [|cES|] Srv
-assert Sys =\=> (BAD and OK)
-\end{lstlisting}
-                                \caption{Modeling example (CSP-like)}
-                            \end{figure}
-                            \vspace{.5em}
-                            \begin{figure}[htb]
-                                \resizebox{.95\columnwidth}{!}{
-                                    \input{attack}
-                                }
-                                \vspace{-.5em}
-                                \caption{Attack example}
                             \end{figure}
                         \end{column}
                     \end{columns}
@@ -359,6 +277,7 @@ assert Sys =\=> (BAD and OK)
                 valign = center,
                 adjusted title={\large Objectives}]
                     \vspace{.5em}
+                    {\bf $\Rightarrow$ Analysis the weakness of an infrastructure (components and communications) and its considered threats:}
                     \begin{itemize}
                         \item Twofold attacker modeling:
                         \begin{itemize}
@@ -453,6 +372,85 @@ assert Sys =\=> (BAD and OK)
                         \end{column}
                     \end{columns}
                \end{tcolorbox}
+            \end{column}
+        \end{columns}
+    \end{tcolorbox}
+    \vspace{.25em}
+    \begin{tcolorbox}[adjusted title={\centering\large Smart-Fuzzing of Industrial Systems}]
+        \vspace{.5em}
+        \begin{columns}[T]
+            \begin{column}{.35\textwidth}
+                \begin{tcolorbox}[
+                colback=white, %background color of the box
+                colframe=normalTitleBlockColor, %color of frame and title background
+                colframe=gray!20, %color of frame and title background
+                boxrule=1mm,
+                coltext=black, %color of body text
+                coltitle=black, %color of title text
+                bottom=2mm,
+                equal height group=C,
+                valign = center,
+                adjusted title={\large Objectives}]
+                    \vspace{.5em}
+                    {\bf $\Rightarrow$ Instanciate attack vectors to violate domain-specific security properties:}
+                    \begin{itemize}
+                        \item Precise modeling of attacker's power.
+                        \vspace{.5em}
+                        \item Automaticaly produce abstract attack scenarios that an adversary should follow to achieve one of his objective using the {\bf FDR3 model-checker}.
+                        \vspace{.5em}
+                        \item Convert attack scenarios to real network packets with the {\bf Scapy} python package to verify and quantify their plausibility.
+                    \end{itemize}
+                \end{tcolorbox}
+            \end{column}
+            \begin{column}{.65\textwidth}
+                \begin{tcolorbox}[
+                colback=white, %background color of the box
+                colframe=normalTitleBlockColor, %color of frame and title background
+                colframe=gray!20, %color of frame and title background
+                boxrule=1mm,
+                coltext=black, %color of body text
+                coltitle=black, %color of title text
+                bottom=2mm,
+                equal height group=C,
+                valign = center,
+                adjusted title={\large Approach}]
+                    \begin{columns}[T]
+                        \begin{column}{.5\textwidth}
+                            \begin{figure}[htb]
+                                \vspace{1.5em}
+                                \resizebox{.95\columnwidth}{!}{
+                                    \input{metho}
+                                }
+                                \vspace{-.25em}
+                                \caption{Our global approach}
+                            \end{figure}
+                        \end{column}
+                        \begin{column}{.5\textwidth}
+                            \vspace{.5em}
+                            \begin{figure}[htb]
+\begin{lstlisting}
+Cli = cCE!0xcafe -> cCE?0xcafe -> OK
+E = cCE?M -> if M==0xcafe then cES!0xdead
+             else cES!M -> cES?M ->
+             if M==0xdead then cCE!0xcafe
+             else cCE!M
+Srv = cES?M -> if M==0xdead then BAD -> cES!M
+Sys = Cli [|cCE|] E [|cES|] Srv
+assert Sys =\=> (BAD and OK)
+\end{lstlisting}
+                                \caption{Modeling example (CSP-like)}
+                            \end{figure}
+                            \vspace{.5em}
+                            \begin{figure}[htb]
+                                \resizebox{.95\columnwidth}{!}{
+                                    \input{attack}
+                                }
+                                \vspace{-.5em}
+                                \caption{Attack example}
+                            \end{figure}
+                        \end{column}
+                    \end{columns}
+                \end{tcolorbox}
             \end{column}
         \end{columns}
     \end{tcolorbox}
