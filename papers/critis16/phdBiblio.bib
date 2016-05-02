@@ -531,6 +531,16 @@
   Keywords                 = {electronic data interchange;industrial control;local area networks;transport protocols;ControlNet;DeviceNet;Ethernet/IP;ODVA;TCP/UDP/IP based Ethernet network;industrial networks;industrial protocol;Automatic control;Ethernet networks;Europe;Industrial control;Manufacturing automation;Manufacturing industries;Marketing management;Protocols;Technology management;Time factors}
 }
 
+@Book{TOOLS07,
+  Title                    = {Security power tools},
+  Author                   = {Burns, Bryan and Killion, Dave and Beauchesne, Nicolas and Moret, Eric and Sobrier, Julien and Lynn, Michael and Markham, Eric and Iezzoni, Chris and Biondi, Philippe and Granick, Jennifer Stisa and others},
+  Publisher                = {" O'Reilly Media, Inc."},
+  Year                     = {2007},
+
+  File                     = {Book:home/puys/verimag/general/doc/security/TOOLS07.pdf:PDF},
+  Url                      = {http://hax.tor.hu/read/Power.Tools/OReilly.Security.Power.Tools.Aug.2007.pdf}
+}
+
 @InProceedings{BCEH02,
   Title                    = {Worlds in collision-ethernet and the factory floor},
   Author                   = {Byres, Eric and Carter, J and Elramly, A and Hoffman, D},
@@ -627,6 +637,22 @@
   Url                      = {http://dx.doi.org/10.1007/978-3-642-10373-5_6}
 }
 
+@Article{CBBEJSS15,
+  Title                    = {A review of cyber security risk assessment methods for \{SCADA\} systems },
+  Author                   = {Yulia Cherdantseva and Pete Burnap and Andrew Blyth and Peter Eden and Kevin Jones and Hugh Soulsby and Kristan Stoddart},
+  Journal                  = {Computers \& Security },
+  Year                     = {2015},
+  Pages                    = {1 - 27},
+  Volume                   = {56},
+
+  Abstract                 = {Abstract This paper reviews the state of the art in cyber security risk assessment of Supervisory Control and Data Acquisition (SCADA) systems. We select and in-detail examine twenty-four risk assessment methods developed for or applied in the context of a \{SCADA\} system. We describe the essence of the methods and then analyse them in terms of aim; application domain; the stages of risk management addressed; key risk management concepts covered; impact measurement; sources of probabilistic data; evaluation and tool support. Based on the analysis, we suggest an intuitive scheme for the categorisation of cyber security risk assessment methods for \{SCADA\} systems. We also outline five research challenges facing the domain and point out the approaches that might be taken. },
+  Doi                      = {http://dx.doi.org/10.1016/j.cose.2015.09.009},
+  File                     = {Article:home/puys/verimag/general/doc/scada/CBBEJSS15.pdf:PDF},
+  ISSN                     = {0167-4048},
+  Keywords                 = {SCADA},
+  Url                      = {http://www.sciencedirect.com/science/article/pii/S0167404815001388}
+}
+
 @Book{CRW04,
   Title                    = {Practical modern SCADA protocols: DNP3, 60870.5 and related systems},
   Author                   = {Clarke, Gordon R and Reynders, Deon and Wright, Edwin},
@@ -698,6 +724,19 @@
   Abstract                 = {The area of formal verification of protocols has gained substantial importance in the recent years. The re- search results and subsequent applications have amply demonstrated that the formal verification tools have indeed helped correct the protocols even after being standardized. However, the standard protocol verifica- tion tools and techniques do not verify the security properties of a cryptographic protocol. This has resulted in the emergence of the security protocol verifiers to fill the need. In this paper, taking the two popular secu- rity verification tools namely Scyther and ProVerif as the basis, we identify a few security protocols and im- plement them in both Scyther and ProVerif, to aptly evaluate the tools, in terms of the security properties of the selected protocols. In the process, we not only characteristically present a comparative evaluation of the two tools, but also reveal interesting security properties of the protocols selected, showing their strengths and weaknesses. To the best of our knowledge, this is a unique attempt to juxtapose and evaluate the two verifi- cation tools using the selected security protocols.},
   File                     = {Article:home/puys/verimag/general/doc/verif/DSHJ10.pdf:PDF},
   Publisher                = {Scientific Research Publishing}
+}
+
+@InProceedings{DKS08,
+  Title                    = {Formal analysis of PKCS\# 11},
+  Author                   = {Delaune, St{\'e}phanie and Kremer, Steve and Steel, Graham},
+  Booktitle                = {Computer Security Foundations Symposium, 2008. CSF'08. IEEE 21st},
+  Year                     = {2008},
+  Organization             = {IEEE},
+  Pages                    = {331--344},
+
+  Abstract                 = {PKCS#11 defines an API for cryptographic devices that has been widely adopted in industry. However, it has been shown to be vulnerable to a variety of attacks that could, for example, compromise the sensitive keys stored on the device. In this paper, we set out a formal model of the operation of the API, which differs from previous security API models notably in that it accounts for non-monotonic mutable global state. We give decidability results for our formalism, and describe an implementation of the resulting decision procedure using a model checker. We report some new attacks and prove the safety of some configurations of the API in our model.},
+  File                     = {Article:home/puys/verimag/general/doc/verif/DKS08.pdf:PDF},
+  Url                      = {http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.441.2527&rep=rep1&type=pdf}
 }
 
 @Article{DF14,
@@ -786,6 +825,20 @@
   File                     = {Slides:home/puys/verimag/general/doc/scada/Clusir13_securite_industrielle.pdf:PDF},
   Keywords                 = {industrial systems,syst\^emes industriels,scada},
   Timestamp                = {2015.03.05}
+}
+
+@TechReport{FFM10,
+  Title                    = {What can You Verify and Enforce at Runtime?},
+  Author                   = {Falcone, Ylies and Fernandez, Jean-Claude and Mounier, Laurent},
+  Institution              = {Verimag Research Report},
+  Year                     = {2010},
+  Note                     = { },
+  Number                   = {TR-2010-5},
+
+  Abstract                 = {The underlying property, its definition and representation play a major role when monitoring a system. Having a suitable and convenient framework to express properties is thus a concern for runtime analysis. It is desirable to delineate in this framework the spaces of properties for which runtime analysis approaches can be applied to. This paper presents a unified view of runtime verification and enforcement of properties in the Safety-Progress classification. Firstly, we extend the Safety-Progress classification of properties in a runtime context. Secondly, we characterize the set of properties which can be verified (monitorable properties) and enforced (enforceable properties) at runtime. We propose in particular an alternative definition of “property monitoring” to the one classically used in this context. Finally, for the delineated spaces of properties, we obtain specialized verification and enforcement monitors.},
+  Authors                  = { Yli`es Falcone, Jean-Claude Fernandez, Laurent Mounier},
+  File                     = {Report:home/puys/verimag/general/doc/verif/FFM10.pdf:PDF},
+  Url                      = {http://www-verimag.imag.fr/TR/TR-2010-5.pdf}
 }
 
 @Article{FLP85,
@@ -1027,6 +1080,7 @@
   Note                     = {http://s3.documentcloud.org/documents/1212530/14f00304-documents.pdf},
   Year                     = {2014},
 
+  File                     = {Documents:home/puys/verimag/general/doc/scada/Aurora14.pdf:PDF},
   Timestamp                = {2016.04.26},
   Url                      = {http://s3.documentcloud.org/documents/1212530/14f00304-documents.pdf}
 }
@@ -1739,6 +1793,24 @@
   Url                      = {http://dx.doi.org/10.1109/CSF.2012.25}
 }
 
+@Article{Sch00,
+  Title                    = {Enforceable security policies},
+  Author                   = {Schneider, Fred B},
+  Journal                  = {ACM Transactions on Information and System Security (TISSEC)},
+  Year                     = {2000},
+  Number                   = {1},
+  Pages                    = {30--50},
+  Volume                   = {3},
+
+  Abstract                 = {A precise characterization is given for the class of security policies enforceable with mechanisms
+that work by monitoring system execution, and automata are introduced for specifying
+exactly that class of security policies. Techniques to enforce security policies specified by such
+automata are also discussed.},
+  File                     = {Article:home/puys/verimag/general/doc/security/Sch00.pdf:PDF},
+  Publisher                = {ACM},
+  Url                      = {https://www.cs.cornell.edu/fbs/publications/EnfSecPols.pdf}
+}
+
 @Article{Sch97,
   Title                    = {Verifying authentication protocols in CSP},
   Author                   = {Schneider, S.},
@@ -1794,6 +1866,19 @@
   Timestamp                = {2016.04.04}
 }
 
+@Article{Ste15,
+  Title                    = {Automated Proof and Flaw-Finding Tools in Cryptography},
+  Author                   = {Steel, Graham},
+  Journal                  = {IEEE Security \& Privacy},
+  Year                     = {2015},
+  Number                   = {2},
+  Pages                    = {81--83},
+
+  Doi                      = {http://doi.ieeecomputersociety.org/10.1109/MSP.2015.22},
+  File                     = {Article:home/puys/verimag/general/doc/verif/Ste15.pdf:PDF},
+  Publisher                = {IEEE}
+}
+
 @Misc{Ste07,
   Title                    = {Stream Control Transmission Protocol},
 
@@ -1833,6 +1918,8 @@
   Volume                   = {4098 },
 
   Abstract                 = {This paper presents an overview of the CL-Atse tool, an efficient and versatile automatic analyser for the security of cryptographic protocols. CL-Atse takes as input a protocol specified as a set of rewriting rules (IF format, produced by the AVISPA compiler), and uses rewriting and constraint solving techniques to model all reachable states of the participants and decide if an attack exists w.r.t. the Dolev-Yao intruder. Any state-based security property can be modelled (like secrecy, authentication, fairness, etc...), and the algebraic properties of operators like xor or exponentiation are taken into account with much less limitations than other tools, thanks to a complete modular unification algorithm. Also, useful constraints like typing, inequalities, or shared sets of knowledge (with set operations like removes, negative tests, etc...) can also be analysed.},
+  File                     = {Article:home/puys/verimag/general/doc/verif/Tur06.pdf:PDF},
+  Url                      = {https://hal.inria.fr/inria-00103573/document},
   Xaddress                 = {Seattle, USA}
 }
 
@@ -1853,6 +1940,22 @@
 
   Timestamp                = {2016.02.16},
   Url                      = {https://www.tofinosecurity.com/}
+}
+
+@Article{WL13,
+  Title                    = {Cyber security in the Smart Grid: Survey and challenges},
+  Author                   = {Wang, Wenye and Lu, Zhuo},
+  Journal                  = {Computer Networks},
+  Year                     = {2013},
+  Number                   = {5},
+  Pages                    = {1344--1371},
+  Volume                   = {57},
+
+  Abstract                 = {The Smart Grid, generally referred to as the next-generation power system, is considered as a revolutionary and evolutionary regime of existing power grids. More importantly, with the integration of advanced computing and communication technologies, the Smart Grid is expected to greatly enhance efficiency and reliability of future power systems with renewable energy resources, as well as distributed intelligence and demand response. Along with the silent features of the Smart Grid, cyber security emerges to be a critical issue because millions of electronic devices are inter-connected via communication networks throughout critical power facilities, which has an immediate impact on reliability of such a widespread infrastructure. In this paper, we present a comprehensive survey of cyber security issues for the Smart Grid. Specifically, we focus on reviewing and discussing security requirements, network vulnerabilities, attack countermeasures, secure communication protocols and architectures in the Smart Grid. We aim to provide a deep understanding of security vulnerabilities and solutions in the Smart Grid and shed light on future research directions for Smart Grid security.},
+  Doi                      = {http://dx.doi.org/10.1016/j.comnet.2012.12.017},
+  File                     = {Article:home/puys/verimag/general/doc/scada/WL13.pdf:PDF},
+  Publisher                = {Elsevier},
+  Url                      = {http://web.engr.oregonstate.edu/~yavuza/Courses/Fall2014_AdvNetSec/ResearchPapers/RegularPapers/Smart-Grid_Challanges.pdf}
 }
 
 @Article{WWSY15,
