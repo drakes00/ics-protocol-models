@@ -1,0 +1,32 @@
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-1.000000, xscale=1.000000, inner sep=0pt, outer sep=0pt,
+        arrow/.style={thick,->,shorten >=2pt,shorten <=2pt,>=stealth},
+    ]
+    \path[draw=black,miter limit=4.00,line width=0.600pt,rounded corners=0.0000cm] (40,40)  rectangle (285,140);
+    \path[draw=black,miter limit=4.00,line width=0.600pt,rounded corners=0.0000cm] (190,40) rectangle (285,70);
+
+    \path[fill=black] (50,60)   node[above right] (text2987) {Intruders};
+    \path[fill=black] (200,60)  node[above right] (text2991) {Top-Down};
+    \path[fill=black] (50,130)  node[above right] (text2995) {Attackers};
+    \path[fill=black] (200,133) node[above right] (text2999) {Objectives};
+
+
+    \draw[arrow] (75,65) -- (75,115) node {}; % Intruder -- Attacker
+    \draw[arrow] (195,126) -- (113,126) node {}; % Objectives -- Attacker
+
+    \draw[arrow] (75,132) -- (75,189) node {}; % Attacker -- Scenarii
+    \path[fill=black] (50,200) node[above right] (text3005) {Scenarios};
+    \draw[arrow] (75,260) -- (75,205) node {}; % Capacities -- Scenarii
+
+    \path[draw=black,miter limit=4.00,line width=0.600pt,rounded corners=0.0000cm] (40,250)  rectangle (285,420);
+    \path[draw=black,miter limit=4.00,line width=0.600pt,rounded corners=0.0000cm] (190,390) rectangle (285,420);
+
+    \path[fill=black] (50,270)  node[above right] (text3023) {Capacities};
+    \path[fill=black] (50,340)  node[above right] (text3009) {Attack vectors};
+    \path[fill=black] (50,410)  node[above right] (text3019) {Security Prop.};
+    \path[fill=black] (200,272) node[above right] (text3013) {Protocols};
+    \path[fill=black] (200,410) node[above right] (text3029) {Bottom-Up};
+
+    \draw[arrow] (75,325)  -- (75,275)  node {}; % Attack vectors -- Capacities
+    \draw[arrow] (75,395)  -- (75,345)  node {}; % Security props -- Attack vectors
+    \draw[arrow] (195,266) -- (118,266) node {}; % Protocols -- Capacities
+\end{tikzpicture}
