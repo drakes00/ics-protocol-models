@@ -1,0 +1,57 @@
+
+   - une version longue pour Verimag
+   - une vesrion reduite pour ICST ...
+
+% -----------------------------------------------  
+
+1) Context and Motivation
+
+	- smart cards, certification process
+	- fault-injection attacks
+	- evaluating the software robustness 
+    - translation to source code ??
+	- l'exemple du PIN ? ou celui de Louis ???
+		[les deux exemples dans une version Verimag]
+	- la combinatoire du probleme ...
+
+2) The Lazard approach 
+   
+	- fault-model
+	- llvm program representation level
+	- workflow
+        combining CFG reachability, code mutation and concolic execution
+
+3) CFG reachability analysis
+
+	- CFGs du PIN (incolore, avec 2 colorations)
+	- Test objective, definition des couleurs (point-fixe et/ou definition a la CTL),
+		1 mot sur l'algo ...
+
+4) Code mutation
+
+	- mutation strategy
+	 	target multiple fault injections 
+		take advantage of user inputs 
+	- mandatory vs optionnal mutation operators
+	- mutation example
+
+5) Robustness evaluation 
+
+	- principle 
+	- Klee 
+	- Robustness verdicts
+
+6) Experiments
+
+	- PIN verifiyer + counter-measures
+	- one word about OpenSSH
+	- filtering attacks
+
+7) Related work ???
+
+8) Conclusion and perspectives
+
+
+% -----------------------------------------------  
+
+

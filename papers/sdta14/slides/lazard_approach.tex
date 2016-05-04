@@ -1,0 +1,314 @@
+
+\newcommand{\Green}{\colorbox{green}{Green}}
+\newcommand{\Red}{\colorbox{red}{Red}}
+\newcommand{\Yellow}{\colorbox{yellow}{Yellow}}
+\newcommand{\Orange}{\colorbox{orange}{Orange}}
+
+%\begin{frame} \frametitle{The Lazart approach}
+%\vfill
+%\begin{block} {Inputs}
+%\begin{itemize}
+%\item the source (LLVM) code of the target application
+%\item an attack objective (from the attacker point of view)
+%\item a fault model 
+%	%control-flow alteration by condition inversion
+%\end{itemize}
+%\end{block}
+%\vfill
+%\pause
+%\begin{block}{Processing steps}
+%\begin{enumerate}
+% \item reachability analysis on the control-flow graph \\
+%	$\rightarrow$ identify vulnerable code locations 
+% \item (high-order) mutant generation  \\
+%	$\rightarrow$ 1 mutant encoding all possible fault combinations
+%\item  symbolic test case generation \\ 
+%	\begin{itemize}
+%	\item exercise ``all possible'' executions (w.r.t a coverage criterion) \\
+%	\item  1 execution = inputs + potential faults 
+%	\end{itemize}
+%\begin{center}
+%	\alert{{\bf $\Rightarrow$ find the executions satisfying the attack objective \dots}}
+%\end{center}
+%%Choix de la représentation intermédiaire LLVM : bon niveau de granularité pour les mutants + un outil de génération de cas de tests symbolique (KLEE)
+%\end{enumerate}
+%\end{block}
+%\vfill
+%\end{frame}
+
+
+%\begin{frame}[fragile]{Example: a (non-robust) PIN verification procedure} 
+%\vfill
+%\begin{footnotesize}
+%\begin{lstlisting}
+%#define maxTries 3
+%typedef unsigned char BYTE;
+%BYTE triesLeft = maxTries;
+%BYTE authenticated = 0;
+%BYTE pin[4] = {(char)1, (char)2, (char)3, (char)4};
+%BYTE Verify(char buffer[4]) {
+%        BYTE i;
+%        // No comparison if PIN is blocked
+%        if(triesLeft <= 0) goto FAILURE;
+%        // Main Comparison
+%        for(i = 0; i < 4; i++)       
+%                if(buffer[i] != pin[i]) {
+%                    triesLeft--;
+%                    authenticated = 0;
+%                    goto FAILURE;
+%                }
+%        // Comparison is successful
+%        triesLeft = maxTries;
+%        authenticated = 1;   // bloc bb5: TO BE REACHED !
+%        return EXIT_SUCCESS;
+%    FAILURE : return EXIT_FAILURE; // NOT TO BE REACHED !
+%}
+%\end{lstlisting}
+%\end{footnotesize}
+%\vfill
+%\end{frame}
+%
+%\begin{frame} \frametitle{Step 1: Control-Flow-Graph reachability analysis}
+%\vfill
+%CFG decision nodes influencing the attack objective ${\cal O}$?  \\
+%(assuming ${\cal O}$ is a set of nodes ``to be reached'')
+%\pause
+%\vfill
+%\begin{block}{$\rightarrow$ Computes four subsets of the CFG nodes:}
+%\vfill
+%\begin{itemize}
+%\item \Green\ nodes: eventually lead to ${\cal O}$ \\
+% $\hspace*{.5cm}\mbox{{\em lfp} of}~Green=\{{\cal O}\} \cup\ (\{ n : Sons(n) \subseteq\ Green\}\backslash Leaf)$
+%
+%\vfill\pause
+%\item \Red\ nodes: cannot lead to ${\cal O}$ \\
+% $\hspace*{.5cm}\mbox{{\em gfp} of}~Red= \{n :  Sons(n) \subseteq  Red)\} \backslash \{{\cal O}\}$
+%
+%\vfill\pause
+%\item \Yellow\ nodes: may lead to ${\cal O}$ \\
+%$\hspace*{.5cm}Yellow= N \backslash (Green \cup Red)$
+%
+%\vfill\pause
+%\item \Orange\ nodes: Yellow nodes with a Red son \\
+%$\hspace*{.5cm}Orange= \{n :  n \in Yellow \land\ (Sons(n) \cap  Red \not= \emptyset)\} $
+%\end{itemize}
+%\end{block}
+%%popint fixes et CTL
+%\vfill\pause
+%(Invert \Green and \Red if ${\cal O}$ is a set of nodes ``not to be reached'')
+%\vfill
+%\end{frame}
+
+\begin{frame} \frametitle{The complete tool chain}
+\vfill
+\includegraphics[width=\textwidth]{fig_lazard_implem.pdf} 
+\vfill
+\end{frame}
+
+\begin{frame} \frametitle{Step 1: CFG-coloring}
+\vfill
+\begin{columns}[t]
+\begin{column}{0.40\textwidth}
+\includegraphics[height=8cm]{simpleverify.pdf} 
+\end{column}
+\begin{column}{0.40\textwidth}
+\includegraphics[height=8cm]{simplebb5color.pdf} 
+\end{column}
+\end{columns}
+\vfill
+\end{frame}
+
+%\begin{frame} \frametitle{Step 2: Mutant Generation}
+%\vfill
+%$\rightarrow$ Introduce a (potential) attack at each \alert{relevant} decision node
+%\vfill \pause
+%\begin{block}{Mutation strategy}
+%\begin{table}[htb]
+%\begin{center}
+%\begin{scriptsize}
+%\begin{tabular}{|l|c|}
+%\hline
+%{\bf CFG decision node} & {\bf Mutation} \\
+%\hline
+%\Green & no mutation \\
+%\hline
+%\Orange & \alert{{\bf enforce}} reachability of the non \Red son \\
+%\hline
+%\Red & unreachable  \\
+%\hline
+%\Yellow  & \alert{{\bf possibly invert}} the test  \\
+%with a \Green son~ & to reach the \Green son \\
+%\hline
+%\Yellow  & \alert{{\bf possibly invert}} the test   from one son \\
+%with two \Yellow sons~ & to the other, and vice-versa  \\
+%\hline
+%\end{tabular}
+%\end{scriptsize}
+%\end{center}
+%\end{table}
+%\end{block}
+%\vfill \pause
+%\begin{block}{High-order mutant}
+%\begin{itemize}
+%	\item each optionnal mutation $i$ guarded by an extra boolean ${\tt\footnotesize activ}_i$
+%	\item computes the effective total number of {\tt faults} introduced
+%\end{itemize}
+%\end{block}
+%\vfill
+%\end{frame}
+
+
+
+\begin{frame}[fragile]{Step 2: Mutation operators}
+\vfill
+\begin{center}
+{\bf\large Example: mandatory mutation operator}
+\end{center}
+\vspace{-1em}
+\begin{columns}[t]
+\begin{column}{0.45\textwidth}
+\includegraphics[height=3cm]{mut1.pdf} 
+\end{column}
+\begin{column}{0.45\textwidth}
+\includegraphics[height=4cm]{mut2result.pdf} 
+\end{column}
+\end{columns}
+\vfill
+\begin{block}{More complex mutation operators}
+\begin{itemize}
+	\item Using only mandatory mutations guarantees adversary to reach the objective.
+	\item More mutation operators describing optional faults the adversary can use to optimize his attack path.
+    \item Guarded by boolean values named {\tt activ\_i}.
+\end{itemize}
+\end{block}
+\vfill
+\end{frame}
+
+%\IGNORE{
+%\begin{frame}[fragile]{Mutant produced for the {\tt Verify} example}
+%\vfill
+%At the source level:
+%\vfill
+%\begin{scriptsize}
+%\begin{lstlisting}
+%BYTE Verify(BYTE buffer[4]) {
+%   int i=0; fault=0;
+%// Mandatory mutation on entry: FAILURE/bb
+%   if (triesLeft <= 0) fault++;  
+%// Optional mutation on bb4: bb1/bb5
+%   while (i < 4) {
+%      int activbb5 ;
+%      klee_make_symbolic(&activbb5,sizeof(int),"activbb5");
+%      if(activbb5==1) {fault++; break ;}
+%      // body execution
+%// Mandatory mutation on bb1: bb2/bb3
+%         if(buffer[i] != pin[i]) fault++;
+%         i++ ;
+%    }
+%// Comparison is successful: this block is always reached.
+%   triesLeft = maxTries;
+%   authenticated = 1;
+%   return EXIT_SUCCESS; 
+%}
+%\end{lstlisting}
+%\end{scriptsize}
+%\vfill
+%$\rightarrow$ in practice the mutant is produced at the LLVM level \dots
+%\vfill
+%\end{frame}
+%}
+
+
+\begin{frame} \frametitle{Step 3: Symbolic execution}
+\vfill
+$\hookrightarrow$ Produce ``all possible'' mutant executions \dots
+\vfill
+\begin{block}{Symbolic values}
+\begin{itemize}
+	\item Attack activation guards {\tt activ\_i}.
+	\item Security-relevant external inputs (e.g., PIN input values).
+\end{itemize}
+\end{block}
+\vfill
+\begin{block}{Assertions}
+\begin{itemize}
+	\item Inputs constraints (e.g., the entered PIN is incorrect).
+	\item Maximal fault number (e.g., {\tt fault <= 2}).
+\end{itemize}
+\end{block}
+\vfill
+\begin{block}{Coverage criteria}
+\begin{itemize}
+	\item (Try to) exercise each symbolic execution path.
+	\item (Try to) satisfy/violate each assertion.
+\end{itemize}
+\end{block}
+\vfill
+\end{frame}
+
+\begin{frame} \frametitle{Step 4: Results gathering} 
+\vfill
+\begin{block}{Tool-chain}
+Use of LLVM-Klee and STP solver.
+\end{block}
+\vfill
+\begin{block}{Produces trace execution files for:}
+\begin{itemize}
+\item ``Correct'' test cases.
+\item Assertion violations, execution errors.
+\item Timeout occurrences (to many paths or untractable constraint).
+\end{itemize}
+\end{block}
+\vfill
+\begin{block}{Robustness verdicts (for a given fault number)}
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+ATK & $\exists$ an execution path satisfying the assertions. \\
+\hline
+INC & timeout detection and no attack produced. \\
+\hline
+ROB & no timeout and no attack \dots \\
+\hline
+\end{tabular}
+\end{center}
+\end{block}
+\vfill
+\end{frame}
+
+%\begin{frame}[fragile]{Test driver for the {\tt Verify} example} 
+%\vfill
+%%$\hookrightarrow$ Produce ``all possible'' mutant executions \dots \\
+%%\vfill
+%%Test Driver for the symbolic execution of the {\tt Verify} example:
+%\begin{scriptsize}
+%\begin{lstlisting}
+%#define maxTries 3  // number of tries is fixed
+%
+%typedef unsigned char BYTE;
+%BYTE triesLeft = maxTries;
+%BYTE authenticated = 0;
+%BYTE pin[4] = {...} ;   // correct PIN
+%BYTE *buffer ;         // user-supplied PIN
+%
+%int fault = 0;  // number of faults
+%
+%int main(void) {
+%
+%   // input buffer is declared symbolic
+%   klee_make_symbolic(buffer, sizeof(BYTE)*4, "buffer");
+%
+%   // Assertion on the input buffer (incorrect pin)
+%   for (i=0 ; i<SIZE_OF_PIN ; i++)
+%      {klee_assume(buffer[i] != pin[i]); }
+%
+%   Verify(buffer); // Call the (mutated) Verify procedure
+%
+%   // Assertion on the expected number of faults
+%   klee_assume(fault <= 2);
+%}
+%\end{lstlisting}
+%\end{scriptsize}
+%\vfill
+%\end{frame}
+

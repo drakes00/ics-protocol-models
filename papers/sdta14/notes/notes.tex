@@ -1,0 +1,91 @@
+\documentclass{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+
+
+\title{Retours sur SDTA14}
+\author{Maxime Puys et Laurent Mounier}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Keynote 1: S\'ebastien Canard - Orange}
+
+Le premier keynote a \'et\'e donn\'e par S\'ebatien Canard d'Orange Labs sur les nouveaux challenges de la cryptographie pour la confiance et les data services. Apr\`es avoir commenc\'e par reprendre les objectifs g\'en\'eraux de la cryptographie (confidentialit\'e, ...), il a ajout\'e que les nouveaux objectifs de la cryprographie consistent \`a obtenir des propri\'et\'es en conflit (annonymat et responsabilit\'e).
+
+Il a alors d\'ecrit plusieurs exemples telles que les signatures de groupe (on est sur que le signataire appartient \`a un groupe mais on ne peut pas l'identifier dedans). Elles peuvent \^etre utilis\'ees dans les TEE, pour le paiement ou par exemple pour les cartes \'etudiants.
+
+Il a ensuite parl\'e de la cryptographie homomorphe qui permet d'effectuer des calculs sur des donn\'ees chiffr\'ees en rentrant dasn les d\'etails d'un proxy de rechiffrement dans le cas d'un serveur de blind storage. Il a enfin ajout\'e que l'objectif actuel est d'obtenir un moyen de faire de la cryptographie fully-homomorphe dans laquelle on pourrait faire \`a la fois des additions et des multiplications sur les donn\'ees chiffr\'ees (ce qui est impossible pour le moment).
+
+
+\section{Session 1: Privacy}
+
+Cette session tra\^itait beaucoup de la s\'ecurit\'e web. 
+
+Le premier abstract (``Personal information privacy through security patterns and testing'', LIMOS) cherchait \`a \'etablir des CM de r\'ef\'erence \'ecrites dans un langage g\'en\'erique et prouver formellement le lien entre la CM et une vuln\'erabilit\'e pour montrer que la CM couvre bien la vuln\'erabilit\'e. CEla est fait \`a l'aide de correspondances UML (OCL) vs sp\'ecifications en logique temporelle (LTL)
+
+Le second abstract (``Multi-party Function Evaluation with Perfectly Private Audit Trail'', Louvain ) expliquait comment \'etaient faites les blacklist des sites de phishing et de malwares dans les navigateurs. Par exemple comment acc\'eder \`a la BDD de Google, ... (qui utilisent des hash). Ils ont ensuite cherch\'e des collisions afin de voir s'il est possible de g\'en\'erer des faux positifs.
+
+
+\section{Keynote 2: Jean-Philippe Halbwachs - DGSI}
+
+Ap\`es avoir expliqu\'e la diff\'erence entre l'espionage industriel (pouvant \^etre fait par M. Tout le monde) et l'espionage comme on le voit \`a la TV, il a \'evoqu\'e en detail de probl\`eme de BYOD comme d'une intrusion consentie (exemple: \'ev\'enement dans une entreprise = prise de photos).
+
+Il a ensuite d\'ecrit des fa\c cons d'exploiter la "fragilit\'e humaine" en utilisant les r\'esaux sociaux, le social-engineering et les application smart-phone.
+
+Il a conclu son talk avec une citation "Si c'est gratuit, c'est vous le produit".
+
+
+\section{Session 2: Internet security}
+
+Le premier abstract (``Using Closed Frequent Itemsets for Implicit Authentication in Web Browsing'', LIMOS) avait pour objectif de faire de l'apprentissage sur les sites visit\'es par un panel de gens et ensuite, donn\'e un ensemble de sites visit\'es, d'identifier l'utilisateur.
+
+Le second abstract (``How to Design a Blacklist for a Password Meter'', INRIA Planete) parlait des password metters (qui servent \`a mesurer la force d'un mot de passe). Il expliquait qu'ils peuvent \^etre exploit\'es par les logiciels de crack. Enfin il a expliqu\'e comment faire de bonnes blacklist (\`a la fa\c con des logiciels de crack).
+
+Le troisi\`eme abstract (``Formal Analysis of Electronic Exams'', J. Dreier) parlait de la s\'ecurit\'e des examens en lignes et donnait les propri\'et\'es que l'on souhaiterait obtenir (authentification de r\'eponses, des notes, indistungabilit\'e des questions, annonymisation, ...).
+
+
+\section{Session 3: Applied security}
+
+Le premier abstract (`` Hardware/Software Support for Securing Virtualization in Embedded Systems'', IRBA-DGA) parlait de la virtualisation sur des p\'eriph\'eriques embarqu\'es. L'auteur expliquait les mesures de s\'ecurit\'e qu'il voudrait apporter \`a son hyperviseur, incluant un TEE. Il fair r\'eference à des articles sur les probl\`emes de s\'ecurit\'e dans les plateformes de virtualisation.
+
+Le second abstract (``On the Adaptation of Physical-layer Failure Detection Mechanisms to Handle Attacks against SCADA
+Systems'', Télécom sud-Paris) parlait de la s\'ecurisation des syst\`emes SCADA. L'auteur expliquait que dans ce cas, on cherche l'int\'egrit\'e des messages en priorit\'e. Il a developp\'e la formalisation d'un adversaire qui \'ecoute les commandes et modifie les r\'eponses (diff\'erent d'ARAMIS donc \`a prendre en compte). Des simulations ont \'et\'e faites \`a l'aide de matlab.
+
+Le trois\`eme abstract (``Beam me up, Scotty: identifying the individual behind a MAC address using Wi-Fi geolocation spoofing'', INRIA Planete) avait pour but d'identifier le possesseur d'un smart-phone \`a l'aide de son adresse MAC. Il exploite le fait que la geolocalisation l\'egitime peut \`etre faite par la triangulation des access points pr\^oches. Il cherchent dont \`a cr\`eer des des fakes AP de fa\c con \`a faire \'echouer la geolocalisation. Ainsi si la victime Tweet avec la mauvaise geolocalisation, il est possible de relier son identit\'e avec l'adresse MAC attaqu\'ee.
+
+
+\section{Keynote 3: Serge Vaudenay - EPFL}
+
+Apr\`es avoir rappel\'e le principe des attaques par relai : $$CB <-> Relai \quad ...\quad Relai <-> Terminal$$ (exemple de la file d'attente \`a la caisse d'un supermarch\'e). Il a d\'ecrit trois attaques dites :\\
+
+\begin{itemize}
+    \item Distance Fraud = un p\'eriph\'erique malicieux tente de prouver qu'il est proche d'un verifieur.
+    \item Mafia Fraud = MITM $$CB <-> Relai \quad ...\quad Relai <-> Terminal$$
+    \item Terrorist Fraud = $$Mechant1 <-> Mechant2 <-> Verifieur$$ Exemple: M\'echant1 = commanditaire, M\'echant2 = tueur \`a gage, V = porte s'ouvrant avec un badge. M\'echant1 a un faux badge et veut aider M\'echant2 \`a passer la porte mais sans lui pr\^eter le badge.
+\end{itemize}
+
+Le speaker montre un survey des protocoles existants et de leur resistance aux attaques et propose un nouveau protocole \'etant la fusion des deux meilleurs actuels. Il montre plusieurs protocoles NFC dont certains non publi\'es (tr\`es \`a jour).
+
+
+\section{Session 4: Code analysis}
+
+Le premier abstract (``Fault enabled viruses against smart cards'', J.L. Lanet)  parlait de virus sur javacard activables par injection de fautes. Objectif: Passer le bytecode verifier.
+
+Le second abstract (``Using static analysis to detect use-after-free on binary code'', Verimag) \'etait les UAF.
+
+Le troisi\`eme abstract (``Lazart: a symbolic approach for evaluating the robustness of secured codes against control flow fault
+injections'', Verimag) \'etait Lazart.
+
+Le quatri\`eme abstract (`` Genericity of a model-based intrusion testing method'', Limoges, thésard J.L Lanet) parlait d'utiliser du model based testing afin d'\'etudier la resistance d'un syst\`eme sans se focaliser sur des attaques pr\'cises.
+
+
+\section{Session 5: Cryptologie}
+
+L'un des abstract (``White-Box Security Notions for Symmetric Encryption Schemes'', CryptoExperts) parlait de la cryptographie en boite blanche. Il commence par \'evoquer le fait que la crypto en boite blanche est \'equivalent \`a de l'obfuscation. Il exprime ensuite les objectifs de la crypto en broite blanche puis les formalise. Peut-être des chose intéressantes à voir sur l'obfuscation dans leur papuier publié à SAC 2013 ?
+
+\end{document}

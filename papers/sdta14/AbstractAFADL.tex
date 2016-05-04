@@ -1,0 +1,170 @@
+
+\documentclass[10pt, article]{llncs}
+% Add the compsoc option for Computer Society conferences.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
+%\IEEEoverridecommandlockouts
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+\usepackage[latin1]{inputenc}
+\usepackage{alltt}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{verbatim}
+\usepackage{url}
+\usepackage{xspace}
+\usepackage{multicol}
+\usepackage{wrapfig}
+
+
+\newcommand{\shellcmd}[1]{\texttt{\normalsize #1}}
+
+
+\lstset{  language=C, 
+basicstyle=\scriptsize,%\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\scriptsize,%\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+                                % will be numbered
+numbersep=1pt,                  % how far the line-numbers are from the code
+%backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=lines,                   % adds a frame around the code. other options are :  none|leftline|topline|bottomline|lines|single|shadowbox
+tabsize=2,                      % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%title=\lstname,                 % show the filename of files included with \lstinputlisting;
+                                % also try caption instead of title
+framexleftmargin=3mm,           % set the frame 5mm apart from the code and for including line numbers inside the frame.
+framexrightmargin=2mm,           % set the frame 1mm apart from the code.
+float=t,			% add floating of listings
+escapeinside={\%*}{*)},         % if you want to add a comment within your code
+morekeywords={*,...}            % if you want to add more keywords to the set
+          numbers=left,
+          captionpos=b,
+          caption=\lstname,
+}
+
+% The lineno packages adds line numbers. Start line numbering with
+% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+% for the whole article with \linenumbers.
+%\usepackage{lineno}
+\usepackage{graphicx}
+\usepackage{graphics}
+
+\usepackage{pdfpages}
+
+%\setlength{\parskip}{3 mm}
+%\setlength{\parindent}{3 mm}
+
+
+\newcommand{\Op}[0]{\textsf{Comp}\xspace}
+\newcommand{\Def}[0]{\textsf{Def}\xspace}
+\newcommand{\Off}[0]{\textsf{Comp}\xspace}
+
+%\newtheorem{example}{Example}[section]
+%\newtheorem{definition}{Definition}[section]
+
+
+
+\newcommand{\Refi}{\sqsubseteq}
+\newcommand{\combi}{{\sc combines}}
+\newcommand{\env}{{\sc env}}      % les variables de la machine
+
+\newcommand{\faults}[1]{{\mbox{Faults}\,(#1)}}
+
+
+
+%\title{{Lazart: a symbolic approach to evaluate the impact of fault injections by test inverting,
+%in the domain of smart card code.}}
+
+\title{{Lazart: a symbolic approach for evaluating the robustness of secured codes
+against  control flow fault injections}}
+
+\author{Marie-Laure Potet, Laurent Mounier, Maxime Puys and Louis Dureuil}
+
+\institute{Laboratoire V\'erimag, Université de Grenoble Alpes \\ pr\'enom.nom@imag.fr}
+
+
+
+
+
+\begin{document}
+
+\maketitle
+
+% use optional labels to link authors explicitly to addresses:
+% \author[label1,label2]{}
+% \address[label1]{}
+% \address[label2]{}
+
+{\bf Article présenté à ICST 2014\footnote{IEEE International Conference on Software Testing, Verification, and Validation, Cleveland, Ohio, USA, March 31- April 4, 2014}}.
+Les cartes à puce sont un vecteur important pour les applications exigeant un haut
+niveau de sécurité, par exemple dans le domaine bancaire, de 
+l'identité numérique ou du médical. Au vu de la sensibilité des données qu'elles
+protègent, le matériel et les applications embarquées doivent être conçues pour résister à des
+attaques de haut niveau \cite{CCDB-2009-03-001}. 
+%Pour de telles attaques, et en accord vec les Critère Communs \cite{CC06c}, l'analyse de vulnérabilité
+%doit couvrir l'état de l'art courant en terme d'attaques.
+Nous nous intéressons ici aux attaques par perturbation, consistant en une attaque physique
+provoquant une modification du code à exécuter.
+%De telles perturbations peuvent par exemple être introduite par une attaque laser.
+%Les cartes à puces, et les applications qu'elles embarquent, contiennent donc des contre-mesures
+%ayant pour objectif de détecter de telles attaques. 
+%Une problèmatique classique pour le développeur est de 
+%mettre en place  les bonnes contre-mesures, tout en évitant de trop complexifier le code.
+Nous proposons une approche, appelée Lazart,
+permettant  d'évaluer la robustesse d'un code contre les injections de fautes visant
+des modifications du flot de contrôle.  
+%Par rapport aux approches existantes principalement basées
+%sur la simulation d'injection de fautes à partir d'une trace d'exécution donnée \cite{BHKL11,Morpho14},  
+L'approche Lazart est basée sur une analyse statique du code, dont l'exécution symbolique. On peut ainsi produire
+des attaques  mais aussi établir des verdicts d'absence d'attaques. 
+De plus le choix d'une analyse statique nous permet de nous intéresser au multi-fautes (plusieurs injections
+de faute) tout en maîtrisant la combinatoire que cela introduit.  
+
+
+L'approche proposée est implémentée dans une chaîne d'outils, basée sur le format LLVM \cite{LLVM}.
+Une première étape permet de calculer  les points d'injection de fautes en fonction d'un objectif
+d'attaque. 
+%Toutes ces injections de faute sont embarquées dans un unique mutant dont l'exécution
+Ceux-ci sont embarqués dans un unique mutant dont l'exécution
+symbolique  (basée sur le générateur de test concolique Klee  \cite{CadarDE08}), permet 
+de calculer les attaques d'ordre inférieur à $n$, pour un $n$ fixé.
+Nous présentons les résultats obtenus sur deux implémentations plus ou moins robustes de la vérification
+de PIN.
+Nous proposons aussi un critère permettant de comparer certaines  attaques. 
+
+%\begin{IEEEkeywords}
+%symbolic test generation, fault injection by mutation, smart card vulnerability analysis 
+%\end{IEEEkeywords}
+
+% ------------------------------------------------------------------------------------------------
+
+
+
+\begin{scriptsize}
+\bibliographystyle{alpha}
+\bibliography{../ICST14/lazart}
+\end{scriptsize}
+
+%\appendix
+
+%\begin{small}
+%\input{papersimple.ll}
+%\end{small}
+
+%\input{ annexeA.tex}
+%\label{annexe}
+
+\end{document}
