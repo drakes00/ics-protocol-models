@@ -22,10 +22,12 @@ rule genClientKey:
   --[ ClientKey($C,pk(~x)) ]->
   [ !Ltk($C,~x), Out(<$C,pk(~x)>)]
 
+/*
 rule corrupt:
   [ !Ltk($C,~x) ]
   --[ Corrupt($C,pk(~x)) ]->
   [ Out(<$C,~x>) ]
+*/
 
 /* C -> DE : GEReq */
 rule Init:
