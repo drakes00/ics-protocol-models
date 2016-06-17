@@ -42,20 +42,21 @@ rule Resp_Init:
 rule Resp_Client:
  [ In(<'GERes',keyS,'SignEnc',sp,up>), !Ltk($C,~x), Fr(~nc) ]
  --[ Resp_Client() ]->
- [ Out(<pk(~x), aenc(<'OSCReq', pk(~x),~nc>,keyS), sign(h(<'OSCReq',pk(~x),~nc>), sk(~x) ), h(<'OSCReq',pk(~x),~nc>)>) ]
+ [ Out(<pk(~x), aenc(<'OSCReq', pk(~x),~nc>,keyS), sign{h(<'OSCReq',pk(~x),~nc>)}~x, h(<'OSCReq',pk(~x),~nc>)>) ]
 
 /* SE -> C : aenc(<OSCRes, NS , ST, TTL>, pk(C)), sign(h(OSCRes, NS , ST, TTL), sk(S)) */
 rule Resp_Server:
  [ !Ltk($S,~x), In(<keyC, aenc(<'OSCReq', keyC, nc>,pk(~x)), signature, h(<'OSCReq',keyC,nc>)>), Fr(~ns)]
  --[ Eq(verify(signature, h(<'OSCReq',keyC, nc>), keyC), true), Resp_Server() ]->
- [ Out(<pk(~x), aenc(<'OSCRes', ~ns, $ST, $TTL>,keyC), sign(h(<'OSCRes', ~ns, $ST, $TTL>), sk(~x) ), h(<'OSCRes', ~ns, $ST, $TTL>)>) ]
+ [ Out(<pk(~x), aenc(<'OSCRes', ~ns, $ST, $TTL>,keyC), sign{h(<'OSCRes', ~ns, $ST, $TTL>)}~x, h(<'OSCRes', ~ns, $ST, $TTL>)>) ]
 
 axiom Equality:
-    "All x, y, #i. Eq(x, y) @ #i ==> x = y"
+    "All x y #i. Eq(x, y) @ #i ==> x = y"
 
 lemma Executable:
   exists-trace
-  "Ex #i. Resp_Server()"
+  "Ex #i. Resp_Server() @ #i"
 
 end
+
 
