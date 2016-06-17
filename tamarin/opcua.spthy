@@ -14,12 +14,12 @@ builtins: signing, asymmetric-encryption, hashing
 
 rule genServerKey:
   [ Fr(~x) ]
-  --[ ServerKey($S,~x) ]->
+  --[ ServerKey($S,pk(~x)) ]->
   [ !Ltk($S,~x), Out(<$S,pk(~x)>)]
 
 rule genClientKey:
   [ Fr(~x) ]
-  --[ ClientKey($C,~x) ]->
+  --[ ClientKey($C,pk(~x)) ]->
   [ !Ltk($C,~x), Out(<$C,pk(~x)>)]
 
 /* C -> DE : GEReq */
@@ -41,13 +41,13 @@ rule Resp_Init:
 
 rule Resp_Client:
  [ In(<'GERes',keyS,'SignEnc',sp,up>), !Ltk($C,~x), Fr(~nc) ]
- --[ Resp_Client(~nc) ]->
+ --[ Resp_Client(~nc,keyS,pk(~x)) ]->
  [ Out(<pk(~x), aenc(<'OSCReq', pk(~x),~nc>,keyS), sign{h(<'OSCReq',pk(~x),~nc>)}~x, h(<'OSCReq',pk(~x),~nc>)>) ]
 
 /* SE -> C : aenc(<OSCRes, NS , ST, TTL>, pk(C)), sign(h(OSCRes, NS , ST, TTL), sk(S)) */
 rule Resp_Server:
  [ !Ltk($S,~x), In(<keyC, aenc(<'OSCReq', keyC, nc>,pk(~x)), signature, h(<'OSCReq',keyC,nc>)>), Fr(~ns)]
- --[ Eq(verify(signature, h(<'OSCReq',keyC, nc>), keyC), true), Resp_Server(~ns) ]->
+ --[ Eq(verify(signature, h(<'OSCReq',keyC, nc>), keyC), true), Resp_Server(~ns,keyC,pk(~x)) ]->
  [ Out(<pk(~x), aenc(<'OSCRes', ~ns, $ST, $TTL>,keyC), sign{h(<'OSCRes', ~ns, $ST, $TTL>)}~x, h(<'OSCRes', ~ns, $ST, $TTL>)>) ]
 
 axiom Equality:
@@ -55,12 +55,24 @@ axiom Equality:
 
 lemma Executable:
   exists-trace
-  "Ex ns #i. Resp_Server(ns) @ #i"
+  "Ex ns keyS keyC #i. Resp_Server(ns,keyC,keyS) @ #i"
 
-lemma Key_secrecy:
+lemma Key_secrecy_1:
   all-traces
-  "All nc ns #i #j. (Resp_Server(ns) @ #i & Resp_Client(nc) @ #j) ==> (All #k. K(h(<nc,ns>)) @ #k ==> F) "
+  "All nc ns keyS keyC #i #j. (Resp_Server(ns,keyC,keyS) @ #i & Resp_Client(nc,keyS,keyC) @ #j) ==> (All #k. K(h(<nc,ns>)) @ #k ==> F) "
 
+lemma Key_secrecy_2:
+  all-traces
+  "All nc ns keyS keyC keyS1 keyC1 #i #j. (Resp_Server(ns,keyC,keyS) @ #i & Resp_Client(nc,keyS1,keyC1) @ #j) ==> (All #k. K(h(<nc,ns>)) @ #k ==> F) "
+
+lemma Key_secrecy_3:
+  all-traces
+  "All nc ns keyS keyC S C #i #j #m #n. (
+    Resp_Server(ns,keyC,keyS) @ #i & 
+    Resp_Client(nc,keyS,keyC) @ #j & 
+    ServerKey(S,keyS) @ #m & 
+    ClientKey(C,keyC) @ #n
+   ) ==> (All #k. K(h(<nc,ns>)) @ #k ==> F) "
 
 end
 
