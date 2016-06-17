@@ -22,6 +22,11 @@ rule genClientKey:
   --[ ClientKey($C,pk(~x)) ]->
   [ !Ltk($C,~x), Out(<$C,pk(~x)>)]
 
+rule corrupt:
+  [ !Ltk($C,~x) ]
+  --[ Corrupt($C,pk(~x)) ]->
+  [ Out(<$C,~x>) ]
+
 /* C -> DE : GEReq */
 rule Init:
  [ ]
@@ -72,6 +77,17 @@ lemma Key_secrecy_3:
     Resp_Client(nc,keyS,keyC) @ #j & 
     ServerKey(S,keyS) @ #m & 
     ClientKey(C,keyC) @ #n
+   ) ==> (All #k. K(h(<nc,ns>)) @ #k ==> F) "
+
+lemma Key_secrecy_4:
+  all-traces
+  "All nc ns keyS keyC keyS1 keyC1 S C S1 C1 #i #j #m #n. (
+    Resp_Server(ns,keyC,keyS) @ #i & 
+    Resp_Client(nc,keyS1,keyC1) @ #j & 
+    ServerKey(S,keyS) @ #m & 
+    ClientKey(C,keyC) @ #n &
+    ServerKey(S1,keyS1) @ #m & 
+    ClientKey(C1,keyC1) @ #n
    ) ==> (All #k. K(h(<nc,ns>)) @ #k ==> F) "
 
 end
