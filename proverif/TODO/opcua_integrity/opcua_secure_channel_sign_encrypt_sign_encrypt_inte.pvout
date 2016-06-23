@@ -1,0 +1,118 @@
+Linear part:
+exp(exp(g,x_26),y) = exp(exp(g,y),x_26)
+Completing equations...
+Completed equations:
+exp(exp(g,x_26),y) = exp(exp(g,y),x_26)
+Convergent part:
+dec(enc(x_13,pub(k_14)),k_14) = x_13
+Completing equations...
+Completed equations:
+dec(enc(x_13,pub(k_14)),k_14) = x_13
+Process:
+{1}let pkA: bitstring = pub(skA) in
+{2}out(c, pkA);
+{3}let pkB: bitstring = pub(skB) in
+{4}out(c, pkB);
+{5}let pkC: bitstring = pub(skC) in
+{6}out(c, pkC);
+(
+    {7}!
+    {8}in(c, (Cli: host,Disco: host,Sess: host));
+    {9}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else (if (Cli = C) then skC else fail-any))) in
+    {10}let pkCli: bitstring = pub(skCli) in
+    {11}let pkDisco: bitstring = (if (Disco = A) then pub(skA) else (if (Disco = B) then pub(skB) else (if (Disco = C) then pub(skC) else pub(sk(Disco))))) in
+    {12}let pkSess: bitstring = (if (Sess = A) then pub(skA) else (if (Sess = B) then pub(skB) else (if (Sess = C) then pub(skC) else pub(sk(Sess))))) in
+    {13}out(c, GetEndpointRequest);
+    {14}in(c, (=GetEndpointResponse,=pkSess,=SignAndEncrypt,SP: bitstring,UP: bitstring));
+    {15}event msg2(Cli,Disco,Sess);
+    {16}new Nc: bitstring;
+    {17}let m1: bitstring = (OpenSecureChannelRequest,pkCli,Nc) in
+    {18}out(c, (pkCli,enc(m1,pkSess),sign(h(m1),skCli)));
+    {19}in(c, (em2: bitstring,sigM2: bitstring));
+    {20}let m2: bitstring = dec(em2,skCli) in
+    {21}if (verify(h(m2),sigM2,pkSess) <> true) then
+        0
+    else
+        {22}let (=OpenSecureChannelResponse,Ns: bitstring,ST: bitstring,TTL: bitstring) = m2 in
+        {23}event msg4(Cli,Disco,Sess)
+) | (
+    {24}!
+    {25}in(c, (Cli_77: host,Disco_78: host,Sess_79: host));
+    {26}let skDisco: bitstring = (if (Disco_78 = A) then skA else (if (Disco_78 = B) then skB else (if (Disco_78 = C) then skC else fail-any))) in
+    {27}let pkDisco_80: bitstring = pub(skDisco) in
+    {28}let pkCli_81: bitstring = (if (Cli_77 = A) then pub(skA) else (if (Cli_77 = B) then pub(skB) else (if (Cli_77 = C) then pub(skC) else pub(sk(Cli_77))))) in
+    {29}let pkSess_82: bitstring = (if (Sess_79 = A) then pub(skA) else (if (Sess_79 = B) then pub(skB) else (if (Sess_79 = C) then pub(skC) else pub(sk(Sess_79))))) in
+    {30}in(c, =GetEndpointRequest);
+    {31}event msg1(Cli_77,Disco_78,Sess_79);
+    {32}new SP_83: bitstring;
+    {33}new UP_84: bitstring;
+    {34}out(c, (GetEndpointResponse,pkSess_82,SignAndEncrypt,SP_83,UP_84))
+) | (
+    {35}!
+    {36}in(c, (Cli_85: host,Disco_86: host,Sess_87: host));
+    {37}let skSess: bitstring = (if (Sess_87 = A) then skA else (if (Sess_87 = B) then skB else (if (Sess_87 = C) then skC else fail-any))) in
+    {38}let pkSess_88: bitstring = pub(skSess) in
+    {39}let pkCli_89: bitstring = (if (Cli_85 = A) then pub(skA) else (if (Cli_85 = B) then pub(skB) else (if (Cli_85 = C) then pub(skC) else pub(sk(Cli_85))))) in
+    {40}let pkDisco_90: bitstring = (if (Disco_86 = A) then pub(skA) else (if (Disco_86 = B) then pub(skB) else (if (Disco_86 = C) then pub(skC) else pub(sk(Disco_86))))) in
+    {41}in(c, (=pkCli_89,em1: bitstring,sigM1: bitstring));
+    {42}let m1_91: bitstring = dec(em1,skSess) in
+    {43}if (verify(h(m1_91),sigM1,pkCli_89) <> true) then
+        0
+    else
+        {44}let (=OpenSecureChannelRequest,=pkCli_89,Nc_92: bitstring) = m1_91 in
+        {45}event msg3(Cli_85,Disco_86,Sess_87);
+        {46}new Ns_93: bitstring;
+        {47}new ST_94: bitstring;
+        {48}new TTL_95: bitstring;
+        {49}let m2_96: bitstring = (OpenSecureChannelResponse,Ns_93,ST_94,TTL_95) in
+        {50}out(c, (enc(m2_96,pkCli_89),sign(h(m2_96),skSess)))
+)
+
+-- Query event(msg4(X,Y,Z)) ==> (event(msg3(X,Y,Z)) ==> (event(msg2(X,Y,Z)) ==> event(msg1(X,Y,Z))))
+Completing...
+200 rules inserted. The rule base contains 116 rules. 445 rules in the queue.
+400 rules inserted. The rule base contains 184 rules. 445 rules in the queue.
+600 rules inserted. The rule base contains 305 rules. 445 rules in the queue.
+800 rules inserted. The rule base contains 331 rules. 445 rules in the queue.
+1000 rules inserted. The rule base contains 463 rules. 444 rules in the queue.
+1200 rules inserted. The rule base contains 449 rules. 428 rules in the queue.
+1400 rules inserted. The rule base contains 460 rules. 414 rules in the queue.
+1600 rules inserted. The rule base contains 476 rules. 396 rules in the queue.
+1800 rules inserted. The rule base contains 520 rules. 348 rules in the queue.
+2000 rules inserted. The rule base contains 546 rules. 616 rules in the queue.
+2200 rules inserted. The rule base contains 578 rules. 608 rules in the queue.
+2400 rules inserted. The rule base contains 685 rules. 1274 rules in the queue.
+2600 rules inserted. The rule base contains 807 rules. 1654 rules in the queue.
+2800 rules inserted. The rule base contains 866 rules. 1622 rules in the queue.
+3000 rules inserted. The rule base contains 982 rules. 1465 rules in the queue.
+3200 rules inserted. The rule base contains 1082 rules. 1494 rules in the queue.
+3400 rules inserted. The rule base contains 1183 rules. 1443 rules in the queue.
+3600 rules inserted. The rule base contains 1297 rules. 1342 rules in the queue.
+3800 rules inserted. The rule base contains 1386 rules. 1254 rules in the queue.
+4000 rules inserted. The rule base contains 1489 rules. 1274 rules in the queue.
+4200 rules inserted. The rule base contains 1602 rules. 1126 rules in the queue.
+4400 rules inserted. The rule base contains 1679 rules. 1002 rules in the queue.
+4600 rules inserted. The rule base contains 1717 rules. 935 rules in the queue.
+4800 rules inserted. The rule base contains 1762 rules. 866 rules in the queue.
+5000 rules inserted. The rule base contains 1815 rules. 791 rules in the queue.
+5200 rules inserted. The rule base contains 1896 rules. 694 rules in the queue.
+5400 rules inserted. The rule base contains 1870 rules. 702 rules in the queue.
+5600 rules inserted. The rule base contains 1812 rules. 868 rules in the queue.
+5800 rules inserted. The rule base contains 1751 rules. 1010 rules in the queue.
+6000 rules inserted. The rule base contains 1690 rules. 1152 rules in the queue.
+6200 rules inserted. The rule base contains 1758 rules. 1270 rules in the queue.
+6400 rules inserted. The rule base contains 1794 rules. 1380 rules in the queue.
+6600 rules inserted. The rule base contains 1845 rules. 1392 rules in the queue.
+6800 rules inserted. The rule base contains 1909 rules. 1410 rules in the queue.
+7000 rules inserted. The rule base contains 1926 rules. 1528 rules in the queue.
+7200 rules inserted. The rule base contains 2014 rules. 1512 rules in the queue.
+7400 rules inserted. The rule base contains 2155 rules. 1572 rules in the queue.
+7600 rules inserted. The rule base contains 2258 rules. 1673 rules in the queue.
+7800 rules inserted. The rule base contains 2351 rules. 1882 rules in the queue.
+8000 rules inserted. The rule base contains 2434 rules. 1993 rules in the queue.
+8200 rules inserted. The rule base contains 2543 rules. 2155 rules in the queue.
+8400 rules inserted. The rule base contains 2650 rules. 2298 rules in the queue.
+8600 rules inserted. The rule base contains 2763 rules. 2473 rules in the queue.
+8800 rules inserted. The rule base contains 2820 rules. 2427 rules in the queue.
+9000 rules inserted. The rule base contains 2965 rules. 2299 rules in the queue.
+9200 rules inserted. The rule base contains 3106 rules. 2321 rules in the queue.

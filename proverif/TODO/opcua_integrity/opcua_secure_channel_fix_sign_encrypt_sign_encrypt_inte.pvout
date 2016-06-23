@@ -1,0 +1,289 @@
+Linear part:
+exp(exp(g,x_26),y) = exp(exp(g,y),x_26)
+Completing equations...
+Completed equations:
+exp(exp(g,x_26),y) = exp(exp(g,y),x_26)
+Convergent part:
+dec(enc(x_13,pub(k_14)),k_14) = x_13
+Completing equations...
+Completed equations:
+dec(enc(x_13,pub(k_14)),k_14) = x_13
+Process:
+{1}let pkA: bitstring = pub(skA) in
+{2}out(c, pkA);
+{3}let pkB: bitstring = pub(skB) in
+{4}out(c, pkB);
+{5}let pkC: bitstring = pub(skC) in
+{6}out(c, pkC);
+(
+    {7}!
+    {8}in(c, (Cli: host,Disco: host,Sess: host));
+    {9}let skCli: bitstring = (if (Cli = A) then skA else (if (Cli = B) then skB else (if (Cli = C) then skC else fail-any))) in
+    {10}let pkCli: bitstring = pub(skCli) in
+    {11}let pkDisco: bitstring = (if (Disco = A) then pub(skA) else (if (Disco = B) then pub(skB) else (if (Disco = C) then pub(skC) else pub(sk(Disco))))) in
+    {12}let pkSess: bitstring = (if (Sess = A) then pub(skA) else (if (Sess = B) then pub(skB) else (if (Sess = C) then pub(skC) else pub(sk(Sess))))) in
+    {13}out(c, GetEndpointRequest);
+    {14}in(c, (=GetEndpointResponse,=pkSess,=SignAndEncrypt,SP: bitstring,UP: bitstring));
+    {15}event msg2(Cli,Disco,Sess);
+    {16}new Nc: bitstring;
+    {17}let wNc: bitstring = enc(Nc,pkSess) in
+    {18}let m1: bitstring = (OpenSecureChannelRequest,Sess,pkCli,wNc) in
+    {19}out(c, (pkCli,enc(m1,pkSess),sign(h(m1),skCli)));
+    {20}in(c, (em2: bitstring,sigM2: bitstring));
+    {21}let m2: bitstring = dec(em2,skCli) in
+    {22}if (verify(h(m2),sigM2,pkSess) <> true) then
+        0
+    else
+        {23}let (=OpenSecureChannelResponse,=Cli,wNs: bitstring,ST: bitstring,TTL: bitstring) = m2 in
+        {24}let Ns: bitstring = dec(wNs,skCli) in
+        {25}event msg4(Cli,Disco,Sess)
+) | (
+    {26}!
+    {27}in(c, (Cli_77: host,Disco_78: host,Sess_79: host));
+    {28}let skDisco: bitstring = (if (Disco_78 = A) then skA else (if (Disco_78 = B) then skB else (if (Disco_78 = C) then skC else fail-any))) in
+    {29}let pkDisco_80: bitstring = pub(skDisco) in
+    {30}let pkCli_81: bitstring = (if (Cli_77 = A) then pub(skA) else (if (Cli_77 = B) then pub(skB) else (if (Cli_77 = C) then pub(skC) else pub(sk(Cli_77))))) in
+    {31}let pkSess_82: bitstring = (if (Sess_79 = A) then pub(skA) else (if (Sess_79 = B) then pub(skB) else (if (Sess_79 = C) then pub(skC) else pub(sk(Sess_79))))) in
+    {32}in(c, =GetEndpointRequest);
+    {33}event msg1(Cli_77,Disco_78,Sess_79);
+    {34}new SP_83: bitstring;
+    {35}new UP_84: bitstring;
+    {36}out(c, (GetEndpointResponse,pkSess_82,SignAndEncrypt,SP_83,UP_84))
+) | (
+    {37}!
+    {38}in(c, (Cli_85: host,Disco_86: host,Sess_87: host));
+    {39}let skSess: bitstring = (if (Sess_87 = A) then skA else (if (Sess_87 = B) then skB else (if (Sess_87 = C) then skC else fail-any))) in
+    {40}let pkSess_88: bitstring = pub(skSess) in
+    {41}let pkCli_89: bitstring = (if (Cli_85 = A) then pub(skA) else (if (Cli_85 = B) then pub(skB) else (if (Cli_85 = C) then pub(skC) else pub(sk(Cli_85))))) in
+    {42}let pkDisco_90: bitstring = (if (Disco_86 = A) then pub(skA) else (if (Disco_86 = B) then pub(skB) else (if (Disco_86 = C) then pub(skC) else pub(sk(Disco_86))))) in
+    {43}in(c, (=pkCli_89,em1: bitstring,sigM1: bitstring));
+    {44}let m1_91: bitstring = dec(em1,skSess) in
+    {45}if (verify(h(m1_91),sigM1,pkCli_89) <> true) then
+        0
+    else
+        {46}let (=OpenSecureChannelRequest,=Sess_87,=pkCli_89,wNc_92: bitstring) = m1_91 in
+        {47}let Nc_93: bitstring = dec(wNc_92,skSess) in
+        {48}event msg3(Cli_85,Disco_86,Sess_87);
+        {49}new Ns_94: bitstring;
+        {50}new ST_95: bitstring;
+        {51}new TTL_96: bitstring;
+        {52}let wNs_97: bitstring = enc(Ns_94,pkCli_89) in
+        {53}let m2_98: bitstring = (OpenSecureChannelResponse,Cli_85,wNs_97,ST_95,TTL_96) in
+        {54}out(c, (enc(m2_98,pkCli_89),sign(h(m2_98),skSess)))
+)
+
+-- Query event(msg4(X,Y,Z)) ==> (event(msg3(X,Y,Z)) ==> (event(msg2(X,Y,Z)) ==> event(msg1(X,Y,Z))))
+Completing...
+200 rules inserted. The rule base contains 116 rules. 445 rules in the queue.
+400 rules inserted. The rule base contains 184 rules. 445 rules in the queue.
+600 rules inserted. The rule base contains 305 rules. 445 rules in the queue.
+800 rules inserted. The rule base contains 331 rules. 445 rules in the queue.
+1000 rules inserted. The rule base contains 463 rules. 444 rules in the queue.
+1200 rules inserted. The rule base contains 449 rules. 428 rules in the queue.
+1400 rules inserted. The rule base contains 460 rules. 414 rules in the queue.
+1600 rules inserted. The rule base contains 476 rules. 396 rules in the queue.
+1800 rules inserted. The rule base contains 520 rules. 348 rules in the queue.
+2000 rules inserted. The rule base contains 546 rules. 472 rules in the queue.
+2200 rules inserted. The rule base contains 568 rules. 539 rules in the queue.
+2400 rules inserted. The rule base contains 639 rules. 860 rules in the queue.
+2600 rules inserted. The rule base contains 690 rules. 862 rules in the queue.
+2800 rules inserted. The rule base contains 718 rules. 814 rules in the queue.
+3000 rules inserted. The rule base contains 745 rules. 771 rules in the queue.
+3200 rules inserted. The rule base contains 767 rules. 718 rules in the queue.
+3400 rules inserted. The rule base contains 788 rules. 618 rules in the queue.
+3600 rules inserted. The rule base contains 801 rules. 544 rules in the queue.
+3800 rules inserted. The rule base contains 795 rules. 518 rules in the queue.
+4000 rules inserted. The rule base contains 791 rules. 492 rules in the queue.
+4200 rules inserted. The rule base contains 804 rules. 556 rules in the queue.
+4400 rules inserted. The rule base contains 819 rules. 620 rules in the queue.
+4600 rules inserted. The rule base contains 881 rules. 696 rules in the queue.
+4800 rules inserted. The rule base contains 938 rules. 757 rules in the queue.
+5000 rules inserted. The rule base contains 1002 rules. 840 rules in the queue.
+5200 rules inserted. The rule base contains 1100 rules. 788 rules in the queue.
+5400 rules inserted. The rule base contains 1239 rules. 1046 rules in the queue.
+5600 rules inserted. The rule base contains 1375 rules. 1200 rules in the queue.
+5800 rules inserted. The rule base contains 1516 rules. 1416 rules in the queue.
+6000 rules inserted. The rule base contains 1646 rules. 1341 rules in the queue.
+6200 rules inserted. The rule base contains 1805 rules. 1261 rules in the queue.
+6400 rules inserted. The rule base contains 1958 rules. 1147 rules in the queue.
+6600 rules inserted. The rule base contains 2117 rules. 997 rules in the queue.
+6800 rules inserted. The rule base contains 2273 rules. 923 rules in the queue.
+7000 rules inserted. The rule base contains 2428 rules. 774 rules in the queue.
+7200 rules inserted. The rule base contains 2559 rules. 619 rules in the queue.
+7400 rules inserted. The rule base contains 2693 rules. 462 rules in the queue.
+7600 rules inserted. The rule base contains 2833 rules. 286 rules in the queue.
+7800 rules inserted. The rule base contains 2892 rules. 215 rules in the queue.
+8000 rules inserted. The rule base contains 2927 rules. 173 rules in the queue.
+8200 rules inserted. The rule base contains 2940 rules. 154 rules in the queue.
+8400 rules inserted. The rule base contains 2966 rules. 122 rules in the queue.
+8600 rules inserted. The rule base contains 3056 rules. 9 rules in the queue.
+Starting query event(msg4(X,Y,Z)) ==> (event(msg3(X,Y,Z)) ==> (event(msg2(X,Y,Z)) ==> event(msg1(X,Y,Z))))
+goal reachable: begin(msg3(C[],A[],A[])) && begin(msg2(C[],B[],A[])) -> end(msg4(C[],B[],A[]))
+Abbreviations:
+Nc_166926 = Nc[UP = UP_166892,SP = SP_166891,Sess = A[],Disco = B[],Cli = C[],!1 = @sid_166893]
+Ns_166927 = Ns_94[sigM1 = sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[]),em1 = enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[])),Sess_87 = A[],Disco_86 = A[],Cli_85 = C[],!1 = @sid_166904]
+ST_166928 = ST_95[sigM1 = sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[]),em1 = enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[])),Sess_87 = A[],Disco_86 = A[],Cli_85 = C[],!1 = @sid_166904]
+TTL_166929 = TTL_96[sigM1 = sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[]),em1 = enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[])),Sess_87 = A[],Disco_86 = A[],Cli_85 = C[],!1 = @sid_166904]
+
+1. The attacker initially knows A[].
+attacker(A[]).
+
+2. The attacker initially knows B[].
+attacker(B[]).
+
+3. The attacker initially knows C[].
+attacker(C[]).
+
+4. By 3, the attacker may know C[].
+By 2, the attacker may know B[].
+By 1, the attacker may know A[].
+Using the function 3-tuple the attacker may obtain (C[],B[],A[]).
+attacker((C[],B[],A[])).
+
+5. The attacker has some term UP_166921.
+attacker(UP_166921).
+
+6. The attacker has some term SP_166920.
+attacker(SP_166920).
+
+7. Using the function SignAndEncrypt the attacker may obtain SignAndEncrypt.
+attacker(SignAndEncrypt).
+
+8. The message pub(skA[]) may be sent to the attacker at output {2}.
+attacker(pub(skA[])).
+
+9. Using the function GetEndpointResponse the attacker may obtain GetEndpointResponse.
+attacker(GetEndpointResponse).
+
+10. By 9, the attacker may know GetEndpointResponse.
+By 8, the attacker may know pub(skA[]).
+By 7, the attacker may know SignAndEncrypt.
+By 6, the attacker may know SP_166920.
+By 5, the attacker may know UP_166921.
+Using the function 5-tuple the attacker may obtain (GetEndpointResponse,pub(skA[]),SignAndEncrypt,SP_166920,UP_166921).
+attacker((GetEndpointResponse,pub(skA[]),SignAndEncrypt,SP_166920,UP_166921)).
+
+11. By 3, the attacker may know C[].
+By 1, the attacker may know A[].
+By 1, the attacker may know A[].
+Using the function 3-tuple the attacker may obtain (C[],A[],A[]).
+attacker((C[],A[],A[])).
+
+12. The attacker has some term UP_166892.
+attacker(UP_166892).
+
+13. The attacker has some term SP_166891.
+attacker(SP_166891).
+
+14. By 9, the attacker may know GetEndpointResponse.
+By 8, the attacker may know pub(skA[]).
+By 7, the attacker may know SignAndEncrypt.
+By 13, the attacker may know SP_166891.
+By 12, the attacker may know UP_166892.
+Using the function 5-tuple the attacker may obtain (GetEndpointResponse,pub(skA[]),SignAndEncrypt,SP_166891,UP_166892).
+attacker((GetEndpointResponse,pub(skA[]),SignAndEncrypt,SP_166891,UP_166892)).
+
+15. The message (C[],B[],A[]) that the attacker may have by 4 may be received at input {8}.
+The message (GetEndpointResponse,pub(skA[]),SignAndEncrypt,SP_166891,UP_166892) that the attacker may have by 14 may be received at input {14}.
+The event msg2(C[],B[],A[]) may be executed at {15}.
+So the message (pub(skC[]),enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[])),sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[])) may be sent to the attacker at output {19}.
+attacker((pub(skC[]),enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[])),sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[]))).
+
+16. By 15, the attacker may know (pub(skC[]),enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[])),sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[])).
+Using the function 3-proj-3-tuple the attacker may obtain sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[]).
+attacker(sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[])).
+
+17. By 15, the attacker may know (pub(skC[]),enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[])),sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[])).
+Using the function 2-proj-3-tuple the attacker may obtain enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[])).
+attacker(enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[]))).
+
+18. The message pub(skC[]) may be sent to the attacker at output {6}.
+attacker(pub(skC[])).
+
+19. By 18, the attacker may know pub(skC[]).
+By 17, the attacker may know enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[])).
+By 16, the attacker may know sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[]).
+Using the function 3-tuple the attacker may obtain (pub(skC[]),enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[])),sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[])).
+attacker((pub(skC[]),enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[])),sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[]))).
+
+20. The message (C[],A[],A[]) that the attacker may have by 11 may be received at input {38}.
+The message (pub(skC[]),enc((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[]))),pub(skA[])),sign(h((OpenSecureChannelRequest,A[],pub(skC[]),enc(Nc_166926,pub(skA[])))),skC[])) that the attacker may have by 19 may be received at input {43}.
+The event msg3(C[],A[],A[]) may be executed at {48}.
+So the message (enc((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929),pub(skC[])),sign(h((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929)),skA[])) may be sent to the attacker at output {54}.
+attacker((enc((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929),pub(skC[])),sign(h((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929)),skA[]))).
+
+21. By 20, the attacker may know (enc((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929),pub(skC[])),sign(h((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929)),skA[])).
+Using the function 2-proj-2-tuple the attacker may obtain sign(h((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929)),skA[]).
+attacker(sign(h((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929)),skA[])).
+
+22. By 20, the attacker may know (enc((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929),pub(skC[])),sign(h((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929)),skA[])).
+Using the function 1-proj-2-tuple the attacker may obtain enc((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929),pub(skC[])).
+attacker(enc((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929),pub(skC[]))).
+
+23. By 22, the attacker may know enc((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929),pub(skC[])).
+By 21, the attacker may know sign(h((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929)),skA[]).
+Using the function 2-tuple the attacker may obtain (enc((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929),pub(skC[])),sign(h((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929)),skA[])).
+attacker((enc((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929),pub(skC[])),sign(h((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929)),skA[]))).
+
+24. The message (C[],B[],A[]) that the attacker may have by 4 may be received at input {8}.
+The message (GetEndpointResponse,pub(skA[]),SignAndEncrypt,SP_166920,UP_166921) that the attacker may have by 10 may be received at input {14}.
+The event msg2(C[],B[],A[]) may be executed at {15}.
+The message (enc((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929),pub(skC[])),sign(h((OpenSecureChannelResponse,C[],enc(Ns_166927,pub(skC[])),ST_166928,TTL_166929)),skA[])) that the attacker may have by 23 may be received at input {20}.
+So event msg4(C[],B[],A[]) may be executed at {25}.
+end(msg4(C[],B[],A[])).
+
+
+A more detailed output of the traces is available with
+  set traceDisplay = long.
+
+out(c, pub(skA)) at {2}
+
+out(c, pub(skB)) at {4}
+
+out(c, pub(skC)) at {6}
+
+in(c, (C,B,A)) at {8} in copy a_166931
+
+out(c, GetEndpointRequest) at {13} in copy a_166931
+
+in(c, (GetEndpointResponse,pub(skA),SignAndEncrypt,a_166930,a)) at {14} in copy a_166931
+
+event(msg2(C,B,A)) at {15} in copy a_166931
+
+new Nc creating Nc_166936 at {16} in copy a_166931
+
+out(c, (pub(skC),enc((OpenSecureChannelRequest,A,pub(skC),enc(Nc_166936,pub(skA))),pub(skA)),sign(h((OpenSecureChannelRequest,A,pub(skC),enc(Nc_166936,pub(skA)))),skC))) at {19} in copy a_166931
+
+in(c, (C,B,A)) at {8} in copy a_166935
+
+out(c, GetEndpointRequest) at {13} in copy a_166935
+
+in(c, (GetEndpointResponse,pub(skA),SignAndEncrypt,a_166933,a_166934)) at {14} in copy a_166935
+
+event(msg2(C,B,A)) at {15} in copy a_166935
+
+new Nc creating Nc_167410 at {16} in copy a_166935
+
+out(c, (pub(skC),enc((OpenSecureChannelRequest,A,pub(skC),enc(Nc_167410,pub(skA))),pub(skA)),sign(h((OpenSecureChannelRequest,A,pub(skC),enc(Nc_167410,pub(skA)))),skC))) at {19} in copy a_166935
+
+in(c, (C,A,A)) at {38} in copy a_166932
+
+in(c, (pub(skC),enc((OpenSecureChannelRequest,A,pub(skC),enc(Nc_166936,pub(skA))),pub(skA)),sign(h((OpenSecureChannelRequest,A,pub(skC),enc(Nc_166936,pub(skA)))),skC))) at {43} in copy a_166932
+
+event(msg3(C,A,A)) at {48} in copy a_166932
+
+new Ns_94 creating Ns_166937 at {49} in copy a_166932
+
+new ST_95 creating ST_166938 at {50} in copy a_166932
+
+new TTL_96 creating TTL_166939 at {51} in copy a_166932
+
+out(c, (enc((OpenSecureChannelResponse,C,enc(Ns_166937,pub(skC)),ST_166938,TTL_166939),pub(skC)),sign(h((OpenSecureChannelResponse,C,enc(Ns_166937,pub(skC)),ST_166938,TTL_166939)),skA))) at {54} in copy a_166932
+
+in(c, (enc((OpenSecureChannelResponse,C,enc(Ns_166937,pub(skC)),ST_166938,TTL_166939),pub(skC)),sign(h((OpenSecureChannelResponse,C,enc(Ns_166937,pub(skC)),ST_166938,TTL_166939)),skA))) at {20} in copy a_166935
+
+event(msg4(C,B,A)) at {25} in copy a_166935
+
+The event msg4(C,B,A) is executed.
+A trace has been found.
+RESULT event(msg4(X,Y,Z)) ==> (event(msg3(X,Y,Z)) ==> (event(msg2(X,Y,Z)) ==> event(msg1(X,Y,Z)))) is false.
