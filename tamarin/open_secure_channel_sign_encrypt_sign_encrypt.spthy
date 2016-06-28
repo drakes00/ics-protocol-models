@@ -23,6 +23,7 @@ rule genClientKey:
   [ !Ltk($C,~x), Out(<$C,pk(~x)>)]
 
 /*
+// No corruption for the moment.
 rule corrupt:
   [ !Ltk($C,~x) ]
   --[ Corrupt($C,pk(~x)) ]->
@@ -60,18 +61,23 @@ rule Resp_Server:
 axiom Equality:
     "All x y #i. Eq(x, y) @ #i ==> x = y"
 
+// The last rule of the protocol can be executed.
 lemma Executable:
   exists-trace
   "Ex ns keyS keyC #i. Resp_Server(ns,keyC,keyS) @ #i"
 
+// If a server and a client think they executed a session together, the adversary does not know the derived key.
 lemma Key_secrecy_1:
   all-traces
   "All nc ns keyS keyC #i #j. (Resp_Server(ns,keyC,keyS) @ #i & Resp_Client(nc,keyS,keyC) @ #j) ==> (All #k. K(h(<nc,ns>)) @ #k ==> F) "
 
+// If a server and a client think they executed a session (but not necessarily with each other), the adversary does not know the derived key.
+// This is false, as the adversary can execute a man-in-the-middle attack.
 lemma Key_secrecy_2:
   all-traces
   "All nc ns keyS keyC keyS1 keyC1 #i #j. (Resp_Server(ns,keyC,keyS) @ #i & Resp_Client(nc,keyS1,keyC1) @ #j) ==> (All #k. K(h(<nc,ns>)) @ #k ==> F) "
 
+// If a server and a client think they executed a session together and used valid keys, the adversary does not know the derived key.
 lemma Key_secrecy_3:
   all-traces
   "All nc ns keyS keyC S C #i #j #m #n. (
@@ -81,6 +87,7 @@ lemma Key_secrecy_3:
     ClientKey(C,keyC) @ #n
    ) ==> (All #k. K(h(<nc,ns>)) @ #k ==> F) "
 
+// If a server and a client think they executed a session (but not necessarily with each other) and used valid keys, the adversary does not know the derived key.
 lemma Key_secrecy_4:
   all-traces
   "All nc ns keyS keyC keyS1 keyC1 S C S1 C1 #i #j #m #n. (
