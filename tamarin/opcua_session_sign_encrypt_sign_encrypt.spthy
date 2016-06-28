@@ -56,7 +56,7 @@ let
     m= <'CSReq', pk(~skc), ~nc>
 in     
     [Fr(~nc), !LtkSym('enc', $C, $S, keyCS), !LtkSym('sign', $C, $S, keySigCS), !Ltk($C, ~skc)]
-    --[ Init_Client() ]->
+    --[ Init_Client($C,$S,~nc) ]->
     [ Out(<senc(m, keyCS), mac(m, keySigCS)>), Session_Client($C, $S, ~nc) ]
 
 
@@ -70,7 +70,7 @@ let
     m2 = <'CSRes', pk(~sks), sigNc, ~ns>
 in
     [ In(<senc(m, keyCS), mac1>), Fr(~ns), !LtkSym('enc', $C, $S, keyCS), !LtkSym('sign', $C, $S, keySigCS), !LtkSym('enc', $S, $C, keySC), !LtkSym('sign', $S, $C, keySigSC), !Ltk($S, ~sks), !Ltk($C, ~skc) ]
-    --[ Eq(verifyMac(mac1, m, keySigCS), true), Init_Server(), WitnessSigNc($S, $C, sigNc) ]->
+    --[ Eq(verifyMac(mac1, m, keySigCS), true), Init_Server($C,$S,~ns), WitnessSigNc($S, $C, sigNc) ]->
     [ Out(<senc(m2, keySC), mac(m2, keySigSC)>), Session_Server($C, $S, ~ns) ]
 
 
@@ -85,7 +85,7 @@ let
     m2 = <'ASReq', sigNs, pk(~skc), log, pass>
 in
     [ In(<senc(m, keySC), mac1>), !LtkSym('enc', $S, $C, keySC), !LtkSym('sign', $S, $C, keySigSC), !LtkSym('enc', $C, $S, keyCS), !LtkSym('sign', $C, $S, keySigCS), !Ltk($C, ~skc), !Ltk($S, ~sks), Session_Client($C, $S, ~nc) ]
-    --[ Eq(verify(signature, h(~nc), pk(~sks)), true), Eq(verifyMac(mac1, m, keySigSC), true), Resp_Client(), WitnessPasswd($C, $S, pass), RequestSigNc($S, $C, signature), WitnessSigNs($C, $S, sigNs) ]->
+    --[ Eq(verify(signature, h(~nc), pk(~sks)), true), Eq(verifyMac(mac1, m, keySigSC), true), Resp_Client($C,$S,~nc,ns), WitnessPasswd($C, $S, pass), RequestSigNc($S, $C, signature), WitnessSigNs($C, $S, sigNs) ]->
     [ Out(<senc(m2, keyCS), mac(m2, keySigCS)>) ]
 
 
@@ -98,7 +98,7 @@ let
     m2 = <'ASRes', ~ns2>
 in
     [ In(<senc(m, keyCS), mac1>), Fr(~ns2), !LtkSym('enc', $S, $C, keySC), !LtkSym('sign', $S, $C, keySigSC), !LtkSym('enc', $C, $S, keyCS), !LtkSym('sign', $C, $S, keySigCS), !Ltk($C, ~skc), !Ltk($S, ~sks), Session_Server($C, $S, ~ns)]
-    --[ Eq(verifyCreds(pk(~sks), login, passwd), true), Eq(verify(signature, h(~ns), pk(~skc)), true), Eq(verifyMac(mac1, m, keySigCS), true), Resp_Server(), RequestPasswd($C, $S, passwd), RequestSigNs($C, $S, signature) ]->
+    --[ Eq(verifyCreds(pk(~sks), login, passwd), true), Eq(verify(signature, h(~ns), pk(~skc)), true), Eq(verifyMac(mac1, m, keySigCS), true), Resp_Server($C,$S,~ns,~ns2), RequestPasswd($C, $S, passwd), RequestSigNs($C, $S, signature) ]->
     [ Out(<senc(m2, keySC), mac(m2, keySigSC)>) ]
 
 
@@ -110,36 +110,45 @@ axiom Inequality:
     "All x #i. Neq(x, x) @ #i ==> F"
 
 
-/* TODO secrecy of Keys, auth on Passwd, auth on sigNC, auth on sigNS */
+/* TODO secrecy of Keys */
 
+// The protocol is executable
 lemma Executable:
-  exists-trace
-  "Ex #i. Resp_Server() @ #i"
+    exists-trace
+    "Ex C S ns ns2 #i. Resp_Server(C,S,ns,ns2) @ #i"
 
 
+// The adversary can only know the passwords of corrupted clients
 lemma Password_secrecy_client:
-  all-traces
-  "All pkS skC C #i #j.((K(passwd(skC, pkS)) @ #i & ClientKey(C, pk(skC)) @ #j) ==> (Ex #k. Corrupt(C, pk(skC)) @ #k))"
+    all-traces
+    "All pkS skC C #i #j.((K(passwd(skC, pkS)) @ #i & ClientKey(C, pk(skC)) @ #j) ==> (Ex #k. Corrupt(C, pk(skC)) @ #k))"
 
 
+// The adversary can only know the passwords of currpted servers
 lemma Password_secrecy_server:
-  all-traces
-  "All pkS skC C #i #j.((K(passwd(skC, pkS)) @ #i & ServerKey(C, pk(skC)) @ #j) ==> (Ex #k. Corrupt(C, pk(skC)) @ #k))"
+    all-traces
+    "All pkS skC C #i #j.((K(passwd(skC, pkS)) @ #i & ServerKey(C, pk(skC)) @ #j) ==> (Ex #k. Corrupt(C, pk(skC)) @ #k))"
+
+
+// The four rules are always executed in correct order within one session
+lemma Order:
+    all-traces
+    "All C S nc ns ns2 #i #j #k #l. ((Init_Client(C,S,nc) @ #i & Init_Server(C,S,ns) @ #j & Resp_Client(C,S,nc,ns) @ k & Resp_Server(C,S,ns,ns2) @ #l) ==> (#i < #j & #j < #k & #k < #l) )"
 
 
 lemma Password_auth:
-  all-traces
-  "All C S m #i . RequestPasswd(C, S, m) @ #i ==> (Ex #j . WitnessPasswd(C, S, m) @ #j & j<i)"
+    all-traces
+    "All C S m #i . RequestPasswd(C, S, m) @ #i ==> (Ex #j . WitnessPasswd(C, S, m) @ #j & j<i)"
 
 
 lemma SigNc_auth:
-  all-traces
-  "All C S m #i . RequestSigNc(C, S, m) @ #i ==> (Ex #j . WitnessSigNc(C, S, m) @ #j & j<i)"
+    all-traces
+    "All C S m #i . RequestSigNc(C, S, m) @ #i ==> (Ex #j . WitnessSigNc(C, S, m) @ #j & j<i)"
 
 
 lemma SigNs_auth:
-  all-traces
-  "All C S m #i . RequestSigNs(C, S, m) @ #i ==> (Ex #j . WitnessSigNs(C, S, m) @ #j & j<i)"
+    all-traces
+    "All C S m #i . RequestSigNs(C, S, m) @ #i ==> (Ex #j . WitnessSigNs(C, S, m) @ #j & j<i)"
 
 
 /*
@@ -147,25 +156,27 @@ lemma Key_secrecy_2:
   all-traces
   "All nc ns keyS keyC keyS1 keyC1 #i #j. (Resp_Server(ns, keyC, keyS) @ #i & Resp_Client(nc, keyS1, keyC1) @ #j) ==> (All #k. K(h(<nc, ns>)) @ #k ==> F) "
 
+
 lemma Key_secrecy_3:
-  all-traces
-  "All nc ns keyS keyC S C #i #j #m #n. (
-    Resp_Server(ns, keyC, keyS) @ #i & 
-    Resp_Client(nc, keyS, keyC) @ #j & 
-    ServerKey(S, keyS) @ #m & 
-    ClientKey(C, keyC) @ #n
-   ) ==> (All #k. K(h(<nc, ns>)) @ #k ==> F) "
+    all-traces
+    "All nc ns keyS keyC S C #i #j #m #n. (
+        Resp_Server(ns, keyC, keyS) @ #i & 
+        Resp_Client(nc, keyS, keyC) @ #j & 
+        ServerKey(S, keyS) @ #m & 
+        ClientKey(C, keyC) @ #n
+    ) ==> (All #k. K(h(<nc, ns>)) @ #k ==> F) "
+
 
 lemma Key_secrecy_4:
-  all-traces
-  "All nc ns keyS keyC keyS1 keyC1 S C S1 C1 #i #j #m #n. (
-    Resp_Server(ns, keyC, keyS) @ #i & 
-    Resp_Client(nc, keyS1, keyC1) @ #j & 
-    ServerKey(S, keyS) @ #m & 
-    ClientKey(C, keyC) @ #n &
-    ServerKey(S1, keyS1) @ #m & 
-    ClientKey(C1, keyC1) @ #n
-   ) ==> (All #k. K(h(<nc, ns>)) @ #k ==> F) "
+    all-traces
+    "All nc ns keyS keyC keyS1 keyC1 S C S1 C1 #i #j #m #n. (
+        Resp_Server(ns, keyC, keyS) @ #i & 
+        Resp_Client(nc, keyS1, keyC1) @ #j & 
+        ServerKey(S, keyS) @ #m & 
+        ClientKey(C, keyC) @ #n &
+        ServerKey(S1, keyS1) @ #m & 
+        ClientKey(C1, keyC1) @ #n
+    ) ==> (All #k. K(h(<nc, ns>)) @ #k ==> F) "
 */
 
 end
