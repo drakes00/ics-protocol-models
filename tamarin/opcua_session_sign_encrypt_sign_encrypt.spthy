@@ -55,8 +55,8 @@ rule Client_Init:
 let 
     m= <'CSReq', pk(~skc), ~nc>
 in     
-    [Fr(~nc), !LtkSym('enc', $C, $S, keyCS), !LtkSym('sign', $C, $S, keySigCS), !Ltk($C, ~skc)]
-    --[ Init_Client($C,$S,~nc) ]->
+    [Fr(~nc), !LtkSym('enc', $C, $S, keyCS), !LtkSym('sign', $C, $S, keySigCS), !Ltk($C, ~skc), !LtkSym('enc', $S, $C, keySC), !LtkSym('sign', $S, $C, keySigSC)]
+    --[ Init_Client($C,$S,~nc), KeyClient($C, $S, keyCS, keySC, keySigCS, keySigSC) ]->
     [ Out(<senc(m, keyCS), mac(m, keySigCS)>), Session_Client($C, $S, ~nc) ]
 
 
@@ -70,7 +70,7 @@ let
     m2 = <'CSRes', pk(~sks), sigNc, ~ns>
 in
     [ In(<senc(m, keyCS), mac1>), Fr(~ns), !LtkSym('enc', $C, $S, keyCS), !LtkSym('sign', $C, $S, keySigCS), !LtkSym('enc', $S, $C, keySC), !LtkSym('sign', $S, $C, keySigSC), !Ltk($S, ~sks), !Ltk($C, ~skc) ]
-    --[ Eq(verifyMac(mac1, m, keySigCS), true), Init_Server($C,$S,~ns), WitnessSigNc($S, $C, sigNc) ]->
+    --[ Eq(verifyMac(mac1, m, keySigCS), true), Init_Server($C,$S,~ns), WitnessSigNc($S, $C, sigNc), KeyServer($C, $S, keyCS, keySC, keySigCS, keySigSC) ]->
     [ Out(<senc(m2, keySC), mac(m2, keySigSC)>), Session_Server($C, $S, ~ns) ]
 
 
@@ -110,74 +110,69 @@ axiom Inequality:
     "All x #i. Neq(x, x) @ #i ==> F"
 
 
-/* TODO secrecy of Keys */
-
-// The protocol is executable
+// The protocol is executable.
 lemma Executable:
     exists-trace
     "Ex C S ns ns2 #i. Resp_Server(C,S,ns,ns2) @ #i"
 
 
-// The adversary can only know the passwords of corrupted clients
+// The adversary can only know the passwords of corrupted clients.
 lemma Password_secrecy_client:
     all-traces
     "All pkS skC C #i #j.((K(passwd(skC, pkS)) @ #i & ClientKey(C, pk(skC)) @ #j) ==> (Ex #k. Corrupt(C, pk(skC)) @ #k))"
 
 
-// The adversary can only know the passwords of currpted servers
+// The adversary can only know the passwords of currpted servers.
 lemma Password_secrecy_server:
     all-traces
     "All pkS skC C #i #j.((K(passwd(skC, pkS)) @ #i & ServerKey(C, pk(skC)) @ #j) ==> (Ex #k. Corrupt(C, pk(skC)) @ #k))"
 
 
-// The four rules are always executed in correct order within one session
+// The four rules are always executed in correct order within one session.
 lemma Order:
     all-traces
     "All C S nc ns ns2 #i #j #k #l. ((Init_Client(C,S,nc) @ #i & Init_Server(C,S,ns) @ #j & Resp_Client(C,S,nc,ns) @ k & Resp_Server(C,S,ns,ns2) @ #l) ==> (#i < #j & #j < #k & #k < #l) )"
 
 
+// Server authenticates client on password.
 lemma Password_auth:
     all-traces
     "All C S m #i . RequestPasswd(C, S, m) @ #i ==> (Ex #j . WitnessPasswd(C, S, m) @ #j & j<i)"
 
 
+// Client authenticates server on nc signature.
 lemma SigNc_auth:
     all-traces
     "All C S m #i . RequestSigNc(C, S, m) @ #i ==> (Ex #j . WitnessSigNc(C, S, m) @ #j & j<i)"
 
 
+// Server authenticates client on ns signature.
 lemma SigNs_auth:
     all-traces
     "All C S m #i . RequestSigNs(C, S, m) @ #i ==> (Ex #j . WitnessSigNs(C, S, m) @ #j & j<i)"
 
 
-/*
-lemma Key_secrecy_2:
-  all-traces
-  "All nc ns keyS keyC keyS1 keyC1 #i #j. (Resp_Server(ns, keyC, keyS) @ #i & Resp_Client(nc, keyS1, keyC1) @ #j) ==> (All #k. K(h(<nc, ns>)) @ #k ==> F) "
-
-
-lemma Key_secrecy_3:
+// If a server and a client think they executed a session together, the adversary does not know the shared key used.
+lemma KeyCS_secrecy:
     all-traces
-    "All nc ns keyS keyC S C #i #j #m #n. (
-        Resp_Server(ns, keyC, keyS) @ #i & 
-        Resp_Client(nc, keyS, keyC) @ #j & 
-        ServerKey(S, keyS) @ #m & 
-        ClientKey(C, keyC) @ #n
-    ) ==> (All #k. K(h(<nc, ns>)) @ #k ==> F) "
+    "All C S keyCS keySC keySigCS keySigSC #i #j . (KeyClient(C, S, keyCS, keySC, keySigCS, keySigSC) @ #i & KeyServer(C, S, keyCS, keySC, keySigCS, keySigSC) @ #j) ==> (All #k . K(keyCS) @ #k ==> F)"
 
 
-lemma Key_secrecy_4:
+// If a server and a client think they executed a session together, the adversary does not know the shared key used.
+lemma KeySC_secrecy:
     all-traces
-    "All nc ns keyS keyC keyS1 keyC1 S C S1 C1 #i #j #m #n. (
-        Resp_Server(ns, keyC, keyS) @ #i & 
-        Resp_Client(nc, keyS1, keyC1) @ #j & 
-        ServerKey(S, keyS) @ #m & 
-        ClientKey(C, keyC) @ #n &
-        ServerKey(S1, keyS1) @ #m & 
-        ClientKey(C1, keyC1) @ #n
-    ) ==> (All #k. K(h(<nc, ns>)) @ #k ==> F) "
-*/
+    "All C S keyCS keySC keySigCS keySigSC #i #j . (KeyClient(C, S, keyCS, keySC, keySigCS, keySigSC) @ #i & KeyServer(C, S, keyCS, keySC, keySigCS, keySigSC) @ #j) ==> (All #k . K(keySC) @ #k ==> F)"
+
+
+// If a server and a client think they executed a session together, the adversary does not know the shared key used.
+lemma KeySigCS_secrecy:
+    all-traces
+    "All C S keyCS keySC keySigCS keySigSC #i #j . (KeyClient(C, S, keyCS, keySC, keySigCS, keySigSC) @ #i & KeyServer(C, S, keyCS, keySC, keySigCS, keySigSC) @ #j) ==> (All #k . K(keySigCS) @ #k ==> F)"
+
+
+// If a server and a client think they executed a session together, the adversary does not know the shared key used.
+lemma KeySigSC_secrecy:
+    all-traces
+    "All C S keyCS keySC keySigCS keySigSC #i #j . (KeyClient(C, S, keyCS, keySC, keySigCS, keySigSC) @ #i & KeyServer(C, S, keyCS, keySC, keySigCS, keySigSC) @ #j) ==> (All #k . K(keySigSC) @ #k ==> F)"
 
 end
-
