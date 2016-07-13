@@ -18,21 +18,16 @@ equations: verifyMac(mac(m, sk), m, sk)=true
 
 
 /* Shared keys session generation */
-rule genSharedKeySign:
+rule genKeySign:
     [ Fr(~x) ]
-    --[ SharedKey('sign', $C, $S, ~x), Neq($C, $S) ]->
-    [ !LtkSym('sign', $C, $S, ~x) /*, !LtkSym('sign', $S, $C, ~x) */ ]
-
-rule genSharedKeyEnc:
-    [ Fr(~x) ]
-    --[ SharedKey('enc', $C, $S, ~x), Neq($C, $S) ]->
-    [ !LtkSym('enc', $C, $S, ~x) /*, !LtkSym('enc', $S, $C, ~x) */ ]
+    --[ Key('sign', $C, ~x) ]->
+    [ !Ltk('sign', $C, ~x), Out(pk(~x)) ]
 
 /*
 rule corrupt:
-    [ !LtkSym(type, $C, $S, ~x) ]
-    --[ Corrupt(type, $C, $S, ~x) ]->
-    [ Out(<type, $C, $S, ~x>) ]
+    [ !Sym(type, $C, ~x) ]
+    --[ Corrupt(type, $C, ~x) ]->
+    [ Out(<type, $C, ~x>) ]
 */
 
 /* rule initA:
@@ -44,12 +39,12 @@ rule corrupt:
 rule Send_A:
     let m = ~m
     in
-    [ Fr(~m),  !LtkSym('sign', $A, $B, keySigAB) ]
+    [ Fr(~m),  !Ltk('sign', $A, keyA) ]
     --[ Send($A, $B, m) ]->
-    [ Out( sign(m, keySigAB)) ]
+    [ Out( sign(m, keyA)) ]
 
 rule Recv_B:
-    [!LtkSym('sign', $A, $B, keySigAB), In(sign(m, keySigAB)) ]
+    [!Ltk('sign', $A, keyA), In(sign(m, keyA)) ]
     --[ Recv($A, $B, m) ]->
     [  ]
 
