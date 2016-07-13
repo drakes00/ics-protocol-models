@@ -14,7 +14,7 @@ builtins: signing, symmetric-encryption, hashing, multiset
 
 /* Equations for MAC, similar as signature but with symmetric keys */
 functions : mac/2, verifyMac/3, login/1, passwd/2, verifyCreds/3, suc/1, zero/0
-equations: verifyMac(mac(m, sk), m, sk)=true, suc(suc(suc(suc(x))))=x
+equations: verifyMac(mac(m, sk), m, sk)=true //, suc(suc(suc(suc(x))))=x
 
 
 /* Shared keys session generation */
@@ -66,6 +66,14 @@ axiom Unique_Sequence_Number_A:
 axiom Unique_Sequence_Number_B:
     "All A B seq #i #j. ((Seq_Recv(A, B, seq) @ #i & Seq_Recv(A, B, seq) @ #j) ==> #i = #j)"
 
+axiom Increment_Sequence_Number_B:
+    "All A B seq #i. ((Seq_Recv(A, B, seq) @ #i) ==> (
+    ((seq = zero) & (not(Ex seq3 #k. (Seq_Recv(A, B, seq3) @ #k & #k < #i)) ))
+    | (Ex seq2. (seq = suc(seq2) & ( 
+    (Ex #j. Seq_Recv(A, B, seq2) @ #j & #j < #i) |
+    (not(Ex seq3 #k. (Seq_Recv(A, B, seq3) @ #k & #k < #i)) )
+    )))))"
+
 // Typing Lemma ?
 //lemma open_chains [typing]:
 //    "All A B seq #i.(Seq_Send(A, B, seq) @ #i ==> (seq = '1' | Ex x. seq = '1' + x))"
@@ -98,5 +106,11 @@ lemma IMI:
         & j < i
         & not (Ex A2 B2 #i2. Recv(A2,B2,t) @i2
                            & not (#i2 = #i)))"
+
+// Flow Integrity
+lemma FI:
+    all-traces
+    "All A B m m2 #i #j.(Recv(A,B,m) @ #i & Recv(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Send(A,B,m) @ #k & Send(A,B,m2) @ #l & #k < #l) ))"
+
 
 end
