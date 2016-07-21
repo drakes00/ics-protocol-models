@@ -85,6 +85,8 @@ axiom Test:
 axiom Test:
     "All A B seq #i.(Seq_Send(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero)))))"
 
+axiom Test2:
+    "All A B seq #i.(Seq_Recv(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero)))))"
 
 // The protocol is executable.
 lemma Executable:
