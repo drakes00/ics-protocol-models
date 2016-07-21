@@ -4,10 +4,10 @@ begin
 section{* OPCUA_Transport *}
 
 /*
- * Protocol:    OPCUA_Transport, sequence number between zero and three
+ * Protocol:    OPCUA_Transport
  * Modeler:     Jannik Dreier, Maxime Puys and Pascal Lafourcade      
  * Date:        27 june 2016
- * Status:      Working
+ * Status:      Looping
  */
 
 builtins: symmetric-encryption, hashing
@@ -82,12 +82,18 @@ axiom Increment_Sequence_Number_B:
       )
     ))"
 
-
+/*
 axiom Restrict_Numbers_Send:
     "All A B seq #i.(Seq_Send(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero)))))"
 
 axiom Restrict_Numbers_Recv:
     "All A B seq #i.(Seq_Recv(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero)))))"
+*/
+
+// Typing lemmas
+lemma numbers [typing]:
+    "All A B seq #i. (Seq_Send(A, B, seq) @ #i ==> ( (seq = zero) | (Ex seq2. seq = suc(seq2)) ))"
+
 
 // The protocol is executable.
 lemma Executable:

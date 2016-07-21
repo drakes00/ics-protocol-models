@@ -1,0 +1,75 @@
+theory Modbus
+begin
+
+section{* Modbus_Transport *}
+
+/*
+ * Protocol:    Modbus_Transport
+ * Modeler:     Jannik Dreier, Maxime Puys and Pascal Lafourcade      
+ * Date:        21 July 2016
+ * Status:      Done (broken)
+ */
+
+// [TS|Modbus]{SHA2(TS|Modbus)}pKm
+
+builtins: signing, hashing
+
+/* Equations for MAC, similar as signature but with symmetric keys */
+// functions : mac/2, verifyMac/3, login/1, passwd/2, verifyCreds/3, suc/1, zero/0
+// equations: verifyMac(mac(m, sk), m, sk)=true
+
+
+/* Key generation */
+rule genKeySign:
+    [ Fr(~x) ]
+    --[ Key('sign', $P, ~x) ]->
+    [ !Ltk('sign', $P, ~x), Out(pk(~x)) ]
+
+    
+rule Send_A:
+    let m = $M
+    in
+    [ Fr(~ts), !Ltk('sign', $A, ~key) ]
+    --[ Send($A, $B, <m, ~ts>) ]->
+    [ Out(<~ts, m, sign(h(<~ts, m>), ~key)>) ]
+
+rule Recv_B:
+    [ !Ltk('sign', $A, ~key), In(<ts, m, sign(h(<ts, m>), ~key)>) ]
+    --[ Recv($A, $B, <m, ts>) ]->
+    [  ]
+
+// Axioms
+
+// B accepts a time stamp only once
+axiom Unique_TS:
+    "All A B m ts #i #j. ((Recv(A, B, <m, ts>) @ #i & Recv(A, B, <m, ts>) @ #j) ==> #i = #j)"
+
+
+// The protocol is executable.
+lemma Executable:
+    exists-trace
+    "Ex A B m #i. Recv(A, B, m) @ #i"
+
+
+// Non-Injective Message Integrity
+lemma NIMI:
+    all-traces
+    "All A B m #i.(Recv(A,B,m) @ #i ==> (Ex #k. Send(A,B,m) @ #k))"
+
+
+// Injective Message Integrity
+lemma IMI:
+    "All A B t #i. 
+    Recv(A,B,t) @i
+    ==> (Ex #j. Send(A,B,t) @j 
+        & j < i
+        & not (Ex A2 B2 #i2. Recv(A2,B2,t) @i2
+                           & not (#i2 = #i)))"
+
+// Flow Integrity
+lemma FI:
+    all-traces
+    "All A B m m2 #i #j.(Recv(A,B,m) @ #i & Recv(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Send(A,B,m) @ #k & Send(A,B,m2) @ #l & #k < #l) ))"
+
+
+end

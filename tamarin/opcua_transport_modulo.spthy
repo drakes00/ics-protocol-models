@@ -4,7 +4,7 @@ begin
 section{* OPCUA_Transport *}
 
 /*
- * Protocol:    OPCUA_Transport, sequence number between zero and three
+ * Protocol:    OPCUA_Transport, sequence number modulo three
  * Modeler:     Jannik Dreier, Maxime Puys and Pascal Lafourcade      
  * Date:        27 june 2016
  * Status:      Working
@@ -14,7 +14,7 @@ builtins: symmetric-encryption, hashing
 
 /* Equations for MAC, similar as signature but with symmetric keys */
 functions : mac/2, verifyMac/3, true/0, suc/1, zero/0
-equations: verifyMac(mac(m, sk), m, sk)=true
+equations: verifyMac(mac(m, sk), m, sk)=true, suc(suc(suc(suc(x))))=x
 
 
 /* Shared keys session generation */
