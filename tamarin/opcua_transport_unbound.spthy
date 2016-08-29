@@ -1,19 +1,19 @@
-theory OPCUA_Transport
+theory OPC_UA_Secure_Conversation
 begin
 
-section{* OPCUA_Transport *}
+section{* OPC_UA_Secure_Conversation *}
 
 /*
- * Protocol:    OPCUA_Transport
+ * Protocol:    OPC UA Secure Conversation
  * Modeler:     Jannik Dreier, Maxime Puys and Pascal Lafourcade      
- * Date:        27 june 2016
- * Status:      Looping
+ * Date:        28 August 2016
+ * Status:      Working
  */
 
-builtins: symmetric-encryption, hashing
+builtins: symmetric-encryption, multiset
 
 /* Equations for MAC, similar as signature but with symmetric keys */
-functions : mac/2, verifyMac/3, true/0, suc/1, zero/0
+functions : mac/2, verifyMac/3, true/0
 equations: verifyMac(mac(m, sk), m, sk)=true
 
 
@@ -21,12 +21,12 @@ equations: verifyMac(mac(m, sk), m, sk)=true
 rule genSharedKeySign:
     [ Fr(~x) ]
     --[ SharedKey('sign', $C, $S, ~x) ]->
-    [ !LtkSym('sign', $C, $S, ~x) /*, !LtkSym('sign', $S, $C, ~x) */ ]
+    [ !LtkSym('sign', $C, $S, ~x) ]
 
 rule genSharedKeyEnc:
     [ Fr(~x) ]
     --[ SharedKey('enc', $C, $S, ~x) ]->
-    [ !LtkSym('enc', $C, $S, ~x) /*, !LtkSym('enc', $S, $C, ~x) */ ]
+    [ !LtkSym('enc', $C, $S, ~x) ]
 
 /*
 rule corrupt:
@@ -35,65 +35,35 @@ rule corrupt:
     [ Out(<type, $C, $S, ~x>) ]
 */
 
-rule initA:
-    [ ]
-    --[ InitA($A, $B) ]->
-    [ State_A($A, $B, zero) ]
-
 rule Send_A:
-    let m = ~m
+    let message = <$MH, SH, senc(<seq, ~m, $pad, mac(<$MH, SH, seq, ~m, $pad>, keySigAB)>, keyEncAB)>
     in
-    [ Fr(~m), !LtkSym('enc', $A, $B, keyEncAB), !LtkSym('sign', $A, $B, keySigAB), State_A($A, $B, seq) ]
-    --[ Send($A, $B, m), Seq_Send($A, $B, seq) ]->
-    [ Out(<$MH, $SH, senc(<seq, m, $pad, mac(<$MH, $SH, seq, m, $pad>, keySigAB)>, keyEncAB)>), State_A($A, $B, suc(seq)) ]
+    [ Fr(~m), !LtkSym('enc', $A, $B, keyEncAB), !LtkSym('sign', $A, $B, keySigAB), In(seq), In(SH) ]
+    --[ Send($A, $B, ~m), Seq_Sent($A, $B, seq), Sent(message) ]->
+    [ Out(message) ]
 
 rule Recv_B:
-    [!LtkSym('enc', $A, $B, keyEncAB), !LtkSym('sign', $A, $B, keySigAB), In(<MH, SH, senc(<seq, m, pad, mac(<MH, SH, seq, m, pad>, keySigAB)>, keyEncAB)>) ]
-    --[ Recv($A, $B, m), Seq_Recv($A, $B, seq) ]->
+    let message = <MH, SH, senc(<seq, m, pad, mac(<MH, SH, seq, m, pad>, keySigAB)>, keyEncAB)>
+    in
+    [!LtkSym('enc', $A, $B, keyEncAB), !LtkSym('sign', $A, $B, keySigAB), In(message) ]
+    --[ Recv($A, $B, m), Seq_Recv($A, $B, seq), Received(message) ]->
     [  ]
 
-// Sequence numbers axioms
+// AXIOMS
 
-// A only uses one sequence number per session
-axiom Unique_Sequence_Number_A:
-    "All A B #i #j. ((InitA(A, B) @ #i & InitA(A, B) @ #j) ==> #i = #j)"
+// A's counter increases
+axiom A_Counter_Increases:
+    "All A B seq1 seq2 #i #j.(Seq_Sent(A, B, seq1) @ #i & Seq_Sent(A, B, seq2) @ #j & #i < #j ==> Ex dif. seq2 = seq1 + dif )"
 
-// B accepts a sequence number only once
-axiom Unique_Sequence_Number_B:
-    "All A B seq #i #j. ((Seq_Recv(A, B, seq) @ #i & Seq_Recv(A, B, seq) @ #j) ==> #i = #j)"
+// B's counter counter increases
+axiom B_Counter_Counter_Increases:
+    "All A B seq1 seq2 #i #j.(Seq_Recv(A, B, seq1) @ #i & Seq_Recv(A, B, seq2) @ #j & #i < #j ==> Ex dif. seq2 = seq1 + dif )"
 
-/*
- B accepts a sequence number only if
- - it is zero and it has not received any other sequence number previously or
- - it is greater than zero and it has either
-   - received the previous sequence number or
-   - received no other sequence number previously
-*/
-axiom Increment_Sequence_Number_B:
-    "All A B seq #i. ((Seq_Recv(A, B, seq) @ #i) ==> (
-      ((seq = zero) & (not(Ex seq3 #k. (Seq_Recv(A, B, seq3) @ #k & #k < #i)) ))
-    | (Ex seq2. 
-       (seq = suc(seq2) & 
-        (
-           (Ex #j. Seq_Recv(A, B, seq2) @ #j & #j < #i) 
-         | (not(Ex seq3 #k. (Seq_Recv(A, B, seq3) @ #k & #k < #i)) )
-        )
-       )
-      )
-    ))"
+// Delivery Axiom
+axiom delivery:
+    "All m #i. Sent(m) @ #i ==> Ex #j. Received(m) @ #j & #i < #j"
 
-/*
-axiom Restrict_Numbers_Send:
-    "All A B seq #i.(Seq_Send(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero)))))"
-
-axiom Restrict_Numbers_Recv:
-    "All A B seq #i.(Seq_Recv(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero)))))"
-*/
-
-// Typing lemmas
-lemma numbers [typing]:
-    "All A B seq #i. (Seq_Send(A, B, seq) @ #i ==> ( (seq = zero) | (Ex seq2. seq = suc(seq2)) ))"
-
+// LEMMAS
 
 // The protocol is executable.
 lemma Executable:
@@ -105,7 +75,6 @@ lemma Executable:
 lemma NIMI:
     all-traces
     "All A B m #i.(Recv(A,B,m) @ #i ==> (Ex #k. Send(A,B,m) @ #k))"
-
 
 // Injective Message Integrity
 lemma IMI:
@@ -120,6 +89,26 @@ lemma IMI:
 lemma FI:
     all-traces
     "All A B m m2 #i #j.(Recv(A,B,m) @ #i & Recv(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Send(A,B,m) @ #k & Send(A,B,m2) @ #l & #k < #l) ))"
+
+
+// Non-Injective Message Delivery
+lemma NIMD:
+    all-traces
+    "All A B m #i.(Send(A,B,m) @ #i ==> (Ex #k. Recv(A,B,m) @ #k))"
+
+// Injective Message Delivery
+lemma IMD:
+    "All A B t #i. 
+    Send(A,B,t) @i
+    ==> (Ex #j. Recv(A,B,t) @j 
+        & i < j
+        & not (Ex A2 B2 #i2. Send(A2,B2,t) @i2
+                           & not (#i2 = #i)))"
+
+// Flow Delivery
+lemma FD:
+    all-traces
+    "All A B m m2 #i #j.(Send(A,B,m) @ #i & Send(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Recv(A,B,m) @ #k & Recv(A,B,m2) @ #l & #k < #l) ))"
 
 
 end

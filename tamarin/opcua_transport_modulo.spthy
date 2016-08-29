@@ -1,16 +1,16 @@
-theory OPCUA_Transport
+theory OPC_UA_Secure_Conversation_Modulo
 begin
 
-section{* OPCUA_Transport *}
+section{* OPC_UA_Secure_Conversation_Modulo *}
 
 /*
- * Protocol:    OPCUA_Transport, sequence number modulo three
+ * Protocol:    OPC UA Secure Conversation, sequence number modulo three
  * Modeler:     Jannik Dreier, Maxime Puys and Pascal Lafourcade      
- * Date:        27 june 2016
- * Status:      Working
+ * Date:        28 August 2016
+ * Status:      Working, attack on order
  */
 
-builtins: symmetric-encryption, hashing
+builtins: symmetric-encryption
 
 /* Equations for MAC, similar as signature but with symmetric keys */
 functions : mac/2, verifyMac/3, true/0, suc/1, zero/0
@@ -41,22 +41,24 @@ rule initA:
     [ State_A($A, $B, zero) ]
 
 rule Send_A:
-    let m = ~m
+    let message = <$MH, $SH, senc(<seq, ~m, $pad, mac(<$MH, $SH, seq, ~m, $pad>, keySigAB)>, keyEncAB)>
     in
     [ Fr(~m), !LtkSym('enc', $A, $B, keyEncAB), !LtkSym('sign', $A, $B, keySigAB), State_A($A, $B, seq) ]
-    --[ Send($A, $B, m), Seq_Send($A, $B, seq) ]->
-    [ Out(<$MH, $SH, senc(<seq, m, $pad, mac(<$MH, $SH, seq, m, $pad>, keySigAB)>, keyEncAB)>), State_A($A, $B, suc(seq)) ]
+    --[ Send($A, $B, ~m), Seq_Send($A, $B, seq), Sent(message) ]->
+    [ Out(message), State_A($A, $B, suc(seq)) ]
 
 rule Recv_B:
-    [!LtkSym('enc', $A, $B, keyEncAB), !LtkSym('sign', $A, $B, keySigAB), In(<MH, SH, senc(<seq, m, pad, mac(<MH, SH, seq, m, pad>, keySigAB)>, keyEncAB)>) ]
-    --[ Recv($A, $B, m), Seq_Recv($A, $B, seq) ]->
+    let message = <MH, SH, senc(<seq, m, pad, mac(<MH, SH, seq, m, pad>, keySigAB)>, keyEncAB)>
+    in
+    [!LtkSym('enc', $A, $B, keyEncAB), !LtkSym('sign', $A, $B, keySigAB), In(message) ]
+    --[ Recv($A, $B, m), Seq_Recv($A, $B, seq), Received(message) ]->
     [  ]
 
-// Sequence numbers axioms
+// AXIOMS
 
 // A only uses one sequence number per session
-axiom Unique_Sequence_Number_A:
-    "All A B #i #j. ((InitA(A, B) @ #i & InitA(A, B) @ #j) ==> #i = #j)"
+//axiom Unique_Sequence_Number_A:
+//    "All A B #i #j. ((InitA(A, B) @ #i & InitA(A, B) @ #j) ==> #i = #j)"
 
 // B accepts a sequence number only once
 axiom Unique_Sequence_Number_B:
@@ -82,12 +84,18 @@ axiom Increment_Sequence_Number_B:
       )
     ))"
 
-
+// Axioms to restrict the used sequence numbers
 axiom Restrict_Numbers_Send:
     "All A B seq #i.(Seq_Send(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero)))))"
 
 axiom Restrict_Numbers_Recv:
     "All A B seq #i.(Seq_Recv(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero)))))"
+
+// Delivery Axiom
+// axiom delivery:
+//     "All m #i. Sent(m) @ #i ==> Ex #j. Received(m) @ #j & #i < #j"
+
+// LEMMAS
 
 // The protocol is executable.
 lemma Executable:
@@ -114,6 +122,38 @@ lemma IMI:
 lemma FI:
     all-traces
     "All A B m m2 #i #j.(Recv(A,B,m) @ #i & Recv(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Send(A,B,m) @ #k & Send(A,B,m2) @ #l & #k < #l) ))"
+
+// Flow Integrity, assuming delivery
+lemma FI_delivery:
+    all-traces
+    "(All m #i. Sent(m) @ #i ==> Ex #j. Received(m) @ #j & #i < #j) 
+     ==>
+     (All A B m m2 #i #j.(Recv(A,B,m) @ #i & Recv(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Send(A,B,m) @ #k & Send(A,B,m2) @ #l & #k < #l) )))"
+
+// Non-Injective Message Delivery
+lemma NIMD:
+    all-traces
+    "(All m #i. Sent(m) @ #i ==> Ex #j. Received(m) @ #j & #i < #j) 
+     ==>
+     (All A B m #i.(Send(A,B,m) @ #i ==> (Ex #k. Recv(A,B,m) @ #k)))"
+
+// Injective Message Delivery
+lemma IMD:
+    "(All m #i. Sent(m) @ #i ==> Ex #j. Received(m) @ #j & #i < #j) 
+     ==>
+     (All A B t #i. 
+      Send(A,B,t) @i
+      ==> (Ex #j. Recv(A,B,t) @j 
+          & i < j
+          & not (Ex A2 B2 #i2. Send(A2,B2,t) @i2
+                           & not (#i2 = #i))))"
+
+// Flow Delivery
+lemma FD:
+    all-traces
+    "(All m #i. Sent(m) @ #i ==> Ex #j. Received(m) @ #j & #i < #j) 
+     ==>
+     (All A B m m2 #i #j.(Send(A,B,m) @ #i & Send(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Recv(A,B,m) @ #k & Recv(A,B,m2) @ #l & #k < #l) )))"
 
 
 end
