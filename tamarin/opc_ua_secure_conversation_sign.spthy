@@ -1,16 +1,16 @@
-theory OPC_UA_Secure_Conversation
+theory OPC_UA_Secure_Conversation_Sign
 begin
 
-section{* OPC_UA_Secure_Conversation *}
+section{* OPC_UA_Secure_Conversation_Sign *}
 
 /*
- * Protocol:    OPC UA Secure Conversation
+ * Protocol:    OPC UA Secure Conversation, mode Sign
  * Modeler:     Jannik Dreier, Maxime Puys and Pascal Lafourcade      
- * Date:        28 August 2016
- * Status:      Working
+ * Date:        5 September 2016
+ * Status:      Working (secure)
  */
 
-builtins: symmetric-encryption, multiset
+builtins: multiset
 
 /* Equations for MAC, similar as signature but with symmetric keys */
 functions : mac/2, verifyMac/3, true/0
@@ -36,14 +36,14 @@ rule corrupt:
 */
 
 rule Send_A:
-    let message = <$MH, SH, senc(<seq, ~m, $pad, mac(<$MH, SH, seq, ~m, $pad>, keySigAB)>, keyEncAB)>
+    let message = <$MH, SH, <seq, ~m, $pad, mac(<$MH, SH, seq, ~m, $pad>, keySigAB)>>
     in
     [ Fr(~m), !LtkSym('enc', $A, $B, keyEncAB), !LtkSym('sign', $A, $B, keySigAB), In(seq), In(SH) ]
     --[ Send($A, $B, ~m), Seq_Sent($A, $B, seq), Sent(message) ]->
     [ Out(message) ]
 
 rule Recv_B:
-    let message = <MH, SH, senc(<seq, m, pad, mac(<MH, SH, seq, m, pad>, keySigAB)>, keyEncAB)>
+    let message = <MH, SH, <seq, m, pad, mac(<MH, SH, seq, m, pad>, keySigAB)>>
     in
     [!LtkSym('enc', $A, $B, keyEncAB), !LtkSym('sign', $A, $B, keySigAB), In(message) ]
     --[ Recv($A, $B, m), Seq_Recv($A, $B, seq), Received(message) ]->
