@@ -34,14 +34,14 @@ rule Send_A:
     let message = <~vt, n, ~m, mac(<~vt, n, ~m>, ~key)>
     in
     [ Fr(~m), !Tag($A, $B, ~vt), !Ltk($A, $B, ~key), In(n) ]
-    --[ Send($A, $B, ~m), Seq_Sent($A, $B, n), Sent(message) ]->
+    --[ Sent($A, $B, ~m), Seq_Sent($A, $B, n), Ch_Sent(message) ]->
     [ Out(message) ]
 
 rule Recv_B:
     let message = <~vt, n, m, mac(<~vt, n, m>, ~key)>
     in
     [ !Tag($A, $B, ~vt), !Ltk($A, $B, ~key), In(message) ]
-    --[ Recv($A, $B, m), Seq_Recv($A, $B, n), Received(message) ]->
+    --[ Received($A, $B, m), Seq_Received($A, $B, n), Ch_Received(message) ]->
     [  ]
 
 // AXIOMS
@@ -52,66 +52,66 @@ axiom A_Counter_Increases:
 
 // B's counter counter increases
 axiom B_Counter_Counter_Increases:
-    "All A B seq1 seq2 #i #j.(Seq_Recv(A, B, seq1) @ #i & Seq_Recv(A, B, seq2) @ #j & #i < #j ==> Ex dif. seq2 = seq1 + dif )"
+    "All A B seq1 seq2 #i #j.(Seq_Received(A, B, seq1) @ #i & Seq_Received(A, B, seq2) @ #j & #i < #j ==> Ex dif. seq2 = seq1 + dif )"
 
 // Delivery Axiom
 // (included in delivery properties as hypothesis)
 //axiom delivery:
-//    "All m #i. Sent(m) @ #i ==> Ex #j. Received(m) @ #j & #i < #j"
+//    "All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j"
 
 // LEMMAS
 
 // The protocol is executable.
 lemma Executable:
     exists-trace
-    "Ex A B m #i. Recv(A, B, m) @ #i"
+    "Ex A B m #i. Received(A, B, m) @ #i"
 
 
 // Non-Injective Message Integrity
 lemma NIMI:
     all-traces
-    "All A B m #i.(Recv(A,B,m) @ #i ==> (Ex #k. Send(A,B,m) @ #k))"
+    "All A B m #i.(Received(A,B,m) @ #i ==> (Ex #k. Sent(A,B,m) @ #k))"
 
 
 // Injective Message Integrity
 lemma IMI:
     "All A B t #i. 
-    Recv(A,B,t) @i
-    ==> (Ex #j. Send(A,B,t) @j 
+    Received(A,B,t) @i
+    ==> (Ex #j. Sent(A,B,t) @j 
         & j < i
-        & not (Ex A2 B2 #i2. Recv(A2,B2,t) @i2
+        & not (Ex A2 B2 #i2. Received(A2,B2,t) @i2
                            & not (#i2 = #i)))"
 
 // Flow Integrity
 lemma FI:
     all-traces
-    "All A B m m2 #i #j.(Recv(A,B,m) @ #i & Recv(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Send(A,B,m) @ #k & Send(A,B,m2) @ #l & #k < #l) ))"
+    "All A B m m2 #i #j.(Received(A,B,m) @ #i & Received(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Sent(A,B,m) @ #k & Sent(A,B,m2) @ #l & #k < #l) ))"
 
 
 // Non-Injective Message Delivery
 lemma NIMD:
     all-traces
-    "(All m #i. Sent(m) @ #i ==> Ex #j. Received(m) @ #j & #i < #j)
+    "(All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j)
      ==>
-     (All A B m #i.(Send(A,B,m) @ #i ==> (Ex #k. Recv(A,B,m) @ #k)))"
+     (All A B m #i.(Sent(A,B,m) @ #i ==> (Ex #k. Received(A,B,m) @ #k)))"
 
 // Injective Message Delivery
 lemma IMD:
-    "(All m #i. Sent(m) @ #i ==> Ex #j. Received(m) @ #j & #i < #j)
+    "(All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j)
     ==> (All A B t #i. 
-      Send(A,B,t) @i
-      ==> (Ex #j. Recv(A,B,t) @j 
+      Sent(A,B,t) @i
+      ==> (Ex #j. Received(A,B,t) @j 
           & i < j
-          & not (Ex A2 B2 #i2. Send(A2,B2,t) @i2
+          & not (Ex A2 B2 #i2. Sent(A2,B2,t) @i2
                              & not (#i2 = #i)))
     )"
 
 // Flow Delivery
 lemma FD:
     all-traces
-    "(All m #i. Sent(m) @ #i ==> Ex #j. Received(m) @ #j & #i < #j)
+    "(All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j)
     ==>
-    (All A B m m2 #i #j.(Send(A,B,m) @ #i & Send(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Recv(A,B,m) @ #k & Recv(A,B,m2) @ #l & #k < #l) )))"
+    (All A B m m2 #i #j.(Sent(A,B,m) @ #i & Sent(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Received(A,B,m) @ #k & Received(A,B,m2) @ #l & #k < #l) )))"
 
 
 end
