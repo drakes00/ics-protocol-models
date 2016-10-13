@@ -1,10 +1,10 @@
-theory OPC_UA_Secure_Conversation_Sign_Enc
+theory OPC_UA_Secure_Conversation_Sign_Enc_Resilient
 begin
 
-section{* OPC_UA_Secure_Conversation_Sign_Enc *}
+section{* OPC_UA_Secure_Conversation_Sign_Enc_Resilient *}
 
 /*
- * Protocol:    OPC UA Secure Conversation mode SignAndEncrypt
+ * Protocol:    OPC UA Secure Conversation mode SignAndEncrypt, using a resilient channel
  * Modeler:     Jannik Dreier, Maxime Puys and Pascal Lafourcade      
  * Date:        5 September 2016
  * Status:      Working (secure)
@@ -29,14 +29,14 @@ rule genSharedKeyEnc:
     [ !LtkSym('enc', $C, $S, ~x) ]
 
 rule Send_A:
-    let message = <$MH, SH, senc(<seq, ~m, $pad>, keyEncAB)>
+    let message = <$MH, SH, senc(<seq, ~m, $pad, mac(<$MH, SH, seq, ~m, $pad>, keySigAB)>, keyEncAB)>
     in
     [ Fr(~m), !LtkSym('enc', $A, $B, keyEncAB), !LtkSym('sign', $A, $B, keySigAB), In(seq), In(SH) ]
     --[ Sent($A, $B, ~m), Seq_Sent($A, $B, seq), Ch_Sent(message) ]->
     [ Out(message) ]
 
 rule Recv_B:
-    let message = <MH, SH, senc(<seq, m, pad>, keyEncAB)>
+    let message = <MH, SH, senc(<seq, m, pad, mac(<MH, SH, seq, m, pad>, keySigAB)>, keyEncAB)>
     in
     [!LtkSym('enc', $A, $B, keyEncAB), !LtkSym('sign', $A, $B, keySigAB), In(message) ]
     --[ Received($A, $B, m), Seq_Received($A, $B, seq), Ch_Received(message) ]->
@@ -51,6 +51,10 @@ axiom A_Counter_Increases:
 // B's counter counter increases
 axiom B_Counter_Counter_Increases:
     "All A B seq1 seq2 #i #j.(Seq_Received(A, B, seq1) @ #i & Seq_Received(A, B, seq2) @ #j & #i < #j ==> Ex dif. seq2 = seq1 + dif )"
+
+// Resilient Channel Axiom
+axiom delivery:
+    "All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j"
 
 // LEMMAS
 
