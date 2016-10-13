@@ -1,10 +1,10 @@
-theory Modbus_None
+theory Modbus_None_Resilient
 begin
 
-section{* Modbus_None *}
+section{* Modbus_None_Resilient *}
 
 /*
- * Protocol:    Modbus without crypto
+ * Protocol:    Modbus without crypto, assuming a resilient channel
  * Modeler:     Jannik Dreier, Maxime Puys and Pascal Lafourcade      
  * Date:        6 September 2016
  * Status:      Working (insecure)
@@ -37,6 +37,10 @@ axiom A_Counter_Increases:
 // B's counter counter increases
 axiom B_Counter_Counter_Increases:
     "All A B seq1 seq2 #i #j.(Seq_Received(A, B, seq1) @ #i & Seq_Received(A, B, seq2) @ #j & #i < #j ==> Ex dif. seq2 = seq1 + dif )"
+
+// Resilient Channel Axiom
+axiom delivery:
+    "All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j"
 
 // LEMMAS
 
