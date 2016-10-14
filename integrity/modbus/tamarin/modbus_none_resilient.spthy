@@ -15,14 +15,14 @@ section{* Modbus_None_Resilient *}
 builtins: multiset
 
 rule Send_A:
-    let message = <n, ~m>
+    let message = <n, $PH, ~m>
     in
     [ Fr(~m), In(n) ]
     --[ Sent($A, $B, ~m), Seq_Sent($A, $B, n), Ch_Sent(message) ]->
     [ Out(message) ]
 
 rule Recv_B:
-    let message = <n, m>
+    let message = <n, PH, m>
     in
     [ In(message) ]
     --[ Received($A, $B, m), Seq_Received($A, $B, n), Ch_Received(message) ]->
