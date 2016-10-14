@@ -1,10 +1,10 @@
-theory OPC_UA_Secure_Conversation_Modulo_Resilient
+theory OPC_UA_Secure_Conversation_Modulo
 begin
 
-section{* OPC_UA_Secure_Conversation_Modulo_Resilient *}
+section{* OPC_UA_Secure_Conversation_Modulo *}
 
 /*
- * Protocol:    OPC UA Secure Conversation, mode SignAndEcrypt, sequence number modulo three
+ * Protocol:    OPC UA Secure Conversation, sequence number modulo three
  * Modeler:     Jannik Dreier, Maxime Puys and Pascal Lafourcade      
  * Date:        28 August 2016
  * Status:      Working, attack on order
@@ -14,7 +14,9 @@ builtins: symmetric-encryption
 
 /* Equations for MAC, similar as signature but with symmetric keys */
 functions : mac/2, verifyMac/3, true/0, suc/1, zero/0
-equations: verifyMac(mac(m, sk), m, sk)=true, suc(suc(suc(suc(x))))=x
+equations: verifyMac(mac(m, sk), m, sk)=true, 
+           // We use sequence umbers modulo 5:
+           suc(suc(suc(suc(suc(x)))))=x
 
 
 /* Shared keys session generation */
@@ -79,15 +81,10 @@ axiom Increment_Sequence_Number_B:
 
 // Axioms to restrict the used sequence numbers
 axiom Restrict_Numbers_Sent:
-    "All A B seq #i.(Seq_Sent(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero)))))"
+    "All A B seq #i.(Seq_Sent(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero))) | seq = suc(suc(suc(suc(zero))))))"
 
 axiom Restrict_Numbers_Recv:
-    "All A B seq #i.(Seq_Received(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero)))))"
-
-// Resilient Channel Axiom
-// Included in Delivery properties as a hypothesis, leads to non termination for other properties.
-// axiom delivery:
-//     "All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j"
+    "All A B seq #i.(Seq_Received(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero))) | seq = suc(suc(suc(suc(zero))))))"
 
 // LEMMAS
 
@@ -117,37 +114,29 @@ lemma FA:
     all-traces
     "All A B m m2 #i #j.(Received(A,B,m) @ #i & Received(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Sent(A,B,m) @ #k & Sent(A,B,m2) @ #l & #k < #l) ))"
 
-// Flow Integrity, assuming delivery
+// Flow Integrity
 lemma FI_delivery:
     all-traces
-    "(All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j) 
-     ==>
-     (All A B m m2 #i #j.(Received(A,B,m) @ #i & Received(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Sent(A,B,m) @ #k & Sent(A,B,m2) @ #l & #k < #l) )))"
+    "All A B m m2 #i #j.(Received(A,B,m) @ #i & Received(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Sent(A,B,m) @ #k & Sent(A,B,m2) @ #l & #k < #l) ))"
 
 // Non-Injective Message Delivery
 lemma NIMD:
     all-traces
-    "(All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j) 
-     ==>
-     (All A B m #i.(Sent(A,B,m) @ #i ==> (Ex #k. Received(A,B,m) @ #k)))"
+    "All A B m #i.(Sent(A,B,m) @ #i ==> (Ex #k. Received(A,B,m) @ #k))"
 
 // Injective Message Delivery
 lemma IMD:
-    "(All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j) 
-     ==>
-     (All A B t #i. 
+    "All A B t #i. 
       Sent(A,B,t) @i
       ==> (Ex #j. Received(A,B,t) @j 
           & i < j
           & not (Ex A2 B2 #i2. Sent(A2,B2,t) @i2
-                           & not (#i2 = #i))))"
+                           & not (#i2 = #i)))"
 
 // Flow Delivery
 lemma FD:
     all-traces
-    "(All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j) 
-     ==>
-     (All A B m m2 #i #j.(Sent(A,B,m) @ #i & Sent(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Received(A,B,m) @ #k & Received(A,B,m2) @ #l & #k < #l) )))"
+    "All A B m m2 #i #j.(Sent(A,B,m) @ #i & Sent(A,B,m2) @ #j & #i < #j ==> (Ex #k #l. (Received(A,B,m) @ #k & Received(A,B,m2) @ #l & #k < #l) ))"
 
 
 end

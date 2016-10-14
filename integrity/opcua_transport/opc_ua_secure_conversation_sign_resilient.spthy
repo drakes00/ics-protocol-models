@@ -29,6 +29,7 @@ rule genSharedKeyEnc:
     [ !LtkSym('enc', $C, $S, ~x) ]
 
 rule Send_A:
+// In our model we subsume the request and request ID by the message m.
     let message = <$MH, SH, <seq, ~m, $pad, mac(<$MH, SH, seq, ~m, $pad>, keySigAB)>>
     in
     [ Fr(~m), !LtkSym('enc', $A, $B, keyEncAB), !LtkSym('sign', $A, $B, keySigAB), In(seq), In(SH) ]
