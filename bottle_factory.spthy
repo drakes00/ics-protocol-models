@@ -85,6 +85,9 @@ rule P_in_place:
 
 // Axioms
 
+axiom OnlyOnceEx:
+  " Ex #i. OnlyOnce()@i " 
+
 axiom OnlyOnce:
   " All #i #j. OnlyOnce()@i & OnlyOnce()@j ==> #i = #j " 
 
@@ -94,12 +97,19 @@ axiom OnlyOneServer:
 axiom OnlyOneProcess:
   " All p p1 m m1 n n1 b b1 l l1 #i #j. ProcessState(p,m,n,b,l)@i & ProcessState(p1,m1,n1,b1,l1)@j ==> p = p1 " 
 
+axiom OnlyOneProcess2:
+  " All p p1 m m1 n n1 b b1 l l1 #i #j. ProcessState(p,m,n,b,l)@#i & ProcessState(p1,m1,n1,b1,l1)@#j & p = p1 & m = m1 & n = n1 & b = b1 & l = l1 ==> #i = #j" 
+
+axiom LimitedProcess:
+  " All p p1 m m1 n n1 b b1 l l1 p2 p3 m2 m3 n2 n3 b2 b3 l2 l3 #i #j #k #i1. ((ProcessState(p,m,n,b,l)@i & ProcessState(p1,m1,n1,b1,l1)@j & ProcessState(p2,m2,n2,b2,l2)@k & ProcessState(p3,m3,n3,b3,l3)@i1) ==> (#i = #j | #j = #k | #k = #i1 | #i = #k | #i = #i1 | #j = #i1))"
+
 // Executability
 
 lemma safety:
   all-traces
   " All p s_motor s_bottle s_level #i. (ProcessState(p, s_motor, true, s_bottle, s_level) @ i ==> (s_motor=false & s_bottle=true & s_level=false))"
 // State: Motor, Nozzle, BottleInPlace, Level
+
 
 
 end
