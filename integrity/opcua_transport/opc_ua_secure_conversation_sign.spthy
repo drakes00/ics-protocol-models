@@ -46,11 +46,11 @@ rule Recv_B:
 // AXIOMS
 
 // A's counter increases
-axiom A_Counter_Increases:
+restriction A_Counter_Increases:
     "All A B seq1 seq2 #i #j.(Seq_Sent(A, B, seq1) @ #i & Seq_Sent(A, B, seq2) @ #j & #i < #j ==> Ex dif. seq2 = seq1 + dif )"
 
 // B's counter counter increases
-axiom B_Counter_Counter_Increases:
+restriction B_Counter_Counter_Increases:
     "All A B seq1 seq2 #i #j.(Seq_Received(A, B, seq1) @ #i & Seq_Received(A, B, seq2) @ #j & #i < #j ==> Ex dif. seq2 = seq1 + dif )"
 
 // LEMMAS

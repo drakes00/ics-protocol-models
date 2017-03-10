@@ -46,15 +46,15 @@ rule Recv_B:
 // AXIOMS
 
 // A's counter increases
-axiom A_Counter_Increases:
+restriction A_Counter_Increases:
     "All A B seq1 seq2 #i #j.(Seq_Sent(A, B, seq1) @ #i & Seq_Sent(A, B, seq2) @ #j & #i < #j ==> Ex dif. seq2 = seq1 + dif )"
 
 // B's counter counter increases
-axiom B_Counter_Counter_Increases:
+restriction B_Counter_Counter_Increases:
     "All A B seq1 seq2 #i #j.(Seq_Received(A, B, seq1) @ #i & Seq_Received(A, B, seq2) @ #j & #i < #j ==> Ex dif. seq2 = seq1 + dif )"
 
 // Resilient Channel Axiom
-axiom delivery:
+restriction delivery:
     "All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j"
 
 // LEMMAS

@@ -2,7 +2,7 @@ README
 ======
 
 Source code for the paper "Formally Verifying Flow Integrity Properties in Industrial Systems"
-by Jannik Dreier, Maxime Puys, Marie-Laure Potet, Pascal Lafourcade, and Jean-Louis Roch, submitted to POST'17.
+by Jannik Dreier, Maxime Puys, Marie-Laure Potet, Pascal Lafourcade, and Jean-Louis Roch, submitted to SECRYPT'17.
 
 To run the examples, install Tamarin as explained in the Tamarin manual at:
 

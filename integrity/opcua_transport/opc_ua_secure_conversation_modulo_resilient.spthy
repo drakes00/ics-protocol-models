@@ -51,11 +51,11 @@ rule Recv_B:
 // AXIOMS
 
 // A only uses one sequence number per session
-axiom Unique_Sequence_Number_A:
+restriction Unique_Sequence_Number_A:
     "All A B #i #j. ((InitA(A, B) @ #i & InitA(A, B) @ #j) ==> #i = #j)"
 
 // B accepts a sequence number only once
-axiom Unique_Sequence_Number_B:
+restriction Unique_Sequence_Number_B:
     "All A B seq #i #j. ((Seq_Received(A, B, seq) @ #i & Seq_Received(A, B, seq) @ #j) ==> #i = #j)"
 
 /*
@@ -65,7 +65,7 @@ axiom Unique_Sequence_Number_B:
    - received the previous sequence number or
    - received no other sequence number previously
 */
-axiom Increment_Sequence_Number_B:
+restriction Increment_Sequence_Number_B:
     "All A B seq #i. ((Seq_Received(A, B, seq) @ #i) ==> (
       ((seq = zero) & (not(Ex seq3 #k. (Seq_Received(A, B, seq3) @ #k & #k < #i)) ))
     | (Ex seq2. 
@@ -79,15 +79,15 @@ axiom Increment_Sequence_Number_B:
     ))"
 
 // Axioms to restrict the used sequence numbers
-axiom Restrict_Numbers_Sent:
+restriction Restrict_Numbers_Sent:
     "All A B seq #i.(Seq_Sent(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero)))))"
 
-axiom Restrict_Numbers_Recv:
+restriction Restrict_Numbers_Recv:
     "All A B seq #i.(Seq_Received(A, B, seq) @ #i ==> (seq = zero | seq = suc(zero) | seq = suc(suc(zero)) | seq = suc(suc(suc(zero)))))"
 
 // Resilient Channel Axiom
 // Included in relevant properties as a hypothesis, leads to non termination for other properties.
-// axiom delivery:
+// restriction delivery:
 //     "All m #i. Ch_Sent(m) @ #i ==> Ex #j. Ch_Received(m) @ #j & #i < #j"
 
 // LEMMAS
